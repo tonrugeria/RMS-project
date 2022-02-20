@@ -55,7 +55,13 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login')
+  User.find({}, (err, userFound) => {
+    if (userFound.length === 0) {
+      res.redirect("/register")
+    } else {
+      res.render('login')
+    }
+  })
 })
 
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
@@ -86,6 +92,19 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
   }
 })
+
+app.get("/job-requirement", (req, res) => {
+  res.render("jobRequirement")
+})
+
+app.get("/job-details", (req, res) => {
+  res.render("jobDetails")
+})
+
+app.get("/exam", (req, res) => {
+  res.render("exam")
+})
+
 
 app.delete('/logout', (req, res) => {
   req.logOut()
