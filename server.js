@@ -13,7 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.static('image'));
 const initializePassport = require('./passport-config');
-const { db } = require('./models/User');
 
 initializePassport(
         passport,
@@ -67,8 +66,7 @@ app.post(
                 successRedirect: '/',
                 failureRedirect: '/login',
                 failureFlash: true,
-        }),
-        async (req, res) => {}
+        })
 );
 
 app.post('/register', checkNotAuthenticated, async (req, res) => {
