@@ -1,17 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
-const bcrypt = require('bcryptjs/dist/bcrypt');
-const User = require('./models/User');
-const { checkAuthenticated, checkNotAuthenticated } = require('./middlewares/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(express.static('image'));
+
 const initializePassport = require('./passport-config');
 
 initializePassport(
@@ -26,7 +22,10 @@ initializePassport(
         }
 );
 
+// set template engine
 app.set('view engine', 'ejs');
+
+// middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
@@ -41,81 +40,9 @@ app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
 
-app.get('/', checkAuthenticated, (req, res) => {
-        res.render('index', { username: req.user.username });
-});
+// route prefix
+app.use('', require('./routes/routes'));
 
-app.get('/register', checkNotAuthenticated, (req, res) => {
-        res.render('register');
-});
-
-app.get('/login', checkNotAuthenticated, (req, res) => {
-        User.find({}, (err, userFound) => {
-                if (userFound.length === 0) {
-                        res.redirect('/register');
-                } else {
-                        res.render('login');
-                }
-        });
-});
-
-app.post(
-        '/login',
-        checkNotAuthenticated,
-        passport.authenticate('local', {
-                successRedirect: '/',
-                failureRedirect: '/login',
-                failureFlash: true,
-        })
-);
-
-app.post('/register', checkNotAuthenticated, async (req, res) => {
-        const userFound = await User.findOne({ username: req.body.username });
-        if (userFound) {
-                req.flash('error', 'User with that username already exists');
-                res.redirect('/register');
-        } else {
-                try {
-                        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                        const user = new User({
-                                username: req.body.username,
-                                password: hashedPassword,
-                        });
-                        await user.save();
-                        res.redirect('/login');
-                } catch (error) {
-                        console.log(error);
-                        res.redirect('/register');
-                }
-        }
-});
-
-app.get('/job-requirement', (req, res) => {
-        res.render('jobRequirement');
-});
-
-app.get('/job-details', (req, res) => {
-        res.render('jobDetails');
-});
-
-app.get('/exam', (req, res) => {
-        res.render('exam');
-});
-
-app.delete('/logout', (req, res) => {
-        req.logOut();
-        res.redirect('/login');
-});
-
-mongoose.connect('mongodb://localhost:27017/auth', {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-}).then(() => {
-        app.listen(PORT, () => {
-                console.log(`Server is running in http://localhost:${PORT}`);
-        });
-});
-
-app.get('/about', (req, res) => {
-        res.send('amsdkngowng');
+app.listen(PORT, () => {
+        console.log(`Server is running in http://localhost:${PORT}`);
 });

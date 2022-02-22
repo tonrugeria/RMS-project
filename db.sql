@@ -3,21 +3,22 @@ CREATE DATABASE RMS;
 CREATE SCHEMA Admin;
 
 --User Roles Table
-CREATE TABLE Admin.User_Role(
+CREATE TABLE IF NOT EXISTS Admin.User_Role(
   role_id SERIAL PRIMARY KEY NOT NULL,
   role_name VARCHAR(100) NOT NULL
 )
 
 --Users Table
-CREATE TABLE Admin.Users (
+CREATE TABLE IF NOT EXISTS Admin.Users (
   user_id SERIAL PRIMARY KEY NOT NULL,
-  date_created DATE NOT NULL,
-  date_last_updated DATE NOT NULL,
+  date_created DATE,
+  date_last_updated DATE,
   user_name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  email VARCHAR(100),
   password VARCHAR(100) NOT NULL,
-  photo VARCHAR(100) NOT NULL,
-  role_id INT NOT NULL,
+  photo VARCHAR(100),
+  role_id INT,
+
   FOREIGN KEY (role_id)
   REFERENCES Admin.User_Role(role_id)
 )
@@ -28,7 +29,7 @@ CREATE TABLE Admin.System_Theme(
   company_log VARCHAR(100) NOT NULL,
   login_background VARCHAR(100) NOT NULL,
   date_last_updated DATE NOT NULL,
-  last_updated_by VVARCHAR(100) NOT NULL
+  last_updated_by VARCHAR(100) NOT NULL
 )
 
 --Job Position Table
@@ -87,17 +88,7 @@ CREATE TABLE Jobs.Job_Opening (
 
 --skill Table
 CREATE TABLE Jobs.Skill (
-  job_id INT NOT NULL,
-  skill_id_1 INT,
-  skill_level_1 INT,
-  skill_id_2 INT,
-  skill_level_2 INT,
-  skill_id_3 INT,
-  skill_level_3 INT,
-  skill_id_4 INT,
-  skill_level_4 INT,
-  skill_id_5 INT,
-  skill_level_5 INT,
+  job_id INT NOT NULL,,
   skill_id_1 INT,
   skill_level_1 INT,
   skill_id_2 INT,
@@ -238,7 +229,7 @@ CREATE TABLE Job_Application.Applicant_details(
   date_applied	date NOT NULL,
   date_last_upated	date NOT NULL,
   application_link VARCHAR(100) NOT NULL,
-  status	int NOT NULL
+  status	int NOT NULL,
 
   FOREIGN KEY(job_id)
   REFERENCES Jobs.Job_Opening(job_id)
@@ -337,42 +328,42 @@ CREATE TABLE Job_Application.Employment_History (
   end_date_1	date,
   position_1	varchar(100),
   company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
-  start_date_1	date,
-  end_date_1	date,
-  position_1	varchar(100),
-  company_1	varchar(100),
+  start_date_2	date,
+  end_date_2	date,
+  position_2	varchar(100),
+  company_2	varchar(100),
+  start_date_3	date,
+  end_date_3	date,
+  position_3	varchar(100),
+  company_3	varchar(100),
+  start_date_4	date,
+  end_date_4	date,
+  position_4	varchar(100),
+  company_4	varchar(100),
+  start_date_5	date,
+  end_date_5	date,
+  position_5	varchar(100),
+  company_5	varchar(100),
+  start_date_6	date,
+  end_date_6	date,
+  position_6	varchar(100),
+  company_6	varchar(100),
+  start_date_7	date,
+  end_date_7	date,
+  position_7	varchar(100),
+  company_7	varchar(100),
+  start_date_8	date,
+  end_date_8	date,
+  position_8	varchar(100),
+  company_8	varchar(100),
+  start_date_9	date,
+  end_date_9	date,
+  position_9	varchar(100),
+  company_9	varchar(100),
+  start_date_10	date,
+  end_date_10	date,
+  position_10	varchar(100),
+  company_10	varchar(100),
 
   FOREIGN KEY(application_id)
   REFERENCES Job_Application.Applicant_details(application_id)
@@ -380,16 +371,6 @@ CREATE TABLE Job_Application.Employment_History (
 
 CREATE TABLE Job_Application.Technical_Score (
   application_id	int NOT NULL,
-  skill_id_1 INT,
-  skill_level_1 INT,
-  skill_id_2 INT,
-  skill_level_2 INT,
-  skill_id_3 INT,
-  skill_level_3 INT,
-  skill_id_4 INT,
-  skill_level_4 INT,
-  skill_id_5 INT,
-  skill_level_5 INT,
   skill_id_1 INT,
   skill_level_1 INT,
   skill_id_2 INT,
