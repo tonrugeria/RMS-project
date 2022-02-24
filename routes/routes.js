@@ -46,7 +46,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         const userFound = await knex('admin.users')
                 .where({ user_name: username })
                 .first()
-                .then((row) => row.user_name);
+                .then((row) => {
+                        if (row) {
+                                return row.user_name;
+                        }
+                        return row;
+                });
         if (userFound === username) {
                 req.flash('error', 'User with that username already exists');
                 res.redirect('/register');
