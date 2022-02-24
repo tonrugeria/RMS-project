@@ -4,7 +4,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
-
+const knex = require("./dbconnection")
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,11 +13,13 @@ const initializePassport = require('./passport-config');
 initializePassport(
         passport,
         async (username) => {
-                const userFound = await User.findOne({ username });
+                const userFound = await knex('admin.users').where({ user_name: username }).first();
+                console.log(userFound);
                 return userFound;
         },
         async (id) => {
-                const userFound = await User.findOne({ _id: id });
+                const userFound = await knex('admin.users').where({ user_id: id }).first();
+                console.log('this is id', userFound);
                 return userFound;
         }
 );
