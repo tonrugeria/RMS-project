@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Admin.User_Role(
 );
 CREATE TABLE IF NOT EXISTS Admin.Users (
     user_id SERIAL PRIMARY KEY NOT NULL,
-    date_created DATE,
+    date_created DATE NOT NULL DEFAULT CURRENT_DATE,
     date_last_updated DATE,
     user_name VARCHAR(100) NOT NULL,
     email VARCHAR(100),
