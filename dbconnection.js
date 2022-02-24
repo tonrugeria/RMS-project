@@ -30,9 +30,6 @@ const execute = async (query) => {
         }
 };
 
-const base = `SELECT 'CREATE DATABASE rms'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'rms');`;
-
 const text = `CREATE SCHEMA IF NOT EXISTS Admin;
 CREATE TABLE IF NOT EXISTS Admin.User_Role(
     role_id SERIAL PRIMARY KEY NOT NULL,
@@ -415,12 +412,6 @@ CREATE TABLE IF NOT EXISTS Job_Application.Personality_Score (
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
 );`;
-
-execute(base).then((result) => {
-        if (result) {
-                console.log('Database created');
-        }
-});
 
 execute(text)
         .then((result) => {
