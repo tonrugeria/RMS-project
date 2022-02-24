@@ -84,6 +84,9 @@ router.get('/job-details', (req, res) => {
         res.render('jobDetails');
 });
 
+router.post('/job-details', (req, res) => {
+        
+})
 // exam route
 router.get('/exam', (req, res) => {
         res.render('exam');
