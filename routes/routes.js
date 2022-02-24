@@ -29,7 +29,7 @@ router.get('/login', checkNotAuthenticated, (req, res) => {
         });
 });
 
-// register post route
+// login post route
 router.post(
         '/login',
         checkNotAuthenticated,
@@ -40,19 +40,30 @@ router.post(
         })
 );
 
+// register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-        const { name, password } = req.body;
-        const userFound = knex.select('user_name').from('admin.users').where({ user_name: name });
-        if (userFound === name) {
+        const { username, password } = req.body;
+        const userFound = await knex('admin.users')
+                .where({ user_name: username })
+                .first()
+                .then((row) => row.user_name);
+        if (userFound === username) {
                 req.flash('error', 'User with that username already exists');
                 res.redirect('/register');
         } else {
                 try {
                         const hashedPassword = await bcrypt.hash(password, 10);
-                        knex('admin.users').insert({ user_name: name, password: hashedPassword });
-                        res.redirect('/login');
+                        knex('admin.users')
+                                .insert({
+                                        user_name: username,
+                                        password: hashedPassword,
+                                })
+                                .then(() => {
+                                        res.redirect('/login');
+                                });
                 } catch (error) {
                         console.log(error);
+                        req.flash('error', 'Cant insert');
                         res.redirect('/register');
                 }
         }
