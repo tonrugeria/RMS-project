@@ -89,7 +89,6 @@ router.get("/job-details", (req, res) => {
 });
 
 router.post("/job-details", (req, res) => {
-  
   const item = req.body.category;
   items.push(item)         
   res.redirect("job-details")
