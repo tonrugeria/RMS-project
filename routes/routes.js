@@ -99,6 +99,16 @@ router.get("/exam", (req, res) => {
   res.render("exam");
 });
 
+//settings
+router.get('/settings', (req, res) => {
+        res.render('settings');
+});
+
+//users
+router.get('/users', (req, res) => {
+        res.render('users');
+});
+
 // delete/logout route
 router.delete("/logout", (req, res) => {
   req.logOut();
