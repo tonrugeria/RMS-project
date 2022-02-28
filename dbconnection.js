@@ -4,7 +4,11 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
+<<<<<<< HEAD
                 password: '',
+=======
+                password: 'davecanete',
+>>>>>>> 64ab032fb73aa932cfef38b371ae8d03c1d8e4e4
                 database: 'rms',
         },
 });
@@ -15,7 +19,11 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
+<<<<<<< HEAD
         password: '',
+=======
+        password: 'davecanete',
+>>>>>>> 64ab032fb73aa932cfef38b371ae8d03c1d8e4e4
         port: 5432,
 });
 
