@@ -4,7 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                password: '12345',
+                password: 'davecanete',
                 database: 'rms',
         },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-        password: '12345',
+        password: 'davecanete',
         port: 5432,
 });
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Admin.User_Role(
 );
 CREATE TABLE IF NOT EXISTS Admin.Users (
     user_id SERIAL PRIMARY KEY NOT NULL,
-    date_created DATE,
+    date_created DATE NOT NULL DEFAULT CURRENT_DATE,
     date_last_updated DATE,
     user_name VARCHAR(100) NOT NULL,
     email VARCHAR(100),
