@@ -119,4 +119,9 @@ router.get("/about", (req, res) => {
   res.send("amsdkngowng");
 });
 
+// careers page
+router.get("/careers", (req, res) => {
+  res.render("careers"); 
+ 
+});
 module.exports = router;
