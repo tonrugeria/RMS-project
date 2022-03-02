@@ -134,4 +134,10 @@ router.get("/careers", (req, res) => {
   res.render("careers"); 
  
 });
+
+// exam creation route
+router.get('/examcreation', (req, res) => {
+        res.render('examcreation');
+});
 module.exports = router;
+
