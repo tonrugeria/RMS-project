@@ -79,7 +79,12 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
 
 // job-requirement route
 router.get("/job-requirement", (req, res) => {
-  res.render("jobRequirement");
+  knex('admin.skill')
+       .select()
+       .then((results) => {
+              res.render('jobRequirement', {skill: results });
+              console.log(results)
+       });
 });
 
 // job-details route
@@ -119,5 +124,6 @@ router.delete("/logout", (req, res) => {
 router.get("/about", (req, res) => {
   res.send("amsdkngowng");
 });
+
 
 module.exports = router;
