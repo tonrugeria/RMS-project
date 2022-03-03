@@ -1,8 +1,20 @@
+<<<<<<< HEAD
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const knex = require("../dbconnection");
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+} = require("../middlewares/auth");
+const { format } = require("path/posix");
+=======
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+>>>>>>> e63c964a27f30b59f7a14e49e53c4294ee653622
 
 const router = express.Router();
 
@@ -119,8 +131,13 @@ router.get('/settings', (req, res) => {
 
 // users
 router.get('/users', (req, res) => {
-        res.render('users');
+       knex('admin.users')
+       .select()
+        .then((results) => {
+              res.render('users', {users: results });
+       });
 });
+
 
 // delete/logout route
 router.delete('/logout', (req, res) => {
