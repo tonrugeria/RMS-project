@@ -1,0 +1,82 @@
+<%- include('./layout/header2.ejs')  %>  
+  <div class="columns">
+    <div id="item" class="column col-12 extra-spacing flex-content">
+                        
+      <link rel="stylesheet" href="/style.css" />
+    </div>
+    <section id="start">
+        <section id="body-wrapper" class="section blog-listing">
+    <section class="container grid-lg">
+
+
+<div class="button-filters">
+<button id ="show-all" class="btn-fil active" >Show All </button>
+<button id = "soft-engr" class="btn-fil"> Software Engineering </button>
+<button id = "sqa" class="btn-fil">Software Quality Assurance </button>
+<button id = "marketing" class="btn-fil">Marketing </button>
+<button id = "admin" class="btn-fil">Admin </button>
+
+</div>
+
+<div class="dropdown-filter">
+
+<button id ="show-all" class="btn-fil active dropdown-item" > Show All </button>
+<button id = "soft-engr" class="btn-fil dropdown-item"> Software Engineering </button>
+<button id = "sqa" class="btn-fil dropdown-item">Software Quality Assurance </button>
+<button id = "marketing" class="btn-fil dropdown-item">Marketing </button>
+<button id = "admin" class="btn-fil dropdown-item">Admin </button>
+</div>
+
+
+</div>
+  
+<div class="columns">
+<div id="item" class="column col-12 extra-spacing">
+    
+            <div class="bricklayer">
+                                <div class="card all adm">
+        <div class="card-inner" >
+    <div class="card-inner-container">
+
+        <div class="card-header">
+            <div class="card-subtitle text-gray">
+                <span class="blog-date">
+                    <tbody>                 
+ <% for (let i = 0; i < job_opening.length; i++) { %>                   
+    <i class="fa fa-calendar"></i> 
+        <h1><%= job_opening[i].date_opened %></h1>
+        
+</time>
+</span>
+    </div>
+<tbody>
+        
+<div class="card-title">
+                    <h1><%= job_opening[i].job_title %></h1>
+                    
+            </div>
+            <span class="tags">
+    <a class="label label-rounded label-secondary p-category" href="/careers/tag:Human Resources">
+            <h1><%= job_opening[i].job_dept %></h1>
+      
+    </a>
+</span>
+            <br>
+        </div>
+        <div class="card-footer careers-card ">
+            <a href="/careers"><button class="btns mt-2">Apply Now</button></a>
+            <% } %>
+        </div>
+    </div>
+</div>
+</div>
+</tbody>
+
+
+
+
+
+<%- include('./layout/footer2.ejs')  %>  
+
+
+  

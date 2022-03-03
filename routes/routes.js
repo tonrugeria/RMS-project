@@ -122,7 +122,20 @@ router.get("/about", (req, res) => {
 
 // careers page
 router.get("/careers", (req, res) => {
-  res.render("careers"); 
- 
+  knex('jobs.job_details')
+       .select()
+       .then((results) => {
+              res.render('careers', {job_details: results });
+       });
 });
+
+// careers main page
+router.get("/careersmain", (req, res) => {
+  knex('jobs.job_opening')
+       .select()
+       .then((results) => {
+              res.render('careersmain', {job_opening: results });
+       });
+});
+
 module.exports = router;
