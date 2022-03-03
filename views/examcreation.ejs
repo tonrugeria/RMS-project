@@ -99,4 +99,12 @@
     </form>
     <button type="button" onclick="alert('Question Saved')">Save</button>
     <button type="button" onclick="alert('Question Cancelled')">Cancel</button>
+
+    
+<% for (let i = 0; i < question.length; i++) { %> 
+  <h1>
+    <%= question[i].question_category %> | LEVEL <%= question[i].question_level %> <%= question[i].question_detail %> 
+  </h1>
+<% } %> 
+
     <%- include('./layout/footer.ejs')  %>  
