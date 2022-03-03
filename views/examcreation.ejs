@@ -1,42 +1,21 @@
 <%- include('./layout/header.ejs')  %> 
 <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
-    <h3 class="w3-bar-item"></h3>
-    <a href="#" class="w3-bar-item w3-button">C#</a>
-    <a href="#" class="w3-bar-item w3-button">Javascript</a>
-    <a href="#" class="w3-bar-item w3-button">CSS</a>
-    <a href="#" class="w3-bar-item w3-button">HTML</a>
-    <a href="#" class="w3-bar-item w3-button">PHP</a>
-    <a href="#" class="w3-bar-item w3-button">R</a>
-    <a href="#" class="w3-bar-item w3-button">Kotlin</a>
-    <a href="#" class="w3-bar-item w3-button">Cocoa</a>
-    <a href="#" class="w3-bar-item w3-button">Ruby on Rails</a>
-    <a href="#" class="w3-bar-item w3-button">Django</a>
-    <a href="#" class="w3-bar-item w3-button">Angular</a>
-    <a href="#" class="w3-bar-item w3-button">.NET</a>  
-    <a href="#" class="w3-bar-item w3-button">Meteor</a>
-    <a href="#" class="w3-bar-item w3-button">Laravel</a>
-    <a href="#" class="w3-bar-item w3-button">Express</a>  
-  </div>
-  <div style="margin-left:25%">
-    <div class="select" style="width:200px;">
-      <select>
-        <option value="1">C#</option>
-        <option value="2">Javascript</option>
-        <option value="3">CSS</option>
-        <option value="4">HTML</option>
-        <option value="5">PHP</option>
-        <option value="1">R</option>
-        <option value="2">Kotlin</option>
-        <option value="3">Cocoa</option>
-        <option value="4">Ruby on Rails</option>
-        <option value="5">Django</option>
-        <option value="4">Angular</option>
-        <option value="5">.NET</option>
-        <option value="4">Meteor</option>
-        <option value="5">Laravel</option>
-        <option value="5">Express</option>
-      </select>
   
+  
+  <h3 class="sidebar"></h3>
+  <% for (let i = 0; i < skill.length; i++) { %> 
+    <a href="#" class="w3-bar-item sidebar"><%= skill[i].skill_name %></a> 
+    <% } %> 
+</div>
+ 
+  <div style="margin-left:25%">
+    <div class="select skill" style="width:200px;">
+      <% for (let i = 0; i < skill.length; i++) { %> 
+      <select>
+        <option value="1"><%= skill[i].skill_name %></option>
+      <% } %>
+  
+
   <div class="level" style="width:200px;">
     <select>
       <option value="1">1</option>

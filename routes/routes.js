@@ -161,12 +161,10 @@ router.get("/careersmain", (req, res) => {
 });
 
 //route for examcreation
-router.get("/examcreation", (req, res) => {
-        knex('question.question')
-             .select()
-             .then((results) => {
-                    res.render('examcreation', {question: results });
-             });
+router.get("/examcreation", async (req, res) => {
+        const question =await knex('question.question').select()
+        const skill=await knex('admin.skill').select()
+        res.render('examcreation',{question,skill})
       });
 module.exports = router;
 
