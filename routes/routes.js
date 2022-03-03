@@ -1,12 +1,8 @@
-const express = require("express");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
-const knex = require("../dbconnection");
-const {
-  checkAuthenticated,
-  checkNotAuthenticated,
-} = require("../middlewares/auth");
-const { format } = require("path/posix");
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const knex = require('../dbconnection');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -80,34 +76,51 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 
 // job-requirement route
 router.get('/job-requirement', (req, res) => {
-  knex('admin.skill')
-    .select()
-    .then((results) => {
-      res.render('jobRequirement', {skill: results });
-    });
+        knex('admin.skill')
+                .select()
+                .then((results) => {
+                        res.render('jobRequirement', { skill: results });
+                });
 });
 
-// job-details route
-const items = [];
-const detailArray = [];
-router.get('/job-details', (req, res) => {
-        res.render('jobDetails', { newListItems: items, newListDetails: detailArray });
+// job-details get route
+router.get('/job-details/:job_id', async (req, res) => {
+        const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
+        const category = await knex('jobs.job_details').where('job_id', req.params.job_id);
+        res.render('jobDetails', { catView: category, detailsView: category, job });
+        const hello = await knex
+                .select('')
+                .from('jobs.job_details')
+                .innerJoin('jobs.job_opening', 'jobs.job_details.job_id', 'jobs.job_opening.job_id');
 });
 
-router.post('/job-details', (req, res) => {
-        const item = req.body.category;
-        const btn = req.body.button;
-        const itemDetail = req.body.details;
-        if (btn === 'detailsBtn') {
-                if (!itemDetail) res.redirect('/job-details');
+// job-details post route
+router.post('/job-details/:job_id', (req, res) => {
+        const { category, button, details } = req.body;
+        const jobId = req.params.job_id;
+        if (button === 'categoryBtn') {
+                if (!category) res.redirect('/job-details/:job_id');
                 else {
-                        detailArray.push(itemDetail);
-                        res.redirect('/job-details');
+                        knex('jobs.job_details')
+                                .insert({ category_name: category, job_id: jobId })
+                                .then(() => {
+                                        res.redirect(`/job-details/${jobId}`);
+                                });
                 }
-        } else if (!item) res.redirect('/job-details');
-        else {
-                items.push(item);
+        } else if (button === 'detailsBtn') {
+                if (!details) res.redirect('/job-details');
+                else {
+                        knex('jobs.job_details')
+                                .insert({ item_description: details, job_id: jobId })
+                                .then((results) => {
+                                        res.redirect(`/job-details/${jobId}`);
+                                });
+                }
+        } else if (button === 'deleteCatDetailBtn') {
+                // delete category description function
                 res.redirect('/job-details');
+        } else if (button === 'saveBtn') {
+                // save function
         }
 });
 
@@ -123,13 +136,12 @@ router.get('/settings', (req, res) => {
 
 // users
 router.get('/users', (req, res) => {
-       knex('admin.users')
-       .select()
-        .then((results) => {
-              res.render('users', {users: results });
-       });
+        knex('admin.users')
+                .select()
+                .then((results) => {
+                        res.render('users', { users: results });
+                });
 });
-
 
 // delete/logout route
 router.delete('/logout', (req, res) => {
@@ -143,28 +155,27 @@ router.get('/about', (req, res) => {
 });
 
 // careers page
-router.get("/careers", (req, res) => {
-  knex('jobs.job_details')
-       .select()
-       .then((results) => {
-              res.render('careers', {job_details: results });
-       });
+router.get('/careers', (req, res) => {
+        knex('jobs.job_details')
+                .select()
+                .then((results) => {
+                        res.render('careers', { job_details: results });
+                });
 });
 
 // careers main page
-router.get("/careersmain", (req, res) => {
-  knex('jobs.job_opening')
-       .select()
-       .then((results) => {
-              res.render('careersmain', {job_opening: results });
-       });
+router.get('/careersmain', (req, res) => {
+        knex('jobs.job_opening')
+                .select()
+                .then((results) => {
+                        res.render('careersmain', { job_opening: results });
+                });
 });
 
-//route for examcreation
-router.get("/examcreation", async (req, res) => {
-        const question =await knex('question.question').select()
-        const skill=await knex('admin.skill').select()
-        res.render('examcreation',{question,skill})
-      });
+// route for examcreation
+router.get('/examcreation', async (req, res) => {
+        const question = await knex('question.question').select();
+        const skill = await knex('admin.skill').select();
+        res.render('examcreation', { question, skill });
+});
 module.exports = router;
-
