@@ -6,6 +6,7 @@ const {
   checkAuthenticated,
   checkNotAuthenticated,
 } = require("../middlewares/auth");
+const { format } = require("path/posix");
 
 const router = express.Router();
 
@@ -106,8 +107,13 @@ router.get('/settings', (req, res) => {
 
 //users
 router.get('/users', (req, res) => {
-        res.render('users');
+       knex('admin.users')
+       .select()
+        .then((results) => {
+              res.render('users', {users: results });
+       });
 });
+
 
 // delete/logout route
 router.delete("/logout", (req, res) => {
