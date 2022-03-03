@@ -23,17 +23,7 @@
 <div id="item" class="column col-12 extra-spacing flex-content">
                     
     </div>
-  
-  <div class="content-item careers-item h-entry mt-2">
-  
-          <h1></h1>
-                    <br/>
-          <span class="tags">
-        <a class="label label-rounded label-secondary p-category" href="/careers/tag">NodeJS</a>
-        <a class="label label-rounded label-secondary p-category" href="/careers/tag">HTML</a>
-        <a class="label label-rounded label-secondary p-category" href="/careers/tag">MySQL DB</a>
-        <a class="label label-rounded label-secondary p-category" href="/careers/tag">Javascript</a>
-    </span>
+
         </div>
         <div class="columns">
           <div id="item" class="column col-12 extra-spacing flex-content">
@@ -49,7 +39,8 @@
           </time>
       </span>
        </div>
-                <h1>HR Generalist</h1>
+       <% for (let i = 0; i < job_details.length; i++) { %> 
+                <h1><%= job_details[i].role %></h1>
                           <br/>
                 <span class="tags">
               <a class="label label-rounded label-secondary p-category" href="/careers/tag">Human Resources</a>
@@ -57,56 +48,30 @@
               </div>
       
               <div class="e-content">
+                
                   <h2>Job Description</h2>
+                
       <h3>The Role &amp; The Team</h3>
-      <p>We believe outstanding employees deserve the best workplace possible! We strive every day to create an environment where our teams can feel empowered and challenged by their work.
-      <br><br>
-      We are investing in our HR team and seek a flexible, energetic, and collaborative HR Operations professional to help take us to the next level. Our team is growing and if you’re looking to join a group of outstanding professionals, focused on bringing our cutting-edge technology to market while having some fun along the way, this may be the place for you. This role will support The People Success Team with a strong emphasis on people processes, data, and analytics. We offer highly competitive compensation and benefits, along with work/life flexibility in today’s post-Covid world.</p>
+      <p><%= job_details[i].item_description %></p>
+
+     
       <h3>What You Will Do</h3>
       <ul>
-      <li>Own and manage the employee lifecycle processes including onboarding/offboarding, data management, and compliance; </li>
-      <li>Propose innovative and scalable solutions to enhance our programs, processes, reporting, and data analytics; enable HR productivity and efficiency through process improvement and automation</li>
-      <li>Partner closely with our internal key stakeholders, including Payroll, Finance, IT, and Facilities, on all people related processes and changes</li>
-      <li>Ensure all programs &amp; processes are clearly documented and communicated to key stakeholders, and employees/managers</li>
-      <li>Maintain system set up, administration, and data integrity of all HR systems, including Filamian</li>
-      <li>Prepare for and execute system updates, rolling out new features and functionality to optimize performance and usability</li>
-      <li>Establish clear documentation for use of our HR systems; train HR team members and users on optimal use of the system</li>
-      <li>Take ownership of employee data and accuracy; implement data auditing practices to ensure ongoing clean people data. Develop a global people analytics vision and strategy; define key metrics for people analytics and programs, including, but not limited to recruitment, headcount, attrition, diversity, and compliance</li>
-      <li>Perform analytical deep-dives to provide insight on talent trends throughout the employee life-cycle (i.e., recruitment, engagement, development, retention, training, compensation, benefits, diversity &amp; inclusion, and other relevant HR programs and initiatives)</li>
-      <li>Transform people data from key HR areas into narratives that provide meaningful and predictive insights into the business</li>
-      <li>Manage compliance tracking and reporting</li>
+    <p><%= job_details[i].scope_job %></p>
+
+       
       </ul>
       <h3>What We Are Looking For</h3>
       <ul>
-      <li>Bachelor's Degree in Human Resources, Business Management, or related field</li>
-      <li>3+ years of related experience</li>
-      <li>2+ years of people management experience preferred</li>
-      <li>Strong understanding of HR processes and programs</li>
-      <li>Strong understanding and experience with HR systems and employee data management</li>
-      <li>Thorough understanding of the program and organizational interdependencies and ability to proactively address challenges, optimize productivity, and mitigate risk</li>
-      <li>Strong ability to synthesize data and provide actionable insights to drive strategic programs for HR</li>
-      <li>Excellent written and verbal communications skills with the ability to effectively interact with the management and other internal key stakeholders (Payroll, Finance, IT)</li>
-      <li>Demonstrated ability to manage sensitive and confidential employee information</li>
-      <li>Demonstrated ability to balance competing priorities and projects; ability to adapt to the changing needs of the business while meeting deadlines and providing high quality work</li>
-      <li>Excellent knowledge of Labor Code </li>
-      <li>Strong presentation, project management, and analytics skills; attention to detail and accuracy is a must</li>
-      <li>Proficiency with Microsoft 365 products is a plus</li>
-      <li>Strong interest in collaboration, both within the HR Operations team and across the organization</li>
-      <li>Positive and trusted team player and leader; ability to guide and mentor a team while not being afraid to dig deep and into the details</li>
-      <li>Oh, and a sense of humor would be wonderful too!</li>
+        <p><%= job_details[i].looking_for %></p>
+
+        
       </ul>
                   <h3>BENEFITS</h3>
       <ul>
-      <li>Full-time | Remote Job</li>
-      <li>Competitive salary</li>
-      <li>Work from home set-up stipend</li>
-      <li>Technology stipend</li>
-      <li>Trainings for Career growth</li>
-      <li>Computer and laptop are provided by the company</li>
-      <li>Project bonus</li>
-      <li>Performance bonus</li>
-      <li>Employee of the month</li>
-      <li>Birthday Bonus</li>
+        <p><%= job_details[i].benefits%></p>
+
+        <% } %>
       </ul>
               <div>
                   
@@ -169,8 +134,8 @@ placeholder="Full&#x20;Name" required="required"
 </div>
 </div>
                               
-    <div class="form-field form-group ">
-    <div class="form-label-wrapper"><label class="form-label" > <span class="required"></span></label>
+<div class="form-field form-group ">
+<div class="form-label-wrapper"><label class="form-label" > <span class="required"></span></label>
 </div>
 <div class="form-data"
   data-grav-field="email"
@@ -179,10 +144,10 @@ data-grav-default="null"
 >
  <div class="form-input-wrapper ">
   <input
-      name="data[email]"
-      value=""
-          type="email"
-              class="form-input "
+ name="data[email]"
+  value=""
+  type="email"
+  class="form-input "
 placeholder="Email&#x20;Address"required="required"    
 
 

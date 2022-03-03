@@ -135,13 +135,28 @@ router.get('/about', (req, res) => {
 
 // careers page
 router.get("/careers", (req, res) => {
-  res.render("careers"); 
- 
+  knex('jobs.job_details')
+       .select()
+       .then((results) => {
+              res.render('careers', {job_details: results });
+       });
 });
 
+<<<<<<< HEAD
+// careers main page
+router.get("/careersmain", (req, res) => {
+  knex('jobs.job_opening')
+       .select()
+       .then((results) => {
+              res.render('careersmain', {job_opening: results });
+       });
+});
+
+=======
 // exam creation route
 router.get('/examcreation', (req, res) => {
         res.render('examcreation');
 });
+>>>>>>> 42ed42f62b4fc1e0389fa98ebdd58df96eaaee03
 module.exports = router;
 
