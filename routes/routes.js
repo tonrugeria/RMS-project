@@ -74,14 +74,43 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         }
 });
 
-// job-requirement route
-router.get('/job-requirement', (req, res) => {
-        knex('admin.skill')
-                .select()
-                .then((results) => {
-                        res.render('jobRequirement', { skill: results });
+// job-requirement get route
+router.get('/job-requirement', async (req, res) => {
+        const skill = await knex('admin.skill').select();
+        res.render('jobRequirement', { skill });
+});
+
+// job-requirement post route
+router.post('/job-requirement', async (req, res) => {
+        const job = await knex('jobs.job_opening');
+        const {
+                jobTitle,
+                department,
+                salaryRange,
+                careerLevel,
+                workType,
+                jobDesc,
+                yearsOfExp,
+                examScore,
+                hrAssessment,
+        } = req.body;
+        knex('jobs.job_opening')
+                .insert({
+                        job_title: jobTitle,
+                        job_dept: department,
+                        max_salary: salaryRange,
+                        position_level: careerLevel,
+                        job_type: workType,
+                        job_description: jobDesc,
+                        min_years_experience: yearsOfExp,
+                        exam_score: examScore,
+                        hr_rating: hrAssessment,
+                })
+                .then(() => {
+                        res.send('/save/9');
                 });
 });
+
 
 // job-details get route
 router.get('/job-details/:job_id', async (req, res) => {
