@@ -82,16 +82,41 @@ router.get("/job-requirement", (req, res) => {
   res.render("jobRequirement");
 });
 
-// job-details route
-const items = [];
-router.get("/job-details", (req, res) => {
-  res.render("jobDetails", {newListItems: items});
+// job-details get route
+router.get('/job-details/:job_id', async (req, res) => {
+  const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
+  const category = await knex('jobs.job_details').where('job_id', req.params.job_id);
+  res.render('jobDetails', { catView: category, detailsView: category, job });
 });
 
-router.post("/job-details", (req, res) => {
-  const item = req.body.category;
-  items.push(item)         
-  res.redirect("job-details")
+// job-details post route
+router.post('/job-details/:job_id', (req, res) => {
+  const { category, button, details } = req.body;
+  const jobId = req.params.job_id;
+  if (button === 'categoryBtn') {
+    if (!category) res.redirect('/job-details/:job_id');
+    else {
+      knex('jobs.job_details')
+        .insert({ category_name: category, job_id: jobId})
+        .then(() => {
+          res.redirect(`/job-details/${ jobId }`);
+        });
+    }
+  } else if (button === 'detailsBtn') {
+    if (!details) res.redirect('/job-details');
+    else {
+      knex('jobs.job_details')
+        .insert({ item_description: details })
+        .then(() => {
+          res.redirect(`/job-details/${ jobId }`);
+        });
+    }
+  } else if (button === 'deleteCatDetailBtn') {
+    // delete category description function
+    res.redirect('/job-details');
+  } else if (button === 'saveBtn') {
+    // save function
+  }
 });
 // exam route
 router.get("/exam", (req, res) => {
@@ -100,12 +125,12 @@ router.get("/exam", (req, res) => {
 
 //settings
 router.get('/settings', (req, res) => {
-        res.render('settings');
+  res.render('settings');
 });
 
 //users
 router.get('/users', (req, res) => {
-        res.render('users');
+  res.render('users');
 });
 
 // delete/logout route
@@ -121,7 +146,8 @@ router.get("/about", (req, res) => {
 
 // careers page
 router.get("/careers", (req, res) => {
-  res.render("careers"); 
- 
+  res.render("careers");
+
 });
 module.exports = router;
+
