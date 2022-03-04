@@ -178,4 +178,23 @@ router.get('/examcreation', async (req, res) => {
         const skill = await knex('admin.skill').select();
         res.render('examcreation', { question, skill });
 });
+
+router.post('/examcreation',async(req,res)=>{
+        const {questioncategory,questionlevel,questiontimer,
+                questiondetail,correctAnswer,choice_1,choice_2,
+                choice_3,choice_4}=req.body;
+                knex('question.question').insert({
+                        question_category:questioncategory,
+                        question_level:questionlevel,
+                        question_time_limit:questiontimer,
+                        question_detail:questiondetail,
+                        choice_1:choice_1,
+                        choice_2:choice_2,
+                        choice_3:choice_3,
+                        choice_4:choice_4,
+                        correct_answer:correctAnswer
+                }).then(()=>{
+                        res.send('save')
+                })
+});
 module.exports = router;
