@@ -32,10 +32,19 @@
           <% for (let j = 0; j < catView.length; j++) { %>
           <div class="">
             <h4><%= catView[j].category_name %></h4>
+<<<<<<< HEAD
             <% for (let k = 0; k < detailsView.length; k++) { %> <% if
             (catView[j].category_id === detailsView[k].category_id) {%>
             <li><%= detailsView[k].item_description %></li>
             <% } %> <% } %>
+=======
+
+            <% for (let k = 0; k < detailsView.length; k++) { %> <% if
+            (catView[j].category_id === detailsView[k].category_id) { %> <% if
+            (detailsView[k].item_description != null) {%>
+            <li><%= detailsView[k].item_description %></li>
+            <% } %> <% } %> <% } %>
+>>>>>>> 91ec533df14e4ca2ce806c2cd820f1bab0bb3ec6
             <input
               type="text"
               name="details"
@@ -55,4 +64,8 @@
     </div>
   </div>
 </div>
+<<<<<<< HEAD
 <%- include('./layout/footer.ejs') %>
+=======
+<%- include('./layout/footer.ejs') %>
+>>>>>>> 91ec533df14e4ca2ce806c2cd820f1bab0bb3ec6

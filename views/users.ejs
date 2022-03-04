@@ -24,37 +24,30 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>****</th>
-              <TD class = "select">
-              <select>        
-                      <option value="volvo">Administrator</option>
-                      <option value="saab">Reviewer</option>
-              </select>
-              </TD>   
-            <th>@email.com</th>
+            <th>password</th>
+            <th>role</th>
+            <th>email</th>
           </tr>
         </thead>
         <tbody>
-          <th>Name</th>
-          <th>****</th>
+          <% for (let i = 0; i < users.length; i++) { %> 
+            <tr>
+          <th><%= users[i].user_name %> </th>
+          <th><%= users[i].password%></th>
             <TD class = "select">
-            <select>        
-                    <option value="volvo">Administrator</option>
-                    <option value="saab">Reviewer</option>
+            <select id="role_id">        
+                    <option value="admin">Administrator</option>
+                    <option value="reviever">Reviewer</option>
             </select>
             </TD>   
-          <th>@email.com</th>
-          <tr>
-            <th>Name</th>
-          <th>****</th>
-            <TD class = "select">
-            <select>        
-                    <option value="volvo">Administrator</option>
-                    <option value="saab">Reviewer</option>
-            </select>
-            </TD>   
-          <th>@email.com</th>
-          </tr>
+          <th><%= users[i].email %></th>
+          <td>
+            <form method="GET" action="/delete/<%= users[i].user_id%>"> 
+              <button type="submit">delete</button>
+            </form>
+          </td>
+        </tr>
+        <% } %> 
         </tbody>
       </table>
     </div>
