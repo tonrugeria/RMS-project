@@ -4,12 +4,34 @@
     <div class="col-sm-2 ">
       <div class="d-flex flex-column min-vh-100">
         <div>
-          <a href="/job-requirement">+ CREATE NEW JOB</a>
+          <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
+          <form action="#">
+            <input type="checkbox" id="all" name="all" value="all">
+            <label for="all"> ALL</label><br>
+            <input type="checkbox" id="engineering" name="engineering" value="engineering">
+            <label for="engineering">SOFTWARE ENGINEERING</label><br>
+            <input type="checkbox" id="analytics" name="analytics" value="analytics">
+            <label for="analytics">DATA ANALYTICS</label><br>
+            <input type="checkbox" id="marketing" name="marketing" value="marketing">
+            <label for="marketing">MARKETING</label><br>
+            <input type="checkbox" id="administration" name="administration" value="administration">
+            <label for="administration">ADMINISTRATION</label><br><br>
+          </form>
+          <form action="#">
+            <input type="checkbox" id="active" name="active" value="active">
+            <label for="active">ACTIVE</label><br>
+            <input type="checkbox" id="draft" name="draft" value="draft">
+            <label for="draft">DRAFT</label><br>
+            <input type="checkbox" id="archive" name="archive" value="archive">
+            <label for="archive">ARCHIVE</label><br><br>
+          </form>
+
         </div>
       </div>
     </div>
-    <div class="col-sm-10">
-      <h1>this is JOBS</h1>
+    <div class="col-sm-6">
+      <button onclick="gridView()" style="float: right;"><i class="fa fa-th-large" ></i></button><br>
+      <button onclick="listView()" style="float: right;"><i class="fa fa-bars"></i></button>
     </div>
   </div>
 </div>
