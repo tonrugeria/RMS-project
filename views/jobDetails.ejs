@@ -1,4 +1,4 @@
-<%- include('./layout/header.ejs')  %>  
+<%- include('./layout/header.ejs') %>
 <div class="">
   <div class="row min-vh-100">
     <div class="col-sm-2">
@@ -19,28 +19,42 @@
     </div>
     <div class="col-sm-10">
       <h4>CREATE JOB DETAILS</h4>
-      <h3>HR GENERALIST</h3>
-      
-      <form class="" action="/job-details" method="post">
+      <% for (let i = 0; i < job.length; i++) { %>
+      <form class="" action="/job-details/<%= job[i].job_id %>" method="post">
+        <h3><%= job[i].job_title %></h3>
         <div>
           <label for="">Role</label>
           <div class="">
-            <input type="text" name="" placeholder="Enter a Role">
+            <input type="text" name="" placeholder="Enter a Role" />
           </div>
         </div>
         <div>
-          <% for (let i = 0; i < newListItems.length; i++) { %>
-            <div class="">
-              <p><%= newListItems[i] %></p>
-              <input type="text" name="details" placeholder="Enter a <%=newListItems[i]%>">
-              <button>+</button>
-            </div> 
-                <% } %>
-          <input type="text" name="category" placeholder="Add a category">
-          <button>+</button>
+          <% for (let j = 0; j < catView.length; j++) { %>
+          <div class="">
+            <h4><%= catView[j].category_name %></h4>
+
+            <% for (let k = 0; k < detailsView.length; k++) { %> <% if
+            (catView[j].category_id === detailsView[k].category_id) { %> <% if
+            (detailsView[k].item_description != null) {%>
+            <li><%= detailsView[k].item_description %></li>
+            <% } %> <% } %> <% } %>
+            <input
+              type="text"
+              name="details"
+              placeholder="Enter a <%=catView[j].category_name%>"
+            />
+            <button name="button" value="detailsBtn">+</button>
+          </div>
+
+          <% } %>
+
+          <input type="text" name="category" placeholder="Add a category" />
+          <button name="button" value="categoryBtn">+</button>
+          <div><button name="button" value="saveBtn">SAVE</button></div>
         </div>
       </form>
+      <% } %>
     </div>
   </div>
 </div>
-<%- include('./layout/footer.ejs')  %>  
+<%- include('./layout/footer.ejs') %>
