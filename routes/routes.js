@@ -172,6 +172,16 @@ router.get('/users', (req, res) => {
                 });
 });
 
+// delete user
+router.get('/delete/:user_id', (req, res) => {
+        knex('admin.users')
+                .where('user_id', req.params.user_id)
+                .del()
+                .then((results) => {
+                        res.redirect('/users');
+                });
+});
+
 // delete/logout route
 router.delete('/logout', (req, res) => {
         req.logOut();

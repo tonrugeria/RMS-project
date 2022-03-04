@@ -41,7 +41,11 @@
             </select>
             </TD>   
           <th><%= users[i].email %></th>
-          <th><a href="/delete/:user_id<%= users[i].user_id%>" ><button > <i class="fa-solid fa-x"></i></button></a> </th>
+          <td>
+            <form method="GET" action="/delete/<%= users[i].user_id%>"> 
+              <button type="submit">delete</button>
+            </form>
+          </td>
         </tr>
         <% } %> 
         </tbody>
