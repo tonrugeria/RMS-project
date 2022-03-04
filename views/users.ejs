@@ -34,18 +34,29 @@
             <tr>
           <th><%= users[i].user_name %> </th>
           <th><%= users[i].password%></th>
+          <form method="POST" action="/users">
             <TD class = "select">
             <select id="role_id">        
                     <option value="admin">Administrator</option>
                     <option value="reviever">Reviewer</option>
+                    <option value="Editor">Reviewer</option>
             </select>
-            </TD>   
+            </TD>  
+          </form> 
           <th><%= users[i].email %></th>
-          <th><a href="/delete/:user_id<%= users[i].user_id%>" ><button > <i class="fa-solid fa-x"></i></button></a> </th>
+          <th><form method="GET" action="/delete/<%= users[i].user_id%>"><button type="submit"><i class="fa-solid fa-x"></i></button></form></th>
         </tr>
         <% } %> 
         </tbody>
       </table>
+      <body>
+      <form method="post" action="/users">
+        name<br><input type="text" name="user_name"><br>
+        password<br><input type="text" name="password"><br>
+        email<br><input type="text" name="email"><br>
+        <button type="submit">add</button>
+      </form>
+    </body>
     </div>
   </div>
 </div>
