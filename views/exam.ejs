@@ -1,19 +1,19 @@
-<%- include('./layout/header.ejs')  %>  
+<%- include('./layout/header.ejs') %>
 <div class="">
   <div class="row min-vh-100">
     <div class="col-sm-2">
       <div class="d-flex flex-column min-vh-100">
         <div>
-          <a href="/job-requirement">JOB REQUIREMENT</a>
+          <a href="/job-requirement/<%= jobId %>">JOB REQUIREMENT</a>
         </div>
         <div>
-          <a href="/job-details">JOB DETAILS</a>
+          <a href="/job-details/<%= jobId %>">JOB DETAILS</a>
         </div>
         <div>
-          <a href="/exam">EXAM</a>
+          <a href="/exam/<%= jobId %>">EXAM</a>
         </div>
         <div class="mt-auto">
-          <a href="#">BACK TO JOB PAGE</a>
+          <a href="/">BACK TO JOB PAGE</a>
         </div>
       </div>
     </div>
@@ -22,4 +22,4 @@
     </div>
   </div>
 </div>
-<%- include('./layout/footer.ejs')  %>  
+<%- include('./layout/footer.ejs') %>
