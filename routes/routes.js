@@ -211,13 +211,13 @@ router.get('/careersmain', (req, res) => {
                 });
 });
 
-// route for examcreation
+// get route for examcreation
 router.get('/examcreation', async (req, res) => {
         const question = await knex('question.question').select();
         const skill = await knex('admin.skill').select();
         res.render('examcreation', { question, skill });
 });
-
+// post route for examcreation
 router.post('/examcreation',async(req,res)=>{
         const {questioncategory,questionlevel,questiontimer,
                 questiondetail,correctAnswer,choice_1,choice_2,
@@ -233,7 +233,7 @@ router.post('/examcreation',async(req,res)=>{
                         choice_4:choice_4,
                         correct_answer:correctAnswer
                 }).then(()=>{
-                        res.send('save')
+                        res.redirect('/examcreation')
                 })
 });
 // delete exam
