@@ -77,6 +77,14 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
   }
 });
 
+function uniqueId(jobIdColumn) {
+        const len = jobIdColumn.length;
+        if (jobIdColumn != 0) {
+                return jobIdColumn[len - 1].job_id + 1;
+        }
+        return 1;
+}
+
 // job-requirement get route
 router.get('/job-requirement', async (req, res) => {
         const skill = await knex('admin.skill');
