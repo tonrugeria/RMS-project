@@ -3,13 +3,13 @@
   <div class="col-sm-2">
     <div class="d-flex flex-column min-vh-100">
       <div>
-        <h3>JOB REQUIREMENT</h3>
+        <a href="/job-requirement/<%= jobId %>">JOB REQUIREMENT</a>
       </div>
       <div>
-        <p>JOB DETAILS</p>
+        <a href="/job-details/<%= jobId %>"  >JOB DETAILS</a>
       </div>
       <div>
-        <p>EXAM</p>
+        <a href="/exam/<%= jobId %>">EXAM</a>
       </div>
       <div class="mt-auto">
         <a href="/">BACK TO JOB PAGE</a>
@@ -24,7 +24,7 @@
       <input type="number" name="jobId" value="<%= unique %>" > <br> <br>
       
       <label for="jobtitle">JOB TITLE</label><br />
-      <input type="text" id="jobTitle" name="jobTitle" /><br />
+      <input type="text" id="jobTitle" name="jobTitle" required/><br />
     
     <br />
     
@@ -39,7 +39,7 @@
     <br />
     
       <label for="salary range">SALARY RANGE</label>
-      <input type="number" min="1" name="salaryRange" id="salary range" required>
+      <input type="number" min="1" name="salaryRange" id="salary range" >
       <br />
     
     <br />
@@ -47,9 +47,9 @@
       <label for="career level">CAREER LEVEL</label>
       <select name="careerLevel" id="career level" >
         <option value="Select">Select</option>
-        <option value="abc">abc</option>
-        <option value="def">def</option>
-        <option value="hij">hij</option>
+        <option value="Idkkkk1">Idkkkk</option>
+        <option value="Idkkkkk2">Idkkkkk</option>
+        <option value="Idkkkk3">Idkkkk</option>
       </select>
       <br />
     
@@ -65,7 +65,7 @@
     
     
       <label for="jobdesc">JOB DESCRIPTION</label><br />
-      <input type="text" id="jobdesc" name="jobDesc" />
+      <input type="text" id="jobdesc" name="jobDesc" required/>
     
     <br />
     <h4>MINIMUM QUALIFICATIONS</h4>
@@ -83,9 +83,9 @@
       <label for="hr">HR ASSESSMENT</label>
       <select name="hrAssessment" id="hr" >
         <option value="Select">Select</option>
-        <option value="xyz">xyz</option>
-        <option value="ddd">ddd</option>
-        <option value="eee">eee</option>
+        <option value="Idkkkk1">Idkkkk</option>
+        <option value="Idkkkkk2">Idkkkkk</option>
+        <option value="Idkkkk3">Idkkkk</option>
       </select>
       <br /><br />
     
