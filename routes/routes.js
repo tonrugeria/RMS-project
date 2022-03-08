@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
@@ -8,13 +7,6 @@ const {
   checkNotAuthenticated,
 } = require("../middlewares/auth");
 const { format } = require("path/posix");
-=======
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
-const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
->>>>>>> e63c964a27f30b59f7a14e49e53c4294ee653622
 
 const router = express.Router();
 
@@ -159,7 +151,6 @@ router.get("/careers", (req, res) => {
        });
 });
 
-<<<<<<< HEAD
 // careers main page
 router.get("/careersmain", (req, res) => {
   knex('jobs.job_opening')
@@ -169,11 +160,5 @@ router.get("/careersmain", (req, res) => {
        });
 });
 
-=======
-// exam creation route
-router.get('/examcreation', (req, res) => {
-        res.render('examcreation');
-});
->>>>>>> 42ed42f62b4fc1e0389fa98ebdd58df96eaaee03
 module.exports = router;
 
