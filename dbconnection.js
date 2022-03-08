@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS Jobs.Question(
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
+
 CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     job_id INT NOT NULL,
     role VARCHAR(100) NOT NULL,
