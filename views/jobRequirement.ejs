@@ -46,10 +46,10 @@
     
       <label for="career level">CAREER LEVEL</label>
       <select name="careerLevel" id="career level" >
-        <option value="Select">Select</option>
-        <option value="Idkkkk1">Idkkkk</option>
-        <option value="Idkkkkk2">Idkkkkk</option>
-        <option value="Idkkkk3">Idkkkk</option>
+        <option value="Level 1">Level 1</option>
+        <option value="Level 2">Level 2</option>
+        <option value="Level 3">Level 3</option>
+        <option value="Level 4">Level 4</option>
       </select>
       <br />
     
@@ -59,7 +59,7 @@
       <select name="workType" id="work type" >
         <% for(let i = 0; i < jobType.length; i++) { %> 
           <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
-          <% } %>
+        <% } %>
       </select>
       <br /><br />
     
@@ -82,10 +82,9 @@
     
       <label for="hr">HR ASSESSMENT</label>
       <select name="hrAssessment" id="hr" >
-        <option value="Select">Select</option>
-        <option value="Idkkkk1">Idkkkk</option>
-        <option value="Idkkkkk2">Idkkkkk</option>
-        <option value="Idkkkk3">Idkkkk</option>
+        <% for (let i = 0; i < hrRemarks.length; i++) { %> 
+          <option value="<%= hrRemarks[i].remark_name %>"><%= hrRemarks[i].remark_name %></option>
+        <% } %>
       </select>
       <br /><br />
     
@@ -95,21 +94,21 @@
         <input
           type="checkbox"
           id="<%= skill[i].skill_name %>"
-          name="skillId"
+          name="skill_id_<%= i + 1%> "
           value="<%= skill[i].skill_id %>"
         />
         <label for="<%= skill[i].skill_name %>">
           <%= skill[i].skill_name %></label
         >
-        <input type="radio" id="1" name="skill_level_<%= i %>" value="1" />
+        <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
         <label for="1">1</label>
-        <input type="radio" id="2" name="skill_level_<%= i %>" value="2" />
+        <input type="radio" id="2" name="skill_level_<%= i + 1%>" value="2" />
         <label for="2">2</label>
-        <input type="radio" id="3" name="skill_level_<%= i %>" value="3" />
+        <input type="radio" id="3" name="skill_level_<%= i + 1%>" value="3" />
         <label for="3">3</label>
-        <input type="radio" id="4" name="skill_level_<%= i %>" value="4" />
+        <input type="radio" id="4" name="skill_level_<%= i + 1%>" value="4" />
         <label for="4">4</label>
-        <input type="radio" id="5" name="skill_level_<%= i %>" value="5" />
+        <input type="radio" id="5" name="skill_level_<%= i + 1%>" value="5" />
         <label for="5">5</label>
         </div>
       <% } %> 
