@@ -85,7 +85,14 @@ router.get('/job-requirement', async (req, res) => {
         const job = await knex('jobs.job_opening');
         const hrRemarks = await knex('admin.remarks');
         const unique = uniqueId(job);
-        res.render('jobRequirement', { skill, dept, jobType, job, unique, hrRemarks });
+  res.render("jobRequirement", {
+    skill,
+    dept,
+    jobType,
+    job,
+    unique,
+    hrRemarks,
+  });
 });
 
 // job-requirement post route
@@ -234,8 +241,8 @@ router.post('/job-details/:job_id', (req, res) => {
 });
 
 // exam route
-router.get('/exam', (req, res) => {
-        res.render('exam');
+router.get("/exam", (req, res) => {
+  res.render("exam");
 });
 
 // settings
@@ -327,13 +334,13 @@ router.post("/examcreation", async (req, res) => {
     });
 });
 // delete exam
-router.get('/deleteExam/:question_id', (req, res) => {
-        knex('question.question')
-                .where('question_id', req.params.question_id)
-                .del()
-                .then((results) => {
-                        res.redirect('/examcreation');
-                });
+router.get("/deleteExam/:question_id", (req, res) => {
+  knex("question.question")
+    .where("question_id", req.params.question_id)
+    .del()
+    .then((results) => {
+      res.redirect("/examcreation");
+    });
 });
 
 module.exports = router;
