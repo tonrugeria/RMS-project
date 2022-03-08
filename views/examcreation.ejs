@@ -1,5 +1,5 @@
 <%- include('./layout/header.ejs')  %> 
-<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
+<div class="sidebar" style="width:25%">
   <h3 class="sidebar"></h3>
     <% for (let i = 0; i < skill.length; i++) { %> 
     <a href="#" class="w3-bar-item sidebar"><%= skill[i].skill_name %></a> 
@@ -8,19 +8,19 @@
  
 <form action="/examcreation" method="POST"> 
   <div style="margin-left:25%">
+    
     <div class="select skill" style="width:200px;">
-      <% for (let i = 0; i < skill.length; i++) { %> 
       <select name="questioncategory">
+      <% for (let i = 0; i < skill.length; i++) { %> 
+       
         <option value="1"><%= skill[i].skill_name %></option>
+      
       <% } %>
+    </select>
     </div>
   </div>
   
-      <div class="level" style="width:200px;">
-        <select name="">
-          <option value="1">1</option>
-        </select>
-      </div>
+     
     
       <div class="level" style="width:200px;">
         <select name="questionlevel">
@@ -32,18 +32,11 @@
         </select>
       </div>
     <div class="timer" style="width:200px;">
-      <select name="questiontimer">
-        <option value="1">10</option>
-        <option value="2">20</option>
-        <option value="3">30</option>
-        <option value="4">40</option>
-        <option value="5">50</option>
-        <option value="6">60</option>
-      </select>
+      <input type="text" placeholder="Timer" name="questiontimer">
     </div>
-
-   <input type="text" placeholder="Question" name="questiondetail">
-
+    <div class="questionname">
+      <input type="text" placeholder="Question" name="questiondetail">
+    </div>
 
   <div class="container mt-3">
     <div>
@@ -64,5 +57,8 @@
   <h1>
     <%= question[i].question_category %> | LEVEL <%= question[i].question_level %> <%= question[i].question_detail %> 
   </h1>
+  <form method="GET" action="/deleteExam/<%= question[i].question_id%>"> 
+    <button type="submit">delete</button>
+  </form>
 <% } %> 
     <%- include('./layout/footer.ejs')  %>  
