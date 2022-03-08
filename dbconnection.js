@@ -78,9 +78,13 @@ CREATE TABLE IF NOT EXISTS Admin.Job_Type(
 CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
     skill_scoring INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS Admin.Department(
+    dept_id SERIAL PRIMARY KEY NOT NULL,
+    dept_name VARCHAR(100) NOT NULL
+);
 CREATE SCHEMA IF NOT EXISTS Jobs;
 CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
-    job_id SERIAL PRIMARY KEY NOT NULL,
+    job_id INT PRIMARY KEY NOT NULL,
     job_title VARCHAR(100) NOT NULL,
     job_dept VARCHAR(100) NOT NULL,
     max_salary INT NOT NULL,
