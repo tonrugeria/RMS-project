@@ -74,15 +74,6 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         }
 });
 
-// function for getting the job's unique Id if data table not empty
-function uniqueId(jobIdColumn) {
-        const len = jobIdColumn.length;
-        if (jobIdColumn != 0) {
-                return jobIdColumn[len - 1].job_id + 1;
-        }
-        return 1;
-}
-
 // job-requirement get route
 router.get('/job-requirement', async (req, res) => {
         const skill = await knex('admin.skill');
@@ -201,46 +192,47 @@ router.post('/job-requirement/:job_id', async (req, res) => {
 // job-details get route
 router.get('/job-details/:job_id', async (req, res) => {
         const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
-        const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
-        const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
-        const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
-        const jobId = req.params.job_id;
-        res.render('jobDetails', { responsi, quali, job, role, jobId });
+        const category = await knex('jobs.job_details').where('job_id', req.params.job_id);
+        res.render('jobDetails', { catView: category, detailsView: category, job });
+        const hello = await knex
+                .select('')
+                .from('jobs.job_details')
+                .innerJoin('jobs.job_opening', 'jobs.job_details.job_id', 'jobs.job_opening.job_id');
 });
 
 // job-details post route
 router.post('/job-details/:job_id', (req, res) => {
-        const { responsiDesc, qualiDesc, button, role } = req.body;
+        const { category, button, details } = req.body;
         const jobId = req.params.job_id;
-        if (button === 'roleBtn') {
-        } else if (button === 'responsiBtn') {
-                if (!responsiDesc) res.redirect('/job-details/:job_id');
+        if (button === 'categoryBtn') {
+                if (!category) res.redirect('/job-details/:job_id');
                 else {
                         knex('jobs.job_details')
-                                .insert({ item_description: responsiDesc, job_id: jobId, category_id: 1, role })
+                                .insert({ category_name: category, job_id: jobId })
                                 .then(() => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
                 }
-        } else if (button === 'qualiBtn') {
-                if (!qualiDesc) res.redirect('/job-details/:job_id');
+        } else if (button === 'detailsBtn') {
+                if (!details) res.redirect('/job-details');
                 else {
                         knex('jobs.job_details')
-                                .insert({ item_description: qualiDesc, job_id: jobId, category_id: 2, role })
-                                .then(() => {
+                                .insert({ item_description: details, job_id: jobId })
+                                .then((results) => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
                 }
         } else if (button === 'deleteCatDetailBtn') {
                 // delete category description function
                 res.redirect('/job-details');
+        } else if (button === 'saveBtn') {
+                // save function
         }
 });
 
 // exam route
-router.get('/exam/:job_id', (req, res) => {
-        const jobId = req.params.job_id;
-        res.render('exam', { jobId });
+router.get('/exam', (req, res) => {
+        res.render('exam');
 });
 
 // settings
@@ -331,4 +323,14 @@ router.post('/examcreation', async (req, res) => {
                         res.send('save');
                 });
 });
+// delete exam
+router.get('/deleteExam/:question_id', (req, res) => {
+        knex('question.question')
+                .where('question_id', req.params.question_id)
+                .del()
+                .then((results) => {
+                        res.redirect('/examcreation');
+                });
+});
+
 module.exports = router;
