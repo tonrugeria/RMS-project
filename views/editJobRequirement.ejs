@@ -19,19 +19,23 @@
 
   <div class="col-sm-10">
     <h3>NEW JOB OPENING</h3>
-    <form method="POST" action="/job-requirement" >
+    <form method="POST" action="/job-requirement/<%= jobId %>" >
       <label for="jobId">JOB ID</label> <br>
       <input type="number" name="jobId" value="<%= unique %>" > <br> <br>
       
       <label for="jobtitle">JOB TITLE</label><br />
-      <input type="text" id="jobTitle" name="jobTitle" required/><br />
+      <input type="text" id="jobTitle" name="jobTitle" value="<%= job[0].job_title %>" required/><br />
     
     <br />
     
       <label for="department">DEPARTMENT</label>
       <select name="department" id="deparment" >
         <% for(let i = 0; i < dept.length; i++) { %> 
-        <option value="<%= dept[i].dept_name %>" ><%= dept[i].dept_name %></option>
+          <% if (dept[i].dept_name == job[0].job_dept) { %> 
+            <option value="<%= dept[i].dept_name %>" selected><%= dept[i].dept_name %></option>
+          <% } else {%>
+          <option value="<%= dept[i].dept_name %>"><%= dept[i].dept_name %></option>
+            <% } %> 
         <% } %> 
       </select>
       <br />
@@ -39,17 +43,17 @@
     <br />
     
       <label for="salary range">SALARY RANGE</label>
-      <input type="number" min="1" name="salaryRange" id="salary range" >
+      <input type="number" min="1" name="salaryRange" id="salary range" value="<%= job[0].max_salary %>">
       <br />
     
     <br />
     
       <label for="career level">CAREER LEVEL</label>
       <select name="careerLevel" id="career level" >
-        <option value="Select">Select</option>
-        <option value="Idkkkk1">Idkkkk</option>
-        <option value="Idkkkkk2">Idkkkkk</option>
-        <option value="Idkkkk3">Idkkkk</option>
+        <option value="Level 1">Level 1</option>
+        <option value="Level 2">Level 2</option>
+        <option value="Level 3">Level 3</option>
+        <option value="Level 4">Level 4</option>
       </select>
       <br />
     
@@ -57,35 +61,42 @@
     
       <label for="work type">WORK TYPE</label>
       <select name="workType" id="work type" >
-        <% for(let i = 0; i < jobType.length; i++) { %> 
-          <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
+        <% for(let i = 0; i < jobType.length; i++) { %>
+          <% if (jobType[i].job_type_name == job[0].job_type) { %>  
+            <option value="<%= jobType[i].job_type_name %>" selected><%= jobType[i].job_type_name %></option>
+            <% } else { %>
+              <option value="<%= jobType[i].job_type_name %>"><%= jobType[i].job_type_name %></option>
+              <% } %>
           <% } %>
       </select>
       <br /><br />
     
     
       <label for="jobdesc">JOB DESCRIPTION</label><br />
-      <input type="text" id="jobdesc" name="jobDesc" required/>
+      <input type="text" id="jobdesc" name="jobDesc" value="<%= job[0].job_description %>" required/>
     
     <br />
     <h4>MINIMUM QUALIFICATIONS</h4>
     
       <label for="years">YEARS OF EXPERIENCE</label><br />
-      <input type="number" min="0" id="years" name="yearsOfExp" required/><br />
+      <input type="number" min="0" id="years" name="yearsOfExp" value="<%= job[0].min_years_experience %>" required/><br />
     
     <br />
     
       <label for="exam score">EXAM SCORE</label><br />
-      <input type="number" min="0" id="exam score" name="examScore" required/><br />
+      <input type="number" min="0" id="exam score" name="examScore"value="<%= job[0].exam_score %>" required/><br />
     
     <br />
     
       <label for="hr">HR ASSESSMENT</label>
       <select name="hrAssessment" id="hr" >
-        <option value="Select">Select</option>
-        <option value="Idkkkk1">Idkkkk</option>
-        <option value="Idkkkkk2">Idkkkkk</option>
-        <option value="Idkkkk3">Idkkkk</option>
+        <% for (let i = 0; i < hrRemarks.length; i++) { %>
+          <% if (hrRemarks[i].remark_name == job[0].hr_rating) { %>  
+          <option value="<%= hrRemarks[i].remark_name %>" selected><%= hrRemarks[i].remark_name %></option>
+          <% } else { %>
+            <option value="<%= hrRemarks[i].remark_name %>"><%= hrRemarks[i].remark_name %></option>
+          <% } %>
+        <% } %>
       </select>
       <br /><br />
     
@@ -95,21 +106,22 @@
         <input
           type="checkbox"
           id="<%= skill[i].skill_name %>"
-          name="skillId"
+          name="skill_id_<%= i + 1 %> "
           value="<%= skill[i].skill_id %>"
         />
         <label for="<%= skill[i].skill_name %>">
           <%= skill[i].skill_name %></label
         >
-        <input type="radio" id="1" name="skill_level_<%= i %>" value="1" />
+        
+        <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
         <label for="1">1</label>
-        <input type="radio" id="2" name="skill_level_<%= i %>" value="2" />
+        <input type="radio" id="2" name="skill_level_<%= i + 1%>" value="2" />
         <label for="2">2</label>
-        <input type="radio" id="3" name="skill_level_<%= i %>" value="3" />
+        <input type="radio" id="3" name="skill_level_<%= i + 1%>" value="3" />
         <label for="3">3</label>
-        <input type="radio" id="4" name="skill_level_<%= i %>" value="4" />
+        <input type="radio" id="4" name="skill_level_<%= i + 1%>" value="4" />
         <label for="4">4</label>
-        <input type="radio" id="5" name="skill_level_<%= i %>" value="5" />
+        <input type="radio" id="5" name="skill_level_<%= i + 1%>" value="5" />
         <label for="5">5</label>
         </div>
       <% } %> 

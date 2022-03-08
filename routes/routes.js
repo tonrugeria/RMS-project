@@ -76,14 +76,19 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 
 // job-requirement get route
 router.get('/job-requirement', async (req, res) => {
-        const skill = await knex('admin.skill').select();
-        res.render('jobRequirement', { skill });
+        const skill = await knex('admin.skill');
+        const dept = await knex('admin.department');
+        const jobType = await knex('admin.job_type');
+        const job = await knex('jobs.job_opening');
+        const hrRemarks = await knex('admin.remarks');
+        const unique = uniqueId(job);
+        res.render('jobRequirement', { skill, dept, jobType, job, unique, hrRemarks });
 });
 
 // job-requirement post route
 router.post('/job-requirement', async (req, res) => {
-        const job = await knex('jobs.job_opening');
         const {
+                jobId,
                 jobTitle,
                 department,
                 salaryRange,
@@ -93,9 +98,14 @@ router.post('/job-requirement', async (req, res) => {
                 yearsOfExp,
                 examScore,
                 hrAssessment,
+                skill_id_1,
+                skill_level_1,
+                skill_id_2,
+                skill_level_2,
         } = req.body;
         knex('jobs.job_opening')
                 .insert({
+                        job_id: jobId,
                         job_title: jobTitle,
                         job_dept: department,
                         max_salary: salaryRange,
@@ -107,10 +117,77 @@ router.post('/job-requirement', async (req, res) => {
                         hr_rating: hrAssessment,
                 })
                 .then(() => {
-                        res.send('/save/9');
+                        knex('jobs.skill')
+                                .insert({
+                                        job_id: jobId,
+                                        skill_id_1,
+                                        skill_level_1,
+                                        skill_id_2,
+                                        skill_level_2,
+                                })
+                                .then(() => {
+                                        res.redirect(`/job-requirement/${jobId}`);
+                                });
                 });
 });
 
+// job-requirement update get route
+router.get('/job-requirement/:job_id', async (req, res) => {
+        const jobId = req.params.job_id;
+        const skill = await knex('admin.skill').select();
+        const dept = await knex('admin.department');
+        const jobType = await knex('admin.job_type');
+        const hrRemarks = await knex('admin.remarks');
+        const job = await knex('jobs.job_opening').where('job_id', jobId);
+        const unique = jobId;
+        res.render('editJobRequirement', { skill, dept, jobType, job, unique, jobId, hrRemarks });
+});
+
+// job-requirement update post route
+router.post('/job-requirement/:job_id', async (req, res) => {
+        const jobId = req.params.job_id;
+        const {
+                jobTitle,
+                department,
+                salaryRange,
+                careerLevel,
+                workType,
+                jobDesc,
+                yearsOfExp,
+                examScore,
+                hrAssessment,
+                skill_id_1,
+                skill_level_1,
+                skill_id_2,
+                skill_level_2,
+        } = req.body;
+        knex('jobs.job_opening')
+                .update({
+                        job_title: jobTitle,
+                        job_dept: department,
+                        max_salary: salaryRange,
+                        position_level: careerLevel,
+                        job_type: workType,
+                        job_description: jobDesc,
+                        min_years_experience: yearsOfExp,
+                        exam_score: examScore,
+                        hr_rating: hrAssessment,
+                })
+                .where('job_id', jobId)
+                .then(() => {
+                        knex('jobs.skill')
+                                .update({
+                                        skill_id_1,
+                                        skill_level_1,
+                                        skill_id_2,
+                                        skill_level_2,
+                                })
+                                .where('job_id', jobId)
+                                .then(() => {
+                                        res.redirect(`/job-requirement/${jobId}`);
+                                });
+                });
+});
 
 // job-details get route
 router.get('/job-details/:job_id', async (req, res) => {
@@ -233,8 +310,8 @@ router.post('/examcreation',async(req,res)=>{
                         choice_4:choice_4,
                         correct_answer:correctAnswer
                 }).then(()=>{
-                        res.redirect('/examcreation')
-                })
+                        res.redirect('/examcreation');
+                });
 });
 // delete exam
 router.get('/deleteExam/:question_id', (req, res) => {
@@ -245,6 +322,5 @@ router.get('/deleteExam/:question_id', (req, res) => {
                         res.redirect('/examcreation');
                 });
 });
-
 
 module.exports = router;
