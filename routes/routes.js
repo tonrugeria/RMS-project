@@ -111,6 +111,7 @@ router.post('/job-requirement', async (req, res) => {
         } = req.body;
         knex('jobs.job_opening')
                 .insert({
+                        job_id: jobId,
                         job_title: jobTitle,
                         job_dept: department,
                         max_salary: salaryRange,
@@ -134,13 +135,12 @@ router.get('/job-requirement/:job_id', async (req, res) => {
         const job = await knex('jobs.job_opening');
         const jobId = req.params.job_id;
         const unique = jobId;
-        res.render('jobRequirement', { skill, dept, jobType, job, unique, jobId });
+        res.render('editJobRequirement', { skill, dept, jobType, job, unique, jobId });
 });
 
 // job-requirement update post route
 router.post('/job-requirement/:job_id', async (req, res) => {
         const {
-                job_id,
                 jobTitle,
                 department,
                 salaryRange,
@@ -176,7 +176,8 @@ router.get('/job-details/:job_id', async (req, res) => {
         const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
         const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
         const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
-        res.render('jobDetails', { responsi, quali, job, role });
+        const jobId = req.params.job_id;
+        res.render('jobDetails', { responsi, quali, job, role, jobId });
 });
 
 // job-details post route
@@ -209,8 +210,9 @@ router.post('/job-details/:job_id', (req, res) => {
 });
 
 // exam route
-router.get('/exam', (req, res) => {
-        res.render('exam');
+router.get('/exam/:job_id', (req, res) => {
+        const jobId = req.params.job_id;
+        res.render('exam', { jobId });
 });
 
 // settings
