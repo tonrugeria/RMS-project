@@ -200,33 +200,33 @@ router.post('/job-requirement/:job_id', async (req, res) => {
 // job-details get route
 router.get('/job-details/:job_id', async (req, res) => {
         const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
-        const category = await knex('jobs.job_details').where('job_id', req.params.job_id);
-        res.render('jobDetails', { catView: category, detailsView: category, job });
-        const hello = await knex
-                .select('')
-                .from('jobs.job_details')
-                .innerJoin('jobs.job_opening', 'jobs.job_details.job_id', 'jobs.job_opening.job_id');
+        const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
+        const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
+        const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
+        const jobId = req.params.job_id;
+        res.render('jobDetails', { responsi, quali, job, role, jobId });
 });
 
 // job-details post route
 router.post('/job-details/:job_id', (req, res) => {
-        const { category, button, details } = req.body;
+        const { responsiDesc, qualiDesc, button, role } = req.body;
         const jobId = req.params.job_id;
-        if (button === 'categoryBtn') {
-                if (!category) res.redirect('/job-details/:job_id');
+        if (button === 'roleBtn') {
+        } else if (button === 'responsiBtn') {
+                if (!responsiDesc) res.redirect('/job-details/:job_id');
                 else {
                         knex('jobs.job_details')
-                                .insert({ category_name: category, job_id: jobId })
+                                .insert({ item_description: responsiDesc, job_id: jobId, category_id: 1, role })
                                 .then(() => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
                 }
-        } else if (button === 'detailsBtn') {
-                if (!details) res.redirect('/job-details');
+        } else if (button === 'qualiBtn') {
+                if (!qualiDesc) res.redirect('/job-details/:job_id');
                 else {
                         knex('jobs.job_details')
-                                .insert({ item_description: details, job_id: jobId })
-                                .then((results) => {
+                                .insert({ item_description: qualiDesc, job_id: jobId, category_id: 2, role })
+                                .then(() => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
                 }
@@ -239,8 +239,9 @@ router.post('/job-details/:job_id', (req, res) => {
 });
 
 // exam route
-router.get('/exam', (req, res) => {
-        res.render('exam');
+router.get('/exam/:job_id', (req, res) => {
+        const jobId = req.params.job_id;
+        res.render('exam', { jobId });
 });
 
 // settings

@@ -1,64 +1,85 @@
-<%- include('./layout/header.ejs')  %> 
-<div class="sidebar" style="width:25%">
+<%- include('./layout/header.ejs') %>
+<div class="sidebar" style="width: 25%">
   <h3 class="sidebar"></h3>
-    <% for (let i = 0; i < skill.length; i++) { %> 
-    <a href="#" class="w3-bar-item sidebar"><%= skill[i].skill_name %></a> 
-    <% } %> 
+  <% for (let i = 0; i < skill.length; i++) { %>
+  <a href="#" class="w3-bar-item sidebar"><%= skill[i].skill_name %></a>
+  <% } %>
 </div>
- 
-<form action="/examcreation" method="POST"> 
-  <div style="margin-left:25%">
-    
-    <div class="select skill" style="width:200px;">
+
+<form action="/examcreation" method="POST">
+  <div style="margin-left: 25%">
+    <div class="select skill" style="width: 200px">
       <select name="questioncategory">
-      <% for (let i = 0; i < skill.length; i++) { %> 
-       
+        <% for (let i = 0; i < skill.length; i++) { %>
+
         <option value="1"><%= skill[i].skill_name %></option>
-      
-      <% } %>
-    </select>
+
+        <% } %>
+      </select>
     </div>
   </div>
-  
-     
-    
-      <div class="level" style="width:200px;">
-        <select name="questionlevel">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </div>
-    <div class="timer" style="width:200px;">
-      <input type="text" placeholder="Timer" name="questiontimer">
-    </div>
-    <div class="questionname">
-      <input type="text" placeholder="Question" name="questiondetail">
-    </div>
 
+  <div class="level" style="width: 200px">
+    <select name="questionlevel">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+  <div class="timer" style="width: 200px">
+    <select name="questiontimer">
+      <option value="1">10</option>
+      <option value="2">20</option>
+      <option value="3">30</option>
+      <option value="4">40</option>
+      <option value="5">50</option>
+      <option value="6">60</option>
+    </select>
+  </div>
+
+  <input type="text" placeholder="Question" name="questiondetail" />
   <div class="container mt-3">
     <div>
-      <input type="radio" value="1" name="correctAnswer">
-      <input type="text" class="form-control" placeholder="Question 1" name="choice_1">
-      <input type="radio" value="2" name="correctAnswer">
-      <input type="text" class="form-control" placeholder="Question 2" name="choice_2">
-      <input type="radio" value="3" name="correctAnswer">
-      <input type="text" class="form-control" placeholder="Question 3" name="choice_3">
-      <input type="radio" value="4" name="correctAnswer">
-      <input type="text" class="form-control" placeholder="Question 4" name="choice_4">
+      <input type="radio" value="1" name="correctAnswer" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Question 1"
+        name="choice_1"
+      />
+      <input type="radio" value="2" name="correctAnswer" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Question 2"
+        name="choice_2"
+      />
+      <input type="radio" value="3" name="correctAnswer" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Question 3"
+        name="choice_3"
+      />
+      <input type="radio" value="4" name="correctAnswer" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Question 4"
+        name="choice_4"
+      />
     </div>
   </div>
-    <button type="" >Save</button>
-
+  <button type="">Save</button>
 </form>
-<% for (let i = 0; i < question.length; i++) { %> 
-  <h1>
-    <%= question[i].question_category %> | LEVEL <%= question[i].question_level %> <%= question[i].question_detail %> 
-  </h1>
-  <form method="GET" action="/deleteExam/<%= question[i].question_id%>"> 
-    <button type="submit">delete</button>
-  </form>
-<% } %> 
-    <%- include('./layout/footer.ejs')  %>  
+<% for (let i = 0; i < question.length; i++) { %>
+<h1>
+  <%= question[i].question_category %> | LEVEL <%= question[i].question_level %>
+  <%= question[i].question_detail %>
+</h1>
+<form method="GET" action="/deleteExam/<%= question[i].question_id%>">
+  <button type="submit">delete</button>
+</form>
+<% } %> <%- include('./layout/footer.ejs') %>
