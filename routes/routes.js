@@ -7,7 +7,7 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // home route
-router.get('/', async (req, res) => {
+router.get('/', checkAuthenticated, async (req, res) => {
   const job_opening = await knex('jobs.job_opening').select();
   const skill = await knex('admin.skill').select();
   res.render('index', { job_opening, skill });
