@@ -1,34 +1,31 @@
 <%- include('./layout/header2.ejs')  %>  
   <div class="columns">
-    <div id="item" class="column col-12 extra-spacing flex-content">
-                        
+    <div id="item" class="column col-12 extra-spacing flex-content">                    
       <link rel="stylesheet" href="/style.css" />
     </div>
     <section id="start">
         <section id="body-wrapper" class="section blog-listing">
     <section class="container grid-lg">
 
-
-<div class="button-filters">
-<button id ="show-all" class="btn-fil active" >Show All </button>
-<button id = "soft-engr" class="btn-fil"> Software Engineering </button>
-<button id = "sqa" class="btn-fil">Software Quality Assurance </button>
-<button id = "marketing" class="btn-fil">Marketing </button>
-<button id = "admin" class="btn-fil">Admin </button>
-
+        <section id="start">
+            <section id="body-wrapper" class="section blog-listing">
+        <section class="container grid-lg">
+        
+            <div class="button-filters">
+            <% for (let  i = 0; i < job_description.length; i++) { %>
+            <tr>
+                <form method="get">
+                <td><input type="button" value='<%= job_description[i].filter_function %>'value= <%= job_description[i].filter_function %> /> </td>
+                
+            </tr>
+                </button>
+                <% } %>
+             
+        </div>
+      </div>
+    </div>
 </div>
-
-<div class="dropdown-filter">
-
-<button id ="show-all" class="btn-fil active dropdown-item" > Show All </button>
-<button id = "soft-engr" class="btn-fil dropdown-item"> Software Engineering </button>
-<button id = "sqa" class="btn-fil dropdown-item">Software Quality Assurance </button>
-<button id = "marketing" class="btn-fil dropdown-item">Marketing </button>
-<button id = "admin" class="btn-fil dropdown-item">Admin </button>
-</div>
-
-
-</div>
+</form>
   
 <div class="columns">
 <div id="item" class="column col-12 extra-spacing">
@@ -45,7 +42,6 @@
  <% for (let i = 0; i < job_opening.length; i++) { %>                   
     <i class="fa fa-calendar"></i> 
         <h1><%= job_opening[i].date_opened %></h1>
-        
 </time>
 </span>
     </div>
@@ -70,6 +66,7 @@
     </div>
 </div>
 </div>
+<script src="filter-function.js"></script>
 </tbody>
 
 

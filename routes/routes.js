@@ -1,81 +1,80 @@
-const express = require("express");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
-const knex = require("../dbconnection");
-const {
-  checkAuthenticated,
-  checkNotAuthenticated,
-} = require("../middlewares/auth");
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const knex = require('../dbconnection');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // home route
-router.get("/", checkAuthenticated, (req, res) => {
-  res.render("index", { username: req.user.username });
+router.get('/', async (req, res) => {
+  const job_opening = await knex('jobs.job_opening').select();
+  const skill = await knex('admin.skill').select();
+  res.render('index', { job_opening, skill });
 });
 
-// register get route
-router.get("/register", checkNotAuthenticated, (req, res) => {
-  res.render("register");
-});
 
-// login get route
-router.get("/login", checkNotAuthenticated, (req, res) => {
-  knex("admin.users").then((results) => {
-    if (results != 0) {
-      res.render("login", {
-        title: "Log In",
+  // register get route
+  router.get('/register', checkNotAuthenticated, (req, res) => {
+    res.render('register');
+  });
+
+  // login get route
+  router.get('/login', checkNotAuthenticated, (req, res) => {
+    knex('admin.users').then((results) => {
+      if (results != 0) {
+        res.render('login', {
+          title: 'Log In',
+        });
+      } else {
+        res.redirect('/register');
+      }
+    });
+  });
+
+  // login post route
+  router.post(
+    '/login',
+    checkNotAuthenticated,
+    passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash: true,
+    })
+  );
+  // register post route
+  router.post('/register', checkNotAuthenticated, async (req, res) => {
+    const { username, password } = req.body;
+    const userFound = await knex('admin.users')
+      .where({ user_name: username })
+      .first()
+      .then((row) => {
+        if (row) {
+          return row.user_name;
+        }
+        return row;
       });
+    if (userFound === username) {
+      req.flash('error', 'User with that username already exists');
+      res.redirect('/register');
     } else {
-      res.redirect("/register");
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        knex('admin.users')
+          .insert({
+            user_name: username,
+            password: hashedPassword,
+          })
+          .then(() => {
+            res.redirect('/login');
+          });
+      } catch (error) {
+        console.log(error);
+        req.flash('error', 'Cant insert');
+        res.redirect('/register');
+      }
     }
   });
-});
-
-// login post route
-router.post(
-  "/login",
-  checkNotAuthenticated,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-
-// register post route
-router.post("/register", checkNotAuthenticated, async (req, res) => {
-  const { username, password } = req.body;
-  const userFound = await knex("admin.users")
-    .where({ user_name: username })
-    .first()
-    .then((row) => {
-      if (row) {
-        return row.user_name;
-      }
-      return row;
-    });
-  if (userFound === username) {
-    req.flash("error", "User with that username already exists");
-    res.redirect("/register");
-  } else {
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      knex("admin.users")
-        .insert({
-          user_name: username,
-          password: hashedPassword,
-        })
-        .then(() => {
-          res.redirect("/login");
-        });
-    } catch (error) {
-      console.log(error);
-      req.flash("error", "Cant insert");
-      res.redirect("/register");
-    }
-  }
-});
 
 function uniqueId(jobIdColumn) {
   const len = jobIdColumn.length;
@@ -86,25 +85,21 @@ function uniqueId(jobIdColumn) {
 }
 
 // job-requirement get route
-router.get("/job-requirement", async (req, res) => {
-  const skill = await knex("admin.skill");
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const job = await knex("jobs.job_opening");
-  const hrRemarks = await knex("admin.remarks");
+
+router.get('/job-requirement', async (req, res) => {
+  const adminSkill = await knex('admin.skill');
+  const dept = await knex('admin.department');
+  const jobType = await knex('admin.job_type');
+  const job = await knex('jobs.job_opening');
+  const hrAssessment = await knex('admin.remarks');
+  const jobQuestion = await knex('jobs.question');
+  const question = await knex('question.question');
   const unique = uniqueId(job);
-  res.render("jobRequirement", {
-    skill,
-    dept,
-    jobType,
-    job,
-    unique,
-    hrRemarks,
-  });
+  res.render('jobRequirement', { adminSkill, dept, jobType, job, unique, hrAssessment, question, jobQuestion });
 });
 
 // job-requirement post route
-router.post("/job-requirement", async (req, res) => {
+router.post('/job-requirement', async (req, res) => {
   const {
     jobId,
     jobTitle,
@@ -121,7 +116,7 @@ router.post("/job-requirement", async (req, res) => {
     skill_id_2,
     skill_level_2,
   } = req.body;
-  knex("jobs.job_opening")
+  knex('jobs.job_opening')
     .insert({
       job_id: jobId,
       job_title: jobTitle,
@@ -135,7 +130,7 @@ router.post("/job-requirement", async (req, res) => {
       hr_rating: hrAssessment,
     })
     .then(() => {
-      knex("jobs.skill")
+      knex('jobs.skill')
         .insert({
           job_id: jobId,
           skill_id_1,
@@ -150,27 +145,20 @@ router.post("/job-requirement", async (req, res) => {
 });
 
 // job-requirement update get route
-router.get("/job-requirement/:job_id", async (req, res) => {
+router.get('/job-requirement/:job_id', async (req, res) => {
   const jobId = req.params.job_id;
-  const skill = await knex("admin.skill").select();
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const hrRemarks = await knex("admin.remarks");
-  const job = await knex("jobs.job_opening").where("job_id", jobId);
+  const adminSkill = await knex('admin.skill');
+  const dept = await knex('admin.department');
+  const jobType = await knex('admin.job_type');
+  const hrRemarks = await knex('admin.remarks');
+  const jobSkill = await knex('jobs.skill').where('job_id', jobId);
+  const job = await knex('jobs.job_opening').where('job_id', jobId);
   const unique = jobId;
-  res.render("editJobRequirement", {
-    skill,
-    dept,
-    jobType,
-    job,
-    unique,
-    jobId,
-    hrRemarks,
-  });
+  res.render('editJobRequirement', { adminSkill, dept, jobType, job, unique, jobId, hrRemarks, jobSkill });
 });
 
 // job-requirement update post route
-router.post("/job-requirement/:job_id", async (req, res) => {
+router.post('/job-requirement/:job_id', async (req, res) => {
   const jobId = req.params.job_id;
   const {
     jobTitle,
@@ -186,8 +174,44 @@ router.post("/job-requirement/:job_id", async (req, res) => {
     skill_level_1,
     skill_id_2,
     skill_level_2,
+    skill_id_3,
+    skill_level_3,
+    skill_id_4,
+    skill_level_4,
+    skill_id_5,
+    skill_level_5,
+    skill_id_6,
+    skill_level_6,
+    skill_id_7,
+    skill_level_7,
+    skill_id_8,
+    skill_level_8,
+    skill_id_9,
+    skill_level_9,
+    skill_id_10,
+    skill_level_10,
+    skill_id_11,
+    skill_level_11,
+    skill_id_12,
+    skill_level_12,
+    skill_id_13,
+    skill_level_13,
+    skill_id_14,
+    skill_level_14,
+    skill_id_15,
+    skill_level_15,
+    skill_id_16,
+    skill_level_16,
+    skill_id_17,
+    skill_level_17,
+    skill_id_18,
+    skill_level_18,
+    skill_id_19,
+    skill_level_19,
+    skill_id_20,
+    skill_level_20,
   } = req.body;
-  knex("jobs.job_opening")
+  knex('jobs.job_opening')
     .update({
       job_title: jobTitle,
       job_dept: department,
@@ -199,140 +223,215 @@ router.post("/job-requirement/:job_id", async (req, res) => {
       exam_score: examScore,
       hr_rating: hrAssessment,
     })
-    .where("job_id", jobId)
+    .where('job_id', jobId)
     .then(() => {
-      knex("jobs.skill")
+      knex('jobs.skill')
         .update({
           skill_id_1,
           skill_level_1,
           skill_id_2,
           skill_level_2,
+          skill_id_3,
+          skill_level_3,
+          skill_id_4,
+          skill_level_4,
+          skill_id_5,
+          skill_level_5,
+          skill_id_6,
+          skill_level_6,
+          skill_id_7,
+          skill_level_7,
+          skill_id_8,
+          skill_level_8,
+          skill_id_9,
+          skill_level_9,
+          skill_id_10,
+          skill_level_10,
+          skill_id_11,
+          skill_level_11,
+          skill_id_12,
+          skill_level_12,
+          skill_id_13,
+          skill_level_13,
+          skill_id_14,
+          skill_level_14,
+          skill_id_15,
+          skill_level_15,
+          skill_id_16,
+          skill_level_16,
+          skill_id_17,
+          skill_level_17,
+          skill_id_18,
+          skill_level_18,
+          skill_id_19,
+          skill_level_19,
+          skill_id_20,
+          skill_level_20,
         })
-        .where("job_id", jobId)
+        .where('job_id', jobId)
         .then(() => {
           res.redirect(`/job-requirement/${jobId}`);
         });
+
     });
 });
 
 // job-details get route
-router.get("/job-details/:job_id", async (req, res) => {
-  const jobId = req.params.job_id
-  const job = await knex
-    .select()
-    .from("jobs.job_opening")
-    .where("job_id", req.params.job_id);
-  const category = await knex("jobs.job_details").where(
-    "job_id",
-    req.params.job_id
-  );
-  res.render("jobDetails", { catView: category, detailsView: category, job, jobId });
-  const hello = await knex
-    .select("")
-    .from("jobs.job_details")
-    .innerJoin(
-      "jobs.job_opening",
-      "jobs.job_details.job_id",
-      "jobs.job_opening.job_id"
-    );
+router.get('/job-details/:job_id', async (req, res) => {
+  const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
+  const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
+  const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
+  const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
+  console.log('badtrip', role);
+  const jobId = req.params.job_id;
+  res.render('jobDetails', { responsi, quali, job, role, jobId });
 });
 
 // job-details post route
-router.post("/job-details/:job_id", (req, res) => {
-  const { category, button, details } = req.body;
+
+router.post('/job-details/:job_id', (req, res) => {
+  const { responsiDesc, qualiDesc, button, role } = req.body;
   const jobId = req.params.job_id;
-  if (button === "categoryBtn") {
-    if (!category) res.redirect("/job-details/:job_id");
+  if (button === 'roleBtn') {
+  } else if (button === 'responsiBtn') {
+    if (!responsiDesc) res.redirect('/job-details/:job_id');
     else {
-      knex("jobs.job_details")
-        .insert({ category_name: category, job_id: jobId })
+      knex('jobs.job_details')
+        .insert({
+          item_description: responsiDesc,
+          job_id: jobId,
+          category_id: 1,
+          role,
+        })
         .then(() => {
           res.redirect(`/job-details/${jobId}`);
         });
     }
-  } else if (button === "detailsBtn") {
-    if (!details) res.redirect("/job-details");
+  } else if (button === 'qualiBtn') {
+    if (!qualiDesc) res.redirect('/job-details/:job_id');
     else {
-      knex("jobs.job_details")
-        .insert({ item_description: details, job_id: jobId })
-        .then((results) => {
+      knex('jobs.job_details')
+        .insert({
+          item_description: qualiDesc,
+          job_id: jobId,
+          category_id: 2,
+          role,
+        })
+        .then(() => {
           res.redirect(`/job-details/${jobId}`);
         });
     }
-  } else if (button === "deleteCatDetailBtn") {
+  } else if (button === 'saveBtn') {
+    // save category description function
+    knex('jobs.job_details')
+      .update({
+        role,
+      })
+      .where('job_id', jobId)
+      .then(() => {
+        res.redirect(`/job-details/${jobId}`);
+      });
+  } else if (button === 'deleteBtn') {
     // delete category description function
-    res.redirect("/job-details");
-  } else if (button === "saveBtn") {
-    // save function
+    // to be continue on wednesday
+    knex('jobs.job_details').where('job_id', req.params.job_id).del();
   }
 });
 
 // exam route
-router.get("/exam", (req, res) => {
-  res.render("exam");
+router.get('/exam/:job_id', (req, res) => {
+  const jobId = req.params.job_id;
+  res.render('exam', { jobId });
 });
 
 // settings
-router.get("/settings", (req, res) => {
-  res.render("settings");
+router.get('/settings', (req, res) => {
+  res.render('settings');
 });
 
 // users
-router.get("/users", (req, res) => {
-  knex("admin.users")
-    .select()
-    .then((results) => {
-      res.render("users", { users: results });
-    });
-});
+router.get('/users', async (req, res) => {
+  const users = await knex('admin.users');
+  const userRole = await knex('admin.user_role');
+  const role = await knex
+    .select('')
+    .from('admin.user_role')
+    .innerJoin('admin.users', 'admin.users.role_id', 'admin.user_role.role_id');
 
+  res.render('users', { users, role, userRole });
+  //        knex('admin.users', )
+  //                 .select()
+  //                 .then((results) => {
+  //                         res.render('users', { users: results });
+  //                         console.log('Select users',results);
+  //                 });
+});
 // delete user
-router.get("/delete/:user_id", (req, res) => {
-  knex("admin.users")
-    .where("user_id", req.params.user_id)
+router.get('/delete/:user_id', (req, res) => {
+  knex('admin.users')
+    .where('user_id', req.params.user_id)
     .del()
     .then((results) => {
-      res.redirect("/users");
+      res.redirect('/users');
     });
 });
 
+// add user
+router.post('/users', async (req, res) => {
+  const name = req.body.user_name;
+  const { password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const role = req.body.role_name;
+  const { email } = req.body;
+  knex('admin.users')
+    .insert({ user_name: name, password: hashedPassword, role_id: role, email })
+    .then((results) => {
+      res.redirect('/users');
+    });
+});
 // delete/logout route
-router.delete("/logout", (req, res) => {
+router.delete('/logout', (req, res) => {
   req.logOut();
-  res.redirect("/login");
+  res.redirect('/login');
 });
 
 // about route
-router.get("/about", (req, res) => {
-  res.send("amsdkngowng");
+router.get('/about', (req, res) => {
+  res.send('amsdkngowng');
 });
 
 // careers page
-router.get("/careers", (req, res) => {
-  knex("jobs.job_details")
+router.get('/careers', (req, res) => {
+  knex('jobs.job_details')
     .select()
     .then((results) => {
-      res.render("careers", { job_details: results });
+      res.render('careers', { job_details: results });
     });
 });
 
 // careers main page
-router.get("/careersmain", (req, res) => {
-  knex("jobs.job_opening")
+
+router.get('/careersmain', async (req, res) => {
+  const job_opening = await knex('jobs.job_opening').select();
+  const job_description = await knex('jobs.job_description').select();
+  res.render('careersmain', { job_opening, job_description });
+});
+router.get('/careersmain', (req, res) => {
+  knex('jobs.job_opening')
     .select()
     .then((results) => {
-      res.render("careersmain", { job_opening: results });
+      res.render('careersmain', { job_opening: results });
     });
 });
 
 // route for examcreation
-router.get("/examcreation", async (req, res) => {
-  const question = await knex("question.question").select();
-  const skill = await knex("admin.skill").select();
-  res.render("examcreation", { question, skill });
+router.get('/examcreation', async (req, res) => {
+  const question = await knex('question.question').select();
+  const skill = await knex('admin.skill').select();
+  res.render('examcreation', { question, skill });
 });
 
-router.post("/examcreation", async (req, res) => {
+router.post('/examcreation', async (req, res) => {
   const {
     questioncategory,
     questionlevel,
@@ -344,7 +443,7 @@ router.post("/examcreation", async (req, res) => {
     choice_3,
     choice_4,
   } = req.body;
-  knex("question.question")
+  knex('question.question')
     .insert({
       question_category: questioncategory,
       question_level: questionlevel,
@@ -357,7 +456,7 @@ router.post("/examcreation", async (req, res) => {
       correct_answer: correctAnswer,
     })
     .then(() => {
-      res.send("save");
+      res.redirect('/examcreation');
     });
 });
 // delete exam
