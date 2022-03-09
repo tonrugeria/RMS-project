@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const initializePassport = require('./passport-config');
+const bodyParser = require('body-parser');
 
 initializePassport(
         passport,
@@ -27,7 +28,7 @@ initializePassport(
 app.set('view engine', 'ejs');
 
 // middlewares
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
         session({

@@ -13,7 +13,7 @@
           <a href="/exam/<%= jobId %>">EXAM</a>
         </div>
         <div class="mt-auto">
-          <a href="/">BACK TO JOB PAGE</a>
+          <h3>BACK TO JOB PAGE</h3>
         </div>
       </div>
     </div>
@@ -25,23 +25,22 @@
         <div>
           <label for="role">Role</label>
           <div>
-            <% if (role != 0) { %>
-              <%= role[0].role_id %> 
-            <% } %>  
           <div class="">
             <input
               type="text"
               name="role"
               placeholder="Enter a Role"
-              required
-            />
+            >
           </div>
         </div>
         <div>
           <div class="">
             <label for="responsiDesc">Responsibility</label>
             <% for (let j = 0; j < responsi.length; j++) { %>
-            <li><%= responsi[j].item_description %></li>
+              <div>
+                <li><%= responsi[j].item_description %></li>
+                <button name="button" value="deleteBtn">x</button>
+              </div>
             <% } %>
             <input
               type="text"
@@ -63,7 +62,7 @@
             <button name="button" value="qualiBtn">+</button>
           </div>
 
-          <input type="text" name="category" placeholder="Add a category" />
+          <input type="text" name="category" placeholder="Add a category" >
           <button name="button" value="categoryBtn">+</button>
           <div><button name="button" value="saveBtn">SAVE</button></div>
         </div>
@@ -71,5 +70,5 @@
       <% } %>
     </div>
   </div>
-</div>
-<%- include('./layout/footer.ejs') %>
+</div>  
+  <%- include('./layout/footer.ejs') %>

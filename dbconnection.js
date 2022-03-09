@@ -4,7 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                password: 'Pamiko241576839',
+                password: '0000',
                 database: 'rms',
         },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-        password: 'Pamiko241576839',
+        password: '0000',
         port: 5432,
 });
 
@@ -78,9 +78,13 @@ CREATE TABLE IF NOT EXISTS Admin.Job_Type(
 CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
     skill_scoring INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS Admin.Department(
+    dept_id SERIAL PRIMARY KEY NOT NULL,
+    dept_name VARCHAR(100) NOT NULL
+);
 CREATE SCHEMA IF NOT EXISTS Jobs;
 CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
-    job_id SERIAL PRIMARY KEY NOT NULL,
+    job_id INT PRIMARY KEY NOT NULL,
     job_title VARCHAR(100) NOT NULL,
     job_dept VARCHAR(100) NOT NULL,
     max_salary INT NOT NULL,
@@ -168,6 +172,7 @@ CREATE TABLE IF NOT EXISTS Jobs.Question(
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
+
 CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     job_id INT NOT NULL,
     role VARCHAR(100) NOT NULL,
