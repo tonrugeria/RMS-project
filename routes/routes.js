@@ -111,7 +111,6 @@ router.post('/job-requirement', async (req, res) => {
                 });
 });
 
-
 // job-details get route
 router.get('/job-details/:job_id', async (req, res) => {
         const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
@@ -169,16 +168,6 @@ router.get('/users', (req, res) => {
                 .select()
                 .then((results) => {
                         res.render('users', { users: results });
-                });
-});
-
-// delete user
-router.get('/delete/:user_id', (req, res) => {
-        knex('admin.users')
-                .where('user_id', req.params.user_id)
-                .del()
-                .then((results) => {
-                        res.redirect('/users');
                 });
 });
 
