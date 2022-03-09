@@ -78,21 +78,21 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
 });
 
 function uniqueId(jobIdColumn) {
-        const len = jobIdColumn.length;
-        if (jobIdColumn != 0) {
-                return jobIdColumn[len - 1].job_id + 1;
-        }
-        return 1;
+  const len = jobIdColumn.length;
+  if (jobIdColumn != 0) {
+    return jobIdColumn[len - 1].job_id + 1;
+  }
+  return 1;
 }
 
 // job-requirement get route
-router.get('/job-requirement', async (req, res) => {
-        const skill = await knex('admin.skill');
-        const dept = await knex('admin.department');
-        const jobType = await knex('admin.job_type');
-        const job = await knex('jobs.job_opening');
-        const hrRemarks = await knex('admin.remarks');
-        const unique = uniqueId(job);
+router.get("/job-requirement", async (req, res) => {
+  const skill = await knex("admin.skill");
+  const dept = await knex("admin.department");
+  const jobType = await knex("admin.job_type");
+  const job = await knex("jobs.job_opening");
+  const hrRemarks = await knex("admin.remarks");
+  const unique = uniqueId(job);
   res.render("jobRequirement", {
     skill,
     dept,
@@ -104,148 +104,167 @@ router.get('/job-requirement', async (req, res) => {
 });
 
 // job-requirement post route
-router.post('/job-requirement', async (req, res) => {
-        const {
-                jobId,
-                jobTitle,
-                department,
-                salaryRange,
-                careerLevel,
-                workType,
-                jobDesc,
-                yearsOfExp,
-                examScore,
-                hrAssessment,
-                skill_id_1,
-                skill_level_1,
-                skill_id_2,
-                skill_level_2,
-        } = req.body;
-        knex('jobs.job_opening')
-                .insert({
-                        job_id: jobId,
-                        job_title: jobTitle,
-                        job_dept: department,
-                        max_salary: salaryRange,
-                        position_level: careerLevel,
-                        job_type: workType,
-                        job_description: jobDesc,
-                        min_years_experience: yearsOfExp,
-                        exam_score: examScore,
-                        hr_rating: hrAssessment,
-                })
-                .then(() => {
-                        knex('jobs.skill')
-                                .insert({
-                                        job_id: jobId,
-                                        skill_id_1,
-                                        skill_level_1,
-                                        skill_id_2,
-                                        skill_level_2,
-                                })
-                                .then(() => {
-                                        res.redirect(`/job-requirement/${jobId}`);
-                                });
-                });
+router.post("/job-requirement", async (req, res) => {
+  const {
+    jobId,
+    jobTitle,
+    department,
+    salaryRange,
+    careerLevel,
+    workType,
+    jobDesc,
+    yearsOfExp,
+    examScore,
+    hrAssessment,
+    skill_id_1,
+    skill_level_1,
+    skill_id_2,
+    skill_level_2,
+  } = req.body;
+  knex("jobs.job_opening")
+    .insert({
+      job_id: jobId,
+      job_title: jobTitle,
+      job_dept: department,
+      max_salary: salaryRange,
+      position_level: careerLevel,
+      job_type: workType,
+      job_description: jobDesc,
+      min_years_experience: yearsOfExp,
+      exam_score: examScore,
+      hr_rating: hrAssessment,
+    })
+    .then(() => {
+      knex("jobs.skill")
+        .insert({
+          job_id: jobId,
+          skill_id_1,
+          skill_level_1,
+          skill_id_2,
+          skill_level_2,
+        })
+        .then(() => {
+          res.redirect(`/job-requirement/${jobId}`);
+        });
+    });
 });
 
 // job-requirement update get route
-router.get('/job-requirement/:job_id', async (req, res) => {
-        const jobId = req.params.job_id;
-        const skill = await knex('admin.skill').select();
-        const dept = await knex('admin.department');
-        const jobType = await knex('admin.job_type');
-        const hrRemarks = await knex('admin.remarks');
-        const job = await knex('jobs.job_opening').where('job_id', jobId);
-        const unique = jobId;
-        res.render('editJobRequirement', { skill, dept, jobType, job, unique, jobId, hrRemarks });
+router.get("/job-requirement/:job_id", async (req, res) => {
+  const jobId = req.params.job_id;
+  const skill = await knex("admin.skill").select();
+  const dept = await knex("admin.department");
+  const jobType = await knex("admin.job_type");
+  const hrRemarks = await knex("admin.remarks");
+  const job = await knex("jobs.job_opening").where("job_id", jobId);
+  const unique = jobId;
+  res.render("editJobRequirement", {
+    skill,
+    dept,
+    jobType,
+    job,
+    unique,
+    jobId,
+    hrRemarks,
+  });
 });
 
 // job-requirement update post route
-router.post('/job-requirement/:job_id', async (req, res) => {
-        const jobId = req.params.job_id;
-        const {
-                jobTitle,
-                department,
-                salaryRange,
-                careerLevel,
-                workType,
-                jobDesc,
-                yearsOfExp,
-                examScore,
-                hrAssessment,
-                skill_id_1,
-                skill_level_1,
-                skill_id_2,
-                skill_level_2,
-        } = req.body;
-        knex('jobs.job_opening')
-                .update({
-                        job_title: jobTitle,
-                        job_dept: department,
-                        max_salary: salaryRange,
-                        position_level: careerLevel,
-                        job_type: workType,
-                        job_description: jobDesc,
-                        min_years_experience: yearsOfExp,
-                        exam_score: examScore,
-                        hr_rating: hrAssessment,
-                })
-                .where('job_id', jobId)
-                .then(() => {
-                        knex('jobs.skill')
-                                .update({
-                                        skill_id_1,
-                                        skill_level_1,
-                                        skill_id_2,
-                                        skill_level_2,
-                                })
-                                .where('job_id', jobId)
-                                .then(() => {
-                                        res.redirect(`/job-requirement/${jobId}`);
-                                });
-                });
+router.post("/job-requirement/:job_id", async (req, res) => {
+  const jobId = req.params.job_id;
+  const {
+    jobTitle,
+    department,
+    salaryRange,
+    careerLevel,
+    workType,
+    jobDesc,
+    yearsOfExp,
+    examScore,
+    hrAssessment,
+    skill_id_1,
+    skill_level_1,
+    skill_id_2,
+    skill_level_2,
+  } = req.body;
+  knex("jobs.job_opening")
+    .update({
+      job_title: jobTitle,
+      job_dept: department,
+      max_salary: salaryRange,
+      position_level: careerLevel,
+      job_type: workType,
+      job_description: jobDesc,
+      min_years_experience: yearsOfExp,
+      exam_score: examScore,
+      hr_rating: hrAssessment,
+    })
+    .where("job_id", jobId)
+    .then(() => {
+      knex("jobs.skill")
+        .update({
+          skill_id_1,
+          skill_level_1,
+          skill_id_2,
+          skill_level_2,
+        })
+        .where("job_id", jobId)
+        .then(() => {
+          res.redirect(`/job-requirement/${jobId}`);
+        });
+    });
 });
 
 // job-details get route
-router.get('/job-details/:job_id', async (req, res) => {
-        const job = await knex.select().from('jobs.job_opening').where('job_id', req.params.job_id);
-        const category = await knex('jobs.job_details').where('job_id', req.params.job_id);
-        res.render('jobDetails', { catView: category, detailsView: category, job });
-        const hello = await knex
-                .select('')
-                .from('jobs.job_details')
-                .innerJoin('jobs.job_opening', 'jobs.job_details.job_id', 'jobs.job_opening.job_id');
+router.get("/job-details/:job_id", async (req, res) => {
+  const jobId = req.params.job_id
+  const job = await knex
+    .select()
+    .from("jobs.job_opening")
+    .where("job_id", req.params.job_id);
+  const category = await knex("jobs.job_details").where(
+    "job_id",
+    req.params.job_id
+  );
+  res.render("jobDetails", { catView: category, detailsView: category, job, jobId });
+  const hello = await knex
+    .select("")
+    .from("jobs.job_details")
+    .innerJoin(
+      "jobs.job_opening",
+      "jobs.job_details.job_id",
+      "jobs.job_opening.job_id"
+    );
 });
 
 // job-details post route
-router.post('/job-details/:job_id', (req, res) => {
-        const { category, button, details } = req.body;
-        const jobId = req.params.job_id;
-        if (button === 'categoryBtn') {
-                if (!category) res.redirect('/job-details/:job_id');
-                else {
-                        knex('jobs.job_details')
-                                .insert({ category_name: category, job_id: jobId })
-                                .then(() => {
-                                        res.redirect(`/job-details/${jobId}`);
-                                });
-                }
-        } else if (button === 'detailsBtn') {
-                if (!details) res.redirect('/job-details');
-                else {
-                        knex('jobs.job_details')
-                                .insert({ item_description: details, job_id: jobId })
-                                .then((results) => {
-                                        res.redirect(`/job-details/${jobId}`);
-                                });
-                }
-        } else if (button === 'deleteCatDetailBtn') {
-                // delete category description function
-                res.redirect('/job-details');
-        } else if (button === 'saveBtn') {
-                // save function
-        }
+router.post("/job-details/:job_id", (req, res) => {
+  const { category, button, details } = req.body;
+  const jobId = req.params.job_id;
+  if (button === "categoryBtn") {
+    if (!category) res.redirect("/job-details/:job_id");
+    else {
+      knex("jobs.job_details")
+        .insert({ category_name: category, job_id: jobId })
+        .then(() => {
+          res.redirect(`/job-details/${jobId}`);
+        });
+    }
+  } else if (button === "detailsBtn") {
+    if (!details) res.redirect("/job-details");
+    else {
+      knex("jobs.job_details")
+        .insert({ item_description: details, job_id: jobId })
+        .then((results) => {
+          res.redirect(`/job-details/${jobId}`);
+        });
+    }
+  } else if (button === "deleteCatDetailBtn") {
+    // delete category description function
+    res.redirect("/job-details");
+  } else if (button === "saveBtn") {
+    // save function
+  }
 });
 
 // exam route
