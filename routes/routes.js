@@ -77,21 +77,23 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 function uniqueId(jobIdColumn) {
         const len = jobIdColumn.length;
         if (jobIdColumn != 0) {
-                console.log(len);
                 return jobIdColumn[len - 1].job_id + 1;
         }
         return 1;
 }
 
 // job-requirement get route
+
 router.get('/job-requirement', async (req, res) => {
         const adminSkill = await knex('admin.skill');
         const dept = await knex('admin.department');
         const jobType = await knex('admin.job_type');
         const job = await knex('jobs.job_opening');
-        const hrRemarks = await knex('admin.remarks');
+        const hrAssessment = await knex('admin.remarks');
+        const jobQuestion = await knex('jobs.question');
+        const question = await knex('question.question');
         const unique = uniqueId(job);
-        res.render('jobRequirement', { adminSkill, dept, jobType, job, unique, hrRemarks });
+        res.render('jobRequirement', { adminSkill, dept, jobType, job, unique, hrAssessment, question, jobQuestion });
 });
 
 // job-requirement post route
@@ -277,11 +279,13 @@ router.get('/job-details/:job_id', async (req, res) => {
         const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
         const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
         const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
+        console.log('badtrip', role);
         const jobId = req.params.job_id;
         res.render('jobDetails', { responsi, quali, job, role, jobId });
 });
 
 // job-details post route
+
 router.post('/job-details/:job_id', (req, res) => {
         const { responsiDesc, qualiDesc, button, role } = req.body;
         const jobId = req.params.job_id;
@@ -290,7 +294,12 @@ router.post('/job-details/:job_id', (req, res) => {
                 if (!responsiDesc) res.redirect('/job-details/:job_id');
                 else {
                         knex('jobs.job_details')
-                                .insert({ item_description: responsiDesc, job_id: jobId, category_id: 1, role })
+                                .insert({
+                                        item_description: responsiDesc,
+                                        job_id: jobId,
+                                        category_id: 1,
+                                        role,
+                                })
                                 .then(() => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
@@ -299,16 +308,30 @@ router.post('/job-details/:job_id', (req, res) => {
                 if (!qualiDesc) res.redirect('/job-details/:job_id');
                 else {
                         knex('jobs.job_details')
-                                .insert({ item_description: qualiDesc, job_id: jobId, category_id: 2, role })
+                                .insert({
+                                        item_description: qualiDesc,
+                                        job_id: jobId,
+                                        category_id: 2,
+                                        role,
+                                })
                                 .then(() => {
                                         res.redirect(`/job-details/${jobId}`);
                                 });
                 }
-        } else if (button === 'deleteCatDetailBtn') {
-                // delete category description function
-                res.redirect('/job-details');
         } else if (button === 'saveBtn') {
-                // save function
+                // save category description function
+                knex('jobs.job_details')
+                        .update({
+                                role,
+                        })
+                        .where('job_id', jobId)
+                        .then(() => {
+                                res.redirect(`/job-details/${jobId}`);
+                        });
+        } else if (button === 'deleteBtn') {
+                // delete category description function
+                // to be continue on wednesday
+                knex('jobs.job_details').where('job_id', req.params.job_id).del();
         }
 });
 
@@ -324,12 +347,21 @@ router.get('/settings', (req, res) => {
 });
 
 // users
-router.get('/users', (req, res) => {
-        knex('admin.users')
-                .select()
-                .then((results) => {
-                        res.render('users', { users: results });
-                });
+router.get('/users', async (req, res) => {
+        const users = await knex('admin.users');
+        const userRole = await knex('admin.user_role');
+        const role = await knex
+                .select('')
+                .from('admin.user_role')
+                .innerJoin('admin.users', 'admin.users.role_id', 'admin.user_role.role_id');
+
+        res.render('users', { users, role, userRole });
+        //        knex('admin.users', )
+        //                 .select()
+        //                 .then((results) => {
+        //                         res.render('users', { users: results });
+        //                         console.log('Select users',results);
+        //                 });
 });
 
 // delete user
@@ -337,6 +369,20 @@ router.get('/delete/:user_id', (req, res) => {
         knex('admin.users')
                 .where('user_id', req.params.user_id)
                 .del()
+                .then((results) => {
+                        res.redirect('/users');
+                });
+});
+
+// add user
+router.post('/users', async (req, res) => {
+        const name = req.body.user_name;
+        const { password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const role = req.body.role_name;
+        const { email } = req.body;
+        knex('admin.users')
+                .insert({ user_name: name, password: hashedPassword, role_id: role, email })
                 .then((results) => {
                         res.redirect('/users');
                 });
@@ -403,7 +449,7 @@ router.post('/examcreation', async (req, res) => {
                         correct_answer: correctAnswer,
                 })
                 .then(() => {
-                        res.send('save');
+                        res.redirect('/examcreation');
                 });
 });
 // delete exam
