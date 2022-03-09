@@ -282,7 +282,6 @@ router.get('/job-details/:job_id', async (req, res) => {
   const responsi = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 1);
   const quali = await knex('jobs.job_details').where('job_id', req.params.job_id).andWhere('category_id', 2);
   const role = await knex('jobs.job_details').where('job_id', req.params.job_id);
-  console.log('badtrip', role);
   const jobId = req.params.job_id;
   res.render('jobDetails', { responsi, quali, job, role, jobId });
 });
