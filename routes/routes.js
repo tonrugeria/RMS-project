@@ -87,13 +87,18 @@ function uniqueId(jobIdColumn) {
 }
 
 // job-requirement get route
-router.get("/job-requirement", async (req, res) => {
-  const skill = await knex("admin.skill");
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const job = await knex("jobs.job_opening");
-  const unique = uniqueId(job);
-  res.render("jobRequirement", { skill, dept, jobType, job, unique });
+
+router.get('/job-requirement', async (req, res) => {
+        const skill = await knex('admin.skill');
+        const dept = await knex('admin.department');
+        const jobType = await knex('admin.job_type');
+        const job = await knex('jobs.job_opening');
+        const hrAssessment = await knex('admin.remarks');
+        const jobQuestion = await knex('jobs.question');
+        const question = await knex('question.question');
+        const unique = uniqueId(job);
+        res.render('jobRequirement', { skill, dept, jobType, job, unique, hrAssessment, question });
+
 });
 
 // job-requirement post route

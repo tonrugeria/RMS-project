@@ -91,10 +91,9 @@
     
       <label for="hr">HR ASSESSMENT</label>
       <select name="hrAssessment" id="hr" >
-        <option value="Select">Select</option>
-        <option value="xyz">xyz</option>
-        <option value="ddd">ddd</option>
-        <option value="eee">eee</option>
+        <% for(let i = 0; i < hrAssessment.length; i++) { %> 
+          <option value="<%= hrAssessment[i].remark_name %>" ><%= hrAssessment[i].remark_name %></option>
+          <% } %>
       </select>
       <br /><br />
     
@@ -125,15 +124,11 @@
       <div>
         <h6>EXAM</h6>
         <ul>
-          <li>
-            What is wrong with this line of code?<span class="close">x</span>
+          <% for (let i = 0; i < 2; i++) { %>
+          <li name="question_id_<%= i + 1 %> ">
+            <%= question[i].question_detail %> 
           </li>
-          <li>
-            What is the correct code to check if a data table is empty?<span
-              class="close"
-              >x</span
-            >
-          </li>
+          <% } %> 
         </ul>
       </div>
       <button>SAVE</button>
