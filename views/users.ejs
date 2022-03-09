@@ -39,12 +39,12 @@
       <th><%= users[i].password%></th>
       <TD class = "select">
         <select name="role">  
-          <% for (let  i = 0; i < userRole.length; i++) { %>
-            <% if (userRole[i].role_id == users[i].role_id) { %>  
-              <option value="<%= userRole[i].role_id %>" selected><%= userRole[i].role_name %></option>
-              <% } else { %>
-                <option value="<%= userRole[i].role_name %>"><%= userRole[i].role_name %></option>
-              <% } %>
+          <% for (let  j = 0; j < userRole.length; j++) { %>
+                <% if (userRole[j].role_id == users[i].role_id) { %>  
+              <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
+                  <% } else { %>
+              <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
+                  <% } %>
           <% } %>
         </select>
         </TD>   
@@ -58,9 +58,13 @@
       <th><%= users[i].password%></th>
       <TD class = "select">
         <select name="role"> 
-          <% for (let  i = 0; i < userRole.length; i++) { %>
-            <option value="<%= userRole[i].role_id %>"><%= userRole[i].role_id %></option>
-          <% } %>
+        <% for (let  j = 0; j < userRole.length; j++) { %>
+            <% if (userRole[j].role_id == users[i].role_id) { %>  
+        <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
+          <% } else { %>
+        <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
+            <% } %>
+        <% } %>
         </select>
         </TD>   
       <th><%= users[i].email %></th>
@@ -75,7 +79,7 @@
 </tbody>
 </table>
 
-      <form method="post" action="/users">
+        <form method="post" action="/users">
         Name<br><input type="text" placeholder="Enter Name" name="user_name"><br>
         Password<br><input type="text" placeholder="Enter Password" name="password"><br>
         role<br>
