@@ -98,16 +98,16 @@
       <br /><br />
     
     <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
-      <% for(let i=0; i < skill.length; i++) { %>
+      <% for(let i=0; i < adminSkill.length; i++) { %>
         <div>
         <input
           type="checkbox"
-          id="<%= skill[i].skill_name %>"
-          name="skill_id_<%= i + 1%> "
-          value="<%= skill[i].skill_id %>"
+          id="<%= adminSkill[i].skill_name %>"
+          name="skill_id_<%= i + 1 %>"
+          value="<%= adminSkill[i].skill_id %>"
         />
-        <label for="<%= skill[i].skill_name %>">
-          <%= skill[i].skill_name %></label
+        <label for="<%= adminSkill[i].skill_name %>">
+          <%= adminSkill[i].skill_name %></label
         >
         <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
         <label for="1">1</label>
