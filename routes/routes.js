@@ -294,12 +294,21 @@ router.get("/settings", (req, res) => {
 });
 
 // users
-router.get("/users", (req, res) => {
-  knex("admin.users")
-    .select()
-    .then((results) => {
-      res.render("users", { users: results });
-    });
+router.get('/users', async (req, res) => {
+        const users = await knex('admin.users')
+        const userRole = await knex('admin.user_role')
+        const role = await knex
+                .select('')
+                .from('admin.user_role')
+                .innerJoin('admin.users', 'admin.users.role_id', 'admin.user_role.role_id');
+                
+        res.render('users', {users, role , userRole});
+//        knex('admin.users', )
+//                 .select()
+//                 .then((results) => {
+//                         res.render('users', { users: results });
+//                         console.log('Select users',results);
+//                 });
 });
 
 // delete user
@@ -311,6 +320,21 @@ router.get("/delete/:user_id", (req, res) => {
       res.redirect("/users");
     });
 });
+
+//add user
+router.post('/users', async (req, res) => {
+        let name = req.body.user_name;
+        let password = req.body.password;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        let role = req.body.role_name;
+        let email = req.body.email;
+        knex('admin.users', )
+                .insert({user_name: name, password: hashedPassword, role_id: role, email: email}) 
+                .then((results) => {
+                        res.redirect('/users');
+                });
+});
+
 
 // delete/logout route
 router.delete("/logout", (req, res) => {

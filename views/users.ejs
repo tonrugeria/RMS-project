@@ -23,6 +23,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
+            <th>image</th>
             <th>Name</th>
             <th>password</th>
             <th>role</th>
@@ -30,26 +31,62 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 0; i < users.length; i++) { %> 
-            <tr>
-          <th><%= users[i].user_name %> </th>
-          <th><%= users[i].password%></th>
-            <TD class = "select">
-            <select id="role_id">        
-                    <option value="admin">Administrator</option>
-                    <option value="reviever">Reviewer</option>
-            </select>
-            </TD>   
-          <th><%= users[i].email %></th>
-          <td>
-            <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-              <button type="submit">delete</button>
-            </form>
-          </td>
-        </tr>
-        <% } %> 
-        </tbody>
-      </table>
+          <% for (let  i = 0; i < users.length; i++) { %>
+            <% if (users[i].role_id == '1') { %>  
+              <tr>
+      <th><i class="fa-solid fa-user"></i></th>
+      <th><%= users[i].user_name %> </th>
+      <th><%= users[i].password%></th>
+      <TD class = "select">
+        <select name="role">  
+          <% for (let  i = 0; i < userRole.length; i++) { %>
+            <% if (userRole[i].role_id == users[i].role_id) { %>  
+              <option value="<%= userRole[i].role_id %>" selected><%= userRole[i].role_name %></option>
+              <% } else { %>
+                <option value="<%= userRole[i].role_name %>"><%= userRole[i].role_name %></option>
+              <% } %>
+          <% } %>
+        </select>
+        </TD>   
+      <th><%= users[i].email %></th>
+      <td></td>
+    </tr>
+    <% } else { %>
+      <tr>
+      <th><i class="fa-solid fa-user"></i></th>
+      <th><%= users[i].user_name %> </th>
+      <th><%= users[i].password%></th>
+      <TD class = "select">
+        <select name="role"> 
+          <% for (let  i = 0; i < userRole.length; i++) { %>
+            <option value="<%= userRole[i].role_id %>"><%= userRole[i].role_id %></option>
+          <% } %>
+        </select>
+        </TD>   
+      <th><%= users[i].email %></th>
+      <td>
+        <form method="GET" action="/delete/<%= users[i].user_id%>"> 
+          <button type="submit"><i class="fa-solid fa-x"></i></button>
+        </form>
+      </td>
+    </tr>
+    <% } %>
+    <% } %>
+</tbody>
+</table>
+
+      <form method="post" action="/users">
+        Name<br><input type="text" placeholder="Enter Name" name="user_name"><br>
+        Password<br><input type="text" placeholder="Enter Password" name="password"><br>
+        role<br>
+        <select name="role_name" >      
+          <% for (let  i = 0; i < userRole.length; i++) { %>  
+          <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
+          <% } %> 
+        </select><br>
+        Email<br><input type="text" placeholder="Enter Email Address" name="email"><br>
+        <button type="submit"><i class="fa-solid fa-plus"></i></button>
+      </form>
     </div>
   </div>
 </div>
