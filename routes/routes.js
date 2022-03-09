@@ -7,9 +7,14 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // home route
+router.get('/', async (req, res) => {
+        const job_opening = await knex('jobs.job_opening').select();
+        const skill = await knex('admin.skill').select(); 
+        res.render('index', {job_opening, skill});
 router.get('/', checkAuthenticated, (req, res) => {
         res.render('index', { username: req.user.username });
 });
+
 
 // register get route
 router.get('/register', checkNotAuthenticated, (req, res) => {
@@ -39,7 +44,6 @@ router.post(
                 failureFlash: true,
         })
 );
-
 // register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
         const { username, password } = req.body;
@@ -73,7 +77,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
                 }
         }
 });
-
+// job-requirement route
+router.get('/job-requirement', (req, res) => {
+        knex('admin.skill')
+                .select()
+                .then((results) => {
+                        res.render('jobRequirement', { skill: results })
 function uniqueId(jobIdColumn) {
         const len = jobIdColumn.length;
         if (jobIdColumn != 0) {
@@ -270,6 +279,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
                                 .then(() => {
                                         res.redirect(`/job-requirement/${jobId}`);
                                 });
+
                 });
 });
 
@@ -363,7 +373,6 @@ router.get('/users', async (req, res) => {
         //                         console.log('Select users',results);
         //                 });
 });
-
 // delete user
 router.get('/delete/:user_id', (req, res) => {
         knex('admin.users')
@@ -387,7 +396,6 @@ router.post('/users', async (req, res) => {
                         res.redirect('/users');
                 });
 });
-
 // delete/logout route
 router.delete('/logout', (req, res) => {
         req.logOut();
@@ -409,6 +417,12 @@ router.get('/careers', (req, res) => {
 });
 
 // careers main page
+
+router.get('/careersmain', async (req, res) => {
+        const job_opening = await knex('jobs.job_opening').select();
+        const job_description = await knex('jobs.job_description').select(); 
+        res.render('careersmain', {job_opening, job_description});
+});
 router.get('/careersmain', (req, res) => {
         knex('jobs.job_opening')
                 .select()

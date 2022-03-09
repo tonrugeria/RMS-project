@@ -52,18 +52,18 @@
                   <h2>Job Description</h2>
                 
       <h3>The Role &amp; The Team</h3>
-      <p><%= job_details[i].item_description %></p>
+      <p><%= job_details[i].category%></p>
 
      
       <h3>What You Will Do</h3>
       <ul>
-    <p><%= job_details[i].scope_job %></p>
+    <p><%= job_details[i].item_description %></p>
 
        
       </ul>
       <h3>What We Are Looking For</h3>
       <ul>
-        <p><%= job_details[i].looking_for %></p>
+        <p><%= job_details[i].item_definition %></p>
 
         
       </ul>
@@ -78,6 +78,12 @@
               </div>
       
           </div>
+        </tbody>
+
+
+
+
+
       
         <div class="sidebar-column">
 
@@ -186,4 +192,4 @@ placeholder="Mobile&#x20;Number"required="required"
   
   </form>
 </form>
-<%- include('./layout/footer2.ejs')  %>  
+<%- include('./layout/footer2.ejs')  %>  ss
