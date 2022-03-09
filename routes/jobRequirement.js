@@ -6,6 +6,14 @@ const {
 } = require("../middlewares/auth");
 const router = express.Router();
 
+function uniqueId(jobIdColumn) {
+  const len = jobIdColumn.length;
+  if (jobIdColumn != 0) {
+    return jobIdColumn[len - 1].job_id + 1;
+  }
+  return 1;
+}
+
 // job-requirement get route
 router.get("/job-requirement", async (req, res) => {
   const adminSkill = await knex("admin.skill");
