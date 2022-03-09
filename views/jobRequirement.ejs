@@ -21,10 +21,10 @@
     <h3>NEW JOB OPENING</h3>
     <form method="POST" action="/job-requirement" >
       <label for="jobId">JOB ID</label> <br>
-      <input type="number" name="jobId" value="<%= unique %>" > <br> <br>
+      <input type="number"  name="jobId" value="<%= unique %>" readonly> <br> <br>
       
       <label for="jobtitle">JOB TITLE</label><br />
-      <input type="text" id="jobTitle" name="jobTitle" required/><br />
+      <input type="text" id="jobTitle" name="jobTitle" /><br />
     
     <br />
     
@@ -39,7 +39,7 @@
     <br />
     
       <label for="salary range">SALARY RANGE</label>
-      <input type="number" min="1" name="salaryRange" id="salary range" >
+      <input type="number" min="1" name="salaryRange" id="salary range" required>
       <br />
     
     <br />
@@ -65,7 +65,7 @@
     
     
       <label for="jobdesc">JOB DESCRIPTION</label><br />
-      <input type="text" id="jobdesc" name="jobDesc" required/>
+      <input type="text" id="jobdesc" name="jobDesc" />
     
     <br />
     <h4>MINIMUM QUALIFICATIONS</h4>
@@ -82,23 +82,23 @@
     
       <label for="hr">HR ASSESSMENT</label>
       <select name="hrAssessment" id="hr" >
-        <% for (let i = 0; i < hrRemarks.length; i++) { %> 
-          <option value="<%= hrRemarks[i].remark_name %>"><%= hrRemarks[i].remark_name %></option>
-        <% } %>
+        <% for(let i = 0; i < hrAssessment.length; i++) { %> 
+          <option value="<%= hrAssessment[i].remark_name %>" ><%= hrAssessment[i].remark_name %></option>
+          <% } %>
       </select>
       <br /><br />
     
     <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
-      <% for(let i=0; i < skill.length; i++) { %>
+      <% for(let i=0; i < adminSkill.length; i++) { %>
         <div>
         <input
           type="checkbox"
-          id="<%= skill[i].skill_name %>"
-          name="skill_id_<%= i + 1%> "
-          value="<%= skill[i].skill_id %>"
+          id="<%= adminSkill[i].skill_name %>"
+          name="skill_id_<%= i + 1 %>"
+          value="<%= adminSkill[i].skill_id %>"
         />
-        <label for="<%= skill[i].skill_name %>">
-          <%= skill[i].skill_name %></label
+        <label for="<%= adminSkill[i].skill_name %>">
+          <%= adminSkill[i].skill_name %></label
         >
         <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
         <label for="1">1</label>
@@ -115,15 +115,11 @@
       <div>
         <h6>EXAM</h6>
         <ul>
-          <li>
-            What is wrong with this line of code?<span class="close">x</span>
+          <% for (let i = 0; i < question.length; i++) { %>
+          <li name="question_id_<%= i + 1 %> ">
+            <%= question[i].question_detail %> 
           </li>
-          <li>
-            What is the correct code to check if a data table is empty?<span
-              class="close"
-              >x</span
-            >
-          </li>
+          <% } %> 
         </ul>
       </div>
       <button>SAVE</button>
