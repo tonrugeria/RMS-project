@@ -4,16 +4,16 @@
     <div class="col-sm-2">
       <div class="d-flex flex-column min-vh-100">
         <div>
-          <a href="/job-requirement">JOB REQUIREMENT</a>
+          <a href="/job-requirement/<%= jobId %>">JOB REQUIREMENT</a>
         </div>
         <div>
-          <a href="/job-details">JOB DETAILS</a>
+          <a href="/job-details/<%= jobId %>">JOB DETAILS</a>
         </div>
         <div>
-          <a href="/exam">EXAM</a>
+          <a href="/exam/<%= jobId %>">EXAM</a>
         </div>
         <div class="mt-auto">
-          <a href="#">BACK TO JOB PAGE</a>
+          <h3>BACK TO JOB PAGE</h3>
         </div>
       </div>
     </div>
@@ -23,32 +23,46 @@
       <form class="" action="/job-details/<%= job[i].job_id %>" method="post">
         <h3><%= job[i].job_title %></h3>
         <div>
-          <label for="">Role</label>
+          <label for="role">Role</label>
+          <div>
           <div class="">
-            <input type="text" name="" placeholder="Enter a Role" />
+            <input
+              type="text"
+              name="role"
+              placeholder="Enter a Role"
+            >
           </div>
         </div>
         <div>
-          <% for (let j = 0; j < catView.length; j++) { %>
           <div class="">
-            <h4><%= catView[j].category_name %></h4>
-
-            <% for (let k = 0; k < detailsView.length; k++) { %> <% if
-            (catView[j].category_id === detailsView[k].category_id) { %> <% if
-            (detailsView[k].item_description != null) {%>
-            <li><%= detailsView[k].item_description %></li>
-            <% } %> <% } %> <% } %>
+            <label for="responsiDesc">Responsibility</label>
+            <% for (let j = 0; j < responsi.length; j++) { %>
+              <div>
+                <li><%= responsi[j].item_description %></li>
+                <button name="button" value="deleteBtn">x</button>
+              </div>
+            <% } %>
             <input
               type="text"
-              name="details"
-              placeholder="Enter a <%=catView[j].category_name%>"
+              name="responsiDesc"
+              placeholder="Enter a responsibility"
             />
-            <button name="button" value="detailsBtn">+</button>
+            <button name="button" value="responsiBtn">+</button>
+          </div>
+          <div>
+            <label for="qualiDesc">Qualification</label>
+            <% for (let j = 0; j < quali.length; j++) { %>
+            <li><%= quali[j].item_description %></li>
+            <% } %>
+            <input
+              type="text"
+              name="qualiDesc"
+              placeholder="Enter a qualification"
+            />
+            <button name="button" value="qualiBtn">+</button>
           </div>
 
-          <% } %>
-
-          <input type="text" name="category" placeholder="Add a category" />
+          <input type="text" name="category" placeholder="Add a category" >
           <button name="button" value="categoryBtn">+</button>
           <div><button name="button" value="saveBtn">SAVE</button></div>
         </div>
@@ -56,5 +70,5 @@
       <% } %>
     </div>
   </div>
-</div>
-<%- include('./layout/footer.ejs') %>
+</div>  
+  <%- include('./layout/footer.ejs') %>
