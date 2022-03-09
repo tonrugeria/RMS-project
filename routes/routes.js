@@ -7,9 +7,12 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // home route
-router.get('/', checkAuthenticated, (req, res) => {
-        res.render('index', { username: req.user.username });
+router.get('/', async (req, res) => {
+        const job_opening = await knex('jobs.job_opening').select();
+        const skill = await knex('admin.skill').select(); 
+        res.render('index', {job_opening, skill});
 });
+
 
 // register get route
 router.get('/register', checkNotAuthenticated, (req, res) => {
@@ -74,40 +77,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         }
 });
 
-// job-requirement get route
-router.get('/job-requirement', async (req, res) => {
-        const skill = await knex('admin.skill').select();
-        res.render('jobRequirement', { skill });
-});
-
-// job-requirement post route
-router.post('/job-requirement', async (req, res) => {
-        const job = await knex('jobs.job_opening');
-        const {
-                jobTitle,
-                department,
-                salaryRange,
-                careerLevel,
-                workType,
-                jobDesc,
-                yearsOfExp,
-                examScore,
-                hrAssessment,
-        } = req.body;
-        knex('jobs.job_opening')
-                .insert({
-                        job_title: jobTitle,
-                        job_dept: department,
-                        max_salary: salaryRange,
-                        position_level: careerLevel,
-                        job_type: workType,
-                        job_description: jobDesc,
-                        min_years_experience: yearsOfExp,
-                        exam_score: examScore,
-                        hr_rating: hrAssessment,
-                })
-                .then(() => {
-                        res.send('/save/9');
+// job-requirement route
+router.get('/job-requirement', (req, res) => {
+        knex('admin.skill')
+                .select()
+                .then((results) => {
+                        res.render('jobRequirement', { skill: results });
                 });
 });
 
@@ -192,37 +167,11 @@ router.get('/careers', (req, res) => {
 });
 
 // careers main page
-router.get('/careersmain', (req, res) => {
-        knex('jobs.job_opening')
-                .select()
-                .then((results) => {
-                        res.render('careersmain', { job_opening: results });
-                });
+router.get('/careersmain', async (req, res) => {
+        const job_opening = await knex('jobs.job_opening').select();
+        const job_description = await knex('jobs.job_description').select(); 
+        res.render('careersmain', {job_opening, job_description});
 });
 
-// route for examcreation
-router.get('/examcreation', async (req, res) => {
-        const question = await knex('question.question').select();
-        const skill = await knex('admin.skill').select();
-        res.render('examcreation', { question, skill });
-});
 
-router.post('/examcreation',async(req,res)=>{
-        const {questioncategory,questionlevel,questiontimer,
-                questiondetail,correctAnswer,choice_1,choice_2,
-                choice_3,choice_4}=req.body;
-                knex('question.question').insert({
-                        question_category:questioncategory,
-                        question_level:questionlevel,
-                        question_time_limit:questiontimer,
-                        question_detail:questiondetail,
-                        choice_1:choice_1,
-                        choice_2:choice_2,
-                        choice_3:choice_3,
-                        choice_4:choice_4,
-                        correct_answer:correctAnswer
-                }).then(()=>{
-                        res.send('save')
-                })
-});
 module.exports = router;

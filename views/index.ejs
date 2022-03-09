@@ -3,19 +3,24 @@
   <div class="row min-vh-100 overflow-hidden">
     <div class="col-sm-2 ">
       <div class="d-flex flex-column min-vh-100">
+        <div class="columns">
+          <div id="item" class="column col-12 extra-spacing flex-content">
+          </div>
+          <section id="start">
+              <section id="body-wrapper" class="section blog-listing">
+          <section class="container grid-lg">
         <div>
+            <link rel="stylesheet" href="/index.css" />
           <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
           <form action="#">
-            <input type="checkbox" id="all" name="all" value="all">
-            <label for="all"> ALL</label><br>
-            <input type="checkbox" id="engineering" name="engineering" value="engineering">
-            <label for="engineering">SOFTWARE ENGINEERING</label><br>
-            <input type="checkbox" id="analytics" name="analytics" value="analytics">
-            <label for="analytics">DATA ANALYTICS</label><br>
-            <input type="checkbox" id="marketing" name="marketing" value="marketing">
-            <label for="marketing">MARKETING</label><br>
-            <input type="checkbox" id="administration" name="administration" value="administration">
-            <label for="administration">ADMINISTRATION</label><br><br>
+            <% for(let i=0; i < skill.length; i++) { %>
+              <div>
+            <label for="<%= skill[i].skill_name %>">
+              <%= skill[i].skill_name %></label
+            >
+            <input type="checkbox"  />
+            </div>
+          <% } %> 
           </form>
           <form action="#">
             <input type="checkbox" id="active" name="active" value="active">
@@ -25,20 +30,53 @@
             <input type="checkbox" id="archive" name="archive" value="archive">
             <label for="archive">ARCHIVE</label><br><br>
           </form>
-
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <button onclick="gridView()" style="float: right;"><i class="fa fa-th-large" ></i></button><br>
-      <button onclick="listView()" style="float: right;"><i class="fa fa-bars"></i></button>
-    </div>
-  </div>
 </div>
+</div>
+</div>
+  </div>
+
+ 
+  <div class="columns">
+    <div id="item" class="column col-12 extra-spacing">
+        
+                <div class="bricklayer">
+                                    <div class="card all adm">
+            <div class="card-inner" >
+        <div class="card-inner-container">
+    
+            <div class="card-header">
+                <div class="card-subtitle text-gray">
+                    <span class="blog-date">
+                        <tbody>                 
+     <% for (let i = 0; i < job_opening.length; i++) { %>                   
+        <i class="fa fa-calendar"></i> 
+            <h1><%= job_opening[i].date_opened %></h1>
+            
+    </time>
+    </span>
+        </div>
+    <tbody>
+            
+    <div class="card-title">
+                        <h1><%= job_opening[i].job_title %></h1>
+                        
+                </div>
+                <span class="tags">
+        <a class="label label-rounded label-secondary p-category" href="/careers/tag:Human Resources">
+                <h1><%= job_opening[i].job_dept %></h1>
+          
+        </a>
+    </span>
+                <br>
+            </div>
+            <div class="card-footer careers-card ">
+                <% } %>
+
 
 <form action="/logout?_method=DELETE" class="" method="post">
   <div class="d-flex justify-content-center">
     <button>LOGOUT</button>
   </div>
 </form>
+</tbody>
 <%- include('./layout/footer.ejs')  %>  
