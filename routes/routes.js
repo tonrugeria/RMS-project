@@ -74,7 +74,6 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
         }
 });
 
-// function for getting the job's unique Id if data table not empty
 function uniqueId(jobIdColumn) {
         const len = jobIdColumn.length;
         if (jobIdColumn != 0) {
@@ -109,8 +108,10 @@ router.post('/job-requirement', async (req, res) => {
                 yearsOfExp,
                 examScore,
                 hrAssessment,
-                skillId,
+                skill_id_1,
                 skill_level_1,
+                skill_id_2,
+                skill_level_2,
         } = req.body;
         knex('jobs.job_opening')
                 .insert({
@@ -126,23 +127,35 @@ router.post('/job-requirement', async (req, res) => {
                         hr_rating: hrAssessment,
                 })
                 .then(() => {
-                        res.redirect(`/job-requirement/${jobId}`);
+                        knex('jobs.skill')
+                                .insert({
+                                        job_id: jobId,
+                                        skill_id_1,
+                                        skill_level_1,
+                                        skill_id_2,
+                                        skill_level_2,
+                                })
+                                .then(() => {
+                                        res.redirect(`/job-requirement/${jobId}`);
+                                });
                 });
 });
 
 // job-requirement update get route
 router.get('/job-requirement/:job_id', async (req, res) => {
+        const jobId = req.params.job_id;
         const skill = await knex('admin.skill').select();
         const dept = await knex('admin.department');
         const jobType = await knex('admin.job_type');
-        const job = await knex('jobs.job_opening');
-        const jobId = req.params.job_id;
+        const hrRemarks = await knex('admin.remarks');
+        const job = await knex('jobs.job_opening').where('job_id', jobId);
         const unique = jobId;
-        res.render('editJobRequirement', { skill, dept, jobType, job, unique, jobId });
+        res.render('editJobRequirement', { skill, dept, jobType, job, unique, jobId, hrRemarks });
 });
 
 // job-requirement update post route
 router.post('/job-requirement/:job_id', async (req, res) => {
+        const jobId = req.params.job_id;
         const {
                 jobTitle,
                 department,
@@ -153,11 +166,13 @@ router.post('/job-requirement/:job_id', async (req, res) => {
                 yearsOfExp,
                 examScore,
                 hrAssessment,
-                skillId,
+                skill_id_1,
                 skill_level_1,
+                skill_id_2,
+                skill_level_2,
         } = req.body;
         knex('jobs.job_opening')
-                .insert({
+                .update({
                         job_title: jobTitle,
                         job_dept: department,
                         max_salary: salaryRange,
@@ -168,8 +183,19 @@ router.post('/job-requirement/:job_id', async (req, res) => {
                         exam_score: examScore,
                         hr_rating: hrAssessment,
                 })
+                .where('job_id', jobId)
                 .then(() => {
-                        res.send('saved');
+                        knex('jobs.skill')
+                                .update({
+                                        skill_id_1,
+                                        skill_level_1,
+                                        skill_id_2,
+                                        skill_level_2,
+                                })
+                                .where('job_id', jobId)
+                                .then(() => {
+                                        res.redirect(`/job-requirement/${jobId}`);
+                                });
                 });
 });
 
@@ -209,6 +235,8 @@ router.post('/job-details/:job_id', (req, res) => {
         } else if (button === 'deleteCatDetailBtn') {
                 // delete category description function
                 res.redirect('/job-details');
+        } else if (button === 'saveBtn') {
+                // save function
         }
 });
 
@@ -303,7 +331,17 @@ router.post('/examcreation', async (req, res) => {
                         correct_answer: correctAnswer,
                 })
                 .then(() => {
-                        res.send('save');
+                        res.redirect('/examcreation');
                 });
 });
+// delete exam
+router.get('/deleteExam/:question_id', (req, res) => {
+        knex('question.question')
+                .where('question_id', req.params.question_id)
+                .del()
+                .then((results) => {
+                        res.redirect('/examcreation');
+                });
+});
+
 module.exports = router;
