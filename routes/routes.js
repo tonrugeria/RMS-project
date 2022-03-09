@@ -329,7 +329,7 @@ router.post('/examcreation', async (req, res) => {
                         correct_answer: correctAnswer,
                 })
                 .then(() => {
-                        res.send('save');
+                        res.redirect('/examcreation');
                 });
 });
 // delete exam
