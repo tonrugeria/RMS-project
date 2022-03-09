@@ -23,43 +23,47 @@
       <form class="" action="/job-details/<%= job[i].job_id %>" method="post">
         <h3><%= job[i].job_title %></h3>
         <div>
-          <label for="role">Role</label>
+          <label for="role"><h3>Role</h3></label>
           <div>
           <div class="">
             <input
               type="text"
               name="role"
               placeholder="Enter a Role"
+              <% if (jobDetail != 0) { %> 
+              value="<%= jobDetail[i].role %>"
+              <% } %> 
             >
           </div>
         </div>
         <div>
           <div class="">
-            <label for="responsiDesc">Responsibility</label>
-            <% for (let j = 0; j < responsi.length; j++) { %>
-              <div>
-                <li><%= responsi[j].item_description %></li>
-                <button name="button" value="deleteBtn">x</button>
-              </div>
-            <% } %>
-            <input
-              type="text"
-              name="responsiDesc"
-              placeholder="Enter a responsibility"
-            />
-            <button name="button" value="responsiBtn">+</button>
+            <label for="responsiDesc"><h3>Responsibility</h3></label>
+              <div class="list">
+                <input
+                type="search"
+                name="responsibility_1"
+                placeholder="Enter a responsibility"
+                <% if (jobDetail != 0) { %>
+                  value="<%= jobDetail[i].responsibility_1 %>"
+                  <% } %>
+                />
+                <button class="add" value="add_responsibility_btn">+</button>
+            </div>
           </div>
           <div>
-            <label for="qualiDesc">Qualification</label>
-            <% for (let j = 0; j < quali.length; j++) { %>
-            <li><%= quali[j].item_description %></li>
-            <% } %>
-            <input
-              type="text"
-              name="qualiDesc"
-              placeholder="Enter a qualification"
-            />
-            <button name="button" value="qualiBtn">+</button>
+            <label for="qualiDesc"><h3>Qualification</h3></label>
+            <div>
+              <input
+                type="search"
+                name="qualification_1"
+                placeholder="Enter a qualification"
+                <% if (jobDetail != 0) { %>
+                  value="<%= jobDetail[i].qualification_1 %>"
+                  <% } %>
+              />
+              <button name="button" value="qualificationBtn">+</button>
+            </div>
           </div>
 
           <input type="text" name="category" placeholder="Add a category" >
