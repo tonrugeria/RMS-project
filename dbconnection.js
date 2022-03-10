@@ -4,7 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                password: 'Pamiko241576839',
+                password: 'novice0621**',
                 database: 'rms',
         },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-        password: 'Pamiko241576839',
+        password: 'novice0621**',
         port: 5432,
 });
 
@@ -78,9 +78,13 @@ CREATE TABLE IF NOT EXISTS Admin.Job_Type(
 CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
     skill_scoring INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS Admin.Department(
+    dept_id SERIAL PRIMARY KEY NOT NULL,
+    dept_name VARCHAR(100) NOT NULL
+);
 CREATE SCHEMA IF NOT EXISTS Jobs;
 CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
-    job_id SERIAL PRIMARY KEY NOT NULL,
+    job_id INT PRIMARY KEY NOT NULL,
     job_title VARCHAR(100) NOT NULL,
     job_dept VARCHAR(100) NOT NULL,
     max_salary INT NOT NULL,
@@ -168,12 +172,51 @@ CREATE TABLE IF NOT EXISTS Jobs.Question(
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
+
 CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     job_id INT NOT NULL,
     role VARCHAR(100) NOT NULL,
-    category_id INT NOT NULL,
-    item_description VARCHAR(100) NOT NULL,
     item_sort INT NOT NULL,
+    responsibility_1 VARCHAR(1000),
+    responsibility_2 VARCHAR(1000),
+    responsibility_3 VARCHAR(1000),
+    responsibility_4 VARCHAR(1000),
+    responsibility_5 VARCHAR(1000),
+    responsibility_6 VARCHAR(1000),
+    responsibility_7 VARCHAR(1000),
+    responsibility_8 VARCHAR(1000),
+    responsibility_9 VARCHAR(1000),
+    responsibility_10 VARCHAR(1000),
+    responsibility_11 VARCHAR(1000),
+    responsibility_12 VARCHAR(1000),
+    responsibility_13 VARCHAR(1000),
+    responsibility_14 VARCHAR(1000),
+    responsibility_15 VARCHAR(1000),
+    responsibility_16 VARCHAR(1000),
+    responsibility_17 VARCHAR(1000),
+    responsibility_18 VARCHAR(1000),
+    responsibility_19 VARCHAR(1000),
+    responsibility_20 VARCHAR(1000),
+    qualification_1 VARCHAR(1000),
+    qualification_2 VARCHAR(1000),
+    qualification_3 VARCHAR(1000),
+    qualification_4 VARCHAR(1000),
+    qualification_5 VARCHAR(1000),
+    qualification_6 VARCHAR(1000),
+    qualification_7 VARCHAR(1000),
+    qualification_8 VARCHAR(1000),
+    qualification_9 VARCHAR(1000),
+    qualification_10 VARCHAR(1000),
+    qualification_11 VARCHAR(1000),
+    qualification_12 VARCHAR(1000),
+    qualification_13 VARCHAR(1000),
+    qualification_14 VARCHAR(1000),
+    qualification_15 VARCHAR(1000),
+    qualification_16 VARCHAR(1000),
+    qualification_17 VARCHAR(1000),
+    qualification_18 VARCHAR(1000),
+    qualification_19 VARCHAR(1000),
+    qualification_20 VARCHAR(1000),
 
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
