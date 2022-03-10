@@ -2,76 +2,114 @@
   <div class="columns">
     <div id="item" class="column col-12 extra-spacing flex-content">                    
       <link rel="stylesheet" href="/style.css" />
-    </div>
-    <section id="start">
-        <section id="body-wrapper" class="section blog-listing">
-    <section class="container grid-lg">
+      <script>
+function hide(){
 
-        <section id="start">
-            <section id="body-wrapper" class="section blog-listing">
-        <section class="container grid-lg">
+const collection = document.getElementsByClassName("all");
+for (let i = 0; i < collection.length; i++) {
+  collection[i].style.display = "none";
+}
+}
+function show(){
+const collection = document.getElementsByClassName("all");
+for (let i = 0; i < collection.length; i++) {
+  collection[i].style.display = "block";
+}
+}
+ function sqa(){
         
-            <div class="button-filters">
-            <% for (let  i = 0; i < job_description.length; i++) { %>
-            <tr>
-                <form method="get">
-                <td><input type="button" value='<%= job_description[i].filter_function %>'value= <%= job_description[i].filter_function %> /> </td>
-                
-            </tr>
-                </button>
-                <% } %>
-             
-        </div>
-      </div>
-    </div>
-</div>
-</form>
-  
-<div class="columns">
-<div id="item" class="column col-12 extra-spacing">
+const show = document.getElementsByClassName("all");
+const sqa = document.getElementsByClassName("sqa");
+        //for (let i = 0; i < show.length; i++) {
+        //  show[i].style.display = "none";
+        //}
+        for (let i = 0; i < sqa.length; i++) {
+          sqa[i].style.display = "block";
+        }
+        
+        }
+        function mkt(){
+        
+          const show = document.getElementsByClassName("all");
+          const mkt = document.getElementsByClassName("mkt");
+          //for (let i = 0; i < show.length; i++) {
+          //  show[i].style.display = "none";
+          //}
+          for (let i = 0; i < mkt.length; i++) {
+            mkt[i].style.display = "block";
+          }
+          
+          }
+          function adm(){
+        
+            const show = document.getElementsByClassName("all");
+            const adm = document.getElementsByClassName("adm");
+            //for (let i = 0; i < show.length; i++) {
+            //  show[i].style.display = "none";
+            //}
+            for (let i = 0; i < adm.length; i++) {
+              adm[i].style.display = "block";
+            }
+            
+            }
+            function se(){
+        
+              const show = document.getElementsByClassName("all");
+              const se = document.getElementsByClassName("se");
+              //for (let i = 0; i < show.length; i++) {
+              //  show[i].style.display = "none";
+              //}
+              for (let i = 0; i < se.length; i++) {
+                se[i].style.display = "block";
+              }
+              
+              }
+            </script>
+     </head>
     
-            <div class="bricklayer">
-                                <div class="card all adm">
-        <div class="card-inner" >
-    <div class="card-inner-container">
-
-        <div class="card-header">
-            <div class="card-subtitle text-gray">
-                <span class="blog-date">
-                    <tbody>                 
- <% for (let i = 0; i < job_opening.length; i++) { %>                   
+    
+     <div id ="buttons">
+        <% for (let  i = 0; i < job_description.length; i++) { %>
+        <input type="button"
+        value="<%= job_description[i].filter_function %>"
+        id="<%= job_description[i].id %>"
+        class="<%= job_description[i].id %>()"
+        action="<%= job_description[i].id %>()"       
+        method="get">
+        <className="sqa ">
+            <className="se">
+                <className="show ">
+                    <className="hide ">
+                <% } %>
+        </div>
+    </div>
+</div>
+<% for (let i = 0; i < job_opening.length; i++) { %>
+<div class ="card"
+        input type="card"
+        class="<%= job_opening[i].filter %>"
+        id="<%= job_opening[i].filter %>()"
+        action="<%= job_opening[i].filter %>()"
+            method="get">
+            
+        <tbody>                              
+    <span class="blog-date">           
     <i class="fa fa-calendar"></i> 
-        <h1><%= job_opening[i].date_opened %></h1>
-</time>
-</span>
-    </div>
-<tbody>
-        
-<div class="card-title">
-                    <h1><%= job_opening[i].job_title %></h1>
-                    
-            </div>
-            <span class="tags">
+     <h1><%= job_opening[i].date_opened %></h1>
+     <h1><%= job_opening[i].job_title %></h1>
     <a class="label label-rounded label-secondary p-category" href="/careers/tag:Human Resources">
-            <h1><%= job_opening[i].job_dept %></h1>
-      
-    </a>
+     <h1><%= job_opening[i].job_dept %></h1>
+     <a href="/careers"><button class="btns mt-2">Apply Now</button></a>
+    <% } %>
+        </div>
+                
+    </time>
 </span>
-            <br>
-        </div>
-        <div class="card-footer careers-card ">
-            <a href="/careers"><button class="btns mt-2">Apply Now</button></a>
-            <% } %>
-        </div>
+        </class>
     </div>
 </div>
-</div>
-<script src="filter-function.js"></script>
+
 </tbody>
-
-
-
-
 
 <%- include('./layout/footer2.ejs')  %>  
 
