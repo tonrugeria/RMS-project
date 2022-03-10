@@ -23,43 +23,685 @@
       <form class="" action="/job-details/<%= job[i].job_id %>" method="post">
         <h3><%= job[i].job_title %></h3>
         <div>
-          <label for="role">Role</label>
+          <label for="role"><h3>Role</h3></label>
           <div>
           <div class="">
             <input
               type="text"
               name="role"
               placeholder="Enter a Role"
+              <% if (jobDetail != 0) { %> 
+              value="<%= jobDetail[i].role %>"
+              <% } %> 
             >
           </div>
         </div>
         <div>
           <div class="">
-            <label for="responsiDesc">Responsibility</label>
-            <% for (let j = 0; j < responsi.length; j++) { %>
-              <div>
-                <li><%= responsi[j].item_description %></li>
-                <button name="button" value="deleteBtn">x</button>
-              </div>
-            <% } %>
-            <input
-              type="text"
-              name="responsiDesc"
-              placeholder="Enter a responsibility"
-            />
-            <button name="button" value="responsiBtn">+</button>
+            <label for="responsiDesc"><h3>Responsibility</h3></label>
+              <div class="list">
+                <% if(jobDetail != 0){ %>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_1"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_1 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_2"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_2 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_3"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_3 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_4"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_4 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_5"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_5 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_6"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_6 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_7"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_7 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_8"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_8 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_9"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_9 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_10"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_10 %>"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#responsibilityCollapse"
+                  >
+                    Show More
+                  </button>
+                <% } else { %>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_1"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_2"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_3"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_4"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_5"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_6"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_7"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_8"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_9"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_10"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#responsibilityCollapse"
+                  >
+                    Show More
+                  </button>
+                <% } %> 
+            </div>
           </div>
-          <div>
-            <label for="qualiDesc">Qualification</label>
-            <% for (let j = 0; j < quali.length; j++) { %>
-            <li><%= quali[j].item_description %></li>
-            <% } %>
-            <input
-              type="text"
-              name="qualiDesc"
-              placeholder="Enter a qualification"
-            />
-            <button name="button" value="qualiBtn">+</button>
+          <div class="collapse" id="responsibilityCollapse">
+            <div class="">
+              <div class="list">
+                <% if(jobDetail != 0){ %>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_11"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_11 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_12"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_12 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_13"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_13 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_14"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_14 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_15"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_15 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_16"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_16 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_17"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_17 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_18"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_18 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_19"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_19 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_20"
+                    placeholder="Enter a responsibility"
+                      value="<%= jobDetail[i].responsibility_20 %>"
+                    />
+                  </div>
+                <% } else { %>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_11"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_12"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_13"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_14"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_15"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_16"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_17"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_18"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_19"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="responsibility_20"
+                    placeholder="Enter a responsibility"
+                    />
+                  </div>
+                <% } %> 
+            </div>
+            </div>
+          </div>
+          <div class="">
+            <label for="qualiDesc"><h3>Qualificatioin</h3></label>
+              <div class="list">
+                <% if(jobDetail != 0){ %>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_1"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_1 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_2"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_2 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_3"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_3 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_4"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_4 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_5"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_5 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_6"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_6 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_7"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_7 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_8"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_8 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_9"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_9 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_10"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_10 %>"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#qualificationCollapse"
+                  >
+                    Show More
+                  </button>
+                <% } else { %>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_1"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_2"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_3"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_4"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_5"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_6"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_7"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_8"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_9"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_10"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#qualificationCollapse"
+                  >
+                    Show More
+                  </button>
+                <% } %> 
+            </div>
+          </div>
+          <div class="collapse" id="qualificationCollapse">
+            <div class="">
+              <div class="list">
+                <% if(jobDetail != 0){ %>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_11"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_11 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_12"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_12 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_13"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_13 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_14"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_14 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_15"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_15 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_16"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_16 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_17"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_17 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_18"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_18 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_19"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_19 %>"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_20"
+                    placeholder="Enter a qualificatioin"
+                      value="<%= jobDetail[i].qualificatioin_20 %>"
+                    />
+                  </div>
+                <% } else { %>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_11"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_12"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_13"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_14"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_15"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_16"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_17"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_18"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_19"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                  <div>
+                    <input
+                    type="search"
+                    name="qualificatioin_20"
+                    placeholder="Enter a qualificatioin"
+                    />
+                  </div>
+                <% } %> 
+            </div>
+            </div>
           </div>
 
           <input type="text" name="category" placeholder="Add a category" >
