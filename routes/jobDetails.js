@@ -1,6 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
 const knex = require("../dbconnection");
 const {
   checkAuthenticated,
@@ -18,6 +16,7 @@ router.get("/job-details/:job_id", async (req, res) => {
     "job_id",
     req.params.job_id
   );
+  console.log(jobDetail);
   const jobId = req.params.job_id;
   res.render("jobDetails", { job, jobDetail, jobId });
 });

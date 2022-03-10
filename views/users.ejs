@@ -1,4 +1,4 @@
-<%- include('./layout/header.ejs')  %>  
+<%- include('./layout/header.ejs') %>
 <div class="">
   <div class="row min-vh-100">
     <div class="col-sm-2">
@@ -10,7 +10,7 @@
           <a href="/users">Users</a>
         </div>
         <div>
-          <a href="#">System Variables</a>
+          <a href="/system-variables">System Variables</a>
         </div>
         <div class="mt-auto">
           <a href="#">BACK TO JOB PAGE</a>
@@ -19,7 +19,7 @@
     </div>
     <div class="col-sm-10">
       <h2>Users</h2>
-      <p>User Accounts</p>            
+      <p>User Accounts</p>
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -31,67 +31,86 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let  i = 0; i < users.length; i++) { %>
-            <% if (users[i].role_id == '1') { %>  
-              <tr>
-      <th><i class="fa-solid fa-user"></i></th>
-      <th><%= users[i].user_name %> </th>
-      <th><%= users[i].password%></th>
-      <TD class = "select">
-        <select name="role">  
-          <% for (let  j = 0; j < userRole.length; j++) { %>
-                <% if (userRole[j].role_id == users[i].role_id) { %>  
-              <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
-                  <% } else { %>
-              <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
-                  <% } %>
-          <% } %>
-        </select>
-        </TD>   
-      <th><%= users[i].email %></th>
-      <td></td>
-    </tr>
-    <% } else { %>
-      <tr>
-      <th><i class="fa-solid fa-user"></i></th>
-      <th><%= users[i].user_name %> </th>
-      <th><%= users[i].password%></th>
-      <TD class = "select">
-        <select name="role"> 
-        <% for (let  j = 0; j < userRole.length; j++) { %>
-            <% if (userRole[j].role_id == users[i].role_id) { %>  
-        <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
+          <% for (let i = 0; i < users.length; i++) { %> <% if (users[i].role_id
+          == '1') { %>
+          <tr>
+            <th><i class="fa-solid fa-user"></i></th>
+            <th><%= users[i].user_name %></th>
+            <th><%= users[i].password%></th>
+            <TD class="select">
+              <select name="role">
+                <% for (let j = 0; j < userRole.length; j++) { %> <% if
+                (userRole[j].role_id == users[i].role_id) { %>
+                <option value="<%= userRole[j].role_id %>" selected>
+                  <%= userRole[j].role_name %>
+                </option>
+                <% } else { %>
+                <option value="<%= userRole[j].role_id %>">
+                  <%= userRole[j].role_name %>
+                </option>
+                <% } %> <% } %>
+              </select>
+            </TD>
+            <th><%= users[i].email %></th>
+            <td></td>
+          </tr>
           <% } else { %>
-        <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
-            <% } %>
-        <% } %>
-        </select>
-        </TD>   
-      <th><%= users[i].email %></th>
-      <td>
-        <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-          <button type="submit"><i class="fa-solid fa-x"></i></button>
-        </form>
-      </td>
-    </tr>
-    <% } %>
-    <% } %>
-</tbody>
-</table>
+          <tr>
+            <th><i class="fa-solid fa-user"></i></th>
+            <th><%= users[i].user_name %></th>
+            <th><%= users[i].password%></th>
+            <TD class="select">
+              <select name="role">
+                <% for (let j = 0; j < userRole.length; j++) { %> <% if
+                (userRole[j].role_id == users[i].role_id) { %>
+                <option value="<%= userRole[j].role_id %>" selected>
+                  <%= userRole[j].role_name %>
+                </option>
+                <% } else { %>
+                <option value="<%= userRole[j].role_id %>">
+                  <%= userRole[j].role_name %>
+                </option>
+                <% } %> <% } %>
+              </select>
+            </TD>
+            <th><%= users[i].email %></th>
+            <td>
+              <form method="GET" action="/delete/<%= users[i].user_id%>">
+                <button type="submit"><i class="fa-solid fa-x"></i></button>
+              </form>
+            </td>
+          </tr>
+          <% } %> <% } %>
+        </tbody>
+      </table>
 
-        <form method="post" action="/users">
-        Name<br><input type="text" placeholder="Enter Name" name="user_name"><br>
-        Password<br><input type="text" placeholder="Enter Password" name="password"><br>
-        role<br>
-        <select name="role_name" >      
-          <% for (let  i = 0; i < userRole.length; i++) { %>  
-          <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
-          <% } %> 
-        </select><br>
-        Email<br><input type="text" placeholder="Enter Email Address" name="email"><br>
+      <form method="post" action="/users">
+        Name<br /><input
+          type="text"
+          placeholder="Enter Name"
+          name="user_name"
+        /><br />
+        Password<br /><input
+          type="text"
+          placeholder="Enter Password"
+          name="password"
+        /><br />
+        role<br />
+        <select name="role_name">
+          <% for (let i = 0; i < userRole.length; i++) { %>
+          <option value="<%" ="userRole[i].role_id" %>
+            ><%= userRole[i].role_name %>
+          </option>
+          <% } %></select
+        ><br />
+        Email<br /><input
+          type="text"
+          placeholder="Enter Email Address"
+          name="email"
+        /><br />
         <button type="submit"><i class="fa-solid fa-plus"></i></button>
       </form>
     </div>
   </div>
 </div>
-<%- include('./layout/footer.ejs')  %>  
+<%- include('./layout/footer.ejs') %>
