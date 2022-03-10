@@ -56,6 +56,7 @@ app.use("", require("./routes/careers"));
 app.use("", require("./routes/careersMain"));
 app.use("", require("./routes/examCreation"));
 app.use("", require("./routes/exam"));
+app.use("", require("./routes/systemVariables"));
 
 app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
