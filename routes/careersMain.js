@@ -10,6 +10,7 @@ const router = express.Router();
 router.get("/careersmain", async (req, res) => {
   const job_opening = await knex("jobs.job_opening").select();
   const job_description = await knex("jobs.job_description").select();
+<<<<<<< HEAD
   const role = await knex
             .select('')
             .insert({
@@ -28,6 +29,9 @@ router.get("/careersmain", async (req, res) => {
             .innerJoin('admin.skill.skill_id', 'jobs.job_opening.job_id');
 
   res.render("careersmain", { job_opening, job_description, admin.skill });
+=======
+  res.render("careersmain", { job_opening, job_description });
+>>>>>>> ab90bcdad8103ee5d02b5c99cc7d554427fa82e8
 });
 
 module.exports = router;
