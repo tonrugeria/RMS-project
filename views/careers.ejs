@@ -1,60 +1,18 @@
 <%- include('./layout/header2.ejs') %>
-  <div class="columns">
-    <div id="item" class="column col-12 extra-spacing flex-content">
+<link rel="stylesheet" href="/style.css" />
 
-      <link rel="stylesheet" href="/style.css" />
-      <div class="mobile-menu">
-        <div class="button_container" id="toggle">
-          <span class="top"></span>
-          <span class="middle"></span>
-          <span class="bottom"></span>
-        </div>
-      </div>
+    <div class="content-title text-left">
+                    
+                   
+      <% for (let i=0; i < job_details.length; i++) { %>
+               <h1>
+              <%= job_details[i].role %>
+                </h1>
+                    
+      
 
-
-      <section id="start">
-        <section id="body-wrapper" class="section blog-page">
-          <section class="container grid-lg">
-
-
-
-
-            <div class="columns">
-              <div id="item" class="column col-12 extra-spacing flex-content">
-
-              </div>
-
-            </div>
-            <div class="columns">
-              <div id="item" class="column col-12 extra-spacing flex-content">
-
-
-
-                <div class="content-item careers-item h-entry mt-2">
-
-                  <div class="content-title text-left">
-                    <div class="date-label">Date Posted: <span class="blog-date">
-                        <time class="dt-published" datetime="">
-                          <i class="fa fa-calendar"></i>
-                        </time>
-                      </span>
-                    </div>
-                    <% for (let i=0; i < job_details.length; i++) { %>
-                      <h1>
-                        <%= job_details[i].role %>
-                      </h1>
-                      <br />
-                      <span class="tags">
-                        <a class="label label-rounded label-secondary p-category" href="/careers/tag">Human
-                          Resources</a>
-                      </span>
-                  </div>
-
-                  <div class="e-content">
-
-                    <h2>Job Description</h2>
-
-                    <h3>The Role &amp; The Team</h3>
+               <h2>Job Description</h2>
+                <h3>The Role &amp; The Team</h3>
                     <p>
                       <%= job_details[i].category%>
                     </p>
@@ -89,101 +47,19 @@
                     </div>
 
                   </div>
-                  </tbody>
+                
 
 
 
 
 
 
-                  <div class="sidebar-column">
-
-                    <h3 class="sidebar-title side-head">Career Opportunities<br />@FilAmSoftware</h3>
-                    <a href="/careers/copywriter" class="all mkt">
-                      <div class="sidebar-item">Copywriter</div>
-                    </a>
-                    <a href="/careers/general-accountant" class="all adm">
-                      <div class="sidebar-item">General Accountant</div>
-                    </a>
-                    <a href="/careers/mid-software-engineer" class="all se">
-                      <div class="sidebar-item">Mid Software Engineer</div>
-                    </a>
-                    <a href="/careers/mid-software-quality-assurance" class="all sqa">
-                      <div class="sidebar-item">Mid Software Quality Assurance</div>
-                    </a>
-                    <a href="/careers/senior-full-stack-developer-nodejs" class="all se">
-                      <div class="sidebar-item">Senior Full Stack Developer - NodeJS</div>
-                    </a>
-                    <a href="/careers/senior-mobile-developer-ios-android" class="all se">
-                      <div class="sidebar-item">Senior Mobile Developer IOS/Android</div>
-                    </a>
-                    <a href="/careers/senior-software-engineer-angular" class="all se">
-                      <div class="sidebar-item">Senior Software Engineer - Angular</div>
-                    </a>
-                    <a href="/careers/senior-software-quality-assurance" class="all sqa">
-                      <div class="sidebar-item">Senior Software Quality Assurance</div>
-                    </a>
-                    <a href="/careers/tech-recruiter-cebu" class="all adm">
-                      <div class="sidebar-item">Tech Recruiter - Cebu</div>
-                    </a>
-                    <a href="/careers/tech-recruiter-pampanga" class="all adm">
-                      <div class="sidebar-item">Tech Recruiter - Pampanga</div>
-                    </a>
-                    </nav>
-          </section>
-        </section>
-        </ul>
-    </div>
-  </div>
-  </nav>
-
-  <form name="hr-generalist" action="/careers/hr-generalist" method="POST" enctype="multipart/form-data"
-    id="hr-generalist" class=" ">
-
-
-
-
-
-    <input data-grav-field="hidden" data-grav-disabled="false" type="hidden" class="input" name="data[position]"
-      value="HR&#x20;Generalist" />
-
-    <div class="form-field form-group ">
-      <div class="form-label-wrapper"><label class="form-label"> <span class="required"></span></label>
-      </div>
-      <div class="form-data" data-grav-field="text" data-grav-disabled="" data-grav-default="null">
-        <div class="form-input-wrapper ">
-          <input name="data[fullname]" value="" type="text" class="form-input " placeholder="Full&#x20;Name"
-            required="required" />
-        </div>
-      </div>
-    </div>
-
-    <div class="form-field form-group ">
-      <div class="form-label-wrapper"><label class="form-label"> <span class="required"></span></label>
-      </div>
-      <div class="form-data" data-grav-field="email" data-grav-disabled="" data-grav-default="null">
-        <div class="form-input-wrapper ">
-          <input name="data[email]" value="" type="email" class="form-input " placeholder="Email&#x20;Address"
-            required="required" />
-        </div>
-      </div>
-    </div>
-
-    <div class="form-field form-group ">
-      <div class="form-label-wrapper"><label class="form-label"> <span class="required"></span></label>
-      </div>
-      <div class="form-data" data-grav-field="tel" data-grav-disabled="" data-grav-default="null">
-        <div class="form-input-wrapper ">
-          <input name="data[mobile-number]" value="" type="tel" class="form-input " placeholder="Mobile&#x20;Number"
-            required="required" />
-        </div>
-      </div>
-    </div>
+                
 
     <div class="button-wrapper">
-      <button type="submit" class="btn ">Submit</button>
+      <button type="submit" class="btn ">Apply Now</button>
     </div>
 
   </form>
   </form>
-  <%- include('./layout/footer2.ejs') %> ss
+  <%- include('./layout/footer2.ejs') %> 
