@@ -1,52 +1,51 @@
-<%- include('./layout/header.ejs')  %>  
-<div class="columns">       
-  <link rel="stylesheet" href="/index.css" />
-          <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
-          <form action="#">
-            <% for(let i=0; i < skill.length; i++) { %>
-              <div>
+<%- include('./layout/header.ejs') %>
+  <div class="row min-vh-100">
+    <div class="col-sm-2 col-md-2 col-xl-2">
+      <!-- <link rel="stylesheet" href="/index.css" /> -->
+      <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
+      <form action="#">
+        <% for(let i=0; i < skill.length; i++) { %>
+          <div>
             <label for="<%= skill[i].skill_name %>">
-              <%= skill[i].skill_name %></label
-            >
-            <input type="checkbox"  />
-            </div>
-          <% } %> 
-          </form>
-          <form action="#">
-            <input type="checkbox" id="active" name="active" value="active">
-            <label for="active">ACTIVE</label><br>
-            <input type="checkbox" id="draft" name="draft" value="draft">
-            <label for="draft">DRAFT</label><br>
-            <input type="checkbox" id="archive" name="archive" value="archive">
-            <label for="archive">ARCHIVE</label><br><br>
-          </form>
+              <%= skill[i].skill_name %>
+            </label>
+            <input type="checkbox" />
+          </div>
+          <% } %>
+      </form>
+      <form action="#">
+        <input type="checkbox" id="active" name="active" value="active">
+        <label for="active">ACTIVE</label><br>
+        <input type="checkbox" id="draft" name="draft" value="draft">
+        <label for="draft">DRAFT</label><br>
+        <input type="checkbox" id="archive" name="archive" value="archive">
+        <label for="archive">ARCHIVE</label><br><br>
+      </form>
 
-      
-  
+      <form action="/logout?_method=DELETE" class="" method="post">
+        <div class="d-flex justify-content-center">
+          <button>LOGOUT</button>
+        </div>
+      </form>
+    </div>
 
-          <% for (let i = 0; i < job_opening.length; i++) { %> 
-
-<div class="card">
-
-     
-    
-
-      <span><%= job_opening[i].date_opened %></span>
-      <span><%= job_opening[i].job_type %></span>
-      <h1><%= job_opening[i].job_title %></h1>
-      
-        
-           
-                <% } %>
-                </div>
-      
-
-
-
-<form action="/logout?_method=DELETE" class="" method="post">
-  <div class="d-flex justify-content-center">
-    <button>LOGOUT</button>
+    <div class="col-sm-10 col-md-10 col-xl-10">
+      <% for (let i=0; i < job_opening.length; i++) { %>
+        <div class="card">
+          <span>
+            <%= job_opening[i].date_opened %>
+          </span>
+          <span>
+            <%= job_opening[i].job_type %>
+          </span>
+          <h1>
+            <%= job_opening[i].job_title %>
+          </h1>
+        </div>
+        <% } %>
+    </div>
   </div>
-</form>
-</tbody>
-<%- include('./layout/footer.ejs')  %>  
+
+
+      
+      <%- include('./layout/footer.ejs') %>
