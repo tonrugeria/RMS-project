@@ -6,25 +6,45 @@ const {
 } = require("../middlewares/auth");
 const router = express.Router();
 
-// job-requirement update get route
-router.get("/job-requirement/:job_id", async (req, res) => {
+// delete route
+router.post('/delete/:question_id', async (req, res) => {
   const jobId = req.params.job_id;
-  const adminSkill = await knex("admin.skill");
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const hrRemarks = await knex("admin.remarks");
-  const jobSkill = await knex("jobs.skill").where("job_id", jobId);
-  const job = await knex("jobs.job_opening").where("job_id", jobId);
+  knex('question.question_test')
+          .where('question_id', req.params.question_id)
+          .del()
+          .then((result) => {
+                  console.log(result);
+                  res.redirect(`/job-requirement/${jobId}`);
+          });
+});
+
+// job-requirement update get route
+router.get('/job-requirement/:job_id', async (req, res) => {
+  const jobId = req.params.job_id;
+  const adminSkill = await knex('admin.skill');
+  const dept = await knex('admin.department');
+  const jobType = await knex('admin.job_type');
+  const hrRemarks = await knex('admin.remarks');
+  const jobSkill = await knex('jobs.skill').where('job_id', jobId);
+  const job = await knex('jobs.job_opening').where('job_id', jobId);
   const unique = jobId;
-  res.render("editJobRequirement", {
-    adminSkill,
-    dept,
-    jobType,
-    job,
-    unique,
-    jobId,
-    hrRemarks,
-    jobSkill,
+  const testingQuestion = await knex('question.question')
+          .innerJoin(
+                  'question.question_test',
+                  'question.question.question_id',
+                  'question.question_test.question_id'
+          )
+          .where('job_id', req.params.job_id);
+  res.render('editJobRequirement', {
+          adminSkill,
+          dept,
+          jobType,
+          job,
+          unique,
+          jobId,
+          hrRemarks,
+          jobSkill,
+          testingQuestion,
   });
 });
 

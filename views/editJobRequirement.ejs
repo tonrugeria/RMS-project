@@ -150,15 +150,16 @@
       <div>
         <h6>EXAM</h6>
         <ul>
-          <li>
-            What is wrong with this line of code?<span class="close">x</span>
+          <% for (let i = 0; i < testingQuestion.length; i++) { %>
+          <li name="question_id_<%= testingQuestion[i].question_id %> ">
+            <h5><%= testingQuestion[i].question_detail %></h5> 
           </li>
-          <li>
-            What is the correct code to check if a data table is empty?<span
-              class="close"
-              >x</span
-            >
-          </li>
+          <li>Job_id <%= testingQuestion[i].job_id %></li>
+          <li>Question Id<%= testingQuestion[i].question_id %></li>
+          <form action="/delete/<%= testingQuestion[i].question_id %>" method="post">
+              <button>x</button> 
+            </form>
+          <% } %>
         </ul>
       </div>
       <button>SAVE</button>
@@ -167,3 +168,4 @@
   </div>
 </div>
 <%- include('./layout/footer.ejs') %>
+
