@@ -1,16 +1,6 @@
 <%- include('./layout/header.ejs')  %>  
-<div class="">
-  <div class="row min-vh-100 overflow-hidden">
-    <div class="col-sm-2 ">
-      <div class="d-flex flex-column min-vh-100">
-        <div class="columns">
-          <div id="item" class="column col-12 extra-spacing flex-content">
-          </div>
-          <section id="start">
-              <section id="body-wrapper" class="section blog-listing">
-          <section class="container grid-lg">
-        <div>
-            <link rel="stylesheet" href="/index.css" />
+<div class="columns">       
+  <link rel="stylesheet" href="/index.css" />
           <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
           <form action="#">
             <% for(let i=0; i < skill.length; i++) { %>
@@ -31,54 +21,26 @@
             <label for="archive">ARCHIVE</label><br><br>
           </form>
 
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-    </div>
+      
+  
 
-  </div>
-</div>
-</div>
-</div>
-  </div>
+          <% for (let i = 0; i < job_opening.length; i++) { %> 
 
- 
-  <div class="columns">
-    <div id="item" class="column col-12 extra-spacing">
-        
-                <div class="bricklayer">
-                                    <div class="card all adm">
-            <div class="card-inner" >
-        <div class="card-inner-container">
+<div class="card">
+
+     
     
-            <div class="card-header">
-                <div class="card-subtitle text-gray">
-                    <span class="blog-date">
-                        <tbody>                 
-     <% for (let i = 0; i < job_opening.length; i++) { %>                   
-        <i class="fa fa-calendar"></i> 
-            <h1><%= job_opening[i].date_opened %></h1>
-            
-    </time>
-    </span>
-        </div>
-    <tbody>
-            
-    <div class="card-title">
-                        <h1><%= job_opening[i].job_title %></h1>
-                        
-                </div>
-                <span class="tags">
-        <a class="label label-rounded label-secondary p-category" href="/careers/tag:Human Resources">
-                <h1><%= job_opening[i].job_dept %></h1>
-          
-        </a>
-    </span>
-                <br>
-            </div>
-            <div class="card-footer careers-card ">
+
+      <span><%= job_opening[i].date_opened %></span>
+      <span><%= job_opening[i].job_type %></span>
+      <h1><%= job_opening[i].job_title %></h1>
+      
+        
+           
                 <% } %>
+                </div>
+      
+
 
 
 <form action="/logout?_method=DELETE" class="" method="post">
