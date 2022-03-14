@@ -19,9 +19,11 @@
     </div>
     <div class="col-sm-10">
       <div class="d-flex">
-        <button>ALL</button>
+        <button onclick="showAllFunction()">ALL</button>
         <% for(let i = 0; i < adminSkill.length; i++) { %>
-        <button><%= adminSkill[i].skill_name %></button>
+        <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
+          <%= adminSkill[i].skill_name %>
+        </button>
         <% } %>
       </div>
       <div class="container">
@@ -33,28 +35,33 @@
           <div class="col text-center">TOPIC</div>
           <div class="col text-center">LEVEL</div>
         </div>
-        <% for(let i = 0; i < question.length; i++) { %>
         <form action="/exam/<%= jobId %>" method="post">
-          <div class="row">
+          <% for(let i = 0; i < question.length; i++) { %>
+          <div
+            class="row all-btn <%= question[i].question_category %>-btn skill"
+          >
             <div class="col-8">
               <input
                 id="questionCheckbox"
                 type="checkbox"
-                name="question_id_<%= i + 1%>"
+                name="question_id"
                 value="<%= question[i].question_id %>"
               />
               <label for="questionCheckbox"
                 ><%= question[i].question_detail %></label
               >
             </div>
-            <div class="col text-center">
+            <div class="col text-center all-btn">
               <%= question[i].question_category %>
             </div>
-            <div class="col text-center"><%= question[i].question_level %></div>
+            <div class="col text-center all-btn">
+              <%= question[i].question_level %>
+            </div>
           </div>
           <% } %>
           <button type="submit">SAVE</button>
         </form>
+
         <div class="row">
           <div class="col-8"></div>
           <div class="col text-center"></div>
@@ -64,4 +71,23 @@
     </div>
   </div>
 </div>
+<script>
+  function showAllFunction() {
+    const allSkills = document.querySelectorAll('.all-btn');
+    allSkills.forEach((element) => {
+      element.classList.remove('d-none');
+    });
+  }
+
+  function toggleShowHide(skill_name) {
+    const allSkills = document.querySelectorAll('.skill');
+    const target = document.querySelectorAll(`.${skill_name}-btn`);
+    allSkills.forEach((element) => {
+      element.classList.add('d-none');
+    });
+    target.forEach((element) => {
+      element.classList.remove('d-none');
+    });
+  }
+</script>
 <%- include('./layout/footer.ejs') %>
