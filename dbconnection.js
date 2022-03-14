@@ -110,15 +110,6 @@ CREATE TABLE IF NOT EXISTS Jobs.Skill (
     FOREIGN KEY (skill_id)
     REFERENCES Admin.Skill(skill_id)
 );
-CREATE TABLE IF NOT EXISTS Jobs.Question(
-    job_id INT,
-    question_id INT,
-
-    FOREIGN KEY(job_id)
-    REFERENCES Jobs.Job_Opening(job_id),
-    FOREIGN KEY(question_id)
-    REFERENCES Question.Question(question_id)
-);
 
 CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     job_id INT NOT NULL,
@@ -171,6 +162,15 @@ CREATE TABLE IF NOT EXISTS Question.Question (
     date_created date NOT NULL,
     last_updated_by varchar(100) NOT NULL,
     date_last_updated date NOT NULL
+);
+CREATE TABLE IF NOT EXISTS Jobs.Question(
+    job_id INT,
+    question_id INT,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id),
+    FOREIGN KEY(question_id)
+    REFERENCES Question.Question(question_id)
 );
 CREATE SCHEMA IF NOT EXISTS Job_Application;
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
