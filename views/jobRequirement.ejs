@@ -20,81 +20,82 @@
   <div class="col-sm-10">
     <h3>NEW JOB OPENING</h3>
     <form method="POST" action="/job-requirement" >
-      <label for="jobId">JOB ID</label> <br>
-      <input type="number"  name="jobId" value="<%= unique %>" readonly> <br> <br>
-      
-      <label for="jobtitle">JOB TITLE</label><br />
-      <input type="text" id="jobTitle" name="jobTitle" /><br />
-    
-    <br />
-    
-      <label for="department">DEPARTMENT</label>
-      <select name="department" id="deparment" >
-        <% for(let i = 0; i < dept.length; i++) { %> 
-        <option value="<%= dept[i].dept_name %>" ><%= dept[i].dept_name %></option>
-        <% } %> 
-      </select>
-      <br />
-    
-    <br />
-    
-      <label for="salary range">SALARY RANGE</label>
-      <input type="number" min="1" name="salaryRange" id="salary range" required>
-      <br />
-    
-    <br />
-    
-      <label for="career level">CAREER LEVEL</label>
-      <select name="careerLevel" id="career level" >
-        <option value="Level 1">Level 1</option>
-        <option value="Level 2">Level 2</option>
-        <option value="Level 3">Level 3</option>
-        <option value="Level 4">Level 4</option>
-      </select>
-      <br />
-    
-    <br />
-    
-      <label for="work type">WORK TYPE</label>
-      <select name="workType" id="work type" >
-        <% for(let i = 0; i < jobType.length; i++) { %> 
-          <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
-        <% } %>
-      </select>
-      <br /><br />
-    
-    
-      <label for="jobdesc">JOB DESCRIPTION</label><br />
-      <input type="text" id="jobdesc" name="jobDesc" />
-    
-    <br />
+      <div>
+        <label for="jobId">JOB ID</label> <br>
+        <input type="number"  name="jobId" value="<%= unique %>" readonly>
+      </div>
+      <br>
+      <div>
+        <label for="jobtitle">JOB TITLE</label><br />
+        <input type="text" id="jobTitle" name="jobTitle" />
+      </div>
+      <br>
+      <div>
+        <label for="department">DEPARTMENT</label>
+        <select name="department" id="deparment" >
+          <% for(let i = 0; i < dept.length; i++) { %>
+          <option value="<%= dept[i].dept_name %>" ><%= dept[i].dept_name %></option>
+          <% } %>
+        </select>
+      </div>
+      <br>
+      <div>
+        <label for="salary range">SALARY RANGE</label>
+        <input type="number" min="1" name="salaryRange" id="salary range" required>
+      </div>
+      <br>
+      <div>
+        <label for="career level">CAREER LEVEL</label>
+        <select name="careerLevel" id="career level" >
+          <option value="Level 1">Level 1</option>
+          <option value="Level 2">Level 2</option>
+          <option value="Level 3">Level 3</option>
+          <option value="Level 4">Level 4</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <label for="work type">WORK TYPE</label>
+        <select name="workType" id="work type" >
+          <% for(let i = 0; i < jobType.length; i++) { %>
+            <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
+          <% } %>
+        </select>
+      </div>
+      <br>
+      <div>
+        <label for="jobdesc">JOB DESCRIPTION</label><br />
+        <input type="text" id="jobdesc" name="jobDesc" />
+      </div>
+      <br>
     <h4>MINIMUM QUALIFICATIONS</h4>
     
-      <label for="years">YEARS OF EXPERIENCE</label><br />
-      <input type="number" min="0" id="years" name="yearsOfExp" required/><br />
-    
-    <br />
-    
-      <label for="exam score">EXAM SCORE</label><br />
-      <input type="number" min="0" id="exam score" name="examScore" required/><br />
-    
-    <br />
-    
-      <label for="hr">HR ASSESSMENT</label>
-      <select name="hrAssessment" id="hr" >
-        <% for(let i = 0; i < hrAssessment.length; i++) { %> 
-          <option value="<%= hrAssessment[i].remark_name %>" ><%= hrAssessment[i].remark_name %></option>
-          <% } %>
-      </select>
-      <br /><br />
-    
+      <div>
+        <label for="years">YEARS OF EXPERIENCE</label><br />
+        <input type="number" min="0" id="years" name="yearsOfExp" required/>
+      </div>
+      <br>
+      <div>
+        <label for="exam score">EXAM SCORE</label><br />
+        <input type="number" min="0" id="exam score" name="examScore" required/>
+      </div>
+      <br>
+      <div>
+        <label for="hr">HR ASSESSMENT</label>
+        <select name="hrAssessment" id="hr" >
+          <% for(let i = 0; i < hrAssessment.length; i++) { %>
+            <option value="<%= hrAssessment[i].remark_name %>" ><%= hrAssessment[i].remark_name %></option>
+            <% } %>
+        </select>
+      </div>
+      <br>
     <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
       <% for(let i=0; i < adminSkill.length; i++) { %>
         <div>
         <input
           type="checkbox"
           id="<%= adminSkill[i].skill_name %>"
-          name="skill_id_<%= i + 1 %>"
+          name="skill_id"
           value="<%= adminSkill[i].skill_id %>"
         />
         <label for="<%= adminSkill[i].skill_name %>">
@@ -115,11 +116,8 @@
       <div>
         <h6>EXAM</h6>
         <ul>
-          <% for (let i = 0; i < question.length; i++) { %>
-          <li name="question_id_<%= i + 1 %> ">
-            <%= question[i].question_detail %> 
-          </li>
-          <% } %> 
+          <h6>NO SELECTED EXAMS!</h6>
+          <h6>SELECT LATER IN THE EXAM TAB AFTER SAVING</h6>
         </ul>
       </div>
       <button>SAVE</button>

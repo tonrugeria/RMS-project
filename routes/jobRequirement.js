@@ -47,10 +47,7 @@ router.post('/job-requirement', async (req, res) => {
                 yearsOfExp,
                 examScore,
                 hrAssessment,
-                skill_id_1,
-                skill_level_1,
-                skill_id_2,
-                skill_level_2,
+                skill_id,
         } = req.body;
         knex('jobs.job_opening')
                 .insert({
@@ -66,17 +63,26 @@ router.post('/job-requirement', async (req, res) => {
                         hr_rating: hrAssessment,
                 })
                 .then(() => {
-                        knex('jobs.skill')
-                                .insert({
-                                        job_id: jobId,
-                                        skill_id_1,
-                                        skill_level_1,
-                                        skill_id_2,
-                                        skill_level_2,
-                                })
-                                .then(() => {
-                                        res.redirect(`/job-requirement/${jobId}`);
+                        if (typeof skill_id != typeof []) {
+                                knex('jobs.skill')
+                                        .insert({
+                                                job_id: jobId,
+                                                skill_id,
+                                        })
+                                        .then(() => {
+                                                res.redirect(`/job-requirement/${jobId}`);
+                                        });
+                        } else {
+                                skill_id.forEach((skill) => {
+                                        knex('jobs.skill')
+                                                .insert({
+                                                        job_id: jobId,
+                                                        skill_id: skill,
+                                                })
+                                                .then((results) => results);
                                 });
+                                res.redirect(`/job-requirement/${jobId}`);
+                        }
                 });
 });
 
