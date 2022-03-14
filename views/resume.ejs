@@ -31,20 +31,35 @@
                 <input type="text" name="last_name" placeholder="Last Name" value="<%= applicants[i].last_name %>">
                 <p><strong>GENDER</strong></p>
                 <select name="gender" id="contact">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <% if(applicants[i].gender == 'Male') { %>
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                  <% } else { %>
+                    <option value="Male">Male</option>
+                    <option value="Female" selected>Female</option>
+                  <% } %> 
                 </select>
                 <p><strong>DATE OF BIRTH</strong></p>
-                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" value="<%= applicants[i].date_of_birth %>">
+                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" value="<%= date %>">
                 <p><strong>CONTACT</strong></p>
                 <input type="email" name="email" placeholder="Email Address" value="<%= applicants[i].email%>">
                 <input type="number" name="skype" placeholder="Skype ID" value="<%= applicants[i].skype%>">
                 <input type="number" name="mobile" placeholder="Mobile Number" value="<%= applicants[i].mobile%>">
                 <p><strong>PREFERRED CONTACT</strong></p>
                 <select name="preferred_contact" id="contact">
-                  <option value="Email">Email</option>
-                  <option value="Skype">Skype</option>
-                  <option value="Mobile">Number</option>
+                  <% if(applicants[i].preferred_contact == 'Email') { %>
+                      <option value="Email" selected>Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile">Number</option>
+                  <% } else if (applicants[i].preferred_contact == 'Skype'){ %>
+                      <option value="Email">Email</option>
+                      <option value="Skype" selected>Skype</option>
+                      <option value="Mobile">Number</option>
+                  <% } else { %>
+                      <option value="Email">Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile" selected>Number</option>
+                  <% } %> 
                 </select>
                 <p><strong>ADDRESS</strong></p>
                 <input type="text" name="address" placeholder="Address" value="<%= applicants[i].address %>">
@@ -64,6 +79,19 @@
             <div>
               <h5>Your Qualification</h5>
               <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
+              <div class="container">
+                <div class="row">
+                  <div class="col-4">
+                    c#
+                  </div>
+                  <div class="col-4">
+                    JAVA
+                  </div>
+                  <div class="col-4">
+                    Kotlin
+                  </div>
+                </div>
+              </div>
             </div>
           <button type="submit">SAVE</button>
         </form>
