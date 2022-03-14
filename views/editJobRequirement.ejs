@@ -105,25 +105,57 @@
     <h4>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h4>
       <% for(let i=0; i < adminSkill.length; i++) { %>
         <div>
-          <input
-          type="checkbox"
-          id="<%= adminSkill[i].skill_name %>"
-          name="skill_id"
-          value="<%= adminSkill[i].skill_id %>"
-          />
-          <label for="<%= adminSkill[i].skill_name %>">
-            <%= adminSkill[i].skill_name %></label>
+        <% for(let j = 0; j < jobSkill.length; j++) { %> 
+          <% if(adminSkill[i].skill_id == jobSkill[j].skill_id_1 || 
+                adminSkill[i].skill_id == jobSkill[j].skill_id_2 ||
+                adminSkill[i].skill_id == jobSkill[j].skill_id_3 ||
+                adminSkill[i].skill_id == jobSkill[j].skill_id_4) { %> 
+            <input
+            type="checkbox"
+            id="<%= adminSkill[i].skill_name %>"
+            name="skill_id_<%= i + 1 %>"
+            value="<%= adminSkill[i].skill_id %>"
+            checked
+            />
+            <label for="<%= adminSkill[i].skill_name %>">
+              <%= adminSkill[i].skill_name %></label>
+          <% } else { %> 
+            <input
+            type="checkbox"
+            id="<%= adminSkill[i].skill_name %>"
+            name="skill_id_<%= i + 1 %>"
+            value="<%= adminSkill[i].skill_id %>"
+            />
+            <label for="<%= adminSkill[i].skill_name %>">
+              <%= adminSkill[i].skill_name %></label>
+          <% } %> 
+        <% } %> 
         
-          <input type="radio" id="1" name="skill_level" value="1" />
+        <% for (let j = 0; j < jobSkill.length; j++) { %> 
+          <% if(jobSkill[0].skill_level_1 == j+1) { %>
+          <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1"  selected/>
           <label for="1">1</label>
-          <input type="radio" id="2" name="skill_level" value="2" />
+          <input type="radio" id="2" name="skill_level_<%= i + 1%>" value="2" />
             <label for="2">2</label>
-            <input type="radio" id="3" name="skill_level" value="3" />
+            <input type="radio" id="3" name="skill_level_<%= i + 1%>" value="3" />
             <label for="3">3</label>
-            <input type="radio" id="4" name="skill_level" value="4" />
+            <input type="radio" id="4" name="skill_level_<%= i + 1%>" value="4" />
             <label for="4">4</label>
-            <input type="radio" id="5" name="skill_level" value="5" />
+            <input type="radio" id="5" name="skill_level_<%= i + 1%>" value="5" />
             <label for="5">5</label>
+          <% } else { %>
+            <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
+          <label for="1">1</label>
+            <input type="radio" id="2" name="skill_level_<%= i + 1%>" value="2" />
+            <label for="2">2</label>
+            <input type="radio" id="3" name="skill_level_<%= i + 1%>" value="3" />
+            <label for="3">3</label>
+            <input type="radio" id="4" name="skill_level_<%= i + 1%>" value="4" />
+            <label for="4">4</label>
+            <input type="radio" id="5" name="skill_level_<%= i + 1%>" value="5" />
+            <label for="5">5</label>
+          <% } %>
+        <% } %>
         </div>
       <% } %>
       <button>SAVE</button>
@@ -153,4 +185,3 @@
   </div>
 </div>
 <%- include('./layout/footer.ejs') %>
-

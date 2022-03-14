@@ -4,7 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                password: 'novice0621**',
+                password: '12345',
                 database: 'rms',
         },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-        password: 'novice0621**',
+        password: '12345',
         port: 5432,
 });
 
@@ -102,45 +102,125 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
 );
 CREATE TABLE IF NOT EXISTS Jobs.Skill (
     job_id INT NOT NULL,
-    skill_id INT,
-    sample_id SERIAL PRIMARY KEY NOT NULL,
+    skill_id_1 INT,
+    skill_level_1 INT,
+    skill_id_2 INT,
+    skill_level_2 INT,
+    skill_id_3 INT,
+    skill_level_3 INT,
+    skill_id_4 INT,
+    skill_level_4 INT,
+    skill_id_5 INT,
+    skill_level_5 INT,
+    skill_id_6 INT,
+    skill_level_6 INT,
+    skill_id_7 INT,
+    skill_level_7 INT,
+    skill_id_8 INT,
+    skill_level_8 INT,
+    skill_id_9 INT,
+    skill_level_9 INT,
+    skill_id_10 INT,
+    skill_level_10 INT,
+    skill_id_11 INT,
+    skill_level_11 INT,
+    skill_id_12 INT,
+    skill_level_12 INT,
+    skill_id_13 INT,
+    skill_level_13 INT,
+    skill_id_14 INT,
+    skill_level_14 INT,
+    skill_id_15 INT,
+    skill_level_15 INT,
+    skill_id_16 INT,
+    skill_level_16 INT,
+    skill_id_17 INT,
+    skill_level_17 INT,
+    skill_id_18 INT,
+    skill_level_18 INT,
+    skill_id_19 INT,
+    skill_level_19 INT,
+    skill_id_20 INT,
+    skill_level_20 INT,
 
     FOREIGN KEY (job_id)
-    REFERENCES Jobs.Job_Opening(job_id),
-    FOREIGN KEY (skill_id)
-    REFERENCES Admin.Skill(skill_id)
+    REFERENCES Jobs.Job_Opening(job_id)
+);
+CREATE TABLE IF NOT EXISTS Jobs.Question(
+    job_id INT NOT NULL,
+    question_id_1 INT,
+    question_id_2 INT,
+    question_id_3 INT,
+    question_id_4 INT,
+    question_id_5 INT,
+    question_id_6 INT,
+    question_id_7 INT,
+    question_id_8 INT,
+    question_id_9 INT,
+    question_id_10 INT,
+    question_id_11 INT,
+    question_id_12 INT,
+    question_id_13 INT,
+    question_id_14 INT,
+    question_id_15 INT,
+    question_id_16 INT,
+    question_id_17 INT,
+    question_id_18 INT,
+    question_id_19 INT,
+    question_id_20 INT,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id)
 );
 
 CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     job_id INT NOT NULL,
-    role VARCHAR,
-    item_sort SERIAL PRIMARY KEY NOT NULL,
+    role VARCHAR(100) NOT NULL,
+    item_sort INT NOT NULL,
+    responsibility_1 VARCHAR(1000),
+    responsibility_2 VARCHAR(1000),
+    responsibility_3 VARCHAR(1000),
+    responsibility_4 VARCHAR(1000),
+    responsibility_5 VARCHAR(1000),
+    responsibility_6 VARCHAR(1000),
+    responsibility_7 VARCHAR(1000),
+    responsibility_8 VARCHAR(1000),
+    responsibility_9 VARCHAR(1000),
+    responsibility_10 VARCHAR(1000),
+    responsibility_11 VARCHAR(1000),
+    responsibility_12 VARCHAR(1000),
+    responsibility_13 VARCHAR(1000),
+    responsibility_14 VARCHAR(1000),
+    responsibility_15 VARCHAR(1000),
+    responsibility_16 VARCHAR(1000),
+    responsibility_17 VARCHAR(1000),
+    responsibility_18 VARCHAR(1000),
+    responsibility_19 VARCHAR(1000),
+    responsibility_20 VARCHAR(1000),
+    qualification_1 VARCHAR(1000),
+    qualification_2 VARCHAR(1000),
+    qualification_3 VARCHAR(1000),
+    qualification_4 VARCHAR(1000),
+    qualification_5 VARCHAR(1000),
+    qualification_6 VARCHAR(1000),
+    qualification_7 VARCHAR(1000),
+    qualification_8 VARCHAR(1000),
+    qualification_9 VARCHAR(1000),
+    qualification_10 VARCHAR(1000),
+    qualification_11 VARCHAR(1000),
+    qualification_12 VARCHAR(1000),
+    qualification_13 VARCHAR(1000),
+    qualification_14 VARCHAR(1000),
+    qualification_15 VARCHAR(1000),
+    qualification_16 VARCHAR(1000),
+    qualification_17 VARCHAR(1000),
+    qualification_18 VARCHAR(1000),
+    qualification_19 VARCHAR(1000),
+    qualification_20 VARCHAR(1000),
 
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
-
-CREATE TABLE IF NOT EXISTS Jobs.Category(
-    job_id INT NOT NULL,
-    category_id SERIAL PRIMARY KEY NOT NULL,
-    category_detail VARCHAR,
-
-    FOREIGN KEY(job_id)
-    REFERENCES Jobs.Job_Opening(job_id)
-);
-
-CREATE TABLE IF NOT EXISTS Jobs.Item(
-    job_id INT NOT NULL,
-    category_id INT,
-    item_id SERIAL PRIMARY KEY NOT NULL,
-    item_detail VARCHAR,
-
-    FOREIGN KEY(job_id)
-    REFERENCES Jobs.Job_Opening(job_id),
-    FOREIGN KEY(category_id)
-    REFERENCES Jobs.Category(category_id)
-);
-
 CREATE SCHEMA IF NOT EXISTS Question;
 CREATE TABLE IF NOT EXISTS Question.Question (
     question_id SERIAL PRIMARY KEY NOT NULL,
@@ -163,19 +243,10 @@ CREATE TABLE IF NOT EXISTS Question.Question (
     last_updated_by varchar(100) NOT NULL,
     date_last_updated date NOT NULL
 );
-CREATE TABLE IF NOT EXISTS Jobs.Question(
-    job_id INT,
-    question_id INT,
-
-    FOREIGN KEY(job_id)
-    REFERENCES Jobs.Job_Opening(job_id),
-    FOREIGN KEY(question_id)
-    REFERENCES Question.Question(question_id)
-);
 CREATE SCHEMA IF NOT EXISTS Job_Application;
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     job_id int NOT NULL,
-    application_id SERIAL PRIMARY KEY NOT NULL,
+    application_id int PRIMARY KEY NOT NULL,
     middle_name VARCHAR(100) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
