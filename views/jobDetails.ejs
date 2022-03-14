@@ -43,18 +43,82 @@
           <% } %>
         </div>
       </div>
-      <% } %> <% for (let i = 0; i < jobCategory.length; i++) { %>
+      <% } %>
+      <div>
+        <h3>Responsibility</h3>
+        <% for(let i = 0; i < jobResponsibility.length; i++) { %>
+        <div class="input-container">
+          <input
+            type="text"
+            name="responsibility_item"
+            value="<%= jobResponsibility[i].responsibility_detail %>"
+            onchange="addUpdateBtn('<%= jobId %>', 'responsibility', '<%= jobResponsibility[i].responsibility_id%>' )"
+          />
+          <form
+            class="delete-btn"
+            style="display: inline"
+            action="/deleteResponsibility/<%= jobId %>/<%= jobResponsibility[i].responsibility_id %>"
+            method="post"
+          >
+            <button type="submit">x</button>
+          </form>
+        </div>
+        <% } %>
+        <form action="/addResponsibility/<%= jobId %>" method="post">
+          <div class="mb-4">
+            <input
+              type="text"
+              name="responsibility_detail"
+              placeholder="Enter a responsibility"
+            />
+            <button type="submit">+</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <h3>Qualification</h3>
+        <% for(let i = 0; i < jobQualification.length; i++) { %>
+        <div>
+          <input
+            type="text"
+            value="<%= jobQualification[i].qualification_detail%>"
+            readonly
+          />
+          <form
+            class="delete-btn"
+            style="display: inline"
+            action="/deleteQualification/<%= jobId %>/<%= jobQualification[i].qualification_id %>"
+            method="post"
+          >
+            <button type="submit">x</button>
+          </form>
+        </div>
+        <% } %>
+        <form action="/addQualification/<%= jobId %>" method="post">
+          <div class="mb-4">
+            <input
+              type="text"
+              name="qualification_detail"
+              placeholder="Enter a qualification"
+            />
+            <button type="submit">+</button>
+          </div>
+        </form>
+      </div>
+
+      <% for (let i = 0; i < jobCategory.length; i++) { %>
       <div>
         <h3><%= jobCategory[i].category_detail %></h3>
         <% for (let j = 0; j < jobCategoryItem.length; j++) { %> <%
         if(jobCategory[i].category_id == jobCategoryItem[j].category_id) { %>
-        <div>
+        <div class="input-container">
           <input
             type="text"
             value="<%= jobCategoryItem[j].item_detail %>"
             readonly
           />
           <form
+            class="delete-btn"
             style="display: inline"
             action="/delete/<%= jobId %>/<%= jobCategory[i].category_id %>/<%= jobCategoryItem[j].item_id %>"
             method="post"
@@ -91,4 +155,23 @@
     </div>
   </div>
 </div>
+<script>
+  function addUpdateBtn(jobid, categoryName, itemId) {
+    const delBtn = document.querySelector('.delete-btn');
+    const inputContainer = document.querySelector('.input-container');
+    const form = document.createElement('form');
+    const button = document.createElement('button');
+
+    delBtn.classList.add('d-none');
+
+    form.setAttribute('action', `/update/${jobid}/${categoryName}/${itemId}`);
+    form.setAttribute('method', 'post');
+    form.setAttribute('style', 'display: inline;');
+    button.setAttribute('type', 'submit');
+    button.textContent = 'update';
+
+    form.appendChild(button);
+    inputContainer.appendChild(form);
+  }
+</script>
 <%- include('./layout/footer.ejs') %>
