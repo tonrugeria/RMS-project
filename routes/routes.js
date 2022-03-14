@@ -16,7 +16,6 @@ router.get("/", checkAuthenticated, async (req, res) => {
   .select("")
   .from("jobs.job_opening")
   .innerJoin("jobs.skill", "jobs.job_opening.job_id", "jobs.skill.job_id")
-  console.log('JOINNN',joinSkill);
   res.render("index", { job_opening, skill });
 });
 

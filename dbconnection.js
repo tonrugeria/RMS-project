@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS Question.Question (
 CREATE SCHEMA IF NOT EXISTS Job_Application;
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     job_id int NOT NULL,
-    application_id int PRIMARY KEY NOT NULL,
+    application_id SERIAL PRIMARY KEY NOT NULL,
     middle_name VARCHAR(100) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,

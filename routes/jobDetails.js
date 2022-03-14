@@ -16,7 +16,6 @@ router.get("/job-details/:job_id", async (req, res) => {
     "job_id",
     req.params.job_id
   );
-  console.log(jobDetail);
   const jobId = req.params.job_id;
   res.render("jobDetails", { job, jobDetail, jobId });
 });
