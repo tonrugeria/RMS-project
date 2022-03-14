@@ -28,7 +28,13 @@ router.post('/resume/:job_id', async (req, res) => {
     email,
     skype,
     mobile,
-    preferred_contact 
+    preferred_contact,
+    address,
+    city,
+    province,
+    preferred_interview_date_1,
+    preferred_interview_date_2,
+    preferred_interview_date_3
   } = req.body;
   const found = await knex("job_application.applicant_details").where("job_id", jobId);
   if(found != 0){
@@ -45,6 +51,12 @@ router.post('/resume/:job_id', async (req, res) => {
       skype,
       mobile,
       preferred_contact,
+      address,
+      city,
+      province,
+      preferred_interview_date_1,
+      preferred_interview_date_2,
+      preferred_interview_date_3 
     })
     .where('job_id', jobId)
     .then(() => {
@@ -63,6 +75,12 @@ router.post('/resume/:job_id', async (req, res) => {
         skype,
         mobile,
         preferred_contact,
+        address,
+        city,
+        province,
+        preferred_interview_date_1,
+        preferred_interview_date_2,
+        preferred_interview_date_3 
       })
       .where('job_id', jobId)
       .then((result) => {

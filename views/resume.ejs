@@ -23,7 +23,7 @@
           </div>
           <% } %>
             <h5>Your Personal Information</h5>
-            <div>
+            <div class="mb-4">
               <% for( let i = 0; i < applicants.length; i++) { %>
                 <p><strong>NAME</strong></p>
                 <input type="text" name="first_name" placeholder="First Name" value="<%= applicants[i].first_name %>">
@@ -47,18 +47,23 @@
                   <option value="Mobile">Number</option>
                 </select>
                 <p><strong>ADDRESS</strong></p>
-                <input type="text" name="address" placeholder="Address">
-                <input type="text" name="city" placeholder="City">
-                <input type="text" name="province" placeholder="Province">
+                <input type="text" name="address" placeholder="Address" value="<%= applicants[i].address %>">
+                <input type="text" name="city" placeholder="City" value="<%= applicants[i].city %>">
+                <input type="text" name="province" placeholder="Province" value="<%= applicants[i].province %>">
                 <p><strong>EXPECTED SALARY</strong></p>
                 <input type="number" name="salary">
                 <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
                 <input type="date" name="startDate">
                 <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-                <input type="date" name="interview_1">
-                <input type="date" name="interview_2">
-                <input type="date" name="interview_3">
+                <input type="date" name="preferred_interview_1" value="<%= applicants[i].preferred_interview_date_1 %>">
+                <input type="date" name="preferred_interview_2" value="<%= applicants[i].preferred_interview_date_2 %>">
+                <input type="date" name="preferred_interview_3" value="<%= applicants[i].preferred_interview_date_3 %>">
               <% } %> 
+            </div>
+
+            <div>
+              <h5>Your Qualification</h5>
+              <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
             </div>
           <button type="submit">SAVE</button>
         </form>
