@@ -23,7 +23,7 @@
           </div>
           <% } %>
             <h5>Your Personal Information</h5>
-            <div>
+            <div class="mb-4">
               <% for( let i = 0; i < applicants.length; i++) { %>
                 <p><strong>NAME</strong></p>
                 <input type="text" name="first_name" placeholder="First Name" value="<%= applicants[i].first_name %>">
@@ -31,34 +31,67 @@
                 <input type="text" name="last_name" placeholder="Last Name" value="<%= applicants[i].last_name %>">
                 <p><strong>GENDER</strong></p>
                 <select name="gender" id="contact">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <% if(applicants[i].gender == 'Male') { %>
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                  <% } else { %>
+                    <option value="Male">Male</option>
+                    <option value="Female" selected>Female</option>
+                  <% } %> 
                 </select>
                 <p><strong>DATE OF BIRTH</strong></p>
-                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" value="<%= applicants[i].date_of_birth %>">
+                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" value="<%= date %>">
                 <p><strong>CONTACT</strong></p>
                 <input type="email" name="email" placeholder="Email Address" value="<%= applicants[i].email%>">
                 <input type="number" name="skype" placeholder="Skype ID" value="<%= applicants[i].skype%>">
                 <input type="number" name="mobile" placeholder="Mobile Number" value="<%= applicants[i].mobile%>">
                 <p><strong>PREFERRED CONTACT</strong></p>
                 <select name="preferred_contact" id="contact">
-                  <option value="Email">Email</option>
-                  <option value="Skype">Skype</option>
-                  <option value="Mobile">Number</option>
+                  <% if(applicants[i].preferred_contact == 'Email') { %>
+                      <option value="Email" selected>Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile">Number</option>
+                  <% } else if (applicants[i].preferred_contact == 'Skype'){ %>
+                      <option value="Email">Email</option>
+                      <option value="Skype" selected>Skype</option>
+                      <option value="Mobile">Number</option>
+                  <% } else { %>
+                      <option value="Email">Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile" selected>Number</option>
+                  <% } %> 
                 </select>
                 <p><strong>ADDRESS</strong></p>
-                <input type="text" name="address" placeholder="Address">
-                <input type="text" name="city" placeholder="City">
-                <input type="text" name="province" placeholder="Province">
+                <input type="text" name="address" placeholder="Address" value="<%= applicants[i].address %>">
+                <input type="text" name="city" placeholder="City" value="<%= applicants[i].city %>">
+                <input type="text" name="province" placeholder="Province" value="<%= applicants[i].province %>">
                 <p><strong>EXPECTED SALARY</strong></p>
                 <input type="number" name="salary">
                 <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
                 <input type="date" name="startDate">
                 <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-                <input type="date" name="interview_1">
-                <input type="date" name="interview_2">
-                <input type="date" name="interview_3">
+                <input type="date" name="preferred_interview_1" value="<%= applicants[i].preferred_interview_date_1 %>">
+                <input type="date" name="preferred_interview_2" value="<%= applicants[i].preferred_interview_date_2 %>">
+                <input type="date" name="preferred_interview_3" value="<%= applicants[i].preferred_interview_date_3 %>">
               <% } %> 
+            </div>
+
+            <div>
+              <h5>Your Qualification</h5>
+              <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
+              <div class="container">
+                <div class="row">
+                  <div class="col-4">
+                    c#
+                  </div>
+                  <div class="col-4">
+                    JAVA
+                  </div>
+                  <div class="col-4">
+                    Kotlin
+                  </div>
+                </div>
+              </div>
             </div>
           <button type="submit">SAVE</button>
         </form>
