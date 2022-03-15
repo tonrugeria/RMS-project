@@ -1,6 +1,6 @@
 <%- include('./layout/header.ejs') %>
 
-<div class="row min-vh-100">
+<div class="row min-vh-100 ">
   <div class="col-sm-2">
     <div class="d-flex flex-column min-vh-100">
       <div>
@@ -17,20 +17,153 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-10">
-    <button
-      class="btn btn-primary"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapseExample"
-    >
-      click me
-    </button>
-    <div class="collapse" id="collapseExample">
-      <div class="">
-        <h1>DEMIT</h1>
-      </div>
+  <div class="col-sm-10 col-md-10">
+    <h4>SYSTEM VARIABLES</h4>
+    <h5>Position</h5>
+    <div class="d-flex">
+      <% for(let i = 0; i < position.length; i++) { %>
+        <div class="d-flex">
+          <div>
+          <form action="/system-variables" method="post">
+              <input
+                type="text"
+                name="position"
+                placeholder="Enter Position"
+                value="<%= position[i].position_name %>"
+              />
+            </form>
+          </div>
+          <div>
+            <form action="/delete/position/<%= position[i].position_id %>" method="post" class="pe-1">
+              <button type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addPosition" method="post">
+        <div class="mb-4">
+          <input type="text" name="jobPosition" placeholder="Enter Position" />
+          <button type="submit">+</button>
+        </div>
+      </form>
     </div>
+
+    <h5>Technologies</h5>
+    <div class="d-flex">
+      <% for(let j = 0; j < technologies.length; j++) { %>
+        <div class="d-flex">
+          <div>
+            <form action="/system-variables" method="post">
+                <input
+                  type="text"
+                  name="technologies"
+                  placeholder="Enter Technologies"
+                  value="<%= technologies[j].skill_name %>"
+                />
+            </form>
+          </div>
+          <div>
+            <form action="/delete/skill/<%= technologies[j].skill_id %>" method="post" class="pe-1">
+              <button type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addTechnologies" method="post">
+        <div class="mb-4">
+          <input type="text" name="adminSkill" placeholder="Enter Technologies" />
+          <button type="submit">+</button>
+        </div>
+      </form>
+    </div>
+
+    <h5>HR Remarks</h5>
+    <div class="d-flex">
+      <% for(let i = 0; i < remarks.length; i++) { %>
+        <div class="d-flex">
+          <div>
+            <form action="/system-variables" method="post">
+                <input
+                  type="text"
+                  name="remarks"
+                  placeholder="Enter Remarks"
+                  value="<%= remarks[i].remark_name %>"
+                />
+            </form>
+          </div>
+          <div>
+            <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="pe-1">
+              <button type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addRemarks" method="post">
+        <div class="mb-4">
+          <input type="text" name="remark" placeholder="Enter Remarks" />
+          <button type="submit">+</button>
+        </div>
+      </form>
+    </div>
+    
+    <h5>Job Type</h5>
+    <div class="d-flex">
+      <% for(let i = 0; i < jobType.length; i++) { %>
+        <div class="d-flex">
+          <div>
+            <form action="/system-variables" method="post">
+              <input
+                type="text"
+                name="type"
+                placeholder="Enter Type"
+                value="<%= jobType[i].job_type_name %>"
+              />
+            </form>
+          </div>
+          <div>
+            <form action="/delete/type/<%= jobType[i].job_type_id %>" method="post" class="pe-1">
+              <button type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addTypes" method="post">
+        <div class="mb-4">
+          <input type="text" name="jobType" placeholder="Enter Type" />
+          <button type="submit">+</button>
+        </div>
+      </form>
+    </div>
+
+    <h5>Department</h5>
+    <div class="d-flex">
+      <% for(let i = 0; i < department.length; i++) { %>
+        <div class="d-flex">
+          <div>
+            <form action="/system-variables" method="post">
+              <input
+                type="text"
+                name="departments"
+                placeholder="Enter Department"
+                value="<%= department[i].dept_name %>"
+              />
+            </form>
+          </div>
+          <div>
+            <form action="/delete/department/<%= department[i].dept_id %>" method="post" class="pe-1">
+              <button type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addDepartment" method="post">
+        <div class="mb-4">
+          <input type="text" name="department" placeholder="Enter Department" />
+          <button type="submit">+</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 </div>
 
