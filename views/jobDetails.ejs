@@ -52,7 +52,7 @@
             type="text"
             name="responsibility_item"
             value="<%= jobResponsibility[i].responsibility_detail %>"
-            onchange="addUpdateBtn('<%= jobId %>', 'responsibility', '<%= jobResponsibility[i].responsibility_id%>' )"
+            onchange="addUpdateBtn('<%= jobId %>', 'responsibility', '<%= jobResponsibility[i].responsibility_id%>')"
           />
           <form
             class="delete-btn"
@@ -70,6 +70,7 @@
               type="text"
               name="responsibility_detail"
               placeholder="Enter a responsibility"
+              required
             />
             <button type="submit">+</button>
           </div>
@@ -78,11 +79,12 @@
       <div>
         <h3>Qualification</h3>
         <% for(let i = 0; i < jobQualification.length; i++) { %>
-        <div>
+        <div class="input-container">
           <input
             type="text"
+            name="qualification_item"
             value="<%= jobQualification[i].qualification_detail%>"
-            readonly
+            onchange="addUpdateBtn('<%= jobId %>', 'qualification', '<%= jobQualification[i].qualification_id%>')"
           />
           <form
             class="delete-btn"
@@ -100,6 +102,7 @@
               type="text"
               name="qualification_detail"
               placeholder="Enter a qualification"
+              required
             />
             <button type="submit">+</button>
           </div>
@@ -114,13 +117,14 @@
         <div class="input-container">
           <input
             type="text"
+            name="<%= jobCategory[i].category_detail %>_item"
             value="<%= jobCategoryItem[j].item_detail %>"
-            readonly
+            onchange="addUpdateBtn('<%= jobId %>', '<%= jobCategory[i].category_id %>', '<%= jobCategoryItem[j].item_id %>')"
           />
           <form
             class="delete-btn"
             style="display: inline"
-            action="/delete/<%= jobId %>/<%= jobCategory[i].category_id %>/<%= jobCategoryItem[j].item_id %>"
+            action="/delete/job-<%= jobId %>/category-<%= jobCategory[i].category_id %>/item-<%= jobCategoryItem[j].item_id %>"
             method="post"
           >
             <button type="submit">x</button>
@@ -136,6 +140,7 @@
               type="text"
               name="item"
               placeholder="Enter a <%= jobCategory[i].category_detail %>"
+              required
             />
             <button type="submit">+</button>
           </div>
@@ -148,6 +153,7 @@
             type="text"
             name="categoryDetail"
             placeholder="Add a category"
+            required
           />
           <button type="submit">+</button>
         </div>
@@ -158,20 +164,50 @@
 <script>
   function addUpdateBtn(jobid, categoryName, itemId) {
     const delBtn = document.querySelector('.delete-btn');
-    const inputContainer = document.querySelector('.input-container');
+    const allDelBtn = document.querySelectorAll('.delete-btn');
+    const inputContainer = document.querySelectorAll('.input-container');
+    const oldUpdateBtn = document.querySelectorAll('.update-btn');
     const form = document.createElement('form');
     const button = document.createElement('button');
 
-    delBtn.classList.add('d-none');
+    // avoids excessive adding of update button
+    inputContainer.forEach((container) => {
+      oldUpdateBtn.forEach((btn) => {
+        if (
+          container.lastChild == btn &&
+          btn.getAttribute('action') ==
+            `/update/job-${jobid}/${categoryName}/${itemId}`
+        ) {
+          container.removeChild(container.lastChild);
+        }
+      });
+    });
 
-    form.setAttribute('action', `/update/${jobid}/${categoryName}/${itemId}`);
+    // creates the update button form
+    form.setAttribute(
+      'action',
+      `/update/job-${jobid}/category-${categoryName}/item-${itemId}`
+    );
     form.setAttribute('method', 'post');
     form.setAttribute('style', 'display: inline;');
+    form.classList.add('update-btn');
     button.setAttribute('type', 'submit');
     button.textContent = 'update';
-
     form.appendChild(button);
-    inputContainer.appendChild(form);
+
+    // places the update button on corresponding item
+    allDelBtn.forEach((btn) => {
+      if (
+        btn.getAttribute('action') ==
+          `/deleteResponsibility/${jobid}/${itemId}` ||
+        btn.getAttribute('action') ==
+          `/deleteQualification/${jobid}/${itemId}` ||
+        btn.getAttribute('action') ==
+          `/delete/job-${jobid}/category-${categoryName}/item-${itemId}`
+      ) {
+        btn.parentNode.appendChild(form);
+      }
+    });
   }
 </script>
 <%- include('./layout/footer.ejs') %>

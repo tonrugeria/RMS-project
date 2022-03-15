@@ -63,10 +63,10 @@ router.post('/addResponsibility/:job_id', (req, res) => {
 });
 
 // edit responsibility item
-router.post('/update/:job_id/responsibility/:responsibility_id', (req, res) => {
+router.post('/update/job-:job_id/category-responsibility/item-:responsibility_id', (req, res) => {
         const responsibility_item = req.body;
         const { job_id, responsibility_id } = req.params;
-        console.log(typeof responsibility_item);
+        console.log(responsibility_item);
         knex('jobs.responsibility')
                 .update({ responsibility_detail: responsibility_item })
                 .where('job_id', job_id)
@@ -137,7 +137,7 @@ router.post('/add/:job_id/:category_id', (req, res) => {
 });
 
 // delete category item
-router.post('/delete/:job_id/:category_id/:item_id', (req, res) => {
+router.post('/delete/job-:job_id/category-:category_id/item-:item_id', (req, res) => {
         const { category_id, item_id, job_id } = req.params;
         knex('jobs.item')
                 .where('category_id', category_id)
