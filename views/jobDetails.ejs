@@ -26,14 +26,16 @@
         <div class="">
           <% if(jobDetail != 0) { %> <% for (let j = 0; j < jobDetail.length;
           j++) { %>
-          <form action="/edit-role/<%= jobId %>" method="post">
+          <form action="/edit-role/job-<%= jobId %>" method="post">
             <input
               type="text"
               name="role"
               placeholder="Enter a Role"
               value="<%= jobDetail[j].role %>"
             />
-            <button>/</button>
+            <button>
+              <i class="fa-solid fa-check"></i>
+            </button>
           </form>
           <% } %> <% } else { %>
           <form action="/add-role/<%= jobId %>" method="post">
@@ -47,15 +49,29 @@
       <div>
         <h3>Responsibility</h3>
         <% for(let i = 0; i < jobResponsibility.length; i++) { %>
-        <div class="input-container">
-          <input
-            type="text"
-            name="responsibility_item"
-            value="<%= jobResponsibility[i].responsibility_detail %>"
-            onchange="addUpdateBtn('<%= jobId %>', 'responsibility', '<%= jobResponsibility[i].responsibility_id%>')"
-          />
+        <div>
+          <form
+            style="display: inline"
+            action="/update/job-<%= jobId %>/category-responsibility/item-<%= jobResponsibility[i].responsibility_id %>"
+            method="post"
+          >
+            <input
+              type="text"
+              name="responsibility_item"
+              value="<%= jobResponsibility[i].responsibility_detail %>"
+              onchange="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>')"
+            />
+            <button
+              class="update-btn d-none"
+              id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
+              type="submit"
+            >
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </form>
           <form
             class="delete-btn"
+            id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
             style="display: inline"
             action="/deleteResponsibility/<%= jobId %>/<%= jobResponsibility[i].responsibility_id %>"
             method="post"
@@ -79,14 +95,28 @@
       <div>
         <h3>Qualification</h3>
         <% for(let i = 0; i < jobQualification.length; i++) { %>
-        <div class="input-container">
-          <input
-            type="text"
-            name="qualification_item"
-            value="<%= jobQualification[i].qualification_detail%>"
-            onchange="addUpdateBtn('<%= jobId %>', 'qualification', '<%= jobQualification[i].qualification_id%>')"
-          />
+        <div>
           <form
+            style="display: inline"
+            action="/update/job-<%= jobId %>/category-qualification/item-<%= jobQualification[i].qualification_id %>"
+            method="post"
+          >
+            <input
+              type="text"
+              name="qualification_item"
+              value="<%= jobQualification[i].qualification_detail%>"
+              onchange="addUpdateBtn('<%= jobQualification[i].qualification_id%>')"
+            />
+            <button
+              class="update-btn d-none"
+              id="qualification_<%= jobQualification[i].qualification_id%>"
+              type="submit"
+            >
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </form>
+          <form
+            id="qualification_<%= jobQualification[i].qualification_id%>"
             class="delete-btn"
             style="display: inline"
             action="/deleteQualification/<%= jobId %>/<%= jobQualification[i].qualification_id %>"
@@ -114,14 +144,28 @@
         <h3><%= jobCategory[i].category_detail %></h3>
         <% for (let j = 0; j < jobCategoryItem.length; j++) { %> <%
         if(jobCategory[i].category_id == jobCategoryItem[j].category_id) { %>
-        <div class="input-container">
-          <input
-            type="text"
-            name="<%= jobCategory[i].category_detail %>_item"
-            value="<%= jobCategoryItem[j].item_detail %>"
-            onchange="addUpdateBtn('<%= jobId %>', '<%= jobCategory[i].category_id %>', '<%= jobCategoryItem[j].item_id %>')"
-          />
+        <div>
           <form
+            style="display: inline"
+            action="/update/job-<%= jobId %>/category-<%= jobCategory[i].category_id %>/item-<%= jobCategoryItem[j].item_id %>"
+            method="post"
+          >
+            <input
+              type="text"
+              name="category_item"
+              value="<%= jobCategoryItem[j].item_detail %>"
+              onchange="addUpdateBtn('<%= jobCategoryItem[j].item_id %>', '<%= jobCategory[i].category_detail %>')"
+            />
+            <button
+              class="update-btn d-none"
+              id="<%= jobCategory[i].category_detail %>_<%= jobCategoryItem[j].item_id %>"
+              type="submit"
+            >
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </form>
+          <form
+            id="<%= jobCategory[i].category_detail %>_<%= jobCategoryItem[j].item_id %>"
             class="delete-btn"
             style="display: inline"
             action="/delete/job-<%= jobId %>/category-<%= jobCategory[i].category_id %>/item-<%= jobCategoryItem[j].item_id %>"
@@ -154,58 +198,36 @@
             name="categoryDetail"
             placeholder="Add a category"
             required
+            disabled
           />
-          <button type="submit">+</button>
+          <button disabled type="submit">+</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 <script>
-  function addUpdateBtn(jobid, categoryName, itemId) {
-    const delBtn = document.querySelector('.delete-btn');
+  function addUpdateBtn(itemId, category) {
+    const allUpdateBtn = document.querySelectorAll('.update-btn');
     const allDelBtn = document.querySelectorAll('.delete-btn');
-    const inputContainer = document.querySelectorAll('.input-container');
-    const oldUpdateBtn = document.querySelectorAll('.update-btn');
-    const form = document.createElement('form');
-    const button = document.createElement('button');
 
-    // avoids excessive adding of update button
-    inputContainer.forEach((container) => {
-      oldUpdateBtn.forEach((btn) => {
-        if (
-          container.lastChild == btn &&
-          btn.getAttribute('action') ==
-            `/update/job-${jobid}/${categoryName}/${itemId}`
-        ) {
-          container.removeChild(container.lastChild);
-        }
-      });
-    });
-
-    // creates the update button form
-    form.setAttribute(
-      'action',
-      `/update/job-${jobid}/category-${categoryName}/item-${itemId}`
-    );
-    form.setAttribute('method', 'post');
-    form.setAttribute('style', 'display: inline;');
-    form.classList.add('update-btn');
-    button.setAttribute('type', 'submit');
-    button.textContent = 'update';
-    form.appendChild(button);
-
-    // places the update button on corresponding item
     allDelBtn.forEach((btn) => {
       if (
-        btn.getAttribute('action') ==
-          `/deleteResponsibility/${jobid}/${itemId}` ||
-        btn.getAttribute('action') ==
-          `/deleteQualification/${jobid}/${itemId}` ||
-        btn.getAttribute('action') ==
-          `/delete/job-${jobid}/category-${categoryName}/item-${itemId}`
+        btn.getAttribute('id') == `responsibility_${itemId}` ||
+        btn.getAttribute('id') == `qualification_${itemId}` ||
+        btn.getAttribute('id') == `${category}_${itemId}`
       ) {
-        btn.parentNode.appendChild(form);
+        btn.classList.add('d-none');
+      }
+    });
+
+    allUpdateBtn.forEach((btn) => {
+      if (
+        btn.getAttribute('id') == `responsibility_${itemId}` ||
+        btn.getAttribute('id') == `qualification_${itemId}` ||
+        btn.getAttribute('id') == `${category}_${itemId}`
+      ) {
+        btn.classList.remove('d-none');
       }
     });
   }

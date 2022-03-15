@@ -39,8 +39,8 @@ router.post('/add-role/:job_id', (req, res) => {
                 });
 });
 
-// edit role
-router.post('/edit-role/:job_id', (req, res) => {
+// update role
+router.post('/edit-role/job-:job_id', (req, res) => {
         const { role } = req.body;
         const { job_id } = req.params;
         knex('jobs.job_details')
@@ -62,15 +62,14 @@ router.post('/addResponsibility/:job_id', (req, res) => {
                 });
 });
 
-// edit responsibility item
+// update responsibility item
 router.post('/update/job-:job_id/category-responsibility/item-:responsibility_id', (req, res) => {
-        const responsibility_item = req.body;
+        const { responsibility_item } = req.body;
         const { job_id, responsibility_id } = req.params;
-        console.log(responsibility_item);
         knex('jobs.responsibility')
-                .update({ responsibility_detail: responsibility_item })
                 .where('job_id', job_id)
                 .andWhere('responsibility_id', responsibility_id)
+                .update({ job_id, responsibility_detail: responsibility_item })
                 .then(() => {
                         res.redirect(`/job-details/${job_id}`);
                 });
@@ -99,7 +98,18 @@ router.post('/addQualification/:job_id', (req, res) => {
                 });
 });
 
-// edit qualification item
+// update qualification item
+router.post('/update/job-:job_id/category-qualification/item-:qualification_id', (req, res) => {
+        const { qualification_item } = req.body;
+        const { job_id, qualification_id } = req.params;
+        knex('jobs.qualification')
+                .update({ job_id, qualification_detail: qualification_item })
+                .where('job_id', job_id)
+                .andWhere('qualification_id', qualification_id)
+                .then(() => {
+                        res.redirect(`/job-details/${job_id}`);
+                });
+});
 
 // delete qualification item
 router.post('/deleteQualification/:job_id/:qualification_id', (req, res) => {
@@ -133,6 +143,20 @@ router.post('/add/:job_id/:category_id', (req, res) => {
                 .insert({ category_id: categoryId, item_detail: item, job_id: jobId })
                 .then(() => {
                         res.redirect(`/job-details/${jobId}`);
+                });
+});
+
+// update category item
+router.post('/update/job-:job_id/category-:category_id/item-:item_id', (req, res) => {
+        const { category_item } = req.body;
+        const { category_id, item_id, job_id } = req.params;
+        knex('jobs.item')
+                .update({ job_id, item_detail: category_item })
+                .where('job_id', job_id)
+                .andWhere('item_id', item_id)
+                .andWhere('category_id', category_id)
+                .then(() => {
+                        res.redirect(`/job-details/${job_id}`);
                 });
 });
 
