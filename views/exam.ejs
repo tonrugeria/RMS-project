@@ -18,8 +18,87 @@
       </div>
     </div>
     <div class="col-sm-10">
-      <h1>this is exam</h1>
+      <div class="d-flex">
+        <button onclick="showAllFunction()">ALL</button>
+        <% for(let i = 0; i < adminSkill.length; i++) { %>
+        <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
+          <%= adminSkill[i].skill_name %>
+        </button>
+        <% } %>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            <input
+              id="questionCheckbox"
+              type="checkbox"
+              onclick="toggleCheck(this)"
+            />
+            <label for="questionCheckbox">QUESTION</label>
+          </div>
+          <div class="col text-center">TOPIC</div>
+          <div class="col text-center">LEVEL</div>
+        </div>
+        <form action="/exam/<%= jobId %>" method="post">
+          <% for(let i = 0; i < question.length; i++) { %>
+          <div
+            class="row all-btn <%= question[i].question_category %>-btn skill"
+          >
+            <div class="col-8">
+              <input
+                id="questionCheckbox"
+                type="checkbox"
+                name="question_id"
+                value="<%= question[i].question_id %>"
+              />
+              <label for="questionCheckbox"
+                ><%= question[i].question_detail %></label
+              >
+            </div>
+            <div class="col text-center all-btn">
+              <%= question[i].question_category %>
+            </div>
+            <div class="col text-center all-btn">
+              <%= question[i].question_level %>
+            </div>
+          </div>
+          <% } %>
+          <button type="submit">SAVE</button>
+        </form>
+
+        <div class="row">
+          <div class="col-8"></div>
+          <div class="col text-center"></div>
+          <div class="col text-center"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<script>
+  function showAllFunction() {
+    const allSkills = document.querySelectorAll('.all-btn');
+    allSkills.forEach((element) => {
+      element.classList.remove('d-none');
+    });
+  }
+
+  function toggleShowHide(skill_name) {
+    const allSkills = document.querySelectorAll('.skill');
+    const target = document.querySelectorAll(`.${skill_name}-btn`);
+    allSkills.forEach((element) => {
+      element.classList.add('d-none');
+    });
+    target.forEach((element) => {
+      element.classList.remove('d-none');
+    });
+  }
+
+  function toggleCheck(source) {
+    const checkboxes = document.getElementsByName('question_id');
+    for (const checkbox of checkboxes) {
+      checkbox.checked = source.checked;
+    }
+  }
+</script>
 <%- include('./layout/footer.ejs') %>

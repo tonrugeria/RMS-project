@@ -1,0 +1,100 @@
+<%- include('./layout/resumeHeader.ejs') %>
+<div class="container g-0 m-0 p-0">
+  <div class="row min-vh-100 min-vw-100 g-0">
+    <div class="col-sm-2 pl-1">
+      <div class="d-flex flex-column">
+        <div>
+          <a href="/resume/job/<%= jobId %>">RESUME</a>
+        </div>
+        <div>
+          <a href="#">EXAM</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-10">
+      <form action="/resume/job/<%= jobId %>" method="post">
+        <div>
+          <label for="appId">APPLICATION ID</label> <br>
+          <input type="number"  name="appId" value="<%= unique %>" readonly>
+        </div>
+          <div>
+            <h5>YOU ARE APPLYING FOR THE POSITION</h5>
+            <% for( let i = 0; i < jobs.length; i++) { %>
+              <h1><%= jobs[i].job_title %></h1> 
+            <% } %> 
+          </div>
+          <div class="mb-3">
+          </div>
+            <h5>Your Personal Information</h5>
+            <div class="mb-4">
+                <p><strong>NAME</strong></p>
+                <input type="text" name="first_name" placeholder="First Name">
+                <input type="text" name="middle_name" placeholder="Middle Name">
+                <input type="text" name="last_name" placeholder="Last Name">
+                <p><strong>GENDER</strong></p>
+                <select name="gender" id="contact">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <p><strong>DATE OF BIRTH</strong></p>
+                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" required>
+                <p><strong>CONTACT</strong></p>
+                <input type="email" name="email" placeholder="Email Address">
+                <input type="number" name="skype" placeholder="Skype ID" required>
+                <input type="text" name="mobile" placeholder="Mobile Number" required>
+                <p><strong>PREFERRED CONTACT</strong></p>
+                <select name="preferred_contact" id="contact">
+                      <option value="Email">Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile">Mobile</option>
+                      <option value="Email">Email</option>
+                      <option value="Skype">Skype</option>
+                </select>
+                <p><strong>ADDRESS</strong></p>
+                <input type="text" name="address" placeholder="Address">
+                <input type="text" name="city" placeholder="City">
+                <input type="text" name="province" placeholder="Province">
+                <p><strong>EXPECTED SALARY</strong></p>
+                <input type="number" name="expected_salary" required>
+                <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
+                <input type="date" name="start_date" required>
+                <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+                <input type="date" name="preferred_interview_date_1" required>
+                <input type="date" name="preferred_interview_date_2" required>
+                <input type="date" name="preferred_interview_date_3" required>
+            </div>
+            <div>
+              <h5>Your Qualification</h5>
+              <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
+              <div class="container">
+                <div class="row">
+                  <% for( let i =0; i < admin.length; i++) { %>
+                    <div class="col-4 mb-1">
+                        <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 30px">
+                        <label style="width: 70px"><%= admin[i].skill_name %> </label>
+                        <input type="number" name="skill_years" placeholder="Years" style="width: 60px" required>
+                        <input type="number" name="skill_self_rating" placeholder="0" style="width: 50px" required>
+                    </div>
+                  <% } %> 
+                </div>
+              </div>
+            </div>
+            <div>
+              <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong></p>
+              <div>
+                <input type="text" name="story_1" placeholder="Enter your story">
+              </div>
+              <div>
+                <input type="text" name="story_1" placeholder="Enter your story">
+              </div>
+              <div>
+                <input type="text" name="story_1" placeholder="Enter your story">
+              </div>
+            </div>
+          <button type="submit">SAVE</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+<%- include('./layout/resumeFooter.ejs') %>
