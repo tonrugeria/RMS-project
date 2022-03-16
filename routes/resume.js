@@ -52,7 +52,6 @@ router.post('/resume/job/:job_id', async (req, res) => {
     skill_years,
     skill_self_rating,
   } = req.body
-  console.log(skill_id, skill_years, skill_self_rating);
   knex('job_application.applicant_details')
     .insert({
       job_id: jobId,

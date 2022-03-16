@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     date_of_birth date NOT NULL,
     email VARCHAR(100) NOT NULL,
     skype VARCHAR(100) NOT NULL,
-    mobile int NOT NULL,
+    mobile VARCHAR(100) NOT NULL,
     preferred_contact VARCHAR(100) NOT NULL,
     address VARCHAR(100) NOT NULL,
     city VARCHAR(100) NOT NULL,
