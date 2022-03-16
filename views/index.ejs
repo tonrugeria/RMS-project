@@ -2,50 +2,112 @@
   <div class="row min-vh-100">
     <div class="col-sm-2 col-md-2 col-xl-2">
       <!-- <link rel="stylesheet" href="/index.css" /> -->
-      <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
-      <form action="#">
-        <% for(let i=0; i < skill.length; i++) { %>
-          <div>
-            <label for="<%= skill[i].skill_name %>">
-              <%= skill[i].skill_name %>
-            </label>
-            <input type="checkbox" />
-          </div>
-          <% } %>
-      </form>
-      <form action="#">
-        <input type="checkbox" id="active" name="active" value="active">
-        <label for="active">ACTIVE</label><br>
-        <input type="checkbox" id="draft" name="draft" value="draft">
-        <label for="draft">DRAFT</label><br>
-        <input type="checkbox" id="archive" name="archive" value="archive">
-        <label for="archive">ARCHIVE</label><br><br>
-      </form>
-
-      <form action="/logout?_method=DELETE" class="" method="post">
-        <div class="d-flex justify-content-center">
-          <button>LOGOUT</button>
-        </div>
-      </form>
-    </div>
+      <script>
+        function showall(){
+        
+        const collection = document.getElementsByClassName("all");
+        for (let i = 0; i < collection.length; i++) {
+        collection[i].style.display = "block";
+        
+        }}
+        
+        function sqa(){
+            
+        const hideall = document.getElementsByClassName("all");
+        const sqa = document.getElementsByClassName("sqa");
+          for (let i = 0; i < hideall.length; i++) {
+          hideall[i].style.display = "none";
+            }
+            for (let i = 0; i < sqa.length; i++) {
+                sqa[i].style.display = "block";
+              }}
+        function mkt(){
+            
+        const hideall = document.getElementsByClassName("all");
+        const mkt = document.getElementsByClassName("mkt");
+              for (let i = 0; i < hideall.length; i++) {
+              hideall[i].style.display = "none";
+              }
+              for (let i = 0; i < mkt.length; i++) {
+                mkt[i].style.display = "block";
+              }}
+        
+        function se(){
+            
+        const hideall = document.getElementsByClassName("all");
+        const se = document.getElementsByClassName("se");
+               for (let i = 0; i < hideall.length; i++) {
+               hideall[i].style.display = "none";
+              }
+              for (let i = 0; i < se.length; i++) {
+              se[i].style.display = "block";
+              console.log(se);
+             
+              }}
+        function adm(){
+          
+            const hideall = document.getElementsByClassName("all");
+            const adm = document.getElementsByClassName("adm");
+                   for (let i = 0; i < hideall.length; i++) {
+                   hideall[i].style.display = "none";
+                  }
+                  for (let i = 0; i < adm.length; i++) {
+                  adm[i].style.display = "block";
+                   console.log (adm);
+                      }}
+                </script>
+    
+    
+              <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
+              <form action="#">
+    
+                <% for (let  i = 0; i < job_description.length; i++) { %>
+                  <div>
+                <label for="<%= job_description[i].filter_function %>">
+                  <%= job_description[i].filter_function %></label>
+                <input type="checkbox" value="<%= job_description[i].filter_function %>" onClick="<%= job_description[i].filter_id%>()">
+                </div>
+              <% } %> 
+            
+              <form action="#">
+                <% for (let  i = 0; i < status.length; i++) { %>
+                  <div>
+                <label for="<%= status[i].status_buttons %>">
+                  <%= status[i].status_buttons %></label>
+                <input type="checkbox" value="<%= status[i].status_buttons %>" onClick="<%= status[i].status_filter %>()">
+                </div>
+              <% } %> 
 
     <div class="col-sm-10 col-md-10 col-xl-10">
-      <% for (let i=0; i < job_opening.length; i++) { %>
-        <div class="card">
-          <span>
-            <%= job_opening[i].date_opened %>
-          </span>
-          <span>
-            <%= job_opening[i].job_type %>
-          </span>
-          <h1>
-            <%= job_opening[i].job_title %>
-          </h1>
-        </div>
-        <% } %>
+      
+      <% for (let i = 0; i < job_opening.length; i++) { %> 
+        <div class ="card all <%= job_opening[i].filter %>"> 
+          <div class ="card <%= job_opening[i].status %>">
+        <span><%= job_opening[i].date_opened %></span>
+        <span><%= job_opening[i].job_type %></span>
+        <h1><%= job_opening[i].job_title %></h1>  
+            
+    <form action="#">
+      <% for (let  i = 0; i < status.length; i++) { %>
+    
+      <label for="<%= status[i].status_buttons %>">
+        <%= status[i].status_buttons %></label>
+      <input type="checkbox" value="<%= status[i].status_buttons %>" onClick="<%= status[i].status_filter %>()">
+  
+    <% } %>    
+    </form>
     </div>
   </div>
-
-
+    </div>
+  
+  <% } %> 
+  
+  
+  <form action="/logout?_method=DELETE" class="" method="post">
+    <div class="d-flex justify-content-center">
+      <button>LOGOUT</button>
+    </div>
+  </form>
+  
+  <%- include('./layout/footer.ejs')  %>  
       
-      <%- include('./layout/footer.ejs') %>
