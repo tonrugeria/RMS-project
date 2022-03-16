@@ -5,10 +5,14 @@ const knex = require('knex')({
                 port: 5432,
                 user: 'postgres',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 password: '12345',
 =======
                 password: '0000',
 >>>>>>> b7d63377c9351d52d837afc45c5915e333506088
+=======
+                password: '12345',
+>>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
                 database: 'rms',
         },
 });
@@ -20,10 +24,14 @@ const pool = new Pool({
         user: 'postgres',
         database: 'rms',
 <<<<<<< HEAD
+<<<<<<< HEAD
         password: '12345',
 =======
         password: '0000',
 >>>>>>> b7d63377c9351d52d837afc45c5915e333506088
+=======
+        password: '12345',
+>>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
         port: 5432,
 });
 
@@ -102,7 +110,7 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
     min_years_experience VARCHAR(100) NOT NULL,
     exam_score VARCHAR(100) NOT NULL,
     hr_rating VARCHAR(100) NOT NULL,
-    date_opened DATE NOT NULL,
+    date_opened DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_date_update DATE NOT NULL,
     created_by VARCHAR(100) NOT NULL,
     last_updated_by VARCHAR(100) NOT NULL,
@@ -229,6 +237,49 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
+<<<<<<< HEAD
+=======
+
+CREATE TABLE IF NOT EXISTS Jobs.Responsibility(
+    job_id INT NOT NULL,
+    responsibility_id SERIAL PRIMARY KEY NOT NULL,
+    responsibility_detail VARCHAR,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id)
+);
+
+CREATE TABLE IF NOT EXISTS Jobs.Qualification(
+    job_id INT NOT NULL,
+    qualification_id SERIAL PRIMARY KEY NOT NULL,
+    qualification_detail VARCHAR,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id)
+);
+
+CREATE TABLE IF NOT EXISTS Jobs.Category(
+    job_id INT NOT NULL,
+    category_id SERIAL PRIMARY KEY NOT NULL,
+    category_detail VARCHAR,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id)
+);
+
+CREATE TABLE IF NOT EXISTS Jobs.Item(
+    job_id INT NOT NULL,
+    category_id INT,
+    item_id SERIAL PRIMARY KEY NOT NULL,
+    item_detail VARCHAR,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id),
+    FOREIGN KEY(category_id)
+    REFERENCES Jobs.Category(category_id)
+);
+
+>>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
 CREATE SCHEMA IF NOT EXISTS Question;
 CREATE TABLE IF NOT EXISTS Question.Question (
     question_id SERIAL PRIMARY KEY NOT NULL,
@@ -254,9 +305,14 @@ CREATE TABLE IF NOT EXISTS Question.Question (
 CREATE SCHEMA IF NOT EXISTS Job_Application;
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     job_id int NOT NULL,
+<<<<<<< HEAD
     application_id int PRIMARY KEY NOT NULL,
     middle_name VARCHAR(100) NOT NULL,
+=======
+    application_id INT PRIMARY KEY NOT NULL,
+>>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
     first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     gender VARCHAR(100) NOT NULL,
     date_of_birth date NOT NULL,
@@ -264,12 +320,14 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     skype VARCHAR(100) NOT NULL,
     mobile int NOT NULL,
     preferred_contact VARCHAR(100) NOT NULL,
-    preferred_interview_date_1 date NOT NULL,
-    preferred_interview_date_2 date NOT NULL,
-    preferred_interview_date_3 date NOT NULL,
     address VARCHAR(100) NOT NULL,
     city VARCHAR(100) NOT NULL,
     province VARCHAR(100) NOT NULL,
+    expected_salary INT NOT NULL,
+    start_date date,
+    preferred_interview_date_1 date NOT NULL,
+    preferred_interview_date_2 date NOT NULL,
+    preferred_interview_date_3 date NOT NULL,
     technical_test_score int NOT NULL,
     personality_test_score int NOT NULL,
     year_experience	int NOT NULL,
@@ -283,71 +341,29 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     REFERENCES Jobs.Job_Opening(job_id)
 );
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_rating (
+    rating_id SERIAL PRIMARY KEY NOT NULL,
     application_id	INT NOT NULL,
-    skill_id_1	int,
-    skill_years_1	int,
-    skill_self_rating_1	int,
-    skill_id_2	int,
-    skill_years_2	int,
-    skill_self_rating_2	int,
-    skill_id_3	int,
-    skill_years_3	int,
-    skill_self_rating_3	int,
-    skill_id_4	int,
-    skill_years_4	int,
-    skill_self_rating_4	int,
-    skill_id_5	int,
-    skill_years_5	int,
-    skill_self_rating_5	int,
-    skill_id_6	int,
-    skill_years_6	int,
-    skill_self_rating_6	int,
-    skill_id_7	int,
-    skill_years_7	int,
-    skill_self_rating_7	int,
-    skill_id_8	int,
-    skill_years_8	int,
-    skill_self_rating_8	int,
-    skill_id_9	int,
-    skill_years_9	int,
-    skill_self_rating_9	int,
-    skill_id_10	int,
-    skill_years_10	int,
-    skill_self_rating_10	int,
-    skill_id_11	int,
-    skill_years_11	int,
-    skill_self_rating_11	int,
-    skill_id_12	int,
-    skill_years_12	int,
-    skill_self_rating_12	int,
-    skill_id_13	int,
-    skill_years_13	int,
-    skill_self_rating_13	int,
-    skill_id_14	int,
-    skill_years_14	int,
-    skill_self_rating_14	int,
-    skill_id_15	int,
-    skill_years_15	int,
-    skill_self_rating_15	int,
-    skill_id_16	int,
-    skill_years_16	int,
-    skill_self_rating_16	int,
-    skill_id_17	int,
-    skill_years_17	int,
-    skill_self_rating_17	int,
-    skill_id_18	int,
-    skill_years_18	int,
-    skill_self_rating_18	int,
-    skill_id_19	int,
-    skill_years_19	int,
-    skill_self_rating_19	int,
-    skill_id_20	int,
-    skill_years_20	int,
-    skill_self_rating_20	int,
+    skill_id INT NOT NULL,
+    skill_years INT NOT NULL,
+    skill_self_rating INT NOT NULL,
+
+    FOREIGN KEY(application_id)
+    REFERENCES Job_Application.Applicant_details(application_id),
+    FOREIGN KEY(skill_id)
+    REFERENCES Admin.Skill(skill_id)
+);
+
+CREATE TABLE IF NOT EXISTS Job_Application.story (
+    story_id SERIAL PRIMARY KEY NOT NULL,
+    application_id INT NOT NULL,
+    story_1 VARCHAR(1000) NOT NULL,
+    story_2 VARCHAR(1000) NOT NULL,
+    story_3 VARCHAR(1000) NOT NULL,
 
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
 );
+
 CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
     application_id	int NOT NULL,
     capability_1	varchar(100),
