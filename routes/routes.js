@@ -11,12 +11,10 @@ const router = express.Router();
 // home route
 router.get("/", checkAuthenticated, async (req, res) => {
   const job_opening = await knex("jobs.job_opening").select();
-  const skill = await knex("admin.skill").select();
-  const joinSkill = await knex
-  .select("")
-  .from("jobs.job_opening")
-  .innerJoin("jobs.skill", "jobs.job_opening.job_id", "jobs.skill.job_id")
-  res.render("index", { job_opening, skill });
+  const job_description = await knex("jobs.job_description").select();
+  const status = await knex("admin.status").select();
+  
+  res.render("index", { job_opening, job_description,status });
 });
 
 // register get route

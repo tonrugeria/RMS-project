@@ -29,7 +29,11 @@
       <div class="container">
         <div class="row">
           <div class="col-8">
-            <input id="questionCheckbox" type="checkbox" />
+            <input
+              id="questionCheckbox"
+              type="checkbox"
+              onclick="toggleCheck(this)"
+            />
             <label for="questionCheckbox">QUESTION</label>
           </div>
           <div class="col text-center">TOPIC</div>
@@ -88,6 +92,13 @@
     target.forEach((element) => {
       element.classList.remove('d-none');
     });
+  }
+
+  function toggleCheck(source) {
+    const checkboxes = document.getElementsByName('question_id');
+    for (const checkbox of checkboxes) {
+      checkbox.checked = source.checked;
+    }
   }
 </script>
 <%- include('./layout/footer.ejs') %>
