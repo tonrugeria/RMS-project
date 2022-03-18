@@ -236,76 +236,32 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_rating (
     REFERENCES Admin.Skill(skill_id)
 );
 
-CREATE TABLE IF NOT EXISTS Job_Application.story (
-    story_id SERIAL PRIMARY KEY NOT NULL,
-    application_id INT NOT NULL,
-    story_1 VARCHAR(1000) NOT NULL,
-    story_2 VARCHAR(1000) NOT NULL,
-    story_3 VARCHAR(1000) NOT NULL,
-
-    FOREIGN KEY(application_id)
-    REFERENCES Job_Application.Applicant_details(application_id)
-);
-
 CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
     application_id	int NOT NULL,
-    capability_1	varchar(100),
-    capability_2	varchar(100),
-    capability_3	varchar(100),
-    capability_4	varchar(100),
-    capability_5	varchar(100),
-    capability_6	varchar(100),
-    capability_7	varchar(100),
-    capability_8	varchar(100),
-    capability_9	varchar(100),
-    capability_10	varchar(100),
+    capability_id SERIAL PRIMARY KEY NOT NULL,
+    capability_1 VARCHAR(1000) NOT NULL,
+    capability_2 VARCHAR(1000) NOT NULL,
+    capability_3 VARCHAR(1000) NOT NULL,
 
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
 );
 CREATE TABLE IF NOT EXISTS Job_Application.Employment_History (
+    history_id SERIAL PRIMARY KEY NOT NULL,
     application_id	int NOT NULL,
-    start_date_1	date,
-    end_date_1	date,
+    history_start_date_1 date,
+    history_end_date_1	date,
     position_1	varchar(100),
     company_1	varchar(100),
-    start_date_2	date,
-    end_date_2	date,
+    history_start_date_2 date,
+    history_end_date_2	date,
     position_2	varchar(100),
     company_2	varchar(100),
-    start_date_3	date,
-    end_date_3	date,
+    history_start_date_3 date,
+    history_end_date_3	date,
     position_3	varchar(100),
     company_3	varchar(100),
-    start_date_4	date,
-    end_date_4	date,
-    position_4	varchar(100),
-    company_4	varchar(100),
-    start_date_5	date,
-    end_date_5	date,
-    position_5	varchar(100),
-    company_5	varchar(100),
-    start_date_6	date,
-    end_date_6	date,
-    position_6	varchar(100),
-    company_6	varchar(100),
-    start_date_7	date,
-    end_date_7	date,
-    position_7	varchar(100),
-    company_7	varchar(100),
-    start_date_8	date,
-    end_date_8	date,
-    position_8	varchar(100),
-    company_8	varchar(100),
-    start_date_9	date,
-    end_date_9	date,
-    position_9	varchar(100),
-    company_9	varchar(100),
-    start_date_10	date,
-    end_date_10	date,
-    position_10	varchar(100),
-    company_10	varchar(100),
-
+    
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
 );
