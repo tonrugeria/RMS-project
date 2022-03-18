@@ -1,113 +1,140 @@
 <%- include('./layout/header.ejs') %>
-  <div class="row min-vh-100">
-    <div class="col-sm-2 col-md-2 col-xl-2">
-      <!-- <link rel="stylesheet" href="/index.css" /> -->
-      <script>
-        function showall(){
-        
-        const collection = document.getElementsByClassName("all");
-        for (let i = 0; i < collection.length; i++) {
-        collection[i].style.display = "block";
-        
-        }}
-        
-        function sqa(){
-            
-        const hideall = document.getElementsByClassName("all");
-        const sqa = document.getElementsByClassName("sqa");
-          for (let i = 0; i < hideall.length; i++) {
-          hideall[i].style.display = "none";
-            }
-            for (let i = 0; i < sqa.length; i++) {
-                sqa[i].style.display = "block";
-              }}
-        function mkt(){
-            
-        const hideall = document.getElementsByClassName("all");
-        const mkt = document.getElementsByClassName("mkt");
-              for (let i = 0; i < hideall.length; i++) {
-              hideall[i].style.display = "none";
-              }
-              for (let i = 0; i < mkt.length; i++) {
-                mkt[i].style.display = "block";
-              }}
-        
-        function se(){
-            
-        const hideall = document.getElementsByClassName("all");
-        const se = document.getElementsByClassName("se");
-               for (let i = 0; i < hideall.length; i++) {
-               hideall[i].style.display = "none";
-              }
-              for (let i = 0; i < se.length; i++) {
-              se[i].style.display = "block";
-              console.log(se);
-             
-              }}
-        function adm(){
-          
-            const hideall = document.getElementsByClassName("all");
-            const adm = document.getElementsByClassName("adm");
-                   for (let i = 0; i < hideall.length; i++) {
-                   hideall[i].style.display = "none";
-                  }
-                  for (let i = 0; i < adm.length; i++) {
-                  adm[i].style.display = "block";
-                   console.log (adm);
-                      }}
-                </script>
-    
-    
-              <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
-              <form action="#">
-    
-                <% for (let  i = 0; i < job_description.length; i++) { %>
-                  <div>
-                <label for="<%= job_description[i].filter_function %>">
-                  <%= job_description[i].filter_function %></label>
-                <input type="checkbox" value="<%= job_description[i].filter_function %>" onClick="<%= job_description[i].filter_id%>()">
-                </div>
-              <% } %> 
-            
-              <form action="#">
-                <% for (let  i = 0; i < status.length; i++) { %>
-                  <div>
-                <label for="<%= status[i].status_buttons %>">
-                  <%= status[i].status_buttons %></label>
-                <input type="checkbox" value="<%= status[i].status_buttons %>" onClick="<%= status[i].status_filter %>()">
-                </div>
-              <% } %> 
-
-    <div class="col-sm-10 col-md-10 col-xl-10">
-      
-      <% for (let i = 0; i < job_opening.length; i++) { %> 
-        <div class ="card all <%= job_opening[i].filter %>"> 
-          <div class ="card <%= job_opening[i].status %>">
-        <span><%= job_opening[i].date_opened %></span>
-        <span><%= job_opening[i].job_type %></span>
-        <h1><%= job_opening[i].job_title %></h1>  
-            
+<div class="row min-vh-100">
+  <div class="col-sm-2 col-md-2 col-xl-2">
+    <!-- <link rel="stylesheet" href="/index.css" /> -->
+    <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
+    <div>
+      <input type="checkbox" id="all-checkbox" onclick="showAllFunction()" checked/>
+      <label for="all-checkbox">
+        ALL
+      </label>
+    </div>
+    <div>
+      <!-- department filter -->
+      <% for(let i=0; i < admin_department.length; i++) { %>
+        <% const str =  admin_department[i].dept_name.replace(/\s/g, ''); %>
+        <div>
+          <input type="checkbox" id="<%= str %>-checkbox"
+          class="all-dept-checkbox" 
+            onclick="showDeptFunction('<%= str %>')"/>
+          <label for="<%= admin_department[i].dept_name %>">
+            <%= admin_department[i].dept_name %>
+          </label>
+        </div>
+        <% } %>
+    </div>
     <form action="#">
-      <% for (let  i = 0; i < status.length; i++) { %>
-    
-      <label for="<%= status[i].status_buttons %>">
-        <%= status[i].status_buttons %></label>
-      <input type="checkbox" value="<%= status[i].status_buttons %>" onClick="<%= status[i].status_filter %>()">
-  
-    <% } %>    
+      <input type="checkbox" id="active" name="active" value="active">
+      <label for="active">ACTIVE</label><br>
+      <input type="checkbox" id="draft" name="draft" value="draft">
+      <label for="draft">DRAFT</label><br>
+      <input type="checkbox" id="archive" name="archive" value="archive">
+      <label for="archive">ARCHIVE</label><br><br>
     </form>
-    </div>
+
+    <form action="/logout?_method=DELETE" class="" method="post">
+      <div class="d-flex justify-content-start">
+        <button>LOGOUT</button>
+      </div>
+    </form>
   </div>
-    </div>
+
+  <div class="col-sm-10 col-md-10 col-xl-10">
+    <% for (let i=0; i < job_opening.length; i++) { %>
+      <!-- adding dynamic class for each job -->
+      <div
+      <% for (let j=0; j < admin_department.length; j++) { %> 
+        <% if(job_opening[i].job_dept == admin_department[j].dept_name) {%>
+          <% const str =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
+          class="card all-jobs <%= str %>"
+        <% } %> 
+      <% } %> 
+      >
+        <!-- display date opened -->
+        <div>
+          <%= date_opened %>
+        </div>
+        <!-- display job-type -->
+        <div>
+          <%= job_opening[i].job_type %>
+        </div>
+        <!-- display job title -->
+        <div>
+          <h1>
+            <a href="/job-requirement/<%= job_opening[i].job_id %>">
+              <%= job_opening[i].job_title %>
+            </a>
+          </h1>
+        </div>
+        <!-- display skills -->
+        <div class="d-flex" style="gap: 5px;">
+          <% for (let j=0; j < jobSkill.length; j++) { %>
+            <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
+              <div style="border: solid black 2px; padding: 0 5px;">
+                <%= jobSkill[j].skill_name %> 
+              </div>
+            <% } %>
+          <% } %>
+        </div>
+        <!-- number of applications -->
+        <div>
+          <% let applicants =  0 %>
+          <p class="d-flex">
+            <% for (let j=0; j < jobApplications.length; j++) { %>
+              <% if(job_opening[i].job_id == jobApplications[j].job_id) { %>
+                  <% applicants++; %>
+              <% } %>
+            <% } %>
+            <%= applicants; %>
+            Applications
+          </p>
+        </div>
+      </div>
+      <% } %>
+  </div>
+</div>
+<script>
+  function showAllFunction() {
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+    if(allCheckBox.checked == true){
+      allJobs.forEach((job) => {
+      job.classList.remove('d-none');
+      });
+      allDeptCheckbox.forEach(checkbox =>{
+      checkbox.checked = false;
+      })
+    } else {
+      allJobs.forEach((job) => {
+      job.classList.add('d-none');
+      });
+    }
+  }
   
-  <% } %> 
-  
-  
-  <form action="/logout?_method=DELETE" class="" method="post">
-    <div class="d-flex justify-content-center">
-      <button>LOGOUT</button>
-    </div>
-  </form>
-  
-  <%- include('./layout/footer.ejs')  %>  
-      
+  function showDeptFunction(dept_name) {
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const deptCheckBox = document.querySelector(`#${dept_name}-checkbox`);
+    const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+    const dept_jobs = document.querySelectorAll(`.${dept_name}`);
+    const allJobs = document.querySelectorAll('.all-jobs');
+
+    if(allCheckBox.checked == true){
+      allCheckBox.checked = false;
+      allJobs.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+    if(deptCheckBox.checked == true){
+      dept_jobs.forEach(job => {
+        job.classList.remove('d-none');
+      })
+    } else {
+      dept_jobs.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+    
+  }
+</script>
+<%- include('./layout/footer.ejs') %>

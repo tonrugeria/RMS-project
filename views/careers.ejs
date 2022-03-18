@@ -1,50 +1,52 @@
 <%- include('./layout/header2.ejs') %>
-<link rel="stylesheet" href="/style.css" />
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
     <div class="content-title text-left">
-                    
-                   
+              
+      <h1>The Role and The Team</h1>
+      <p>We believe outstanding employees deserve the best workplace possible! We strive every day to create an environment where our teams can feel empowered and challenged by their work.
+        We are investing in our HR team and seek a flexible, energetic, and collaborative HR Operations professional to help take us to the next level. Our team is growing and if you’re looking to join a group of outstanding professionals, focused on bringing our cutting-edge technology to market while having some fun along the way, this may be the place for you. This role will support The People Success Team with a strong emphasis on people processes, data, and analytics. We offer highly competitive compensation and benefits, along with work/life flexibility in today’s post-Covid world.</p>
+
       <% for (let i=0; i < job_details.length; i++) { %>
-               <h1>
-              <%= job_details[i].role %>
-                </h1>
-                    
+        
       
+        <h2> <%= job_details[i].role %>  </h2>
 
-               <h2>Job Description</h2>
-                <h3>The Role &amp; The Team</h3>
-                    <p>
-                      <%= job_details[i].category%>
-                    </p>
-
+              <h2>Job Description</h2>
+               <p>            </p>
 
                     <h3>What You Will Do</h3>
+
                     <ul>
-                      <p><%= job_details[i].item_description %></p>
+                      <p></p>
                     </ul>
+
                     <h3>What We Are Looking For</h3>
+
                     <ul>
-                      <p><%= job_details[i].item_definition %></p>
+                      <p></p>
                     </ul>
+
                     <h3>BENEFITS</h3>
+
                     <ul>
-                      <p><%= job_details[i].benefits%></p>
+                      <p></p>
                       <% } %>
+
                     </ul>
                     <div>
-                    </div>
-                  </div>
+                    
                 
-
-
-
-
-
-
-                
-
     <div class="button-wrapper">
       <button type="submit" class="btn ">Apply Now</button>
+    </head>
     </div>
   </form>
+  </html>
+
   <%- include('./layout/footer2.ejs') %> 
+
