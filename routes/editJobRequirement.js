@@ -11,11 +11,17 @@ router.get('/job-requirement/:job_id', async (req, res) => {
         const dept = await knex('admin.department');
         const jobType = await knex('admin.job_type');
         const hrRemarks = await knex('admin.remarks');
-        const jobSkill = await knex('jobs.skill').where('job_id', jobId);
+        const jobSkill = await knex('jobs.skill')
+                .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+                .where('job_id', jobId);
         const job = await knex('jobs.job_opening').where('job_id', jobId);
         const unique = jobId;
         const jobQuestion = await knex('jobs.question')
-                .innerJoin('question.question', 'jobs.question.question_id', 'question.question.question_id')
+                .innerJoin(
+                        'question.question',
+                        'jobs.question.question_id',
+                        'question.question.question_id'
+                )
                 .where('job_id', req.params.job_id);
         res.render('editJobRequirement', {
                 adminSkill,
@@ -44,7 +50,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
                 examScore,
                 hrAssessment,
                 skill_id,
-                skill_level,
+                skill_level_1,
         } = req.body;
         knex('jobs.job_opening')
                 .update({
@@ -62,58 +68,51 @@ router.post('/job-requirement/:job_id', async (req, res) => {
                 .then(async () => {
                         if (skill_id != null) {
                                 if (typeof skill_id != typeof []) {
-                                        const skillColumn = await knex('jobs.skill')
-                                                .where('job_id', jobId)
-                                                .andWhere('skill_id', skill_id);
-                                        if (skillColumn != 0) {
-                                                knex('jobs.skill')
-                                                        .update({
-                                                                skill_id,
-                                                                skill_level,
-                                                        })
-                                                        .where('job_id', jobId)
-                                                        .andWhere('skill_id', skill_id)
-                                                        .then(() => {
-                                                                res.redirect(`/job-requirement/${jobId}`);
-                                                        });
-                                        } else {
-                                                knex('jobs.skill')
-                                                        .insert({
-                                                                job_id: jobId,
-                                                                skill_id,
-                                                                skill_level,
-                                                        })
-                                                        .then(() => {
-                                                                res.redirect(`/job-requirement/${jobId}`);
-                                                        });
-                                        }
-                                } else {
-                                        skill_id.forEach(async (skill) => {
-                                                const skillColumn = await knex('jobs.skill')
-                                                        .where('job_id', jobId)
-                                                        .andWhere('skill_id', skill);
-                                                if (skillColumn != 0) {
-                                                        knex('jobs.skill')
-                                                                .update({
-                                                                        job_id: jobId,
-                                                                        skill_id: skill,
-                                                                })
-                                                                .where('job_id', jobId)
-                                                                .andWhere('skill_id', skill)
-                                                                .then((results) => results);
-                                                } else {
+                                        knex('jobs.skill')
+                                                .where({
+                                                        job_id: jobId,
+                                                })
+                                                .del()
+                                                .then(() => {
                                                         knex('jobs.skill')
                                                                 .insert({
                                                                         job_id: jobId,
-                                                                        skill_id: skill,
+                                                                        skill_id,
+                                                                        skill_level:
+                                                                                skill_level_1,
                                                                 })
-                                                                .then((results) => results);
-                                                }
+                                                                .then(() => {
+                                                                        res.redirect(
+                                                                                `/job-requirement/${jobId}`
+                                                                        );
+                                                                });
+                                                });
+                                } else {
+                                        knex('jobs.skill')
+                                                .where({
+                                                        job_id: jobId,
+                                                })
+                                                .del()
+                                                .then((results) => results);
+                                        skill_id.forEach(async (skill) => {
+                                                knex('jobs.skill')
+                                                        .insert({
+                                                                job_id: jobId,
+                                                                skill_id: skill,
+                                                        })
+                                                        .then((results) => results);
                                         });
                                         res.redirect(`/job-requirement/${jobId}`);
                                 }
                         } else {
-                                res.redirect(`/job-requirement/${jobId}`);
+                                knex('jobs.skill')
+                                        .where({
+                                                job_id: jobId,
+                                        })
+                                        .del()
+                                        .then(() => {
+                                                res.redirect(`/job-requirement/${jobId}`);
+                                        });
                         }
                 });
 });
