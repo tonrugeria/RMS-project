@@ -46,6 +46,7 @@ app.use(express.static("public"));
 
 // route prefix
 app.use("", require("./routes/routes"));
+app.use("", require("./routes/passwordReset"));
 app.use("", require("./routes/jobRequirement"));
 app.use("", require("./routes/editJobRequirement"));
 app.use("", require("./routes/jobDetails"));
@@ -58,6 +59,7 @@ app.use("", require("./routes/examCreation"));
 app.use("", require("./routes/exam"));
 app.use("", require("./routes/systemVariables"));
 app.use("", require("./routes/resume"));
+
 
 app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);

@@ -59,11 +59,13 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
 });
 
 // login get route
-router.get("/login", checkNotAuthenticated, (req, res) => {
+router.get("/login", checkNotAuthenticated, async(req, res) => {
+  const user = knex("admin.users");
   knex("admin.users").then((results) => {
     if (results != 0) {
       res.render("login", {
         title: "Log In",
+        user
       });
     } else {
       res.redirect("/register");
