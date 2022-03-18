@@ -1,51 +1,32 @@
-<%- include('./layout/header2.ejs')  %>  
-  
-<div class="columns">       
+<%- include('./layout/header2.ejs') %>
 
-  <button onclick="showAllFunction()">Show All</button>
-     <% for (let  i = 0; i < admin_department.length; i++) { %>
- <div id ="buttons" >
-  <button onclick="toggleShowHide('<%= admin_department[i].dept_name %>')">
-    <%= admin_department[i].dept_name %>
-  </button>
-  
-   <% } %>
+  <div class="columns">
+
+    <button onclick="showAllFunction()">Show All</button> 
+    <% for (let i=0; i < admin_department.length; i++) { %>
+      <% let noSpaceDept = admin_department[i].dept_name.replace(/\s/g, ''); %>
+      <div id="buttons">
+        <button onclick="toggleShowHide('<%= noSpaceDept %>')">
+          <%= admin_department[i].dept_name %>
+        </button>
+
+        <% } %>
+      </div>
+
+
+      <% for (let i=0; i < job_opening.length; i++) { %>
+        <% let noSpaceDept = job_opening[i].job_dept.replace(/\s/g, ''); %>
+        <div class="all-btn <%= noSpaceDept %>-btn dept">
+          <span>
+            <%= date_opened %>
+          </span>
+          <h1>
+            <%= job_opening[i].job_title %>
+          </h1>
+          <a href="/careers"><button class="btns">Apply Now</button></a>
+        </div>
   </div>
-  
+  <% } %>
 
-  <% for (let i = 0; i < job_opening.length; i++) { %>
-<div class ="all-btn <%= job_opening[i].job_dept %>-btn dept">  
-  <span><%= date_opened %></span>    
-     <h1><%= job_opening[i].job_title %></h1>
-   <a href="/careers"><button class="btns">Apply Now</button></a>
-    
-  </div>  
-</div>   
-<% } %>
-
-<script>
-
-  function showAllFunction() {
-    const allJobs = document.querySelectorAll('.all-btn');
-      allJobs.forEach((element) => {
-        element.classList.remove('d-none');
-      });
-    }
-  
-    function toggleShowHide(dept_name) {
-      const allDept = document.querySelectorAll('.dept');
-      const target = document.querySelectorAll(`.${dept_name}-btn`);
-      allDept.forEach((element) => {
-        element.classList.add('d-none');
-      });
-      target.forEach((element) => {
-        element.classList.remove('d-none');
-      });
-    }
-          </script>
-  
-
-<%- include('./layout/footer2.ejs')  %>  
-
-
-  
+    <%- include('./filterFunctions/careersMainFilter.ejs') %>
+<%- include('./layout/footer2.ejs') %>

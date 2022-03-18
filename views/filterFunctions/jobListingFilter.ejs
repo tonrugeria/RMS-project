@@ -1,0 +1,44 @@
+<script>
+const showAllFunction = () => {
+        const allCheckBox = document.querySelector('#all-checkbox');
+        const allJobs = document.querySelectorAll('.all-jobs');
+        const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+        if (allCheckBox.checked == true) {
+                allJobs.forEach((job) => {
+                        job.classList.remove('d-none');
+                });
+                allDeptCheckbox.forEach((checkbox) => {
+                        checkbox.checked = false;
+                });
+        } else {
+                allJobs.forEach((job) => {
+                        job.classList.add('d-none');
+                });
+        }
+};
+
+const showDeptFunction = (dept_name) => {
+        const allCheckBox = document.querySelector('#all-checkbox');
+        const deptCheckBox = document.querySelector(`#${dept_name}-checkbox`);
+        const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+        const dept_jobs = document.querySelectorAll(`.${dept_name}`);
+        const allJobs = document.querySelectorAll('.all-jobs');
+
+        if (allCheckBox.checked == true) {
+                allCheckBox.checked = false;
+                allJobs.forEach((job) => {
+                        job.classList.add('d-none');
+                });
+        }
+        if (deptCheckBox.checked == true) {
+                dept_jobs.forEach((job) => {
+                        job.classList.remove('d-none');
+                });
+        } else {
+                dept_jobs.forEach((job) => {
+                        job.classList.add('d-none');
+                });
+        }
+};
+
+</script>
