@@ -12,11 +12,11 @@
     <div>
       <!-- department filter -->
       <% for(let i=0; i < admin_department.length; i++) { %>
-        <% const str =  admin_department[i].dept_name.replace(/\s/g, ''); %>
+        <% let noSpaceDept =  admin_department[i].dept_name.replace(/\s/g, ''); %>
         <div>
-          <input type="checkbox" id="<%= str %>-checkbox"
+          <input type="checkbox" id="<%= noSpaceDept %>-checkbox"
           class="all-dept-checkbox" 
-            onclick="showDeptFunction('<%= str %>')"/>
+            onclick="showDeptFunction('<%= noSpaceDept %>')"/>
           <label for="<%= admin_department[i].dept_name %>">
             <%= admin_department[i].dept_name %>
           </label>
@@ -45,8 +45,8 @@
       <div
       <% for (let j=0; j < admin_department.length; j++) { %> 
         <% if(job_opening[i].job_dept == admin_department[j].dept_name) {%>
-          <% const str =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
-          class="card all-jobs <%= str %>"
+          <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
+          class="card all-jobs <%= noSpaceDept %>"
         <% } %> 
       <% } %> 
       >
@@ -93,48 +93,5 @@
       <% } %>
   </div>
 </div>
-<script>
-  function showAllFunction() {
-    const allCheckBox = document.querySelector('#all-checkbox');
-    const allJobs = document.querySelectorAll('.all-jobs');
-    const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
-    if(allCheckBox.checked == true){
-      allJobs.forEach((job) => {
-      job.classList.remove('d-none');
-      });
-      allDeptCheckbox.forEach(checkbox =>{
-      checkbox.checked = false;
-      })
-    } else {
-      allJobs.forEach((job) => {
-      job.classList.add('d-none');
-      });
-    }
-  }
-  
-  function showDeptFunction(dept_name) {
-    const allCheckBox = document.querySelector('#all-checkbox');
-    const deptCheckBox = document.querySelector(`#${dept_name}-checkbox`);
-    const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
-    const dept_jobs = document.querySelectorAll(`.${dept_name}`);
-    const allJobs = document.querySelectorAll('.all-jobs');
-
-    if(allCheckBox.checked == true){
-      allCheckBox.checked = false;
-      allJobs.forEach(job => {
-        job.classList.add('d-none');
-      })
-    }
-    if(deptCheckBox.checked == true){
-      dept_jobs.forEach(job => {
-        job.classList.remove('d-none');
-      })
-    } else {
-      dept_jobs.forEach(job => {
-        job.classList.add('d-none');
-      })
-    }
-    
-  }
-</script>
+<%- include('./filterFunctions/jobListingFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
