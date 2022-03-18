@@ -47,8 +47,6 @@
                       <option value="Email">Email</option>
                       <option value="Skype">Skype</option>
                       <option value="Mobile">Mobile</option>
-                      <option value="Email">Email</option>
-                      <option value="Skype">Skype</option>
                 </select>
                 <p><strong>ADDRESS</strong></p>
                 <input type="text" name="address" placeholder="Address">
@@ -57,11 +55,11 @@
                 <p><strong>EXPECTED SALARY</strong></p>
                 <input type="number" name="expected_salary" required>
                 <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
-                <input type="date" name="start_date" required>
+                <input type="text" name="start_date" placeholder="MM/DD/YY" required>
                 <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-                <input type="date" name="preferred_interview_date_1" required>
-                <input type="date" name="preferred_interview_date_2" required>
-                <input type="date" name="preferred_interview_date_3" required>
+                <input type="text" name="preferred_interview_date_1" placeholder="MM/DD/YY" required>
+                <input type="text" name="preferred_interview_date_2" placeholder="MM/DD/YY" required>
+                <input type="text" name="preferred_interview_date_3" placeholder="MM/DD/YY" required>
             </div>
             <div>
               <h5>Your Qualification</h5>
@@ -70,10 +68,10 @@
                 <div class="row">
                   <% for( let i =0; i < admin.length; i++) { %>
                     <div class="col-4 mb-1">
-                        <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 30px">
-                        <label style="width: 70px"><%= admin[i].skill_name %> </label>
-                        <input type="number" name="skill_years" placeholder="Years" style="width: 60px" required>
-                        <input type="number" name="skill_self_rating" placeholder="0" style="width: 50px" required>
+                        <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
+                        <label style="width: 90px"><%= admin[i].skill_name %> </label>
+                        <input type="number" name="skill_years" placeholder="Years" style="width: 70px" required>
+                        <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" required>
                     </div>
                   <% } %> 
                 </div>
@@ -82,18 +80,70 @@
             <div>
               <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong></p>
               <div>
-                <input type="text" name="story_1" placeholder="Enter your story">
+                <input type="text" name="capability_1" placeholder="Enter your story">
               </div>
               <div>
-                <input type="text" name="story_1" placeholder="Enter your story">
+                <input type="text" name="capability_2" placeholder="Enter your story">
               </div>
               <div>
-                <input type="text" name="story_1" placeholder="Enter your story">
+                <input type="text" name="capability_3" placeholder="Enter your story">
               </div>
             </div>
-          <button type="submit">SAVE</button>
-        </form>
-    </div>
+
+            <p><strong>Employment History</strong></p>
+              <div class="d-flex mb-1">
+                <div class="">
+                  <p><strong>FROM</strong></p>
+                  <input type="text" name="history_start_date_1" placeholder="MM / DD /  YY" required>
+                </div>
+                <div class="">
+                  <p><strong>TO</strong></p>
+                  <input type="text" name="history_end_date_1" placeholder="MM / DD / YY" required>
+                </div>
+                <div class="">
+                  <p><strong>POSITION</strong></p>
+                <input type="text" name="position_1" placeholder="Enter Position">
+                </div>
+                <div class="">
+                  <p><strong>COMPANY</strong></p>
+                  <input type="text" name="company_1" placeholder="Enter Company Name">
+                </div>
+              </div>
+              <div class="d-flex mb-1">
+                <div class="">
+                  <input type="text" name="history_start_date_2" placeholder="MM / DD /  YY" required>
+                </div>
+                <div class="">
+                  <input type="text" name="history_end_date_2" placeholder="MM / DD /  YY" required>
+                </div>
+                <div class="">
+                <input type="text" name="position_2" placeholder="Enter Position">
+                </div>
+                <div class="">
+                  <input type="text" name="company_2" placeholder="Enter Company Name">
+                </div>
+              </div>
+              <div class="d-flex mb-1">
+                <div class="">
+                  <input type="text" name="history_start_date_3" placeholder="MM / DD /  YY" required>
+                </div>
+                <div class="">
+                  <input type="text" name="history_end_date_3" placeholder="MM / DD /  YY" required>
+                </div>
+                <div class="">
+                <input type="text" name="position_3" placeholder="Enter Position">
+                </div>
+                <div class="">
+                  <input type="text" name="company_3" placeholder="Enter Company Name">
+                </div>
+              </div>
+              <!-- <div class="mb-3">
+                <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
+                <input type="text" name="year_experience" placeholder="0 Years" value="" readonly>
+              </div> -->
+              <button type="submit">SAVE</button>
+          </form>
+        </div>
   </div>
 </div>
 

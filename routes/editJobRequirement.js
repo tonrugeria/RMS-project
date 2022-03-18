@@ -11,10 +11,9 @@ router.get('/job-requirement/:job_id', async (req, res) => {
         const dept = await knex('admin.department');
         const jobType = await knex('admin.job_type');
         const hrRemarks = await knex('admin.remarks');
-        const jobSkill = await knex('jobs.skill')
-                .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
-                .where('job_id', jobId);
+        const jobSkill = await knex('jobs.skill').where('job_id', jobId);
         const job = await knex('jobs.job_opening').where('job_id', jobId);
+        const jobPosition = await knex('admin.job_position');
         const unique = jobId;
         const jobQuestion = await knex('jobs.question')
                 .innerJoin(
@@ -33,6 +32,7 @@ router.get('/job-requirement/:job_id', async (req, res) => {
                 hrRemarks,
                 jobSkill,
                 jobQuestion,
+                jobPosition,
         });
 });
 
@@ -118,7 +118,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
 });
 
 // delete exam route
-router.post('/delete/:job_id/:question_id', (req, res) => {
+router.post('/delete/job/:job_id/:question_id', (req, res) => {
         const jobId = req.params.job_id;
         knex('jobs.question')
                 .where('question_id', req.params.question_id)

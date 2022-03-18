@@ -21,6 +21,7 @@ router.get('/job-requirement', async (req, res) => {
         const hrAssessment = await knex('admin.remarks');
         const jobQuestion = await knex('jobs.question');
         const question = await knex('question.question');
+        const jobPosition = await knex('admin.job_position');
         const unique = uniqueId(job);
         res.render('jobRequirement', {
                 adminSkill,
@@ -31,6 +32,7 @@ router.get('/job-requirement', async (req, res) => {
                 hrAssessment,
                 question,
                 jobQuestion,
+                jobPosition,
         });
 });
 
