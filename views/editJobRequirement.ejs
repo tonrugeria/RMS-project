@@ -27,7 +27,20 @@
       <br>
       <div>
         <label for="jobtitle">JOB TITLE</label><br />
-        <input type="text" id="jobTitle" name="jobTitle" value="<%= job[0].job_title %>" required/>
+        <% if( jobPosition.length == 0) { %>
+          <p>Cannot add Job Title</p>
+          <p>Please Add Job Position in System Variables!</p>
+        <% } else { %>
+          <select name="jobTitle" id="">
+          <% for( let i = 0; i < jobPosition.length; i++) { %>
+            <% if(jobPosition[i].position_name == job[0].job_title) { %>
+              <option value="<%= jobPosition[i].position_name %>" selected><%= jobPosition[i].position_name %></option>
+            <% } else { %>
+              <option value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+            <% } %> 
+          <% } %> 
+        </select>
+        <% } %>
       </div>
       <br>
       <div>
@@ -133,7 +146,7 @@
         <ul>
           <% if(jobQuestion != 0) { %>
             <% for (let i = 0; i < jobQuestion.length; i++) { %>
-              <form action="/delete/<%= jobId %>/<%= jobQuestion[i].question_id %>" method="post">
+              <form action="/delete/job/<%= jobId %>/<%= jobQuestion[i].question_id %>" method="post">
               <li name="question_id_<%= jobQuestion[i].question_id %>">
                 <h5><%= jobQuestion[i].question_detail %></h5> 
               </li>

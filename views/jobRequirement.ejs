@@ -27,7 +27,16 @@
       <br>
       <div>
         <label for="jobtitle">JOB TITLE</label><br />
-        <input type="text" id="jobTitle" name="jobTitle" />
+        <% if( jobPosition.length == 0) { %>
+          <p>Cannot add Job Title</p>
+          <p>Please Add Job Position in System Variables!</p>
+        <% } else { %>
+          <select name="jobTitle" id="">
+          <% for( let i = 0; i < jobPosition.length; i++) { %>
+            <option value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+          <% } %> 
+        </select>
+        <% } %>
       </div>
       <br>
       <div>
