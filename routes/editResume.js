@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 router.get(
-  "/resume/job/:job_id/application/:application_id",
+  "/careers/job/:job_id/resume/application/:application_id",
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
@@ -97,7 +97,7 @@ router.get(
 );
 
 router.post(
-  "/resume/job/:job_id/application/:application_id",
+  "/careers/job/:job_id/resume/application/:application_id",
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;

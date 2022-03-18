@@ -15,7 +15,7 @@ function uniqueId(appIdColumn) {
   return 1;
 }
 
-router.get('/resume/job/:job_id', async (req, res) => {
+router.get('/careers/job/:job_id/resume', async (req, res) => {
   const jobId = req.params.job_id
   const applicantDetails = await knex('job_application.applicant_details')
   const history = await knex('job_application.employment_history')
@@ -30,7 +30,7 @@ router.get('/resume/job/:job_id', async (req, res) => {
   res.render('resume', { jobId, jobs, history, admin, unique })
 })
 
-router.post('/resume/job/:job_id', async (req, res) => {
+router.post('/careers/job/:job_id/resume', async (req, res) => {
   const jobId = req.params.job_id
   const {
     appId,
