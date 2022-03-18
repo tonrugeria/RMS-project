@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     year_experience	int NOT NULL,
     photo VARCHAR(100) NOT NULL,
     date_applied date NOT NULL,
-    date_last_upated date NOT NULL,
+    date_last_updated date NOT NULL,
     application_link VARCHAR(100) NOT NULL,
     status int NOT NULL,
 

@@ -71,27 +71,21 @@ router.post('/resume/job/:job_id', async (req, res) => {
     position_3,
     company_3,
   } = req.body
-  const startDate1 = moment(history_start_date_1).format('MM/DD/YYYY')
-  const endDate1 = moment(history_end_date_1).format('MM/DD/YYYY')
-  const startDate2 = moment(history_start_date_2).format('MM/DD/YYYY')
-  const endDate2 = moment(history_end_date_2).format('MM/DD/YYYY')
-  const startDate3 = moment(history_start_date_3).format('MM/DD/YYYY')
-  const endDate3 = moment(history_end_date_3).format('MM/DD/YYYY')
+  const startDate1 = moment(history_start_date_1, 'MM/DD/YYYY')
+  const endDate1 = moment(history_end_date_1, 'MM/DD/YYYY')
+  const startDate2 = moment(history_start_date_2, 'MM/DD/YYYY')
+  const endDate2 = moment(history_end_date_2, 'MM/DD/YYYY')
+  const startDate3 = moment(history_start_date_3, 'MM/DD/YYYY')
+  const endDate3 = moment(history_end_date_3, 'MM/DD/YYYY')
 
-  const start1 = moment(startDate1, 'MM/DD/YYYY');
-  const end1 = moment(endDate1, 'MM/DD/YYYY');
-  const start2 = moment(startDate2, 'MM/DD/YYYY');
-  const end2 = moment(endDate2, 'MM/DD/YYYY');
-  const start3 = moment(startDate3, 'MM/DD/YYYY');
-  const end3 = moment(endDate3, 'MM/DD/YYYY');
-
-  const yearDiff1 = end1.diff(start1, 'years');
-  const yearDiff2 = end2.diff(start2, 'years');
-  const yearDiff3 = end3.diff(start3, 'years');
+  const yearDiff1 = endDate1.diff(startDate1, 'years');
+  const yearDiff2 = endDate2.diff(startDate2, 'years');
+  const yearDiff3 = endDate3.diff(startDate3, 'years');
 
   const totalYears = yearDiff1 + yearDiff2 + yearDiff3
 
-  const thisDay = moment().format('L')
+  const today = new Date()
+  const thisDay = moment(today, 'MM/DD/YYYY')
 
   knex('job_application.applicant_details')
     .insert({

@@ -16,6 +16,7 @@ router.get("/job-requirement/:job_id", async (req, res) => {
   const hrRemarks = await knex("admin.remarks");
   const jobSkill = await knex("jobs.skill").where("job_id", jobId);
   const job = await knex("jobs.job_opening").where("job_id", jobId);
+  const jobPosition = await knex('admin.job_position')
   const unique = jobId;
   const jobQuestion = await knex("jobs.question")
     .innerJoin(
@@ -34,6 +35,7 @@ router.get("/job-requirement/:job_id", async (req, res) => {
     hrRemarks,
     jobSkill,
     jobQuestion,
+    jobPosition
   });
 });
 

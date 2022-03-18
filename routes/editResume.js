@@ -36,7 +36,7 @@ router.get(
       preferred_interview_date_1,
       preferred_interview_date_2,
       preferred_interview_date_3,
-    } = applicants[0];
+    } = applicants[0] || {};
     const {
       history_start_date_1,
       history_end_date_1,
@@ -46,23 +46,16 @@ router.get(
       history_end_date_3,
     } = history[0];
 
-    const getStartDate1 = moment(history_start_date_1).format("MM/DD/YYYY");
-    const getEndDate1 = moment(history_end_date_1).format("MM/DD/YYYY");
-    const getStartDate2 = moment(history_start_date_2).format("MM/DD/YYYY");
-    const getEndDate2 = moment(history_end_date_2).format("MM/DD/YYYY");
-    const getStartDate3 = moment(history_start_date_3).format("MM/DD/YYYY");
-    const getEndDate3 = moment(history_end_date_3).format("MM/DD/YYYY");
+    const getStartDate1 = moment(history_start_date_1, "MM/DD/YYYY")
+    const getEndDate1 = moment(history_end_date_1, "MM/DD/YYYY")
+    const getStartDate2 = moment(history_start_date_2, "MM/DD/YYYY")
+    const getEndDate2 = moment(history_end_date_2, "MM/DD/YYYY")
+    const getStartDate3 = moment(history_start_date_3, "MM/DD/YYYY")
+    const getEndDate3 = moment(history_end_date_3, "MM/DD/YYYY")
 
-    const start1 = moment(getStartDate1, "MM/DD/YYYY");
-    const end1 = moment(getEndDate1, "MM/DD/YYYY");
-    const start2 = moment(getStartDate2, "MM/DD/YYYY");
-    const end2 = moment(getEndDate2, "MM/DD/YYYY");
-    const start3 = moment(getStartDate3, "MM/DD/YYYY");
-    const end3 = moment(getEndDate3, "MM/DD/YYYY");
-
-    const yearDiff1 = end1.diff(start1, "years");
-    const yearDiff2 = end2.diff(start2, "years");
-    const yearDiff3 = end3.diff(start3, "years");
+    const yearDiff1 = getEndDate1.diff(getStartDate1, "years");
+    const yearDiff2 = getEndDate2.diff(getStartDate2, "years");
+    const yearDiff3 = getEndDate3.diff(getStartDate3, "years");
 
     const totalYears = yearDiff1 + yearDiff2 + yearDiff3;
 
@@ -147,26 +140,21 @@ router.post(
       company_3,
     } = req.body;
 
-    const startDate1 = moment(history_start_date_1).format("MM/DD/YYYY");
-    const endDate1 = moment(history_end_date_1).format("MM/DD/YYYY");
-    const startDate2 = moment(history_start_date_2).format("MM/DD/YYYY");
-    const endDate2 = moment(history_end_date_2).format("MM/DD/YYYY");
-    const startDate3 = moment(history_start_date_3).format("MM/DD/YYYY");
-    const endDate3 = moment(history_end_date_3).format("MM/DD/YYYY");
+    const startDate1 = moment(history_start_date_1, 'MM/DD/YYYY')
+    const endDate1 = moment(history_end_date_1, 'MM/DD/YYYY')
+    const startDate2 = moment(history_start_date_2, 'MM/DD/YYYY')
+    const endDate2 = moment(history_end_date_2, 'MM/DD/YYYY')
+    const startDate3 = moment(history_start_date_3, 'MM/DD/YYYY')
+    const endDate3 = moment(history_end_date_3, 'MM/DD/YYYY')
 
-    const start1 = moment(startDate1, "MM/DD/YYYY");
-    const end1 = moment(endDate1, "MM/DD/YYYY");
-    const start2 = moment(startDate2, "MM/DD/YYYY");
-    const end2 = moment(endDate2, "MM/DD/YYYY");
-    const start3 = moment(startDate3, "MM/DD/YYYY");
-    const end3 = moment(endDate3, "MM/DD/YYYY");
-
-    const yearDiff1 = end1.diff(start1, "years");
-    const yearDiff2 = end2.diff(start2, "years");
-    const yearDiff3 = end3.diff(start3, "years");
+    const yearDiff1 = endDate1.diff(startDate1, "years");
+    const yearDiff2 = endDate2.diff(startDate2, "years");
+    const yearDiff3 = endDate3.diff(startDate3, "years");
 
     const totalYears = yearDiff1 + yearDiff2 + yearDiff3;
-    const thisDay = moment().format('L')
+
+    const today = new Date()
+    const thisDay = moment(today, 'MM/DD/YYYY')
     knex("job_application.applicant_details")
       .update({
         first_name,
@@ -201,7 +189,7 @@ router.post(
           .where("application_id", appId)
           .then(() => {
             knex("job_application.employment_history")
-              .insert({
+              .update({
                 application_id: appId,
                 history_start_date_1: startDate1,
                 history_end_date_1: endDate1,

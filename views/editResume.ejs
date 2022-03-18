@@ -128,7 +128,6 @@
 
           <div class="">
             <p><strong>Employment History</strong></p>
-              <% for( let i = 0; i < history.length; i++) { %>
                 <div class="d-flex">
                   <div class="">
                     <p><strong>FROM</strong></p>
@@ -140,11 +139,11 @@
                   </div>
                   <div class="">
                     <p><strong>POSITION</strong></p>
-                  <input type="text" name="position" placeholder="Enter Position" value="<%= history[i].position_1 %>">
+                  <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_1 %>">
                   </div>
                   <div class="">
                     <p><strong>COMPANY</strong></p>
-                    <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[i].company_1 %>">
+                    <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_1 %>">
                   </div>
                   </div>
                   <div class="d-flex">
@@ -158,11 +157,11 @@
                     </div>
                     <div class="">
                       <p><strong>POSITION</strong></p>
-                    <input type="text" name="position" placeholder="Enter Position" value="<%= history[i].position_2 %>">
+                    <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_2 %>">
                     </div>
                     <div class="">
                       <p><strong>COMPANY</strong></p>
-                      <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[i].company_2 %>">
+                      <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_2 %>">
                     </div>
                     </div>
                     <div class="d-flex">
@@ -176,18 +175,17 @@
                       </div>
                       <div class="">
                         <p><strong>POSITION</strong></p>
-                      <input type="text" name="position" placeholder="Enter Position" value="<%= history[i].position_3 %>">
+                      <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_3 %>">
                       </div>
                       <div class="">
                         <p><strong>COMPANY</strong></p>
-                        <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[i].company_3 %>">
+                        <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_3 %>">
                       </div>
                       </div>
                   <div>
                     <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
                     <input type="text" name="year_experience" placeholder="0 Years" value="<%= applicants[0].year_experience %>">
                   </div>
-              <% } %>
           </div>
           
           
