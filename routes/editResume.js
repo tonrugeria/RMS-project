@@ -44,7 +44,7 @@ router.get(
       history_end_date_2,
       history_start_date_3,
       history_end_date_3,
-    } = history[0];
+    } = history[0] || {};
 
     const getStartDate1 = moment(history_start_date_1, "MM/DD/YYYY")
     const getEndDate1 = moment(history_end_date_1, "MM/DD/YYYY")
@@ -206,39 +206,43 @@ router.post(
               })
               .where("application_id", appId)
               .then(() => {
-                for (let i = 0; i < skill_id.length; i++) {
-                  const skill = knex("job_application.applicant_rating")
-                    .where("application_id", appId)
-                    .andWhere("skill_id", skill_id[i]);
-
-                  if (skill != 0) {
-                    knex("job_application.applicant_rating")
-                      .update({
-                        application_id: appId,
-                        skill_id: skill_id[i],
-                        skill_years: skill_years[i],
-                        skill_self_rating: skill_self_rating[i],
+                if(typeof skill_id != typeof []){
+                  knex("job_application.applicant_rating")
+                      .where('application_id', appId)
+                      .del()
+                      .then(() => {
+                        knex("job_application.applicant_rating")
+                        .insert({
+                          application_id: appId,
+                          skill_id: skill_id,
+                          skill_years: skill_years,
+                          skill_self_rating: skill_self_rating,
+                        })
+                        .then(result => result);
                       })
-                      .where("application_id", appId)
-                      .andWhere("skill_id", skill_id[i])
-                      .then();
-                  } else {
+                } else {
+                  for (let i = 0; i < skill_id.length; i++) {
                     knex("job_application.applicant_rating")
-                      .insert({
-                        application_id: appId,
-                        skill_id: skill_id[i],
-                        skill_years: skill_years[i],
-                        skill_self_rating: skill_self_rating[i],
+                      .where('application_id', appId)
+                      .del()
+                      .then(() => {
+                        knex("job_application.applicant_rating")
+                        .insert({
+                          application_id: appId,
+                          skill_id: skill_id[i],
+                          skill_years: skill_years[i],
+                          skill_self_rating: skill_self_rating[i],
+                        })
+                        .then(result => result);
                       })
-                      .where("application_id", appId)
-                      .then();
                   }
                 }
-                res.redirect(`/resume/job/${jobId}/application/${appId}`);
+                
+                }
+              )
+                res.redirect(`/careers/job/${jobId}/resume/application/${appId}`);
               });
           });
       });
-  }
-);
 
 module.exports = router;

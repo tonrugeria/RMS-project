@@ -25,6 +25,7 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
     .from("jobs.job_opening")
     .where("job_id",jobId);
   const admin = await knex('admin.skill')
+  console.log(admin);
   // const thisDay = moment().format('L')
   // console.log(thisDay);
   res.render('resume', { jobId, jobs, history, admin, unique })
@@ -140,21 +141,24 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
                   company_3,
                 })
                 .where('application_id', appId)
-                .then(()=> {
-                  for ( let i = 0; i < skill_id.length; i++) {
-                    knex('job_application.applicant_rating')
-                      .insert({
-                        application_id: appId,
-                        skill_id: skill_id[i],
-                        skill_years: skill_years[i],
-                        skill_self_rating: skill_self_rating[i]
-                      })
-                      .where('application_id', appId)
-                      .then(result => result)
+                .then(async ()=> {
+                  const skill = await knex('admin.skill')
+                  if(skill != 0){
+                    for ( let i = 0; i < skill_id.length; i++) {
+                      knex('job_application.applicant_rating')
+                        .insert({
+                          application_id: appId,
+                          skill_id: skill_id[i],
+                          skill_years: skill_years[i],
+                          skill_self_rating: skill_self_rating[i]
+                        })
+                        .where('application_id', appId)
+                        .then(result => result)
+                    }
                   }
                 })
           })
-          res.redirect(`/resume/job/${jobId}/application/${appId}`)
+          res.redirect(`/careers/job/${jobId}/resume/application/${appId}`)
     })
 })
 

@@ -66,14 +66,18 @@
               <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
               <div class="container">
                 <div class="row">
+                  <% if(admin.length != 0) { %>
                   <% for( let i =0; i < admin.length; i++) { %>
-                    <div class="col-4 mb-1">
-                        <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
-                        <label style="width: 90px"><%= admin[i].skill_name %> </label>
-                        <input type="number" name="skill_years" placeholder="Years" style="width: 70px" required>
-                        <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" required>
-                    </div>
-                  <% } %> 
+                      <div class="col-4 mb-1">
+                          <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
+                          <label style="width: 90px"><%= admin[i].skill_name %> </label>
+                          <input type="number" name="skill_years" placeholder="Years" style="width: 70px" required>
+                          <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" required>
+                      </div>
+                      <% } %> 
+                      <% } else { %>
+                        <p><strong>NO TECHNOLOGIES YET</strong></p>
+                    <% } %> 
                 </div>
               </div>
             </div>

@@ -90,6 +90,7 @@
             <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
             <div class="">
               <div class="row">
+                <% if(admin.length != 0) { %>
                 <% for( let i=0; i < admin.length; i++) { %>
                   <div class="col-3 mb-1">
                     <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
@@ -108,6 +109,9 @@
                     <% } %> required>
                   </div>
                   <% } %>
+                  <% } else { %>
+                      <p><strong>NO TECHNOLOGIES YET</strong></p>
+                  <% } %>
               </div>
             </div>
 
@@ -116,13 +120,22 @@
             <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS
                 SUCCESS</strong></p>
               <div>
-                <input type="text" name="capability_1" placeholder="Enter your story" value="<%= capabilities[0].capability_1 %>">
+                <input type="text" name="capability_1" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
+                  value="<%= capabilities[0].capability_1 %>"
+                  <% } %>
+                  >
               </div>
               <div>
-                <input type="text" name="capability_2" placeholder="Enter your story" value="<%= capabilities[0].capability_2 %>">
+                <input type="text" name="capability_2" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
+                  value="<%= capabilities[0].capability_2 %>"
+                  <% } %>
+                  >
               </div>
               <div>
-                <input type="text" name="capability_3" placeholder="Enter your story" value="<%= capabilities[0].capability_3 %>">
+                <input type="text" name="capability_3" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
+                  value="<%= capabilities[0].capability_1 %>"
+                  <% } %>
+                  >
               </div>
           </div>
 
@@ -139,11 +152,17 @@
                   </div>
                   <div class="">
                     <p><strong>POSITION</strong></p>
-                  <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_1 %>">
+                  <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                    value="<%= history[0].position_1 %>"
+                    <% } %>
+                    >  
                   </div>
                   <div class="">
                     <p><strong>COMPANY</strong></p>
-                    <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_1 %>">
+                    <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                      value="<%= history[0].company_1 %>"
+                      <% } %>
+                    >
                   </div>
                   </div>
                   <div class="d-flex">
@@ -157,11 +176,17 @@
                     </div>
                     <div class="">
                       <p><strong>POSITION</strong></p>
-                    <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_2 %>">
+                    <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                      value="<%= history[0].position_2 %>"
+                      <% } %>
+                    >
                     </div>
                     <div class="">
                       <p><strong>COMPANY</strong></p>
-                      <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_2 %>">
+                      <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                        value="<%= history[0].company_2 %>"
+                        <% } %>
+                      >
                     </div>
                     </div>
                     <div class="d-flex">
@@ -175,11 +200,17 @@
                       </div>
                       <div class="">
                         <p><strong>POSITION</strong></p>
-                      <input type="text" name="position" placeholder="Enter Position" value="<%= history[0].position_3 %>">
+                      <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                        value="<%= history[0].position_3 %>"
+                        <% } %>
+                      >
                       </div>
                       <div class="">
                         <p><strong>COMPANY</strong></p>
-                        <input type="text" name="company" placeholder="Enter Company Name" value="<%= history[0].company_3 %>">
+                        <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                          value="<%= history[0].company_3 %>"
+                          <% } %>
+                        >
                       </div>
                       </div>
                   <div>
