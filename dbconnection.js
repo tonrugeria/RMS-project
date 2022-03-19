@@ -4,7 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                password: '12345',
+                password: '0000',
                 database: 'rms',
         },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-        password: '12345',
+        password: '0000',
         port: 5432,
 });
 
@@ -103,7 +103,8 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
 CREATE TABLE IF NOT EXISTS Jobs.Skill (
     job_id INT NOT NULL,
     skill_id INT,
-    sample_id SERIAL PRIMARY KEY NOT NULL,
+    skill_level INT,
+    record_id SERIAL PRIMARY KEY NOT NULL,
 
     FOREIGN KEY (job_id)
     REFERENCES Jobs.Job_Opening(job_id),
