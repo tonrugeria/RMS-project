@@ -20,15 +20,12 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   const applicantDetails = await knex('job_application.applicant_details')
   const history = await knex('job_application.employment_history')
   const unique = uniqueId(applicantDetails)
-  const jobs = await knex
-    .select()
-    .from("jobs.job_opening")
-    .where("job_id",jobId);
-  const admin = await knex('admin.skill')
-  console.log(admin);
+  const jobs = await knex("jobs.job_opening").where("job_id",jobId);
+  const skill = await knex('admin.skill')
+    .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
   // const thisDay = moment().format('L')
   // console.log(thisDay);
-  res.render('resume', { jobId, jobs, history, admin, unique })
+  res.render('resume', { jobId, jobs, history, skill, unique })
 })
 
 router.post('/careers/job/:job_id/resume', async (req, res) => {
@@ -142,7 +139,8 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
                 })
                 .where('application_id', appId)
                 .then(async ()=> {
-                  const skill = await knex('admin.skill')
+                  const skill = await knex('jobs.skill')
+                    .where('job_id', jobId)
                   if(skill != 0){
                     for ( let i = 0; i < skill_id.length; i++) {
                       knex('job_application.applicant_rating')

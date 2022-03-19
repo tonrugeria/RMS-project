@@ -17,7 +17,8 @@ router.get(
       "application_id",
       appId
     );
-    const admin = await knex("admin.skill");
+    const skill = await knex("admin.skill")
+    .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
     const rating = await knex("job_application.applicant_rating").where(
       "application_id",
       appId
@@ -82,7 +83,7 @@ router.get(
       preferredDate2,
       preferredDate3,
       rating,
-      admin,
+      skill,
       capabilities,
       history,
       startDate1,

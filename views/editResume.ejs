@@ -90,27 +90,23 @@
             <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
             <div class="">
               <div class="row">
-                <% if(admin.length != 0) { %>
-                <% for( let i=0; i < admin.length; i++) { %>
+                <% for( let i=0; i < skill.length; i++) { %>
                   <div class="col-3 mb-1">
-                    <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
+                    <input type="number" name="skill_id" value="<%= skill[i].skill_id %>" style="width: 40px">
                     <label style="width: 90px">
-                      <%= admin[i].skill_name %>
+                      <%= skill[i].skill_name %>
                     </label>
                     <input type="number" name="skill_years" placeholder="Years" style="width: 70px" <% for( let j=0; j < rating.length; j++) { %>
-                      <% if(rating[j].skill_id==admin[i].skill_id) { %>
+                      <% if(rating[j].skill_id==skill[i].skill_id) { %>
                           value="<%= rating[j].skill_years %>"
                       <% }%>
-                    <% } %> required>
+                    <% } %> min="0" value="0">
                     <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" <% for(let j=0; j < rating.length; j++) { %>
-                      <% if(rating[j].skill_id==admin[i].skill_id) { %>
+                      <% if(rating[j].skill_id==skill[i].skill_id) { %>
                         value="<%= rating[j].skill_self_rating %>"
                       <% }%>
-                    <% } %> required>
+                    <% } %> min="0" max="5" value="0">
                   </div>
-                  <% } %>
-                  <% } else { %>
-                      <p><strong>NO TECHNOLOGIES YET</strong></p>
                   <% } %>
               </div>
             </div>
