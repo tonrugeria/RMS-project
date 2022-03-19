@@ -1,0 +1,19 @@
+<script>
+    function showAllFunction() {
+        const allJobs = document.querySelectorAll('.all-btn');
+        allJobs.forEach((element) => {
+            element.classList.remove('d-none');
+        });
+    }
+
+    function toggleShowHide(dept_name) {
+        const allDept = document.querySelectorAll('.dept');
+        const target = document.querySelectorAll(`.${dept_name}-btn`);
+        allDept.forEach((element) => {
+            element.classList.add('d-none');
+        });
+        target.forEach((element) => {
+            element.classList.remove('d-none');
+        });
+    }
+</script>

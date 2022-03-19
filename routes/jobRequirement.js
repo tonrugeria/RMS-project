@@ -21,6 +21,7 @@ router.get('/job-requirement', async (req, res) => {
         const hrAssessment = await knex('admin.remarks');
         const jobQuestion = await knex('jobs.question');
         const question = await knex('question.question');
+        const jobPosition = await knex('admin.job_position');
         const unique = uniqueId(job);
         res.render('jobRequirement', {
                 adminSkill,
@@ -31,11 +32,34 @@ router.get('/job-requirement', async (req, res) => {
                 hrAssessment,
                 question,
                 jobQuestion,
+                jobPosition,
         });
 });
 
 // job-requirement post route
 router.post('/job-requirement', async (req, res) => {
+        const {
+                skill_level_1,
+                skill_level_2,
+                skill_level_3,
+                skill_level_4,
+                skill_level_5,
+                skill_level_6,
+                skill_level_7,
+                skill_level_8,
+                skill_level_9,
+                skill_level_10,
+                skill_level_11,
+                skill_level_12,
+                skill_level_13,
+                skill_level_14,
+                skill_level_15,
+                skill_level_16,
+                skill_level_17,
+                skill_level_18,
+                skill_level_19,
+                skill_level_20,
+        } = req.body;
         const {
                 jobId,
                 jobTitle,
@@ -68,6 +92,7 @@ router.post('/job-requirement', async (req, res) => {
                                         .insert({
                                                 job_id: jobId,
                                                 skill_id,
+                                                skill_level: skill_level_1,
                                         })
                                         .then(() => {
                                                 res.redirect(`/job-requirement/${jobId}`);

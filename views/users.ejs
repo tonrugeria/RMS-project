@@ -1,16 +1,22 @@
+<!-- <style>
+.abc{
+  visibility: none;
+  display: none;
+}
+</style> -->
 <%- include('./layout/header.ejs')  %>  
 <div class="">
   <div class="row min-vh-100">
     <div class="col-sm-2">
       <div class="d-flex flex-column min-vh-100">
         <div>
-          <a href="#">Branding</a>
+          <a href="/branding">Branding</a>
         </div>
         <div>
           <a href="/users">Users</a>
         </div>
         <div>
-          <a href="#">System Variables</a>
+          <a href="/system-variables">System Variables</a>
         </div>
         <div class="mt-auto">
           <a href="#">BACK TO JOB PAGE</a>
@@ -31,11 +37,14 @@
           </tr>
         </thead>
         <% for (let  i = 0; i < users.length; i++) { %>
-          <form method="post" action="/edit/<%=users[i].user_id %>"> 
-      <% if (users[i].user_id == '1') { %>  
-      <tr>
-      <th><i class="fa-solid fa-user"></i></th>
-      <th><input type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+      <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
+      <% if (users[i].role_id == '4') { %>  
+      <tr onchange="addUpdateBtn('<%= users[i].user_id %>')" class="abc">
+        <th> 
+          <img src="<%= users[i].photo %> "  width="35" height="35" class="img-thumbnail" >
+          <input type="file" name="photo" ></i>
+        </th>
+      <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
       <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
       <TD class = "select">
         <select name="role_name">  
@@ -49,37 +58,43 @@
         </select>
         </TD>   
       <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
-      <td>
+      <td class="update-btn d-none" id="<%= users[i].user_id%>">
         <form method="post" action="/edit/<%=users[i].user_id%>" >
           <button type="submit"><i class="fa-solid fa-check"></i></button>
         </form>
+        <th>
+          
+        </th>
       </td>
-      <th></th>
     </tr>
-  </form>
 <% } else { %>
-      <tr>
-      <th><img src="<%= users[i].photo %> " width="50" height="50" class="img-thumbnail" ></th> 
-      <th><input type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+      <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
+      <th>
+      <img src="<%= users[i].photo %> "  width="35" height="35" class="img-thumbnail">
+      <input type="file" id="photo1" name="photo" required>
+      </th>
+      <th ><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
       <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
       <TD class = "select">
         <select name="role_name"> 
         <% for (let  j = 0; j < userRole.length; j++) { %>
+          <% if (j !==2) { %> 
             <% if (userRole[j].role_id == users[i].role_id) { %>  
         <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
           <% } else { %>
         <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
+              <% } %>
             <% } %>
         <% } %>
         </select>
         </TD>   
       <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
-      <td>
-        <form method="post" action="/edit/<%=users[i].user_id%>" >
+      <td class="update-btn d-none" id="<%= users[i].user_id%>">
+        <form method="post" action="/edit/<%=users[i].user_id%>">
           <button type="submit"><i class="fa-solid fa-check"></i></button>
         </form>
       </td>
-      <td>
+      <td class="delete-btn" id="<%= users[i].user_id%>">
         <form method="GET" action="/delete/<%= users[i].user_id%>"> 
           <button type="submit"><i class="fa-solid fa-x"></i></button>
         </form>
@@ -87,10 +102,13 @@
     </tr>
     <% } %>
     <% } %>
+  </form>
+
     <form method="post" action="/users" encType="multipart/form-data" >
       <th> 
         <label for="photo"><i class="fa-solid fa-plus" ></i></label>
-        <input type="file" id="photo" name="photo" style="display: contents;"></i>
+        <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
+        <img height="50" id="output">
       </th>
       <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
       <th><input type="password" placeholder="Enter Password" name="password"></th>
@@ -103,9 +121,48 @@
       <th><input type="text" placeholder="Enter Email Address" name="email"></th>
       <th><button type="submit"><i class="fa-solid fa-plus"></i></button></th>
     </form>
-    <th></th>
   </table>
   </div>
   </div>
 </div>
+<script>
+// var imageInput = document.getElementById("photo");
+// var previewImage = document.getElementById("preview-image");
+// imageInput.addEventListener("change", function(event){
+//   if(event.target.files.length == 0){
+//     return;
+//   }
+//   var tempUrl = URL.createObjectURL(event.target.files[0]);
+//   previewImage.setAttribute("src", tempUrl);
+// });
+
+function addUpdateBtn(userId) {
+    const allUpdateBtn = document.querySelectorAll('.update-btn');
+    const allDelBtn = document.querySelectorAll('.delete-btn');
+
+    allDelBtn.forEach((btn) => {
+      if (
+        btn.getAttribute('id') == userId
+      ) {
+        btn.classList.add('d-none');
+      }
+    });
+
+    allUpdateBtn.forEach((btn) => {
+      if (
+        btn.getAttribute('id') == userId
+      ) {
+        btn.classList.remove('d-none');
+      }
+    });
+  }
+
+var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src)
+    }
+  };
+</script>
 <%- include('./layout/footer.ejs')  %>  

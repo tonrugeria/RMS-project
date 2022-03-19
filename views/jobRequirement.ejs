@@ -27,7 +27,16 @@
       <br>
       <div>
         <label for="jobtitle">JOB TITLE</label><br />
-        <input type="text" id="jobTitle" name="jobTitle" />
+        <% if( jobPosition.length == 0) { %>
+          <p>Cannot add Job Title</p>
+          <p>Please Add Job Position in System Variables!</p>
+        <% } else { %>
+          <select name="jobTitle" id="">
+          <% for( let i = 0; i < jobPosition.length; i++) { %>
+            <option value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+          <% } %> 
+        </select>
+        <% } %>
       </div>
       <br>
       <div>
@@ -97,19 +106,59 @@
           id="<%= adminSkill[i].skill_name %>"
           name="skill_id_<%= i + 1 %>"
           value="<%= adminSkill[i].skill_id %>"
+          onclick="selectDefaultRadio('<%= adminSkill[i].skill_name %>')"
         />
         <label for="<%= adminSkill[i].skill_name %>">
           <%= adminSkill[i].skill_name %></label
         >
-        <input type="radio" id="1" name="skill_level_<%= i + 1%>" value="1" />
+        <input 
+          type="radio" 
+          name="skill_level_<%= i + 1%>" 
+          value="1"
+          id="<%= adminSkill[i].skill_name %>-radio-1"
+          class="<%= adminSkill[i].skill_name %>-radio"
+          onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
+          />
         <label for="1">1</label>
-        <input type="radio" id="2" name="skill_level_<%= i + 1%>" value="2" />
+
+        <input 
+          type="radio" 
+          id="2" 
+          name="skill_level_<%= i + 1%>" 
+          value="2"
+          class="<%= adminSkill[i].skill_name %>-radio"
+          onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
+        />
         <label for="2">2</label>
-        <input type="radio" id="3" name="skill_level_<%= i + 1%>" value="3" />
+
+        <input 
+          type="radio" 
+          id="3" 
+          name="skill_level_<%= i + 1%>" 
+          value="3"
+          class="<%= adminSkill[i].skill_name %>-radio"
+          onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
+        />
         <label for="3">3</label>
-        <input type="radio" id="4" name="skill_level_<%= i + 1%>" value="4" />
+
+        <input 
+          type="radio" 
+          id="4" 
+          name="skill_level_<%= i + 1%>" 
+          value="4"
+          class="<%= adminSkill[i].skill_name %>-radio"
+          onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')" 
+        />
         <label for="4">4</label>
-        <input type="radio" id="5" name="skill_level_<%= i + 1%>" value="5" />
+
+        <input 
+          type="radio" 
+          id="5" 
+          name="skill_level_<%= i + 1%>" 
+          value="5"
+          class="<%= adminSkill[i].skill_name %>-radio"
+          onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
+        />
         <label for="5">5</label>
         </div>
       <% } %> 
@@ -125,4 +174,30 @@
     </div>
   </div>
 </div>
+<script>
+  function selectDefaultRadio(skill_name){
+    const skillCheckBox = document.querySelector(`#${skill_name}`);
+    const skillRadio1 = document.querySelector(`#${skill_name}-radio-1`);
+    const skillRadios = document.querySelectorAll(`.${skill_name}-radio`);
+
+    if(skillCheckBox.checked == true){
+      skillRadio1.checked = true;
+    } else {
+      skillRadios.forEach(radio => {
+        radio.checked = false;
+      })
+    }
+  }
+
+  function autoCheckBox(skill_name){
+    const skillCheckBox = document.querySelector(`#${skill_name}`);
+    const skillRadios = document.querySelectorAll(`.${skill_name}-radio`);
+
+    skillRadios.forEach(radio =>{
+      if(radio.checked == true){
+        skillCheckBox.checked = true;
+      }
+    })
+  }
+</script>
 <%- include('./layout/footer.ejs') %>
