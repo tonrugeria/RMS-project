@@ -23,9 +23,9 @@ router.get("/system-variables", async (req, res) => {
 });
 
 // POSITION
-router.post("/addPosition", (req, res) => {
+router.post("/addPosition", async (req, res) => {
   const { jobPosition } = req.body;
-  knex("admin.job_position")
+  await knex("admin.job_position")
     .insert({
       position_name: jobPosition
     })
@@ -34,9 +34,9 @@ router.post("/addPosition", (req, res) => {
     });
 });
 
-router.post("/delete/position/:position_id", (req, res) => {
+router.post("/delete/position/:position_id", async (req, res) => {
   const positionId = req.params.position_id;
-  knex("admin.job_position")
+  await knex("admin.job_position")
     .where("position_id", positionId)
     .del()
     .then((result) => {
@@ -56,22 +56,31 @@ router.post("/addTechnologies", (req, res) => {
     });
 });
 
-router.post("/delete/skill/:skill_id", (req, res) => {
+router.post("/delete/skill/:skill_id", async (req, res) => {
   const skillId = req.params.skill_id;
-  const skills = knex("admin.skill")
-    .where("skill_id", skillId)
+  await knex('job_application.applicant_rating')
+    .where('skill_id', skillId)
     .del()
-    .then((result) => {
-      console.log("RESULT", result);
-      res.redirect("/system-variables");
+    .then(() => {
+      knex('jobs.skill')
+        .where('skill_id', skillId)
+        .del()
+        .then(() => {
+          knex("admin.skill")
+            .where("skill_id", skillId)
+            .del()
+            .then((result) => {
+              console.log("RESULT", result);
+              res.redirect("/system-variables");
+            })
     });
-    console.log("SKILL", skills);
+    })
 });
 
 // REMARKS
-router.post("/addRemarks", (req, res) => {
+router.post("/addRemarks", async (req, res) => {
   const { remark } = req.body;
-  knex("admin.remarks")
+  await knex("admin.remarks")
     .insert({
       remark_name: remark
     })
@@ -80,9 +89,9 @@ router.post("/addRemarks", (req, res) => {
     });
 });
 
-router.post("/delete/remark/:remark_id", (req, res) => {
+router.post("/delete/remark/:remark_id", async (req, res) => {
   const remarkId = req.params.remark_id;
-  knex("admin.remarks")
+  await knex("admin.remarks")
     .where("remark_id", remarkId)
     .del()
     .then((result) => {
@@ -91,9 +100,9 @@ router.post("/delete/remark/:remark_id", (req, res) => {
 });
 
 // JOB TYPE
-router.post("/addTypes", (req, res) => {
+router.post("/addTypes", async (req, res) => {
   const { jobType } = req.body;
-  knex("admin.job_type")
+  await knex("admin.job_type")
     .insert({
       job_type_name: jobType
     })
@@ -102,9 +111,9 @@ router.post("/addTypes", (req, res) => {
     });
 });
 
-router.post("/delete/type/:job_type_id", (req, res) => {
+router.post("/delete/type/:job_type_id", async (req, res) => {
   const jobTypeId = req.params.job_type_id;
-  knex("admin.job_type")
+  await knex("admin.job_type")
     .where("job_type_id", jobTypeId)
     .del()
     .then((result) => {
@@ -113,9 +122,9 @@ router.post("/delete/type/:job_type_id", (req, res) => {
 });
 
 // DEPARTMENT
-router.post("/addDepartment", (req, res) => {
+router.post("/addDepartment", async (req, res) => {
   const { department } = req.body;
-  knex("admin.department")
+  await knex("admin.department")
     .insert({
       dept_name: department
     })
@@ -124,9 +133,9 @@ router.post("/addDepartment", (req, res) => {
     });
 });
 
-router.post("/delete/department/:dept_id", (req, res) => {
+router.post("/delete/department/:dept_id", async (req, res) => {
   const departmentId = req.params.dept_id;
-  knex("admin.department")
+  await knex("admin.department")
     .where("dept_id", departmentId)
     .del()
     .then((result) => {

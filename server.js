@@ -52,13 +52,13 @@ app.use("", require("./routes/jobDetails"));
 app.use("", require("./routes/exam"));
 app.use("", require("./routes/settings"));
 app.use("", require("./routes/users"));
+app.use("", require("./routes/careerDetails"));
 app.use("", require("./routes/careers"));
-app.use("", require("./routes/careersMain"));
 app.use("", require("./routes/examCreation"));
 app.use("", require("./routes/exam"));
 app.use("", require("./routes/systemVariables"));
 app.use("", require("./routes/resume"));
-
+app.use("", require("./routes/editResume"));
 
 app.listen(PORT, () => {
         console.log(`Server is running in http://localhost:${PORT}`);
