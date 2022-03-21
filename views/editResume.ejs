@@ -7,7 +7,10 @@
             <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>">RESUME</a>
           </div>
           <div>
-            <a href="#">EXAM</a>
+            <a href="/careers/job/:job_id/exam/application/<%= appId %>">EXAM</a>
+          </div>
+          <div>
+            <a href="#"><button>SUBMIT</button></a>
           </div>
         </div>
       </div>
@@ -90,23 +93,31 @@
             <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
             <div class="">
               <div class="row">
-                <% for( let i=0; i < skill.length; i++) { %>
+                <% if(admin.length != 0) { %>
+                <% for( let i=0; i < admin.length; i++) { %>
                   <div class="col-3 mb-1">
-                    <input type="number" name="skill_id" value="<%= skill[i].skill_id %>" style="width: 40px">
+                    <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
                     <label style="width: 90px">
-                      <%= skill[i].skill_name %>
+                      <%= admin[i].skill_name %>
                     </label>
-                    <input type="number" name="skill_years" placeholder="Years" style="width: 70px" <% for( let j=0; j < rating.length; j++) { %>
-                      <% if(rating[j].skill_id==skill[i].skill_id) { %>
+                    <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 70px" <% for( let j=0; j < rating.length; j++) { %>
+                      <% if(rating[j].skill_id==admin[i].skill_id) { %>
                           value="<%= rating[j].skill_years %>"
-                      <% }%>
-                    <% } %> min="0" value="0">
-                    <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" <% for(let j=0; j < rating.length; j++) { %>
-                      <% if(rating[j].skill_id==skill[i].skill_id) { %>
+                      <% } else { %>
+                        value="0"
+                      <% } %>
+                    <% } %>>
+                    <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 60px" <% for(let j=0; j < rating.length; j++) { %>
+                      <% if(rating[j].skill_id==admin[i].skill_id) { %>
                         value="<%= rating[j].skill_self_rating %>"
-                      <% }%>
-                    <% } %> min="0" max="5" value="0">
+                      <% } else { %>
+                        value="0"
+                      <% } %>
+                    <% } %>>
                   </div>
+                  <% } %>
+                  <% } else { %>
+                      <p><strong>NO TECHNOLOGIES YET</strong></p>
                   <% } %>
               </div>
             </div>
@@ -140,22 +151,28 @@
                 <div class="d-flex">
                   <div class="">
                     <p><strong>FROM</strong></p>
-                    <input type="text" name="history_start_date_1" placeholder="MM / DD / YY" value="<%= startDate1 %>">
+                    <input type="text" name="history_start_date_1" placeholder="MM / DD / YY" <% if(history[0].history_start_date_1 != null) { %>
+                      value="<%= startDate1 %>"
+                    <% } %>
+                    >
                   </div>
                   <div class="">
                     <p><strong>TO</strong></p>
-                    <input type="text" name="history_end_date_1" placeholder="MM / DD / YY" value="<%= endDate1 %>">
+                    <input type="text" name="history_end_date_1" placeholder="MM / DD / YY" <% if(history[0].history_end_date_1 != null) { %>
+                      value="<%= endDate1 %>"
+                    <% } %>
+                    >
                   </div>
                   <div class="">
                     <p><strong>POSITION</strong></p>
-                  <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                  <input type="text" name="position_1" placeholder="Enter Position" <% if(history.length != 0) { %>
                     value="<%= history[0].position_1 %>"
                     <% } %>
                     >  
                   </div>
                   <div class="">
                     <p><strong>COMPANY</strong></p>
-                    <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                    <input type="text" name="company_1" placeholder="Enter Company Name" <% if(history.length != 0) { %>
                       value="<%= history[0].company_1 %>"
                       <% } %>
                     >
@@ -163,23 +180,25 @@
                   </div>
                   <div class="d-flex">
                     <div class="">
-                      <p><strong>FROM</strong></p>
-                      <input type="text" name="history_start_date_2" placeholder="MM / DD / YY" value="<%= startDate2 %>">
+                      <input type="text" name="history_start_date_2" placeholder="MM / DD / YY" <% if(history[0].history_start_date_2 != null) { %>
+                        value="<%= startDate2 %>"
+                      <% } %>
+                      >
                     </div>
                     <div class="">
-                      <p><strong>TO</strong></p>
-                      <input type="text" name="history_end_date_2" placeholder="MM / DD / YY" value="<%= endDate2 %>">
+                      <input type="text" name="history_end_date_2" placeholder="MM / DD / YY" <% if(history[0].history_end_date_2 != null) { %>
+                        value="<%= endDate2 %>"
+                      <% } %>
+                      >
                     </div>
                     <div class="">
-                      <p><strong>POSITION</strong></p>
-                    <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                    <input type="text" name="position_2" placeholder="Enter Position" <% if(history.length != 0) { %>
                       value="<%= history[0].position_2 %>"
                       <% } %>
                     >
                     </div>
                     <div class="">
-                      <p><strong>COMPANY</strong></p>
-                      <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                      <input type="text" name="company_2" placeholder="Enter Company Name" <% if(history.length != 0) { %>
                         value="<%= history[0].company_2 %>"
                         <% } %>
                       >
@@ -187,34 +206,36 @@
                     </div>
                     <div class="d-flex">
                       <div class="">
-                        <p><strong>FROM</strong></p>
-                        <input type="text" name="history_start_date_3" placeholder="MM / DD / YY" value="<%= startDate3 %>">
+                        <input type="text" name="history_start_date_3" placeholder="MM / DD / YY" <% if(history[0].history_start_date_3 != null) { %>
+                          value="<%= startDate3 %>"
+                        <% } %>
+                        >
                       </div>
                       <div class="">
-                        <p><strong>TO</strong></p>
-                        <input type="text" name="history_end_date_3" placeholder="MM / DD / YY" value="<%= endDate3 %>">
+                        <input type="text" name="history_end_date_3" placeholder="MM / DD / YY" <% if(history[0].history_start_date_3 != null) { %>
+                          value="<%= endDate3 %>"
+                        <% } %>
+                        >
                       </div>
                       <div class="">
-                        <p><strong>POSITION</strong></p>
-                      <input type="text" name="position" placeholder="Enter Position" <% if(history.length != 0) { %>
+                      <input type="text" name="position_3" placeholder="Enter Position" <% if(history.length != 0) { %>
                         value="<%= history[0].position_3 %>"
                         <% } %>
                       >
                       </div>
                       <div class="">
-                        <p><strong>COMPANY</strong></p>
-                        <input type="text" name="company" placeholder="Enter Company Name" <% if(history.length != 0) { %>
+                        <input type="text" name="company_3" placeholder="Enter Company Name" <% if(history.length != 0) { %>
                           value="<%= history[0].company_3 %>"
                           <% } %>
                         >
                       </div>
-                      </div>
+                    </div>
                   <div>
                     <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
                     <input type="text" name="year_experience" placeholder="0 Years" value="<%= applicants[0].year_experience %>">
                   </div>
           </div>
-          <button type="submit">SAVE</button>
+          <button name="nameBtn" value="saveBtn">SAVE</button>
         </form>
       </div>
     </div>
