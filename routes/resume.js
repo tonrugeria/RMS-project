@@ -20,20 +20,19 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   const applicantDetails = await knex('job_application.applicant_details')
   const history = await knex('job_application.employment_history')
   const unique = uniqueId(applicantDetails)
-  const jobs = await knex
-    .select()
-    .from("jobs.job_opening")
-    .where("job_id",jobId);
-  const admin = await knex('admin.skill')
-  console.log(admin);
+  const jobs = await knex("jobs.job_opening").where("job_id",jobId);
+  const skill = await knex('admin.skill')
+    .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+
+
   // const thisDay = moment().format('L')
   // console.log(thisDay);
-  res.render('resume', { jobId, jobs, history, admin, unique })
+  res.render('resume', { jobId, jobs, history, skill, unique, })
 })
 
 router.post('/careers/job/:job_id/resume', async (req, res) => {
   const jobId = req.params.job_id
-  const {
+  let {
     appId,
     first_name, 
     middle_name, 
@@ -72,6 +71,7 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
     position_3,
     company_3,
   } = req.body
+  
   const startDate1 = moment(history_start_date_1, 'MM/DD/YYYY')
   const endDate1 = moment(history_end_date_1, 'MM/DD/YYYY')
   const startDate2 = moment(history_start_date_2, 'MM/DD/YYYY')
@@ -79,15 +79,26 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
   const startDate3 = moment(history_start_date_3, 'MM/DD/YYYY')
   const endDate3 = moment(history_end_date_3, 'MM/DD/YYYY')
 
-  const yearDiff1 = endDate1.diff(startDate1, 'years');
-  const yearDiff2 = endDate2.diff(startDate2, 'years');
-  const yearDiff3 = endDate3.diff(startDate3, 'years');
+  let yearDiff1 = endDate1.diff(startDate1, 'years');
+  let yearDiff2 = endDate2.diff(startDate2, 'years');
+  let yearDiff3 = endDate3.diff(startDate3, 'years');
 
+  if(isNaN(yearDiff1)){
+    yearDiff1 = 0
+  } 
+  if(isNaN(yearDiff2)) {
+    yearDiff2 = 0
+  } 
+  if (isNaN(yearDiff3)){
+    yearDiff3 = 0
+  }
   const totalYears = yearDiff1 + yearDiff2 + yearDiff3
+  console.log("startDate1", startDate1);
+  console.log("yearDiff1",yearDiff1);
+  console.log("TOTAL",totalYears);
 
   const today = new Date()
   const thisDay = moment(today, 'MM/DD/YYYY')
-
   knex('job_application.applicant_details')
     .insert({
       job_id: jobId,
@@ -113,7 +124,6 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
       date_applied: thisDay,
       date_last_updated: thisDay 
     })
-    .where('job_id', jobId)
     .then(() => {
         knex('job_application.capabilities')
           .insert({
@@ -122,27 +132,64 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
             capability_2,
             capability_3,
           })
-          .where('application_id', appId)
-          .then(()=> {
-              knex('job_application.employment_history')
-                .insert({
-                  application_id: appId,
-                  history_start_date_1: startDate1,
-                  history_end_date_1: endDate1,
-                  position_1,
-                  company_1,
-                  history_start_date_2: startDate2,
-                  history_end_date_2: endDate2,
-                  position_2,
-                  company_2,
-                  history_start_date_3: startDate3,
-                  history_end_date_3: endDate3,
-                  position_3,
-                  company_3,
-                })
-                .where('application_id', appId)
-                .then(async ()=> {
-                  const skill = await knex('admin.skill')
+          .then( async ()=> {
+            if(
+              history_start_date_1 == "" && history_end_date_1 == "" &&
+              history_start_date_2 == "" && history_end_date_2 == "" &&
+              history_start_date_3 == "" && history_end_date_3 == ""
+            ) {
+              history_start_date_1 = null
+              history_end_date_1 = null
+              history_start_date_2 = null
+              history_end_date_2 = null
+              history_start_date_3 = null
+              history_end_date_3 = null
+            } else if (
+              history_start_date_2 == "" && history_end_date_2 == "" &&
+              history_start_date_3 == "" && history_end_date_3 == ""
+            ) {
+              history_start_date_1 = startDate1
+              history_end_date_1 = endDate1
+              history_start_date_2 = null
+              history_end_date_2 = null
+              history_start_date_3 = null
+              history_end_date_3 = null
+            } else if (
+              history_start_date_3 == "" && history_end_date_3 == ""
+            ) {
+              history_start_date_1 = startDate1
+              history_end_date_1 = endDate1
+              history_start_date_2 = startDate2
+              history_end_date_2 = endDate2
+              history_start_date_3 = null
+              history_end_date_3 = null
+            } else {
+                history_start_date_1 = startDate1
+                history_end_date_1 = endDate1
+                history_start_date_1 = startDate2
+                history_end_date_1 = endDate2
+                history_start_date_1 = startDate3
+                history_end_date_1 = endDate3
+            }
+            knex('job_application.employment_history')
+              .insert({
+                application_id: appId,
+                history_start_date_1,
+                history_end_date_1,
+                position_1,
+                company_1,
+                history_start_date_2,
+                history_end_date_2,
+                position_2,
+                company_2,
+                history_start_date_3,
+                history_end_date_3,
+                position_3,
+                company_3,
+              })
+              .then(async () => {
+                const skill = await knex('jobs.skill')
+                    .where('job_id', jobId)
                   if(skill != 0){
                     for ( let i = 0; i < skill_id.length; i++) {
                       knex('job_application.applicant_rating')
@@ -152,14 +199,16 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
                           skill_years: skill_years[i],
                           skill_self_rating: skill_self_rating[i]
                         })
-                        .where('application_id', appId)
                         .then(result => result)
                     }
                   }
-                })
-          })
-          res.redirect(`/careers/job/${jobId}/resume/application/${appId}`)
-    })
-})
+                res.redirect(`/careers/job/${jobId}/resume/application/${appId}`)
+              })
 
+                  
+          })
+          
+    })
+    
+})
 module.exports = router
