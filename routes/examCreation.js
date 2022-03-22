@@ -41,6 +41,10 @@ router.post('/examcreation', async (req, res) => {
                 choice_2,
                 choice_3,
                 choice_4,
+                value_1,
+                value_2,
+                value_3,
+                value_4
         } = req.body;
         knex('question.question')
                 .insert({
@@ -55,6 +59,10 @@ router.post('/examcreation', async (req, res) => {
                         choice_3,
                         choice_4,
                         correct_answer: correctAnswer,
+                        choice_1_value: value_1,
+                        choice_2_value: value_2,
+                        choice_3_value: value_3,
+                        choice_4_value: value_4
                 })
                 .then(() => {
                         res.redirect(`/examcreation/${questioncategory}/${question_id}`);
@@ -76,7 +84,13 @@ router.get('/examcreation/:question_category/:question_id', async (req, res) => 
                 'question.question.question_category'
         
         );
-        res.render('editExamCreation', { question, skill, questionId, qSkill, questionCategory, allQuestions, allCategoryQuestion});
+        if (allCategoryQuestion == 0){
+                res.redirect('/examcreation')
+        }
+        else{
+                res.render('editExamCreation', { question, skill, questionId, qSkill, questionCategory, allQuestions, allCategoryQuestion});
+        }
+        
 
 });
 
@@ -84,6 +98,7 @@ router.get('/examcreation/:question_category/:question_id', async (req, res) => 
 router.post('/examcreation/:question_id', async (req, res) => {
         const questionId = req.params.question_id;
         const {
+                questiontype,
                 questioncategory,
                 questionlevel,
                 questiontimer,
@@ -93,9 +108,14 @@ router.post('/examcreation/:question_id', async (req, res) => {
                 choice_2,
                 choice_3,
                 choice_4,
+                value_1,
+                value_2,
+                value_3,
+                value_4
         } = req.body;
         knex('question.question')
                 .update({
+                        question_type: questiontype,
                         question_category: questioncategory,
                         question_level: questionlevel,
                         question_time_limit: questiontimer,
@@ -105,6 +125,10 @@ router.post('/examcreation/:question_id', async (req, res) => {
                         choice_3,
                         choice_4,
                         correct_answer: correctAnswer,
+                        choice_1_value: value_1,
+                        choice_2_value: value_2,
+                        choice_3_value: value_3,
+                        choice_4_value: value_4
                 })
                 .where('question_id', questionId)
                 .then(() => {
@@ -113,15 +137,32 @@ router.post('/examcreation/:question_id', async (req, res) => {
 });
 
 // delete exam
-router.get('/deleteExam/:question_category/:question_id', (req, res) => {
+router.get('/deleteExam/:question_category/:question_id',  (req, res) => {
         const questionCategory = req.params.question_category;
         const questionId = req.params.question_id;
         knex('question.question')
                 .where('question_category', questionCategory)
                 .andWhere('question_id', questionId)
                 .del()
-                .then((results) => {
-                        res.redirect(`/examcreation/${questionCategory}/${questionId}`);
+                .then ( async(results) => {
+                        const nextQuestionId = await knex('question.question').where('question_category', questionCategory).first().then((question) => question.question_id);
+                
+                        if(question_id = undefined ){
+                                nextQuestionId=0;
+                        }
+                        else{
+                                
+                        }
+                        if (nextQuestionId == 0){
+                                
+                                res.redirect('/examcreation')
+                        }
+                        else{
+                                
+                                
+                                res.redirect(`/examcreation/${questionCategory}/${nextQuestionId}`);
+                        }
+                        console.log(nextQuestionId);
                 });
 });
 
