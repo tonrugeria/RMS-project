@@ -23,7 +23,7 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   const jobs = await knex("jobs.job_opening").where("job_id",jobId);
   const skill = await knex('admin.skill')
     .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
-
+    .where('job_id', jobId)
 
   // const thisDay = moment().format('L')
   // console.log(thisDay);
@@ -93,9 +93,6 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
     yearDiff3 = 0
   }
   const totalYears = yearDiff1 + yearDiff2 + yearDiff3
-  console.log("startDate1", startDate1);
-  console.log("yearDiff1",yearDiff1);
-  console.log("TOTAL",totalYears);
 
   const today = new Date()
   const thisDay = moment(today, 'MM/DD/YYYY')
@@ -192,14 +189,18 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
                     .where('job_id', jobId)
                   if(skill != 0){
                     for ( let i = 0; i < skill_id.length; i++) {
-                      knex('job_application.applicant_rating')
-                        .insert({
-                          application_id: appId,
-                          skill_id: skill_id[i],
-                          skill_years: skill_years[i],
-                          skill_self_rating: skill_self_rating[i]
-                        })
-                        .then(result => result)
+                    if(skill_years[i] == '' && skill_self_rating[i] == ''){
+                      skill_years[i] = 0
+                      skill_self_rating[i] = 0
+                        knex('job_application.applicant_rating')
+                          .insert({
+                            application_id: appId,
+                            skill_id: skill_id[i],
+                            skill_years: skill_years[i],
+                            skill_self_rating: skill_self_rating[i]
+                          })
+                          .then(result => result)
+                      }
                     }
                   }
                 res.redirect(`/careers/job/${jobId}/resume/application/${appId}`)

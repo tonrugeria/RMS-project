@@ -103,15 +103,11 @@
                     <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 70px" <% for( let j=0; j < rating.length; j++) { %>
                       <% if(rating[j].skill_id==admin[i].skill_id) { %>
                           value="<%= rating[j].skill_years %>"
-                      <% } else { %>
-                        value="0"
                       <% } %>
                     <% } %>>
                     <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 60px" <% for(let j=0; j < rating.length; j++) { %>
                       <% if(rating[j].skill_id==admin[i].skill_id) { %>
                         value="<%= rating[j].skill_self_rating %>"
-                      <% } else { %>
-                        value="0"
                       <% } %>
                     <% } %>>
                   </div>
