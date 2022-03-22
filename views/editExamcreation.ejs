@@ -1,0 +1,181 @@
+<%- include('./layout/header.ejs') %>
+
+<div class="row min-vh-100">
+  <div class="col-sm-2">
+    <div class="d-flex flex-column">
+      <a href="/examcreation">+NEW QUESTION</a>
+      <% for (let i=0; i < skill.length; i++) { %>
+      <a
+      <%  for (let j=0; j < allQuestions.length; j++) { %>
+       
+        <% if (skill[i].skill_name == allQuestions[j].question_category) { %>
+         href="/examcreation/<%= skill[i].skill_name %>/<%= allQuestions[j].question_id %>"
+        <% } %> 
+        <% } %>
+
+        class="w3-bar-item sidebar"
+      >
+        <%= skill[i].skill_name %>
+      </a>
+      <% } %>
+    </div>
+  </div>
+  <div class="col-sm-10">
+    <form action="/examcreation/<%= questionId %> " method="POST">
+      <div>
+        <div class="form-floating">
+          <select
+            name="questioncategory"
+            class="form-select"
+            id="floatingSelectGrid"
+            aria-label="Floating label select example"
+          >
+            <% for (let i=0; i < skill.length; i++) { %> <% if (question != 0) {
+            %> <% if(skill[i].skill_name == question[0].question_category) { %>
+            <option value="<%=skill[i].skill_name %>" selected>
+              <%=skill[i].skill_name %>
+            </option>
+             <% } else { %>
+            <option value="<%=skill[i].skill_name %>">
+              <%=skill[i].skill_name %>
+            </option>
+            <% } %> <% } %> <% } %>
+          </select>
+          
+          <label for="questioncategory">Category</label>
+        </div>
+      </div>
+
+      <div class="form-floating">
+        <select
+          name="questionlevel"
+          class="form-select"
+          id="floatingSelectGrid"
+          aria-label="Floating label select example"
+        >
+          <% for (let i=0; i < question.length; i++){%> <%
+          if(question[i].question_level =='1' ) { %>
+          <option selected value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <% } else if (question[i].question_level =='2'){ %>
+          <option value="1">1</option>
+          <option selected value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <% } else if (question[i].question_level =='3'){ %>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option selected value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          %> <%} else if (question[i].question_level =='4'){ %>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option selected value="4">4</option>
+          <option value="5">5</option>
+          %> <%} else { %>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option selected value="5">5</option>
+          %> <%} %> <%} %>
+        </select>
+        <label for="questionlevel">Level</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          name="questiontimer"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Timer"
+          value="<%= question[0].question_time_limit %>"
+        />
+        <label for="floatPlace">Timer</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          name="questiondetail"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Question"
+          value="<%=question[0].question_detail %>"
+        />
+        <label for="floatPlace">Question</label>
+      </div>
+
+      <div class="form-floating">
+        <% for (let i=0; i < question.length; i++){%>
+          
+          <input type="radio" value="1" name="correctAnswer" <% if(question[i].correct_answer =='1' ){ %>  checked <% }  %> />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Question 1"
+            name="choice_1"
+            value="<%= question[0].choice_1 %>"
+          />
+
+          <input type="radio" value="2" name="correctAnswer" <% if(question[i].correct_answer =='2' ){ %>  checked <% }  %> />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Question 1"
+            name="choice_2"
+            value="<%= question[0].choice_2 %>"
+          />
+          <input type="radio" value="3" name="correctAnswer" <% if(question[i].correct_answer =='3' ){ %>  checked <% }  %> />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Question 1"
+            name="choice_3"
+            value="<%= question[0].choice_3 %>"
+          />
+
+          <input type="radio" value="4" name="correctAnswer" <% if(question[i].correct_answer =='4' ){ %>  checked <% }  %> />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Question 1"
+            name="choice_4"
+            value="<%= question[0].choice_4 %>"
+          />
+         <%} %>
+
+
+      </div>
+
+      <button type="">Save</button>
+    </form>
+    <% for (let i=0; i < allCategoryQuestion.length; i++) { %>
+
+    <h1>
+      <%= allCategoryQuestion[i].question_category %> | LEVEL <%=
+      allCategoryQuestion[i].question_level %> <%= allCategoryQuestion[i].question_detail %>
+    </h1>
+    <a
+      href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
+    >
+      <button type="submit">edit</button>
+    </a>
+    <form
+      method="GET"
+      action="/deleteExam/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
+    >
+    
+      <button type="submit">delete</button>
+    </form>
+    <% } %>
+  </div>
+</div>
+
+<%- include('./layout/footer.ejs') %>
