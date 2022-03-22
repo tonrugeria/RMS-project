@@ -11,8 +11,8 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const job_opening = await knex('jobs.job_opening');
     const admin_department = await knex('admin.department');
-    const date = job_opening[0].date_opened;
-    const date_opened = moment(date).format("Do MMMM YYYY")
+    const { date_opened } = job_opening[0] || {}
+    const dateOpened = moment(date_opened).format("Do MMMM YYYY")
     const jobSkill = await knex('jobs.job_opening')
         .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
         .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
         'job_application.applicant_details.job_id',
         'jobs.job_opening.job_id'
     );
-    res.render('index', { job_opening, admin_department, jobSkill, jobApplications, date_opened});
+    res.render('index', { job_opening, admin_department, jobSkill, jobApplications, dateOpened});
 });
 
 // register get route

@@ -15,7 +15,9 @@ router.get(
       'application_id',
       appId
     );
-    const admin = await knex('admin.skill');
+    const admin = await knex('admin.skill')
+    .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+    .where('job_id', jobId)
     const rating = await knex('job_application.applicant_rating').where(
       'application_id',
       appId
@@ -264,6 +266,10 @@ router.post(
                       .where('application_id', appId)
                       .del()
                       .then(() => {
+                        if(skill_years == '' && skill_self_rating == ''){
+                          skill_years = 0
+                          skill_self_rating = 0
+                        }
                         knex('job_application.applicant_rating')
                           .insert({
                             application_id: appId,
@@ -275,6 +281,10 @@ router.post(
                       });
                   } else {
                     for (let i = 0; i < skill_id.length; i++) {
+                      if(skill_years[i] == '' && skill_self_rating[i] == '') {
+                        skill_years[i] = 0
+                        skill_self_rating[i] = 0
+                      }
                       knex('job_application.applicant_rating')
                         .where('application_id', appId)
                         .del()
@@ -288,7 +298,7 @@ router.post(
                             })
                             .then((result) => result);
                         });
-                    }
+                      }
                   }
                 })
                 .then(result => {
