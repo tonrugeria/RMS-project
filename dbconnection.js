@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS Jobs.Item(
 
 CREATE SCHEMA IF NOT EXISTS Question;
 CREATE TABLE IF NOT EXISTS Question.Question (
-    question_id SERIAL PRIMARY KEY NOT NULL,
+    question_id INT PRIMARY KEY NOT NULL,
     question_type int NOT NULL,
     question_category varchar(100) NOT NULL,
     question_level varchar(100) NOT NULL,

@@ -1,15 +1,25 @@
 <%- include('./layout/header.ejs') %>
 
-  <div class="row min-vh-100">
-    <div class="col-sm-2">
-      <div class="d-flex flex-column">
-        <% for (let i=0; i < skill.length; i++) { %>
-          <a href="#" class="w3-bar-item sidebar">
-            <%= skill[i].skill_name %>
-          </a>
-          <% } %>
-      </div>
+<div class="row min-vh-100">
+  <div class="col-sm-2">
+    <div class="d-flex flex-column">
+      <a href="/examcreation">+NEW QUESTION</a>
+      <% for (let i=0; i < skill.length; i++) { %>
+      <a
+      <%  for (let j=0; j < question.length; j++) { %>
+       
+        <% if (skill[i].skill_name == question[j].question_category) { %>
+         href="/examcreation/<%= skill[i].skill_name %>/<%= question[j].question_id %>"
+        <% } %> 
+        <% } %>
+    
+        class="w3-bar-item sidebar"
+      >
+        <%= skill[i].skill_name %>
+      </a>
+      <% } %> 
     </div>
+<<<<<<< HEAD
     <div class="col-sm-10">
       <form action="/examcreation" method="POST">
         <div>
@@ -31,18 +41,42 @@
                 <% } %>
             </select>
             <label for="questioncategory">Category</label>
+=======
+  </div>
+  <div class="col-sm-10">
+    <form action="/examcreation" method="POST">
+      <div>
+        <div class="form-floating">
+          
+          <div>
+          <input type="radio" value="0" name="questiontype" />
+          <label for="technical">Technical</label><br>
+          </div>
+          <div>
+          <input type="radio" value="1" name="questiontype" />
+          <label for="personality">Personality</label><br>
+>>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
           </div>
         </div>
-
+      </div>
+      <input type="number" value="<%= questionId %>" readonly name="question_id">
+      <div>
         <div class="form-floating">
-          <select name="questionlevel" class="form-select" id="floatingSelectGrid"
-          aria-label="Floating label select example">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+          <select
+            name="questioncategory"
+            class="form-select"
+            id="floatingSelectGrid"
+            aria-label="Floating label select example"
+          >
+            <% for (let i=0; i < skill.length; i++) { %>
+
+            <option value="<%=skill[i].skill_name %>">
+              <%=skill[i].skill_name %>
+            </option>
+
+            <% } %>
           </select>
+<<<<<<< HEAD
           <label for="questionlevel">Level</label>
         </div>
 <<<<<<< HEAD
@@ -71,37 +105,97 @@
         <div class="form-floating">
           <input type="text" name="questiondetail" class="form-control" id="floatPlace" placeholder="Question">
                 <label for="floatPlace">Question</label>
+=======
+          <label for="questioncategory">Category</label>
+>>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
         </div>
+      </div>
 
-        <div class="form-floating">
-          <div>
-            <input type="radio" value="1" name="correctAnswer" />
-            <input type="text" class="form-control" id="floatPlace" placeholder="Question 1" name="choice_1" />
+      <div class="form-floating">
+        <select
+          name="questionlevel"
+          class="form-select"
+          id="floatingSelectGrid"
+          aria-label="Floating label select example"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="questionlevel">Level</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          name="questiontimer"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Timer"
+        />
+        <label for="floatPlace">Timer</label>
+      </div>
+      
+      <div class="form-floating">
+        <input
+          type="text"
+          name="questiondetail"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Question"
+        />
+        <label for="floatPlace">Question</label>
+      </div>
 
-            <input type="radio" value="2" name="correctAnswer" />
-            <input type="text" class="form-control" id="floatPlace" placeholder="Question 2" name="choice_2" />
+      <div class="form-floating">
+        <div>
+          <input type="radio" value="1" name="correctAnswer" />
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Question 1"
+            name="choice_1"
+          />
 
-            <input type="radio" value="3" name="correctAnswer" />
-            <input type="text" class="form-control" id="floatPlace" placeholder="Question 3" name="choice_3" />
+          <input type="radio" value="2" name="correctAnswer" />
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Question 2"
+            name="choice_2"
+          />
 
-            <input type="radio" value="4" name="correctAnswer" />
-            <input type="text" class="form-control" id="floatPlace" placeholder="Question 4" name="choice_4" />
+          <input type="radio" value="3" name="correctAnswer" />
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Question 3"
+            name="choice_3"
+          />
 
+<<<<<<< HEAD
 >>>>>>> bf6a87da4e1961b5b3029b6b881a06a123f9ab93
           </div>
+=======
+          <input type="radio" value="4" name="correctAnswer" />
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Question 4"
+            name="choice_4"
+          />
+>>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
         </div>
-        <button type="">Save</button>
-      </form>
-      <% for (let i=0; i < question.length; i++) { %>
-        <h1>
-          <%= question[i].question_category %> | LEVEL <%= question[i].question_level %>
-              <%= question[i].question_detail %>
-        </h1>
-        <form method="GET" action="/deleteExam/<%= question[i].question_id%>">
-          <button type="submit">delete</button>
-        </form>
-        <% } %>
-    </div>
+      </div>
+      <button type="">Save</button>
+    </form>
   </div>
+</div>
 
-  <%- include('./layout/footer.ejs') %>
+<%- include('./layout/footer.ejs') %>
+
