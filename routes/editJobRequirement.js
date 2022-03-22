@@ -1,31 +1,28 @@
-const express = require("express");
-const knex = require("../dbconnection");
-const {
-  checkAuthenticated,
-  checkNotAuthenticated,
-} = require("../middlewares/auth");
+const express = require('express');
+const knex = require('../dbconnection');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // job-requirement update get route
-router.get("/job-requirement/:job_id", async (req, res) => {
+router.get('/job-requirement/:job_id', async (req, res) => {
   const jobId = req.params.job_id;
-  const adminSkill = await knex("admin.skill");
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const hrRemarks = await knex("admin.remarks");
-  const jobSkill = await knex("jobs.skill").where("job_id", jobId);
-  const job = await knex("jobs.job_opening").where("job_id", jobId);
-  const jobPosition = await knex("admin.job_position");
+  const adminSkill = await knex('admin.skill');
+  const dept = await knex('admin.department');
+  const jobType = await knex('admin.job_type');
+  const hrRemarks = await knex('admin.remarks');
+  const jobSkill = await knex('jobs.skill').where('job_id', jobId);
+  const job = await knex('jobs.job_opening').where('job_id', jobId);
+  const jobPosition = await knex('admin.job_position');
   const unique = jobId;
-  const jobQuestion = await knex("jobs.question")
+  const jobQuestion = await knex('jobs.question')
     .innerJoin(
-      "question.question",
-      "jobs.question.question_id",
-      "question.question.question_id"
+      'question.question',
+      'jobs.question.question_id',
+      'question.question.question_id'
     )
-    .where("job_id", req.params.job_id);
-  res.render("editJobRequirement", {
+    .where('job_id', req.params.job_id);
+  res.render('editJobRequirement', {
     adminSkill,
     dept,
     jobType,
@@ -40,7 +37,7 @@ router.get("/job-requirement/:job_id", async (req, res) => {
 });
 
 // job-requirement update post route
-router.post("/job-requirement/:job_id", async (req, res) => {
+router.post('/job-requirement/:job_id', async (req, res) => {
   const jobId = req.params.job_id;
   const {
     jobTitle,
@@ -55,7 +52,7 @@ router.post("/job-requirement/:job_id", async (req, res) => {
     skill_id,
     skill_level_1,
   } = req.body;
-  knex("jobs.job_opening")
+  knex('jobs.job_opening')
     .update({
       job_title: jobTitle,
       job_dept: department,
@@ -67,17 +64,17 @@ router.post("/job-requirement/:job_id", async (req, res) => {
       exam_score: examScore,
       hr_rating: hrAssessment,
     })
-    .where("job_id", jobId)
+    .where('job_id', jobId)
     .then(async () => {
       if (skill_id != null) {
         if (typeof skill_id != typeof []) {
-          knex("jobs.skill")
+          knex('jobs.skill')
             .where({
               job_id: jobId,
             })
             .del()
             .then(() => {
-              knex("jobs.skill")
+              knex('jobs.skill')
                 .insert({
                   job_id: jobId,
                   skill_id,
@@ -88,14 +85,14 @@ router.post("/job-requirement/:job_id", async (req, res) => {
                 });
             });
         } else {
-          knex("jobs.skill")
+          knex('jobs.skill')
             .where({
               job_id: jobId,
             })
             .del()
             .then((results) => results);
           skill_id.forEach(async (skill) => {
-            knex("jobs.skill")
+            knex('jobs.skill')
               .insert({
                 job_id: jobId,
                 skill_id: skill,
@@ -105,24 +102,31 @@ router.post("/job-requirement/:job_id", async (req, res) => {
           res.redirect(`/job-requirement/${jobId}`);
         }
       } else {
-        knex("jobs.skill")
+        knex('jobs.skill')
           .where({
             job_id: jobId,
           })
           .del()
           .then(() => {
-            res.redirect(`/job-requirement/${jobId}`);
+            knex('jobs.question')
+              .where({
+                job_id: jobId,
+              })
+              .del()
+              .then(() => {
+                res.redirect(`/job-requirement/${jobId}`);
+              });
           });
       }
     });
 });
 
 // delete exam route
-router.post("/delete/job/:job_id/:question_id", (req, res) => {
+router.post('/delete/job/:job_id/:question_id', (req, res) => {
   const jobId = req.params.job_id;
-  knex("jobs.question")
-    .where("question_id", req.params.question_id)
-    .andWhere("job_id", jobId)
+  knex('jobs.question')
+    .where('question_id', req.params.question_id)
+    .andWhere('job_id', jobId)
     .del()
     .then((result) => {
       res.redirect(`/job-requirement/${jobId}`);
