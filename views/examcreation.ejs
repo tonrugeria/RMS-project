@@ -26,16 +26,18 @@
         <div class="form-floating">
           
           <div>
-          <input type="radio" value="0" name="questiontype" />
+          <input type="radio" value="0" name="questiontype" required/>
           <label for="technical">Technical</label><br>
           </div>
           <div>
-          <input type="radio" value="1" name="questiontype" />
+          <input type="radio" value="1" name="questiontype" required/>
           <label for="personality">Personality</label><br>
           </div>
         </div>
       </div>
-      <input type="number" value="<%= questionId %>" readonly name="question_id">
+      <div>
+      <input type="hidden" value="<%= questionId %>" readonly name="question_id">
+    </div>
       <div>
         <div class="form-floating">
           <select
@@ -78,6 +80,7 @@
           class="form-control"
           id="floatPlace"
           placeholder="Timer"
+          required
         />
         <label for="floatPlace">Timer</label>
       </div>
@@ -89,47 +92,84 @@
           class="form-control"
           id="floatPlace"
           placeholder="Question"
+          required
         />
         <label for="floatPlace">Question</label>
       </div>
 
       <div class="form-floating">
         <div>
-          <input type="radio" value="1" name="correctAnswer" />
+          <input type="radio" value="1" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
             placeholder="Question 1"
             name="choice_1"
+            required
+          />
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Value"
+            name="value_1"
+            required
           />
 
-          <input type="radio" value="2" name="correctAnswer" />
+          <input type="radio" value="2" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
             placeholder="Question 2"
             name="choice_2"
+            required
           />
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_2"
+          required
+        />
 
-          <input type="radio" value="3" name="correctAnswer" />
+          <input type="radio" value="3" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
             placeholder="Question 3"
             name="choice_3"
+            required
           />
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_3"
+          required
+        />
 
-          <input type="radio" value="4" name="correctAnswer" />
+          <input type="radio" value="4" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
             placeholder="Question 4"
             name="choice_4"
+            required
           />
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_4"
+          required
+        />
         </div>
       </div>
       <button type="">Save</button>
@@ -138,4 +178,3 @@
 </div>
 
 <%- include('./layout/footer.ejs') %>
-
