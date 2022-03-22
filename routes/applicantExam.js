@@ -14,11 +14,26 @@ router.get('/careers/job/:job_id/exam/application/:application_id', async (req, 
       'question.question.question_id'
     )
     .where({ job_id: jobId });
-  res.render('applicantExam', { jobId, appId, jobQuestion });
+  res.render('applicantExam', {
+    jobId,
+    appId,
+    jobQuestion,
+  });
 });
 
-router.post('/careers/job/:job_id/resume', async (req, res) => {
+router.post('/careers/job/:job_id/exam/application/:application_id', async (req, res) => {
   const jobId = req.params.job_id;
-});
 
+  const jobQuestion = await knex('jobs.question')
+    .innerJoin(
+      'question.question',
+      'jobs.question.question_id',
+      'question.question.question_id'
+    )
+    .where({ job_id: jobId });
+
+  res.send({
+    responseQuestion: jobQuestion,
+  });
+});
 module.exports = router;

@@ -3,16 +3,14 @@
 <div class="row min-vh-100">
   <div class="col-sm-2">
     <div class="d-flex flex-column">
-      <a href="/examcreation">+NEW QUESTION</a>
+      <a href="/examcreation">+ NEW QUESTION</a>
       <% for (let i=0; i < skill.length; i++) { %>
       <a
-      <%  for (let j=0; j < allQuestions.length; j++) { %>
-       
-        <% if (skill[i].skill_name == allQuestions[j].question_category) { %>
-         href="/examcreation/<%= skill[i].skill_name %>/<%= allQuestions[j].question_id %>"
-        <% } %> 
+      <%  for (let j=0; j < qSkill.length; j++) { %>
+        <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
+          href="/examcreation/<%= skill[i].skill_name %>/<%= qSkill[j].question_id %>"
         <% } %>
-
+      <% } %>
         class="w3-bar-item sidebar"
       >
         <%= skill[i].skill_name %>
@@ -21,11 +19,36 @@
     </div>
   </div>
   <div class="col-sm-10">
-    <form action="/examcreation/<%= questionId %> " method="POST">
+    <% if (allCategoryQuestion != 0){ %> 
+    <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
+      <div>
+        <% for (let i=0; i < question.length; i++){%>
+        <div>
+        <input type="radio" value="1" name="questiontype" <% if(question[i].question_type =='0' ){ %>  checked <% }  %> />
+        <label for="technical">Technical</label><br>
+        </div>
+        <input type="radio" value="1" name="questiontype" <% if(question[i].question_type =='1' ){ %>  checked <% }  %> />
+        <label for="technical">Personality</label><br>
+        <div>
+        </div>  
+        <%} %> 
+      </div>
+      <div>
+        <% for (let i=0; i < question.length; i++){%>
+        <div>
+        <input type="radio" value="1" name="questiontype" <% if(question[i].question_type =='0' ){ %>  checked <% }  %> />
+        <label for="technical">Technical</label><br>
+        </div>
+        <input type="radio" value="1" name="questiontype" <% if(question[i].question_type =='1' ){ %>  checked <% }  %> />
+        <label for="technical">Personality</label><br>
+        <div>
+        </div>  
+        <%} %> 
+      </div>
       <div>
         <div class="form-floating">
           <select
-            name="questioncategory"
+            name="questionCategory"
             class="form-select"
             id="floatingSelectGrid"
             aria-label="Floating label select example"
@@ -95,6 +118,7 @@
           class="form-control"
           id="floatPlace"
           placeholder="Timer"
+          required
           value="<%= question[0].question_time_limit %>"
         />
         <label for="floatPlace">Timer</label>
@@ -107,6 +131,7 @@
           class="form-control"
           id="floatPlace"
           placeholder="Question"
+          required
           value="<%=question[0].question_detail %>"
         />
         <label for="floatPlace">Question</label>
@@ -121,8 +146,18 @@
             class="form-control floatPlace"
             placeholder="Question 1"
             name="choice_1"
+            required
             value="<%= question[0].choice_1 %>"
           />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Value"
+            name="value_1"
+            required
+            value="<%= question[0].choice_1_value %>"
+          />
+          
 
           <input type="radio" value="2" name="correctAnswer" <% if(question[i].correct_answer =='2' ){ %>  checked <% }  %> />
           <input
@@ -130,7 +165,16 @@
             class="form-control floatPlace"
             placeholder="Question 1"
             name="choice_2"
+            required
             value="<%= question[0].choice_2 %>"
+          />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Value"
+            name="value_2"
+            required
+            value="<%= question[0].choice_2_value %>"
           />
           <input type="radio" value="3" name="correctAnswer" <% if(question[i].correct_answer =='3' ){ %>  checked <% }  %> />
           <input
@@ -138,7 +182,16 @@
             class="form-control floatPlace"
             placeholder="Question 1"
             name="choice_3"
+            required
             value="<%= question[0].choice_3 %>"
+          />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Value"
+            name="value_3"
+            required
+            value="<%= question[0].choice_3_value %>"
           />
 
           <input type="radio" value="4" name="correctAnswer" <% if(question[i].correct_answer =='4' ){ %>  checked <% }  %> />
@@ -147,7 +200,16 @@
             class="form-control floatPlace"
             placeholder="Question 1"
             name="choice_4"
+            required
             value="<%= question[0].choice_4 %>"
+          />
+          <input
+            type="text"
+            class="form-control floatPlace"
+            placeholder="Value"
+            name="value_4"
+            required
+            value="<%= question[0].choice_4_value %>"
           />
          <%} %>
 
@@ -173,9 +235,16 @@
     >
     
       <button type="submit">delete</button>
+      
     </form>
     <% } %>
   </div>
+  <%} else{ %>
+    <div class="h-25 d-flex flex-column align-items-center justify-content-center">
+      <h5>NO ITEM IN THIS CATEGORY</h5>
+      <h5>CREATE A NEW ONE</h5>
+    </div>
+  <% } %>
 </div>
 
 <%- include('./layout/footer.ejs') %>

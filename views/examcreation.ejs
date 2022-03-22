@@ -3,16 +3,14 @@
 <div class="row min-vh-100">
   <div class="col-sm-2">
     <div class="d-flex flex-column">
-      <a href="/examcreation">+NEW QUESTION</a>
+      <a href="/examcreation">+ NEW QUESTION</a>
       <% for (let i=0; i < skill.length; i++) { %>
       <a
-      <%  for (let j=0; j < question.length; j++) { %>
-       
-        <% if (skill[i].skill_name == question[j].question_category) { %>
-         href="/examcreation/<%= skill[i].skill_name %>/<%= question[j].question_id %>"
-        <% } %> 
+      <%  for (let j=0; j < qSkill.length; j++) { %>
+        <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
+          href="/examcreation/<%= skill[i].skill_name %>/<%= qSkill[j].question_id %>"
         <% } %>
-    
+      <% } %>
         class="w3-bar-item sidebar"
       >
         <%= skill[i].skill_name %>
@@ -49,31 +47,31 @@
         <div class="form-floating">
           
           <div>
-          <input type="radio" value="0" name="questiontype" />
+          <input type="radio" value="0" name="questiontype" required/>
           <label for="technical">Technical</label><br>
           </div>
           <div>
-          <input type="radio" value="1" name="questiontype" />
+          <input type="radio" value="1" name="questiontype" required/>
           <label for="personality">Personality</label><br>
 >>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
           </div>
         </div>
       </div>
-      <input type="number" value="<%= questionId %>" readonly name="question_id">
+      <div>
+      <input type="hidden" value="<%= questionId %>" readonly name="question_id">
+    </div>
       <div>
         <div class="form-floating">
           <select
-            name="questioncategory"
+            name="questionCategory"
             class="form-select"
             id="floatingSelectGrid"
             aria-label="Floating label select example"
           >
             <% for (let i=0; i < skill.length; i++) { %>
-
-            <option value="<%=skill[i].skill_name %>">
-              <%=skill[i].skill_name %>
-            </option>
-
+              <option value="<%=skill[i].skill_name %>">
+                <%=skill[i].skill_name %>
+              </option>
             <% } %>
           </select>
 <<<<<<< HEAD
@@ -133,6 +131,7 @@
           class="form-control"
           id="floatPlace"
           placeholder="Timer"
+          required
         />
         <label for="floatPlace">Timer</label>
       </div>
@@ -144,52 +143,96 @@
           class="form-control"
           id="floatPlace"
           placeholder="Question"
+          required
         />
         <label for="floatPlace">Question</label>
       </div>
 
       <div class="form-floating">
         <div>
-          <input type="radio" value="1" name="correctAnswer" />
+          <input type="radio" value="1" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
-            placeholder="Question 1"
+            placeholder="Choice 1"
             name="choice_1"
+            required
           />
-
-          <input type="radio" value="2" name="correctAnswer" />
           <input
             type="text"
             class="form-control"
             id="floatPlace"
-            placeholder="Question 2"
+            placeholder="Value"
+            name="value_1"
+            required
+          />
+
+          <input type="radio" value="2" name="correctAnswer" required/>
+          <input
+            type="text"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Choice 2"
             name="choice_2"
+            required
           />
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_2"
+          required
+        />
 
-          <input type="radio" value="3" name="correctAnswer" />
+          <input type="radio" value="3" name="correctAnswer" required/>
           <input
             type="text"
             class="form-control"
             id="floatPlace"
-            placeholder="Question 3"
+            placeholder="Choice 3"
             name="choice_3"
+            required
           />
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_3"
+          required
+        />
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> bf6a87da4e1961b5b3029b6b881a06a123f9ab93
           </div>
 =======
           <input type="radio" value="4" name="correctAnswer" />
+=======
+          <input type="radio" value="4" name="correctAnswer" required/>
+>>>>>>> e5c3ac4073b123187d1bd9145638e25f60d29b6c
           <input
             type="text"
             class="form-control"
             id="floatPlace"
-            placeholder="Question 4"
+            placeholder="Choice 4"
             name="choice_4"
+            required
           />
+<<<<<<< HEAD
 >>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
+=======
+          <input
+          type="text"
+          class="form-control"
+          id="floatPlace"
+          placeholder="Value"
+          name="value_4"
+          required
+        />
+>>>>>>> e5c3ac4073b123187d1bd9145638e25f60d29b6c
         </div>
       </div>
       <button type="">Save</button>
@@ -198,4 +241,3 @@
 </div>
 
 <%- include('./layout/footer.ejs') %>
-

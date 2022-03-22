@@ -19,8 +19,8 @@
   </div>
   <div class="col-sm-10 col-md-10">
     <h4>SYSTEM VARIABLES</h4>
-    <h5>Position</h5>
-    <div class="d-flex">
+    <h5 class="pt-4">Position</h5>
+    <div class="d-flex border-bottom p-2">
       <% for(let i = 0; i < position.length; i++) { %>
         <div class="d-flex">
           <div>
@@ -33,6 +33,7 @@
               />
             </form>
           </div>
+          
           <div>
             <form action="/delete/position/<%= position[i].position_id %>" method="post" class="pe-1">
               <button type="submit">x</button>
@@ -48,8 +49,8 @@
       </form>
     </div>
 
-    <h5>Technologies</h5>
-    <div class="d-flex">
+    <h5 class="pt-4">Technologies</h5>
+    <div class="d-flex border-bottom p-2">
       <% for(let j = 0; j < technologies.length; j++) { %>
         <div class="d-flex">
           <div>
@@ -77,8 +78,8 @@
       </form>
     </div>
 
-    <h5>HR Remarks</h5>
-    <div class="d-flex">
+    <h5 class="pt-4">HR Remarks</h5>
+    <div class="d-flex border-bottom p-2">
       <% for(let i = 0; i < remarks.length; i++) { %>
         <div class="d-flex">
           <div>
@@ -106,8 +107,8 @@
       </form>
     </div>
     
-    <h5>Job Type</h5>
-    <div class="d-flex">
+    <h5 class="pt-4">Job Type</h5>
+    <div class="d-flex border-bottom p-2">
       <% for(let i = 0; i < jobType.length; i++) { %>
         <div class="d-flex">
           <div>
@@ -135,8 +136,8 @@
       </form>
     </div>
 
-    <h5>Department</h5>
-    <div class="d-flex">
+    <h5 class="pt-4">Department</h5>
+    <div class="d-flex border-bottom p-2">
       <% for(let i = 0; i < department.length; i++) { %>
         <div class="d-flex">
           <div>

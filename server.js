@@ -60,6 +60,7 @@ app.use('', require('./routes/systemVariables'));
 app.use('', require('./routes/resume'));
 app.use('', require('./routes/editResume'));
 app.use('', require('./routes/applicantExam'));
+app.use('', require('./routes/application'));
 
 app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
