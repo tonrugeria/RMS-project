@@ -22,8 +22,8 @@
         <div class="d-flex">
           <button onclick="showAllFunction()">ALL</button>
           <% for(let i=0; i < adminSkill.length; i++) { %>
-            <% for(let j=0; j < jobSkill.length; j++) { %>
-              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id) {%> 
+            <% for(let j=0; j < adminJobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == adminJobSkill[j].skill_id) {%> 
                 <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
                   <%= adminSkill[i].skill_name %>
                 </button>
