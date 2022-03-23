@@ -14,6 +14,7 @@ router.get('/job-requirement/:job_id', async (req, res) => {
   const jobSkill = await knex('jobs.skill').where('job_id', jobId);
   const job = await knex('jobs.job_opening').where('job_id', jobId);
   const jobPosition = await knex('admin.job_position');
+  const positionLevel = await knex('admin.position_level');
   const unique = jobId;
   const jobQuestion = await knex('jobs.question')
     .innerJoin(
@@ -33,6 +34,7 @@ router.get('/job-requirement/:job_id', async (req, res) => {
     jobSkill,
     jobQuestion,
     jobPosition,
+    positionLevel,
   });
 });
 
@@ -47,10 +49,10 @@ router.post('/job-requirement/:job_id', async (req, res) => {
     workType,
     jobDesc,
     yearsOfExp,
-    examScore,
-    hrAssessment,
+    skillScore,
+    personalityScore,
     skill_id,
-    skill_level_1,
+    skill_level,
   } = req.body;
   knex('jobs.job_opening')
     .update({
@@ -61,8 +63,8 @@ router.post('/job-requirement/:job_id', async (req, res) => {
       job_type: workType,
       job_description: jobDesc,
       min_years_experience: yearsOfExp,
-      exam_score: examScore,
-      hr_rating: hrAssessment,
+      skill_score: skillScore,
+      personality_score: personalityScore,
     })
     .where('job_id', jobId)
     .then(async () => {
@@ -74,15 +76,16 @@ router.post('/job-requirement/:job_id', async (req, res) => {
             })
             .del()
             .then(() => {
-              knex('jobs.skill')
-                .insert({
-                  job_id: jobId,
-                  skill_id,
-                  skill_level: skill_level_1,
-                })
-                .then(() => {
-                  res.redirect(`/job-requirement/${jobId}`);
-                });
+              skill_level.forEach((skill) => {
+                knex('jobs.skill')
+                  .insert({
+                    job_id: jobId,
+                    skill_id,
+                    skill_level: skill,
+                  })
+                  .then((results) => results);
+              });
+              res.redirect(`/job-requirement/${jobId}`);
             });
         } else {
           knex('jobs.skill')
@@ -91,14 +94,15 @@ router.post('/job-requirement/:job_id', async (req, res) => {
             })
             .del()
             .then((results) => results);
-          skill_id.forEach(async (skill) => {
+          for (let i = 0; i < skill_id.length; i++) {
             knex('jobs.skill')
               .insert({
                 job_id: jobId,
-                skill_id: skill,
+                skill_id: skill_id[i],
+                skill_level: skill_level[i],
               })
               .then((results) => results);
-          });
+          }
           res.redirect(`/job-requirement/${jobId}`);
         }
       } else {
