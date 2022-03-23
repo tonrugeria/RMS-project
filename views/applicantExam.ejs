@@ -1,0 +1,117 @@
+<%- include('./layout/resumeHeader.ejs') %>
+<div class="container g-0 m-0 p-0">
+    <div class="row min-vh-100 min-vw-100 g-0">
+      <div class="col-sm-2 pl-1">
+        <div class="d-flex flex-column">
+          <div>
+            <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
+              >RESUME</a
+            >
+          </div>
+          <div>
+            <a href="/careers/job/:job_id/exam/application/<%= appId %>">EXAM</a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-sm-10">
+        <% if(jobQuestion != 0) { %> 
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
+            sequi. Beatae officiis ullam quia soluta temporibus dolorem voluptatem
+            nulla veniam tenetur magni? Adipisci nobis ipsum sunt. Minima, nam
+            neque, facilis commodi tenetur ab veniam beatae, alias molestiae
+            repellat ex?
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
+            dicta tempora aliquam amet dolor quam? Quod vero maxime impedit
+            consequuntur?
+          </p>
+        </div>
+        <div id="start-btn-container">
+          <button id="start-btn">START NOW</button>
+        </div>
+        
+        <div id="questions"></div>
+        <div id="next-btn-container" class="d-none">
+            <button id="next-btn">NEXT</button>
+        </div>
+        <% } else { %>
+          <div class="h-50 d-flex flex-column align-items-center justify-content-center">
+            <h5>NO EXAM QUESTIONS SELECTED YET!</h5>
+          </div>
+        <% } %> 
+      </div>
+    </div>
+  </div>
+    
+<script>
+    
+    $(document).ready(function(){
+        let $questions = $('#questions');
+
+        $('#start-btn').on('click', showQuestions);
+
+        function isClicked(){
+            return true;
+        }
+
+        function showQuestions(e){
+            let category = $('#value-category').val();
+            let question = $('#value-question').val();
+            let delay = 0;
+            $.ajax({
+                url: '/careers/job/<%= jobId %>/exam/application/<%= appId %>',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({category: category, question: question}),
+                success: function(response){
+                    $.each(response.responseQuestion, function(key, value ){
+                        let delayFunc = setTimeout(function(){
+                            key++;
+                            $questions.append(`\
+                            <div id="question-container_${key}">\
+                                <strong>\
+                                <div>\
+                                <p>${key}. ${value.question_detail} </p>\
+                                <div>\
+                                <div>\
+                                <input type="radio" name="question-${key}-radio" id="choice-1_${key}"><label>${value.choice_1}</label>\
+                                <div>\
+                                <input type="radio" name="question-${key}-radio" id="choice-2_${key}" ><label>${value.choice_2}</label>\
+                                </div>\
+                                <div>\
+                                <input type="radio" name="question-${key}-radio" id="choice-3_${key}" ><label>${value.choice_3}</label>\
+                                </div>\
+                                <div>\
+                                <input type="radio" name="question-${key}-radio" id="choice-4_${key}" ><label>${value.choice_4}</label>\
+                                </div>\
+                                </strong>\
+                            </div>`);
+                            if($(`input[id="choice-1_${key}"]`).is(':checked')  == false &&
+                            $(`input[id="choice-2_${key}"]`).is(':checked')  == false &&
+                            $(`input[id="choice-3_${key}"]`).is(':checked')  == false && 
+                            $(`input[id="choice-4_${key}"]`).is(':checked')  == false ){
+                                $(`#question-container_${key}`).fadeTo((value.question_time_limit)*3000, 0.3);
+                            }
+
+                            if($(`#question-container_${key}`).css('opacity') < 1){
+                                $(`#question-container_${key}`).children().prop('disabled', true);
+                            }
+                                
+                        }, delay);
+                        
+                        
+                        
+                        delay+= value.question_time_limit*1000;
+                    })
+                    $('#start-btn').remove();
+                    $('#next-btn-container').removeClass('d-none');
+                }
+            })
+        }
+    })
+</script>
+<%- include('./layout/resumeFooter.ejs') %>

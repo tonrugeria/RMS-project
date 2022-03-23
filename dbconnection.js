@@ -4,15 +4,7 @@ const knex = require('knex')({
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-<<<<<<< HEAD
-<<<<<<< HEAD
                 password: '12345',
-=======
-                password: '0000',
->>>>>>> b7d63377c9351d52d837afc45c5915e333506088
-=======
-                password: '12345',
->>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
                 database: 'rms',
         },
 });
@@ -23,15 +15,7 @@ const pool = new Pool({
         host: '127.0.0.1',
         user: 'postgres',
         database: 'rms',
-<<<<<<< HEAD
-<<<<<<< HEAD
         password: '12345',
-=======
-        password: '0000',
->>>>>>> b7d63377c9351d52d837afc45c5915e333506088
-=======
-        password: '12345',
->>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
         port: 5432,
 });
 
@@ -118,46 +102,9 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
 );
 CREATE TABLE IF NOT EXISTS Jobs.Skill (
     job_id INT NOT NULL,
-    skill_id_1 INT,
-    skill_level_1 INT,
-    skill_id_2 INT,
-    skill_level_2 INT,
-    skill_id_3 INT,
-    skill_level_3 INT,
-    skill_id_4 INT,
-    skill_level_4 INT,
-    skill_id_5 INT,
-    skill_level_5 INT,
-    skill_id_6 INT,
-    skill_level_6 INT,
-    skill_id_7 INT,
-    skill_level_7 INT,
-    skill_id_8 INT,
-    skill_level_8 INT,
-    skill_id_9 INT,
-    skill_level_9 INT,
-    skill_id_10 INT,
-    skill_level_10 INT,
-    skill_id_11 INT,
-    skill_level_11 INT,
-    skill_id_12 INT,
-    skill_level_12 INT,
-    skill_id_13 INT,
-    skill_level_13 INT,
-    skill_id_14 INT,
-    skill_level_14 INT,
-    skill_id_15 INT,
-    skill_level_15 INT,
-    skill_id_16 INT,
-    skill_level_16 INT,
-    skill_id_17 INT,
-    skill_level_17 INT,
-    skill_id_18 INT,
-    skill_level_18 INT,
-    skill_id_19 INT,
-    skill_level_19 INT,
-    skill_id_20 INT,
-    skill_level_20 INT,
+    skill_id INT,
+    skill_level INT,
+    record_id SERIAL PRIMARY KEY NOT NULL,
 
     FOREIGN KEY (job_id)
     REFERENCES Jobs.Job_Opening(job_id)
@@ -237,8 +184,6 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Details(
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
-<<<<<<< HEAD
-=======
 
 CREATE TABLE IF NOT EXISTS Jobs.Responsibility(
     job_id INT NOT NULL,
@@ -279,10 +224,9 @@ CREATE TABLE IF NOT EXISTS Jobs.Item(
     REFERENCES Jobs.Category(category_id)
 );
 
->>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
 CREATE SCHEMA IF NOT EXISTS Question;
 CREATE TABLE IF NOT EXISTS Question.Question (
-    question_id SERIAL PRIMARY KEY NOT NULL,
+    question_id INT PRIMARY KEY NOT NULL,
     question_type int NOT NULL,
     question_category varchar(100) NOT NULL,
     question_level varchar(100) NOT NULL,
@@ -305,12 +249,7 @@ CREATE TABLE IF NOT EXISTS Question.Question (
 CREATE SCHEMA IF NOT EXISTS Job_Application;
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     job_id int NOT NULL,
-<<<<<<< HEAD
-    application_id int PRIMARY KEY NOT NULL,
-    middle_name VARCHAR(100) NOT NULL,
-=======
     application_id INT PRIMARY KEY NOT NULL,
->>>>>>> 51419bb4e3ead563302c65cba35176602b62123b
     first_name VARCHAR(100) NOT NULL,
     middle_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,

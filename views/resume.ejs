@@ -7,7 +7,10 @@
           <a href="/careers/job/<%= jobId %>/resume">RESUME</a>
         </div>
         <div>
-          <a href="#">EXAM</a>
+          <a href="/careers/job/<%= jobId %>/resume">EXAM</a>
+        </div>
+        <div>
+          <a href="#" type="button"><button>SUBMIT</button></a>
         </div>
       </div>
     </div>
@@ -66,14 +69,14 @@
               <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
               <div class="container">
                 <div class="row">
-                  <% for( let i =0; i < admin.length; i++) { %>
-                    <div class="col-4 mb-1">
-                        <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
-                        <label style="width: 90px"><%= admin[i].skill_name %> </label>
-                        <input type="number" name="skill_years" placeholder="Years" style="width: 70px" required>
-                        <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" required>
-                    </div>
-                  <% } %> 
+                  <% for( let i =0; i < skill.length; i++) { %>
+                      <div class="col-4 mb-1">
+                          <input type="number" name="skill_id" value="<%= skill[i].skill_id %>" style="width: 40px">
+                          <label style="width: 90px"><%= skill[i].skill_name %> </label>
+                          <input type="number" name="skill_years" placeholder="Years" style="width: 70px" min="0">
+                          <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" min="0" max="5">
+                      </div>
+                      <% } %> 
                 </div>
               </div>
             </div>
@@ -94,11 +97,11 @@
               <div class="d-flex mb-1">
                 <div class="">
                   <p><strong>FROM</strong></p>
-                  <input type="text" name="history_start_date_1" placeholder="MM / DD /  YY" required>
+                  <input type="text" name="history_start_date_1" placeholder="MM / DD /  YY">
                 </div>
                 <div class="">
                   <p><strong>TO</strong></p>
-                  <input type="text" name="history_end_date_1" placeholder="MM / DD / YY" required>
+                  <input type="text" name="history_end_date_1" placeholder="MM / DD / YY">
                 </div>
                 <div class="">
                   <p><strong>POSITION</strong></p>
@@ -111,10 +114,10 @@
               </div>
               <div class="d-flex mb-1">
                 <div class="">
-                  <input type="text" name="history_start_date_2" placeholder="MM / DD /  YY" required>
+                  <input type="text" name="history_start_date_2" placeholder="MM / DD /  YY">
                 </div>
                 <div class="">
-                  <input type="text" name="history_end_date_2" placeholder="MM / DD /  YY" required>
+                  <input type="text" name="history_end_date_2" placeholder="MM / DD /  YY">
                 </div>
                 <div class="">
                 <input type="text" name="position_2" placeholder="Enter Position">
@@ -125,10 +128,10 @@
               </div>
               <div class="d-flex mb-1">
                 <div class="">
-                  <input type="text" name="history_start_date_3" placeholder="MM / DD /  YY" required>
+                  <input type="text" name="history_start_date_3" placeholder="MM / DD /  YY">
                 </div>
                 <div class="">
-                  <input type="text" name="history_end_date_3" placeholder="MM / DD /  YY" required>
+                  <input type="text" name="history_end_date_3" placeholder="MM / DD /  YY">
                 </div>
                 <div class="">
                 <input type="text" name="position_3" placeholder="Enter Position">
@@ -137,11 +140,13 @@
                   <input type="text" name="company_3" placeholder="Enter Company Name">
                 </div>
               </div>
-              <!-- <div class="mb-3">
+               <!-- 
+                <div class="mb-3">
                 <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
                 <input type="text" name="year_experience" placeholder="0 Years" value="" readonly>
-              </div> -->
-              <button type="submit">SAVE</button>
+              </div> 
+              -->
+              <button type="submit" name="nameBtn" value="saveBtn">SAVE</button>
           </form>
         </div>
   </div>

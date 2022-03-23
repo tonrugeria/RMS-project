@@ -18,14 +18,20 @@
         </div>
       </div>
       <div class="col-sm-10">
+        <% if(jobSkill != 0) {%>
         <div class="d-flex">
           <button onclick="showAllFunction()">ALL</button>
           <% for(let i=0; i < adminSkill.length; i++) { %>
-            <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
-              <%= adminSkill[i].skill_name %>
-            </button>
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id) {%> 
+                <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
+                  <%= adminSkill[i].skill_name %>
+                </button>
+              <% } %>
+            <% } %>
             <% } %>
         </div>
+        
         <div class="container">
           <div class="row">
             <div class="col-8">
@@ -37,35 +43,39 @@
           </div>
           <form action="/exam/<%= jobId %>" method="post">
             <% for(let i=0; i < question.length; i++) { %>
-              <div class="row all-btn <%= question[i].question_category %>-btn skill">
-                <div class="col-8">
-                  <input type="checkbox" name="question_id" value="<%= question[i].question_id %>"
-                    <% for(let j = 0; j < jobQuestion.length; j++) { %>
-                      <% if(question[i].question_id == jobQuestion[j].question_id){ %> checked
-                    <% } %>
-                      <% } %> />
-                  <label for="">
-                    <%= question[i].question_detail %>
-                  </label>
+              <% for(let j = 0; j < adminJobSkill.length; j++) { %>
+                <% if(question[i].question_category == adminJobSkill[j].skill_name) {%> 
+                <div class="row all-btn <%= question[i].question_category %>-btn skill">
+                  <div class="col-8">
+                    <input type="checkbox" name="question_id" value="<%= question[i].question_id %>"
+                      <% for(let k = 0; k < jobQuestion.length; k++) { %>
+                        <% if(question[i].question_id == jobQuestion[k].question_id){ %> checked
+                      <% } %>
+                        <% } %> />
+                    <label for="">
+                      <%= question[i].question_detail %>
+                    </label>
+                  </div>
+                  <div class="col text-center all-btn">
+                    <%= question[i].question_category %>
+                  </div>
+                  <div class="col text-center all-btn">
+                    <%= question[i].question_level %>
+                  </div>
                 </div>
-                <div class="col text-center all-btn">
-                  <%= question[i].question_category %>
-                </div>
-                <div class="col text-center all-btn">
-                  <%= question[i].question_level %>
-                </div>
-              </div>
+                <% } %>
               <% } %>
+            <% } %>
                 <button type="submit">SAVE</button>
           </form>
-
-          <div class="row">
-            <div class="col-8"></div>
-            <div class="col text-center"></div>
-            <div class="col text-center"></div>
-          </div>
         </div>
       </div>
+      <% } else { %>
+        <div class="h-50 d-flex flex-column align-items-center justify-content-center">
+          <h5>NO SKILLS SELECTED!</h5>
+          <h5>YOU CAN ADD IN THE JOB REQUIREMENT TAB</h5>
+        </div>
+      <% } %>
     </div>
   </div>
   <%- include('./filterFunctions/examFilter.ejs') %>
