@@ -28,10 +28,8 @@ router.get(
     );
     const history = await knex('job_application.employment_history')
       .where('application_id', appId)
-      .orderBy('history_id')
     const education = await knex('job_application.education')
       .where('application_id', appId)
-      .orderBy('education_id')
     const {
       date_of_birth,
       start_date,
