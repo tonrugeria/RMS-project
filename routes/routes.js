@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     const job_opening = await knex('jobs.job_opening');
     const admin_department = await knex('admin.department');
     const { date_opened } = job_opening[0] || {}
-    const dateOpened = moment(date_opened).format("Do MMMM YYYY")
+    const dateOpened = moment(date_opened).format("DD MMMM YYYY")
     const jobSkill = await knex('jobs.job_opening')
         .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
         .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');

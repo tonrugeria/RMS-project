@@ -2,12 +2,12 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 <link rel="stylesheet" href="style.css">
-<br>
-<br>
-<br>
 
+  </br>
+</br>
+</br>
+ 
     <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
     <div>
       <input type="checkbox" id="all-checkbox" onclick="showAllFunction()" checked/>
@@ -29,13 +29,14 @@
         </div>
         <% } %>
     </div>
-    <div class= "status">
-      <input type="checkbox" id="0" name="active" value="active">
+    <form action="#">
+      <input type="checkbox" id="active" name="active" value="0">
       <label for="active">ACTIVE</label><br>
-      <input type="checkbox" id="1" name="draft" value="draft">
+      <input type="checkbox" id="draft" name="draft" value="1">
       <label for="draft">DRAFT</label><br>
-      <input type="checkbox" id="2" name="archive" value="archive">
+      <input type="checkbox" id="archive" name="archive" value="2">
       <label for="archive">ARCHIVE</label><br><br>
+    </form>
 
     <form action="/logout?_method=DELETE" class="" method="post">
       <div class="d-flex justify-content-start">
@@ -48,19 +49,19 @@
         <div class="btn-group">
             <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
             </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>
-        </div>
-  
-        <% for (let i=0; i < job_opening.length; i++) { %>
-        <div id="products" class="row list-group">
-        <div class="item  col-xs-4 col-lg-4">
-          <div class="thumbnail">
+                class="glyphicon glyphicon-th"></span></a>  
+                </div>
+
+    <% for (let i=0; i < job_opening.length; i++) { %>
+      <div id="products" class="row list-group">
+      <div class="item  col-xs-4 col-lg-4">
+        <div class="thumbnail">
       <!-- adding dynamic class for each job -->
-      <div>
+      <div
       <% for (let j=0; j < admin_department.length; j++) { %> 
         <% if(job_opening[i].job_dept == admin_department[j].dept_name) {%>
           <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
-          <class="card all-jobs <%= noSpaceDept %>">
+          class="card all-jobs <%= noSpaceDept %>"
         <% } %> 
       <% } %> 
       
@@ -90,14 +91,6 @@
             <% } %>
           <% } %>
         </div>
-         <!-- display status -->
-        <div class= "status">
-          <input type="checkbox" id="0" name="active" value="active">
-          <label for="active">ACTIVE</label><br>
-          <input type="checkbox" id="1" name="draft" value="draft">
-          <label for="draft">DRAFT</label><br>
-          <input type="checkbox" id="2" name="archive" value="archive">
-          <label for="archive">ARCHIVE</label><br><br>
         <!-- number of applications -->
         <div>
           <% let applicants =  0 %>
@@ -111,12 +104,27 @@
             Applications
           </p>
         </div>
-      </div>
-    </div>
+      
+      <div class= "status">
+          <input type="checkbox" id="active" name="active" value="0">
+          <label for="active">ACTIVE</label><br>
+          <input type="checkbox" id="draft" name="draft" value="1">
+          <label for="draft">DRAFT</label><br>
+          <input type="checkbox" id="archive" name="archive" value="2">
+          <label for="archive">ARCHIVE</label><br><br>
+       
+        
   </div>
+
 </div>
-      <% } %>
-  </div>
+
 </div>
+</div>
+</div>
+<% } %>
+</div>
+
+
+
 <%- include('./filterFunctions/jobListingFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>

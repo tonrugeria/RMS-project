@@ -1,14 +1,54 @@
 <%- include('./layout/header2.ejs') %>
   <div class="content-title text-left">
-    <h1>The Role and The Team</h1>
-    <p>We believe outstand</p>
-      <% for (let i=0; i < job_details.length; i++) { %>
-        <h2> <%= job_details[i].role %>  </h2>
-        <h2>Job Description</h2>
-        <h3>What You Will Do</h3>
-        <h3>What We Are Looking For</h3>
-        <h3>BENEFITS</h3>
-      <% } %>
+    
+    <% for( let i = 0; i < jobOpening.length; i++){ %> 
+      <div
+        <% for (let j=0; j < admin_department.length; j++) { %> 
+          <% if(jobOpening[i].job_dept == admin_department[j].dept_name) {%>
+            <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
+            class="all-jobs <%= noSpaceDept %>"
+          <% } %> 
+        <% } %> 
+      >
+      <div class="pb-4">
+        <h2><%= jobOpening[i].job_title %> </h2>
+      </div>
+
+      <div class="d-flex">
+        <% for (let j=0; j < jobSkill.length; j++) { %>
+          <div class="">
+            <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
+              <div style="border: solid black 2px; padding: 0 5px;">
+                <a href="/careers"><%= jobSkill[j].skill_name %></a> 
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+
+
+      <div class="pb-4">
+        <% for (let j=0; j < jobDetail.length; j++) { %>
+          <p> <%= jobDetail[j].role %>  </p>
+        <% } %>
+      </div>
+
+      <div class="pb-4">
+        <p><%= jobOpening[i].job_description %> </p>
+      </div>
+    <%} %> 
+    <div class="pb-4">
+      <h3>Responsibities</h3>
+      <% for(let i = 0; i < responsibility.length; i++ ){ %>
+        <li><%= responsibility[i].responsibility_detail %> </li>
+      <% } %> 
+    </div>
+    <div class="pb-4">
+      <h3>Qualification</h3>
+      <% for(let i = 0; i < qualification.length; i++ ){ %>
+        <li><%= qualification[i].qualification_detail %> </li>
+      <% } %> 
+    </div>
   <div class="button-wrapper">
     <a href="/careers/job/<%= jobId %>/resume"><button class="btns">Apply Now</button></a>
   </div>
