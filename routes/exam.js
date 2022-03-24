@@ -9,11 +9,9 @@ router.get('/exam/:job_id', async (req, res) => {
   const jobId = req.params.job_id;
   const jobSkill = await knex('jobs.skill');
   const adminSkill = await knex('admin.skill');
-  const adminJobSkill = await knex('admin.skill').innerJoin(
-    'jobs.skill',
-    'admin.skill.skill_id',
-    'jobs.skill.skill_id'
-  );
+  const adminJobSkill = await knex('admin.skill')
+    .leftJoin('jobs.skill', 'admin.skill.skill_id', 'jobs.skill.skill_id')
+    .where('job_id', jobId);
   const jobQuestion = await knex('jobs.question').where('job_id', jobId);
   const question = await knex('question.question');
   const question_jobQuestion = await knex('question.question')
