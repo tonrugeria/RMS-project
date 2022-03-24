@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: 'novice0621**',
+    password: '0000',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: 'novice0621**',
+  password: '0000',
   port: 5432,
 });
 
@@ -233,21 +233,9 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
 CREATE TABLE IF NOT EXISTS Job_Application.Education (
     education_id SERIAL PRIMARY KEY NOT NULL,
     application_id	INT NOT NULL,
-    school_1 VARCHAR(1000) NOT NULL,
-    course_1 VARCHAR(1000) NOT NULL,
-    date_graduated_1 date,
-    school_2 VARCHAR(1000) NOT NULL,
-    course_2 VARCHAR(1000) NOT NULL,
-    date_graduated_2 date,
-    school_3 VARCHAR(1000) NOT NULL,
-    course_3 VARCHAR(1000) NOT NULL,
-    date_graduated_3 date,
-    school_4 VARCHAR(1000) NOT NULL,
-    course_4 VARCHAR(1000) NOT NULL,
-    date_graduated_4 date,
-    school_5 VARCHAR(1000) NOT NULL,
-    course_5 VARCHAR(1000) NOT NULL,
-    date_graduated_5 date,
+    school VARCHAR(1000) NOT NULL,
+    course VARCHAR(1000) NOT NULL,
+    date_graduated date,
 
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
@@ -297,26 +285,10 @@ CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
 CREATE TABLE IF NOT EXISTS Job_Application.Employment_History (
     history_id SERIAL PRIMARY KEY NOT NULL,
     application_id	int NOT NULL,
-    history_start_date_1 date,
-    history_end_date_1	date,
-    position_1	varchar(100),
-    company_1	varchar(100),
-    history_start_date_2 date,
-    history_end_date_2	date,
-    position_2	varchar(100),
-    company_2	varchar(100),
-    history_start_date_3 date,
-    history_end_date_3	date,
-    position_3	varchar(100),
-    company_3	varchar(100),
-    history_start_date_4 date,
-    history_end_date_4	date,
-    position_4	varchar(100),
-    company_4	varchar(100),
-    history_start_date_5 date,
-    history_end_date_5	date,
-    position_5	varchar(100),
-    company_5	varchar(100),
+    history_start_date date,
+    history_end_date date,
+    position varchar(100),
+    company varchar(100),
     
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
