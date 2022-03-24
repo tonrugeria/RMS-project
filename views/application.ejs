@@ -2,34 +2,88 @@
 <div class="container-fluid m-0">
   <div class="row min-vh-100">
     <div class="col-3 g-0">
-      <div class="py-3">
-        JOB TITLE / POSITION
+      <% for (let i=0; i < job_opening.length; i++) { %>
+        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+          <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
+            <% for( let i = 0; i < jobPosition.length; i++) { %>
+              <option style="background-color: transparent; border: none;" value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+            <% } %> 
+          </select>
+        </div>
+        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+          <div class="row">
+            <% for (let j=0; j < jobSkill.length; j++) { %>
+              <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
+                <div class="col">
+                  <%= jobSkill[j].skill_name %> 
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+        </div>
+      <%}%>
+      
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Expert</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Intermediate</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Beginner</label>
       </div>
-      <div class="py-3">
-        TECHNOLOGIES 
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Meets Minimum years work experience</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Expected salary within offer</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Can start immediately</label>
       </div>
-      <div class="py-3">
-        EXPERIENCE
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">For Review</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">For Interview</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Contacted</label><br>
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Hired</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">For Pooling</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Archive</label>
       </div>
-      <div class="py-3">
-        REVIEW
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Read</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Unread</label>
       </div>
-      <div class="py-3">
-        READ / UNREAD
+      <div class="p-4 min-vh-100" style="background-color: #e6e6e6;">
+
       </div>
     </div>
-    <div class="col-2 g-0">
-      <div class="pb-1">
+    <div class="col-3 g-0">
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
         CARDS
       </div>
-      <div class="pb-1">
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
         CARDS
       </div>
-      <div class="pb-1">
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
+        CARDS
+      </div>
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
+        CARDS
+      </div>
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
+        CARDS
+      </div>
+      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
         CARDS
       </div>
     </div>
-    <div class="col-7 g-0">
+    <div class="col-6 g-0">
       <div class="d-flex flex-column border-bottom">
         <div>
           IMAGE

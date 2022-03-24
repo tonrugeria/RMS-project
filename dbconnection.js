@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: 'novice0621**',
+    password: '0000',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: 'novice0621**',
+  password: '0000',
   port: 5432,
 });
 
@@ -214,21 +214,49 @@ CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
     province VARCHAR(100) NOT NULL,
     expected_salary INT NOT NULL,
     start_date date,
-    preferred_interview_date_1 date NOT NULL,
-    preferred_interview_date_2 date NOT NULL,
-    preferred_interview_date_3 date NOT NULL,
+    preferred_interview_date_1 date,
+    preferred_interview_date_2 date,
+    preferred_interview_date_3 date,
     technical_test_score int NOT NULL,
     personality_test_score int NOT NULL,
     year_experience	int NOT NULL,
     photo VARCHAR(100) NOT NULL,
-    date_applied date NOT NULL,
-    date_last_updated date NOT NULL,
+    date_applied date,
+    date_last_updated date ,
     application_link VARCHAR(100) NOT NULL,
     status int NOT NULL,
 
     FOREIGN KEY(job_id)
     REFERENCES Jobs.Job_Opening(job_id)
 );
+
+CREATE TABLE IF NOT EXISTS Job_Application.Education (
+    education_id SERIAL PRIMARY KEY NOT NULL,
+    application_id	INT NOT NULL,
+    school VARCHAR(1000) NOT NULL,
+    course VARCHAR(1000) NOT NULL,
+    date_graduated date,
+
+    FOREIGN KEY(application_id)
+    REFERENCES Job_Application.Applicant_details(application_id)
+);
+
+CREATE TABLE IF NOT EXISTS Job_Application.Applicant_Exam_Results(
+    result_id SERIAL PRIMARY KEY NOT NULL,
+    job_id int,
+    application_id int,
+    question_id int,
+    applicant_answer int,
+
+    FOREIGN KEY(job_id)
+    REFERENCES Jobs.Job_Opening(job_id),
+    FOREIGN KEY(application_id)
+    REFERENCES Job_Application.Applicant_details(application_id),
+    FOREIGN KEY(question_id)
+    REFERENCES Question.Question(question_id)
+
+);
+
 CREATE TABLE IF NOT EXISTS Job_Application.Applicant_rating (
     rating_id SERIAL PRIMARY KEY NOT NULL,
     application_id	INT NOT NULL,
@@ -248,6 +276,8 @@ CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
     capability_1 VARCHAR(1000) NOT NULL,
     capability_2 VARCHAR(1000) NOT NULL,
     capability_3 VARCHAR(1000) NOT NULL,
+    capability_4 VARCHAR(1000) NOT NULL,
+    capability_5 VARCHAR(1000) NOT NULL,
 
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
@@ -255,18 +285,10 @@ CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
 CREATE TABLE IF NOT EXISTS Job_Application.Employment_History (
     history_id SERIAL PRIMARY KEY NOT NULL,
     application_id	int NOT NULL,
-    history_start_date_1 date,
-    history_end_date_1	date,
-    position_1	varchar(100),
-    company_1	varchar(100),
-    history_start_date_2 date,
-    history_end_date_2	date,
-    position_2	varchar(100),
-    company_2	varchar(100),
-    history_start_date_3 date,
-    history_end_date_3	date,
-    position_3	varchar(100),
-    company_3	varchar(100),
+    history_start_date date,
+    history_end_date date,
+    position varchar(100),
+    company varchar(100),
     
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)

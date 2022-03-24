@@ -16,8 +16,8 @@ router.get(
       appId
     );
     const admin = await knex('admin.skill')
-    .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
-    .where('job_id', jobId)
+      .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+      .where('job_id', jobId);
     const rating = await knex('job_application.applicant_rating').where(
       'application_id',
       appId
@@ -26,10 +26,12 @@ router.get(
       'application_id',
       appId
     );
-    const history = await knex('job_application.employment_history').where(
-      'application_id',
-      appId
-    );
+    const history = await knex('job_application.employment_history')
+      .where('application_id', appId)
+      .orderBy('history_id')
+    const education = await knex('job_application.education')
+      .where('application_id', appId)
+      .orderBy('education_id')
     const {
       date_of_birth,
       start_date,
@@ -37,48 +39,41 @@ router.get(
       preferred_interview_date_2,
       preferred_interview_date_3,
     } = applicants[0] || {};
-    const {
-      history_start_date_1,
-      history_end_date_1,
-      history_start_date_2,
-      history_end_date_2,
-      history_start_date_3,
-      history_end_date_3,
-    } = history[0] || {};
 
-    const getStartDate1 = moment(history_start_date_1, 'MM/DD/YYYY');
-    const getEndDate1 = moment(history_end_date_1, 'MM/DD/YYYY');
-    const getStartDate2 = moment(history_start_date_2, 'MM/DD/YYYY');
-    const getEndDate2 = moment(history_end_date_2, 'MM/DD/YYYY');
-    const getStartDate3 = moment(history_start_date_3, 'MM/DD/YYYY');
-    const getEndDate3 = moment(history_end_date_3, 'MM/DD/YYYY');
+    const getStartDates = history.map((element) =>
+      moment(element.history_start_date, 'MM/DD/YYYY')
+    );
 
-    let yearDiff1 = getEndDate1.diff(getStartDate1, 'years');
-    let yearDiff2 = getEndDate2.diff(getStartDate2, 'years');
-    let yearDiff3 = getEndDate3.diff(getStartDate3, 'years');
+    const getEndDates = history.map((element) =>
+      moment(element.history_end_date, 'MM/DD/YYYY')
+    );
 
-    if(isNaN(yearDiff1)){
-      yearDiff1 = 0
-    } 
-    if(isNaN(yearDiff2)) {
-      yearDiff2 = 0
-    } 
-    if (isNaN(yearDiff3)){
-      yearDiff3 = 0
-    }
-    const totalYears = yearDiff1 + yearDiff2 + yearDiff3;
+    let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
+    let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
+    let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
+    let yearDiff4 = getEndDates[3].diff(getStartDates[3], 'years');
+    let yearDiff5 = getEndDates[4].diff(getStartDates[4], 'years');
+    if (isNaN(yearDiff1)) yearDiff1 = 0;
+    if (isNaN(yearDiff2)) yearDiff2 = 0;
+    if (isNaN(yearDiff3)) yearDiff3 = 0;
+    if (isNaN(yearDiff4)) yearDiff4 = 0;
+    if (isNaN(yearDiff5)) yearDiff5 = 0;
+    const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
 
-    const dob = moment(date_of_birth).format('L')
-    const startDate = moment(start_date).format('L')
-    const preferredDate1 = moment(preferred_interview_date_1).format('L')
-    const preferredDate2 = moment(preferred_interview_date_2).format('L')
-    const preferredDate3 = moment(preferred_interview_date_3).format('L')
-    const startDate1 = moment(history_start_date_1).format('L')
-    const endDate1 = moment(history_end_date_1).format('L')
-    const startDate2 = moment(history_start_date_2).format('L')
-    const endDate2 = moment(history_end_date_2).format('L')
-    const startDate3 = moment(history_start_date_3).format('L')
-    const endDate3 = moment(history_end_date_3).format('L')
+    const dob = moment(date_of_birth).format('L');
+    const startDate = moment(start_date).format('L');
+    const preferredDate1 = moment(preferred_interview_date_1).format('L');
+    const preferredDate2 = moment(preferred_interview_date_2).format('L');
+    const preferredDate3 = moment(preferred_interview_date_3).format('L');
+    const historyStartDates = history.map((element) =>
+      moment(element.history_start_date).format('L')
+    );
+    const historyEndDates = history.map((element) =>
+      moment(element.history_end_date).format('L')
+    );
+    const gradDates = education.map((element) =>
+      moment(element.date_graduated).format('L')
+    );
 
     res.render('editResume', {
       jobId,
@@ -94,13 +89,11 @@ router.get(
       admin,
       capabilities,
       history,
-      startDate1,
-      endDate1,
-      startDate2,
-      endDate2,
-      startDate3,
-      endDate3,
+      historyStartDates,
+      historyEndDates,
       totalYears,
+      gradDates,
+      education
     });
   }
 );
@@ -134,178 +127,183 @@ router.post(
       capability_1,
       capability_2,
       capability_3,
+      capability_4,
+      capability_5,
       year_experience,
-      history_start_date_1,
-      history_end_date_1,
-      position_1,
-      company_1,
-      history_start_date_2,
-      history_end_date_2,
-      position_2,
-      company_2,
-      history_start_date_3,
-      history_end_date_3,
-      position_3,
-      company_3,
+      history_start_date,
+      history_end_date,
+      position,
+      company,
+      school,
+      course,
+      date_graduated,
     } = req.body;
+    const getStartDates = history_start_date.map((element) => moment(element).format('L'));
+    console.log(getStartDates);
 
-    const startDate1 = moment(history_start_date_1, 'MM/DD/YYYY');
-    const endDate1 = moment(history_end_date_1, 'MM/DD/YYYY');
-    const startDate2 = moment(history_start_date_2, 'MM/DD/YYYY');
-    const endDate2 = moment(history_end_date_2, 'MM/DD/YYYY');
-    const startDate3 = moment(history_start_date_3, 'MM/DD/YYYY');
-    const endDate3 = moment(history_end_date_3, 'MM/DD/YYYY');
+    const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
-    let yearDiff1 = endDate1.diff(startDate1, 'years');
-    let yearDiff2 = endDate2.diff(startDate2, 'years');
-    let yearDiff3 = endDate3.diff(startDate3, 'years');
-    if(isNaN(yearDiff1)){
-      yearDiff1 = 0
-    } 
-    if(isNaN(yearDiff2)) {
-      yearDiff2 = 0
-    } 
-    if (isNaN(yearDiff3)){
-      yearDiff3 = 0
-    }
-    const totalYears = yearDiff1 + yearDiff2 + yearDiff3;
+    let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
+    let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
+    let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
+    let yearDiff4 = getEndDates[3].diff(getStartDates[3], 'years');
+    let yearDiff5 = getEndDates[4].diff(getStartDates[4], 'years');
+    if (isNaN(yearDiff1)) yearDiff1 = 0;
+    if (isNaN(yearDiff2)) yearDiff2 = 0;
+    if (isNaN(yearDiff3)) yearDiff3 = 0;
+    if (isNaN(yearDiff4)) yearDiff4 = 0;
+    if (isNaN(yearDiff5)) yearDiff5 = 0;
+    const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
 
     const today = new Date();
     const thisDay = moment(today, 'MM/DD/YYYY');
-      knex('job_application.applicant_details')
-        .update({
-          first_name,
-          middle_name,
-          last_name,
-          gender,
-          date_of_birth,
-          email,
-          skype,
-          mobile,
-          preferred_contact,
-          address,
-          city,
-          province,
-          expected_salary,
-          start_date,
-          preferred_interview_date_1,
-          preferred_interview_date_2,
-          preferred_interview_date_3,
-          year_experience: totalYears,
-          date_last_updated: thisDay,
-        })
-        .where('job_id', jobId)
-        .then(() => {
-          knex('job_application.capabilities')
-            .update({
+    knex('job_application.applicant_details')
+      .update({
+        first_name,
+        middle_name,
+        last_name,
+        gender,
+        date_of_birth,
+        email,
+        skype,
+        mobile,
+        preferred_contact,
+        address,
+        city,
+        province,
+        expected_salary,
+        start_date,
+        preferred_interview_date_1,
+        preferred_interview_date_2,
+        preferred_interview_date_3,
+        year_experience: totalYears,
+        date_last_updated: thisDay,
+      })
+      .where({ job_id: jobId, application_id: appId })
+      .then(() => {
+        knex('job_application.capabilities')
+          .update({
+            application_id: appId,
+            capability_1,
+            capability_2,
+            capability_3,
+            capability_4,
+            capability_5,
+          })
+          .where('application_id', appId)
+          .then(async () => {
+            const historyId = await knex('job_application.employment_history').where({
               application_id: appId,
-              capability_1,
-              capability_2,
-              capability_3,
-            })
-            .where('application_id', appId)
-            .then(async ()=> {
-              if(
-                history_start_date_1 == "" && history_end_date_1 == "" &&
-                history_start_date_2 == "" && history_end_date_2 == "" &&
-                history_start_date_3 == "" && history_end_date_3 == ""
-              ) {
-                history_start_date_1 = null
-                history_end_date_1 = null
-                history_start_date_2 = null
-                history_end_date_2 = null
-                history_start_date_3 = null
-                history_end_date_3 = null
-              } else if (
-                history_start_date_2 == "" && history_end_date_2 == "" &&
-                history_start_date_3 == "" && history_end_date_3 == ""
-              ) {
-                history_start_date_1 = startDate1
-                history_end_date_1 = endDate1
-                history_start_date_2 = null
-                history_end_date_2 = null
-                history_start_date_3 = null
-                history_end_date_3 = null
-              } else if (
-                history_start_date_3 == "" && history_end_date_3 == ""
-              ) {
-                history_start_date_1 = startDate1
-                history_end_date_1 = endDate1
-                history_start_date_2 = startDate2
-                history_end_date_2 = endDate2
-                history_start_date_3 = null
-                history_end_date_3 = null
-              } else {
-                  history_start_date_1 = startDate1
-                  history_end_date_1 = endDate1
-                  history_start_date_1 = startDate2
-                  history_end_date_1 = endDate2
-                  history_start_date_1 = startDate3
-                  history_end_date_1 = endDate3
-              }
-              knex('job_application.employment_history')
-                .update({
-                  application_id: appId,
-                  history_start_date_1,
-                  history_end_date_1,
-                  position_1,
-                  company_1,
-                  history_start_date_2,
-                  history_end_date_2,
-                  position_2,
-                  company_2,
-                  history_start_date_3,
-                  history_end_date_3,
-                  position_3,
-                  company_3,
-                })
-                .where('application_id', appId)
-                .then(() => {
-                  if (typeof skill_id != typeof []) {
-                    knex('job_application.applicant_rating')
-                      .where('application_id', appId)
-                      .del()
-                      .then(() => {
-                        if(skill_years == '' && skill_self_rating == ''){
-                          skill_years = 0
-                          skill_self_rating = 0
-                        }
-                        knex('job_application.applicant_rating')
-                          .insert({
-                            application_id: appId,
-                            skill_id,
-                            skill_years,
-                            skill_self_rating,
-                          })
-                          .then((result) => result);
-                      });
-                  } else {
-                    for (let i = 0; i < skill_id.length; i++) {
-                      if(skill_years[i] == '' && skill_self_rating[i] == '') {
-                        skill_years[i] = 0
-                        skill_self_rating[i] = 0
-                      }
-                      knex('job_application.applicant_rating')
-                        .where('application_id', appId)
-                        .del()
-                        .then(() => {
-                          knex('job_application.applicant_rating')
-                            .insert({
-                              application_id: appId,
-                              skill_id: skill_id[i],
-                              skill_years: skill_years[i],
-                              skill_self_rating: skill_self_rating[i],
-                            })
-                            .then((result) => result);
-                        });
-                      }
-                  }
-                })
-                .then(result => {
-                  res.redirect(`/careers/job/${jobId}/resume/application/${appId}`);
-                });
             });
-        });
+            for (let i = 0; i < history_start_date.length; i++) {
+              if (history_start_date[i] == '' || history_end_date[i] == '') {
+                history_start_date[i] = null;
+                history_end_date[i] = null;
+              } else {
+                history_start_date[i] = moment(history_start_date[i]).format('L');
+                history_end_date[i] = moment(history_end_date[i]).format('L');
+              }
+              if (historyId[i] == undefined) {
+                knex('job_application.employment_history')
+                  .insert({
+                    application_id: appId,
+                    history_start_date: history_start_date[i],
+                    history_end_date: history_end_date[i],
+                    position: position[i],
+                    company: company[i],
+                  })
+                  .then((results) => results);
+              } else {
+                knex('job_application.employment_history')
+                  .update({
+                    history_start_date: history_start_date[i],
+                    history_end_date: history_end_date[i],
+                    position: position[i],
+                    company: company[i],
+                  })
+                  .where({ application_id: appId, history_id: historyId[i].history_id })
+                  .then((results) => results);
+              }
+            }
+
+            const educationId = await knex('job_application.education').where({
+              application_id: appId
+            })
+            for( let i = 0; i < date_graduated.length; i++){
+              if(date_graduated[i] == '') {
+                date_graduated[i] = null
+              } else {
+                date_graduated[i] = moment(date_graduated[i]).format('L')
+              }
+              if (educationId[i] == undefined) {
+                knex('job_application.education')
+                  .insert({
+                    application_id: appId,
+                    school: school[i],
+                    course: course[i],
+                    date_graduated: date_graduated[i]
+                  })
+                  .then(result => result)
+              } else {
+                knex('job_application.education')
+                  .update({
+                    application_id: appId,
+                    school: school[i],
+                    course: course[i],
+                    date_graduated: date_graduated[i]
+                  })
+                  .where({
+                    application_id: appId,
+                    education_id: educationId[i].education_id
+                  })
+                  .then(result => result)
+              }
+            }
+
+            // applicant_rating data entry
+            if (typeof skill_id != typeof []) {
+              knex('job_application.applicant_rating')
+                .where('application_id', appId)
+                .del()
+                .then(() => {
+                  if (skill_years == '' && skill_self_rating == '') {
+                    skill_years = 0;
+                    skill_self_rating = 0;
+                  }
+                  knex('job_application.applicant_rating')
+                    .insert({
+                      application_id: appId,
+                      skill_id,
+                      skill_years,
+                      skill_self_rating,
+                    })
+                    .then((result) => result);
+                });
+            } else {
+              for (let i = 0; i < skill_id.length; i++) {
+                if (skill_years[i] == '' && skill_self_rating[i] == '') {
+                  skill_years[i] = 0;
+                  skill_self_rating[i] = 0;
+                }
+                knex('job_application.applicant_rating')
+                  .where('application_id', appId)
+                  .del()
+                  .then(() => {
+                    knex('job_application.applicant_rating')
+                      .insert({
+                        application_id: appId,
+                        skill_id: skill_id[i],
+                        skill_years: skill_years[i],
+                        skill_self_rating: skill_self_rating[i],
+                      })
+                      .then((result) => result);
+                  });
+              }
+            }
+
+            res.redirect(`/careers/job/${jobId}/resume/application/${appId}`);
+          });
+      });
   }
 );
 
