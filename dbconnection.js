@@ -1,33 +1,33 @@
 const knex = require('knex')({
-        client: 'pg',
-        connection: {
-                host: '127.0.0.1',
-                port: 5432,
-                user: 'postgres',
-                password: '12345',
-                database: 'rms',
-        },
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    port: 5432,
+    user: 'postgres',
+    password: '12345',
+    database: 'rms',
+  },
 });
 
 const { Pool } = require('pg');
 
 const pool = new Pool({
-        host: '127.0.0.1',
-        user: 'postgres',
-        database: 'rms',
-        password: '12345',
-        port: 5432,
+  host: '127.0.0.1',
+  user: 'postgres',
+  database: 'rms',
+  password: '12345',
+  port: 5432,
 });
 
 const execute = async (query) => {
-        try {
-                await pool.connect(); // gets connection
-                await pool.query(query); // sends queries
-                return true;
-        } catch (error) {
-                console.error(error.stack);
-                return false;
-        }
+  try {
+    await pool.connect(); // gets connection
+    await pool.query(query); // sends queries
+    return true;
+  } catch (error) {
+    console.error(error.stack);
+    return false;
+  }
 };
 
 const text = `CREATE SCHEMA IF NOT EXISTS Admin;
@@ -78,6 +78,10 @@ CREATE TABLE IF NOT EXISTS Admin.Job_Type(
 CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
     skill_scoring INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS Admin.Position_Level(
+    position_level_id SERIAL PRIMARY KEY NOT NULL,
+    position_level_name VARCHAR(100) NOT NULL
+);
 CREATE TABLE IF NOT EXISTS Admin.Department(
     dept_id SERIAL PRIMARY KEY NOT NULL,
     dept_name VARCHAR(100) NOT NULL
@@ -92,8 +96,9 @@ CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
     job_type VARCHAR(100) NOT NULL,
     job_description VARCHAR(100) NOT NULL,
     min_years_experience VARCHAR(100) NOT NULL,
-    exam_score VARCHAR(100) NOT NULL,
+    skill_score VARCHAR(100) NOT NULL,
     hr_rating VARCHAR(100) NOT NULL,
+    personality_score VARCHAR(100) NOT NULL,
     date_opened DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_date_update DATE NOT NULL,
     created_by VARCHAR(100) NOT NULL,
@@ -321,11 +326,11 @@ CREATE TABLE IF NOT EXISTS Job_Application.Personality_Score (
 );`;
 
 execute(text)
-        .then((result) => {
-                if (result) {
-                        console.log('Schemas and tables created');
-                }
-        })
-        .then(() => pool.end());
+  .then((result) => {
+    if (result) {
+      console.log('Schemas and tables created');
+    }
+  })
+  .then(() => pool.end());
 
 module.exports = knex;
