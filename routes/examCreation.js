@@ -1,6 +1,7 @@
 const express = require('express');
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const moment = require('moment');
 
 const router = express.Router();
 
@@ -27,7 +28,10 @@ router.get('/examcreation', async (req, res) => {
 
 // post route examcreation
 router.post('/examcreation', async (req, res) => {
+  const today = new Date();
+  const examDate = moment(today,'MM/DD/YYYY');
   const {
+    date_created,
     question_id,
     questiontype,
     questionCategory,
@@ -46,6 +50,8 @@ router.post('/examcreation', async (req, res) => {
   } = req.body;
   knex('question.question')
     .insert({
+      date_last_updated: examDate,
+      date_created: examDate,
       question_id,
       question_type: questiontype,
       question_category: questionCategory,
@@ -124,8 +130,11 @@ router.get('/examcreation/:question_category/:question_id', async (req, res) => 
 // edit post route
 router.post('/examcreation/:question_category/:question_id', async (req, res) => {
   const questionId = req.params.question_id;
-  const questionCategory = req.params.question_category;
+  const today = new Date();
+  const dateLastUpdated = moment(today,'MM/DD/YYYY');
+  
   const {
+    questionCategory,
     questiontype,
     questionlevel,
     questiontimer,
@@ -142,6 +151,8 @@ router.post('/examcreation/:question_category/:question_id', async (req, res) =>
   } = req.body;
   knex('question.question')
     .update({
+      date_last_updated: dateLastUpdated,
+      question_category: questionCategory,
       question_type: questiontype,
       question_level: questionlevel,
       question_time_limit: questiontimer,
@@ -166,30 +177,35 @@ router.post('/examcreation/:question_category/:question_id', async (req, res) =>
 router.get('/deleteExam/:question_category/:question_id', (req, res) => {
   const questionCategory = req.params.question_category;
   const questionId = req.params.question_id;
-  knex('jobs.question')
-    .where('question_id', questionId)
-    .del()
-    .then(() => {
-      knex('question.question')
-        .where('question_category', questionCategory)
-        .andWhere('question_id', questionId)
-        .del()
-        .then(async (results) => {
-          const questionTable = await knex('question.question').where(
-            'question_category',
-            questionCategory
-          );
-          if (questionTable == 0) {
-            res.redirect(`/examcreation/${questionCategory}`);
-          } else {
-            const nextQuestionId = await knex('question.question')
-              .where('question_category', questionCategory)
-              .first()
-              .then((question) => question.question_id);
-            res.redirect(`/examcreation/${questionCategory}/${nextQuestionId}`);
-          }
-        });
-    });
+  knex('job_application.applicant_exam_results')
+  .where('question_id', questionId)
+  .del()
+  .then(() => {
+    knex('jobs.question')
+      .where('question_id', questionId)
+      .del()
+      .then(() => {
+        knex('question.question')
+          .where('question_category', questionCategory)
+          .andWhere('question_id', questionId)
+          .del()
+          .then(async (results) => {
+            const questionTable = await knex('question.question').where(
+              'question_category',
+              questionCategory
+            );
+            if (questionTable == 0) {
+              res.redirect(`/examcreation/${questionCategory}`);
+            } else {
+              const nextQuestionId = await knex('question.question')
+                .where('question_category', questionCategory)
+                .first()
+                .then((question) => question.question_id);
+              res.redirect(`/examcreation/${questionCategory}/${nextQuestionId}`);
+            }
+          });
+      });
+  });
 });
 
 module.exports = router;
