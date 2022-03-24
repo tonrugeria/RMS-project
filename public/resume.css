@@ -2,10 +2,16 @@ body {
   margin: 0;
 }
 
-input[type=date]::-webkit-date-edit-year-field:not([aria-valuenow]){
-  color: transparent;
+input {
+  border: none !important;
+  height: 35px;
 }
-::-webkit-datetime-edit-month-field:not([aria-valuenow]),
-::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
-    color: transparent;
+
+select {
+  border: none;
+  height: 35px;
+}
+
+p {
+  margin: 0;
 }

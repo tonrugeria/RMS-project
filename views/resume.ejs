@@ -1,160 +1,523 @@
 <%- include('./layout/resumeHeader.ejs') %>
 <div class="container g-0 m-0 p-0">
   <div class="row min-vh-100 min-vw-100 g-0">
-    <div class="col-sm-2 pl-1">
+    <div class="col-sm-2 pl-1" style="background-color: #e6e6e6">
       <div class="d-flex flex-column">
         <div>
           <a href="/careers/job/<%= jobId %>/resume">RESUME</a>
         </div>
         <div>
-          <a href="/careers/job/<%= jobId %>/resume">EXAM</a>
-        </div>
-        <div>
-          <a href="#" type="button"><button>SUBMIT</button></a>
+          <p>EXAM</p>
         </div>
       </div>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-10 p-5" style="background-color: #f2f2f2">
       <form action="/careers/job/<%= jobId %>/resume" method="post">
         <div>
-          <label for="appId">APPLICATION ID</label> <br>
-          <input type="number"  name="appId" value="<%= unique %>" readonly>
+          <label for="appId">APPLICATION ID</label> <br />
+          <input type="number" name="appId" value="<%= unique %>" readonly />
         </div>
-          <div>
-            <h5>YOU ARE APPLYING FOR THE POSITION</h5>
-            <% for( let i = 0; i < jobs.length; i++) { %>
-              <h1><%= jobs[i].job_title %></h1> 
-            <% } %> 
+        <div>
+          <h5>YOU ARE APPLYING FOR THE POSITION</h5>
+          <% for( let i = 0; i < jobs.length; i++) { %>
+          <h1><%= jobs[i].job_title %></h1>
+          <% } %>
+        </div>
+
+        <h5>Your Personal Information</h5>
+        <div class="container-fluid mb-4">
+          <div class="row mb-2">
+            <div class="d-flex">
+              <p class="w-75 pe-1"><strong>NAME</strong></p>
+              <p class="w-25 px-2"><strong>DATE OF BIRTH</strong></p>
+              <p class="w-25 px-2"><strong>GENDER</strong></p>
+            </div>
+            <div class="col pe-1">
+              <input
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <input
+                type="text"
+                name="middle_name"
+                placeholder="Middle Name"
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <input
+                type="text"
+                name="last_name"
+                placeholder="Last Name"
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <input
+                type="text"
+                name="date_of_birth"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+                required
+              />
+            </div>
+            <div class="col ps-1">
+              <select name="gender" id="contact" class="w-100">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
           </div>
-          <div class="mb-3">
+          
+          <div class="row mb-2">
+            <div class="d-flex">
+              <p class="w-100"><strong>CONTACT</strong></p>
+              <p class="w-100 ps-2"><strong>PREFERRED CONTACT</strong></p>
+            </div>
+            <div class="col pe-1">
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Email Address" 
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <input
+                type="number"
+                name="skype"
+                placeholder="Skype ID"
+                required
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <input
+                type="text"
+                name="mobile"
+                placeholder="Mobile Number"
+                required
+                class="w-100"
+              />
+            </div>
+            <div class="col px-1">
+              <select name="preferred_contact" id="contact" class="w-100">
+                <option value="Email">Email</option>
+                <option value="Skype">Skype</option>
+                <option value="Mobile">Mobile</option>
+              </select>
+            </div>
           </div>
-            <h5>Your Personal Information</h5>
-            <div class="mb-4">
-                <p><strong>NAME</strong></p>
-                <input type="text" name="first_name" placeholder="First Name">
-                <input type="text" name="middle_name" placeholder="Middle Name">
-                <input type="text" name="last_name" placeholder="Last Name">
-                <p><strong>GENDER</strong></p>
-                <select name="gender" id="contact">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-                <p><strong>DATE OF BIRTH</strong></p>
-                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" required>
-                <p><strong>CONTACT</strong></p>
-                <input type="email" name="email" placeholder="Email Address">
-                <input type="number" name="skype" placeholder="Skype ID" required>
-                <input type="text" name="mobile" placeholder="Mobile Number" required>
-                <p><strong>PREFERRED CONTACT</strong></p>
-                <select name="preferred_contact" id="contact">
-                      <option value="Email">Email</option>
-                      <option value="Skype">Skype</option>
-                      <option value="Mobile">Mobile</option>
-                </select>
-                <p><strong>ADDRESS</strong></p>
-                <input type="text" name="address" placeholder="Address">
-                <input type="text" name="city" placeholder="City">
-                <input type="text" name="province" placeholder="Province">
-                <p><strong>EXPECTED SALARY</strong></p>
-                <input type="number" name="expected_salary" required>
-                <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
-                <input type="text" name="start_date" placeholder="MM/DD/YY" required>
-                <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-                <input type="text" name="preferred_interview_date_1" placeholder="MM/DD/YY" required>
-                <input type="text" name="preferred_interview_date_2" placeholder="MM/DD/YY" required>
-                <input type="text" name="preferred_interview_date_3" placeholder="MM/DD/YY" required>
+          <div class="row mb-2">
+              <p><strong>ADDRESS</strong></p>
+              <div class="col-6 pe-1">
+                <input type="text" name="address" placeholder="Address" class="w-100"/>
+              </div>
+              <div class="col-3 px-1">
+                <input type="text" name="city" placeholder="City" class="w-100"/>
+              </div>
+              <div class="col-3 px-1">
+                <input type="text" name="province" placeholder="Province" class="w-100"/>
+              </div>
+          </div>
+          <p><strong>EXPECTED SALARY</strong></p>
+          <input type="number" name="expected_salary" required />
+          <p>
+            <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
+          </p>
+          <input
+            type="text"
+            name="start_date"
+            placeholder="MM/DD/YY"
+            required
+          />
+          <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+          <input
+            type="text"
+            name="preferred_interview_date_1"
+            placeholder="MM/DD/YY"
+            required
+          />
+          <input
+            type="text"
+            name="preferred_interview_date_2"
+            placeholder="MM/DD/YY"
+            required
+          />
+          <input
+            type="text"
+            name="preferred_interview_date_3"
+            placeholder="MM/DD/YY"
+            required
+          />
+        </div>
+        <div>
+          <h5>Your Qualification</h5>
+          <p>
+            RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING
+            PROGRAMMING LANGUAGES AND FRAMEWORKS
+          </p>
+          <div class="container">
+            <div class="row">
+              <% for( let i =0; i < skill.length; i++) { %>
+              <div class="col-4">
+                <input
+                  type="number"
+                  name="skill_id"
+                  value="<%= skill[i].skill_id %>"
+                  style="width: 40px"
+                />
+                <label style="width: 90px"><%= skill[i].skill_name %> </label>
+                <input
+                  type="number"
+                  name="skill_years"
+                  placeholder="Years"
+                  style="width: 70px"
+                  min="0"
+                />
+                <input
+                  type="number"
+                  name="skill_self_rating"
+                  placeholder="0"
+                  style="width: 60px"
+                  min="0"
+                  max="5"
+                />
+              </div>
+              <% } %>
             </div>
-            <div>
-              <h5>Your Qualification</h5>
-              <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
-              <div class="container">
-                <div class="row">
-                  <% for( let i =0; i < skill.length; i++) { %>
-                      <div class="col-4 mb-1">
-                          <input type="number" name="skill_id" value="<%= skill[i].skill_id %>" style="width: 40px">
-                          <label style="width: 90px"><%= skill[i].skill_name %> </label>
-                          <input type="number" name="skill_years" placeholder="Years" style="width: 70px" min="0">
-                          <input type="number" name="skill_self_rating" placeholder="0" style="width: 60px" min="0" max="5">
-                      </div>
-                      <% } %> 
-                </div>
-              </div>
+          </div>
+        </div>
+
+        <div>
+          <p>
+            <strong
+              >TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT
+              WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong
+            >
+          </p>
+          <div class="form-floating col-12 mb-2">
+            <input
+              type="text"
+              name="capability_1"
+              class="form-control w-100"
+              id="floatingInput"
+              placeholder="Enter your story"
+            />
+            <label for="floatingInput">Enter your story</label>
+          </div>
+          <div class="form-floating col-12 mb-2">
+            <input
+              type="text"
+              name="capability_2"
+              class="form-control w-100"
+              id="floatingInput"
+              placeholder="Enter your story"
+            />
+            <label for="floatingInput">Enter your story</label>
+          </div>
+          <div class="form-floating col-12 mb-2">
+            <input
+              type="text"
+              name="capability_3"
+              class="form-control w-100"
+              id="floatingInput"
+              placeholder="Enter your story"
+            />
+            <label for="floatingInput">Enter your story</label>
+          </div>
+          <div class="form-floating col-12 mb-2">
+            <input
+              type="text"
+              name="capability_4"
+              class="form-control w-100"
+              id="floatingInput"
+              placeholder="Enter your story"
+            />
+            <label for="floatingInput">Enter your story</label>
+          </div>
+          <div class="form-floating col-12 mb-2">
+            <input
+              type="text"
+              name="capability_5"
+              class="form-control w-100"
+              id="floatingInput"
+              placeholder="Enter your story"
+            />
+            <label for="floatingInput">Enter your story</label>
+          </div>
+        </div>
+
+        <div>
+          <p><strong>Employment History</strong></p>
+          <div class="d-flex mb-2">
+            <div class="me-1 w-25">
+              <p><strong>FROM</strong></p>
+              <input
+                type="text"
+                name="history_start_date_1"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
             </div>
-            <div>
-              <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong></p>
-              <div>
-                <input type="text" name="capability_1" placeholder="Enter your story">
-              </div>
-              <div>
-                <input type="text" name="capability_2" placeholder="Enter your story">
-              </div>
-              <div>
-                <input type="text" name="capability_3" placeholder="Enter your story">
-              </div>
+            <div class="me-1 w-25">
+              <p><strong>TO</strong></p>
+              <input
+                type="text"
+                name="history_end_date_1"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
             </div>
-            
-            <p><strong>Employment History</strong></p>
-              <div class="d-flex mb-1">
-                <div class="">
-                  <p><strong>FROM</strong></p>
-                  <input type="text" name="history_start_date_1" placeholder="MM / DD /  YY">
-                </div>
-                <div class="">
-                  <p><strong>TO</strong></p>
-                  <input type="text" name="history_end_date_1" placeholder="MM / DD / YY">
-                </div>
-                <div class="">
-                  <p><strong>POSITION</strong></p>
-                <input type="text" name="position_1" placeholder="Enter Position">
-                </div>
-                <div class="">
-                  <p><strong>COMPANY</strong></p>
-                  <input type="text" name="company_1" placeholder="Enter Company Name">
-                </div>
-              </div>
-              <div class="d-flex mb-1">
-                <div class="">
-                  <input type="text" name="history_start_date_2" placeholder="MM / DD /  YY">
-                </div>
-                <div class="">
-                  <input type="text" name="history_end_date_2" placeholder="MM / DD /  YY">
-                </div>
-                <div class="">
-                <input type="text" name="position_2" placeholder="Enter Position">
-                </div>
-                <div class="">
-                  <input type="text" name="company_2" placeholder="Enter Company Name">
-                </div>
-              </div>
-              <div class="d-flex mb-1">
-                <div class="">
-                  <input type="text" name="history_start_date_3" placeholder="MM / DD /  YY">
-                </div>
-                <div class="">
-                  <input type="text" name="history_end_date_3" placeholder="MM / DD /  YY">
-                </div>
-                <div class="">
-                <input type="text" name="position_3" placeholder="Enter Position">
-                </div>
-                <div class="">
-                  <input type="text" name="company_3" placeholder="Enter Company Name">
-                </div>
-              </div>
-              <div>
-                <h3>education and training</h3>
-                <input type="text">
-                <input type="text">
-                <input type="text">
-              </div>
-               <!-- 
+            <div class="me-1 w-75">
+              <p><strong>POSITION</strong></p>
+              <input
+                type="text"
+                name="position_1"
+                placeholder="Enter Position"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <p><strong>COMPANY</strong></p>
+              <input
+                type="text"
+                name="company_1"
+                placeholder="Enter Company Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_start_date_2"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_end_date_2"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="position_2"
+                placeholder="Enter Position"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="company_2"
+                placeholder="Enter Company Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_start_date_3"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_end_date_3"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="position_3"
+                placeholder="Enter Position"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="company_3"
+                placeholder="Enter Company Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_start_date_4"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_end_date_4"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="position_4"
+                placeholder="Enter Position"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="company_4"
+                placeholder="Enter Company Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_start_date_5"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-25">
+              <input
+                type="text"
+                name="history_end_date_5"
+                placeholder="MM/DD/YYYY"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="position_5"
+                placeholder="Enter Position"
+                class="w-100"
+              />
+            </div>
+            <div class="me-1 w-75">
+              <input
+                type="text"
+                name="company_5"
+                placeholder="Enter Company Name"
+                class="w-100"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p><strong>Education and Training</strong></p>
+        <div class="d-flex mb-2">
+          <div class="me-1">
+            <p><strong>School</strong></p>
+            <input type="text" name="school_1" placeholder="Enter School" />
+          </div>
+          <div class="me-1">
+            <p><strong>Course</strong></p>
+            <input type="text" name="course_1" placeholder="Enter Course" />
+          </div>
+          <div class="me-1">
+            <p><strong>Date Graduated</strong></p>
+            <input
+              type="text"
+              name="date_graduated_1"
+              placeholder="MM/DD/YYYY"
+            />
+          </div>
+        </div>
+        <div class="d-flex mb-2">
+          <div class="me-1">
+            <input type="text" name="school_2" placeholder="Enter School" />
+          </div>
+          <div class="me-1">
+            <input type="text" name="course_2" placeholder="Enter Course" />
+          </div>
+          <div class="me-1">
+            <input
+              type="text"
+              name="date_graduated_2"
+              placeholder="MM/DD/YYYY"
+            />
+          </div>
+        </div>
+        <div class="d-flex mb-2">
+          <div class="me-1">
+            <input type="text" name="school_3" placeholder="Enter School" />
+          </div>
+          <div class="me-1">
+            <input type="text" name="course_3" placeholder="Enter Course" />
+          </div>
+          <div class="me-1">
+            <input
+              type="text"
+              name="date_graduated_3"
+              placeholder="MM/DD/YYYY"
+            />
+          </div>
+        </div>
+        <div class="d-flex mb-2">
+          <div class="me-1">
+            <input type="text" name="school_4" placeholder="Enter School" />
+          </div>
+          <div class="me-1">
+            <input type="text" name="course_4" placeholder="Enter Course" />
+          </div>
+          <div class="me-1">
+            <input
+              type="text"
+              name="date_graduated_4"
+              placeholder="MM/DD/YYYY"
+            />
+          </div>
+        </div>
+        <div class="d-flex mb-2">
+          <div class="me-1">
+            <input type="text" name="school_5" placeholder="Enter School" />
+          </div>
+          <div class="me-1">
+            <input type="text" name="course_5" placeholder="Enter Course" />
+          </div>
+          <div class="me-1">
+            <input
+              type="text"
+              name="date_graduated_5"
+              placeholder="MM/DD/YYYY"
+            />
+          </div>
+        </div>
+        <!-- 
                 <div class="mb-3">
                 <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
                 <input type="text" name="year_experience" placeholder="0 Years" value="" readonly>
               </div> 
               -->
-              <button type="submit" name="nameBtn" value="saveBtn">SAVE</button>
-          </form>
-        </div>
+        <button type="submit" name="nameBtn" value="saveBtn">SAVE</button>
+      </form>
+    </div>
   </div>
 </div>
 

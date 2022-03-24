@@ -1,92 +1,154 @@
-<%- include('./layout/header.ejs') %>
-<div class="container-fluid m-0">
-  <div class="row min-vh-100">
-    <div class="col-3 g-0">
-      <div class="py-3">
-        JOB TITLE / POSITION
-      </div>
-      <div class="py-3">
-        TECHNOLOGIES 
-      </div>
-      <div class="py-3">
-        EXPERIENCE
-      </div>
-      <div class="py-3">
-        REVIEW
-      </div>
-      <div class="py-3">
-        READ / UNREAD
+<%- include('./layout/resumeHeader.ejs') %>
+<div class="container g-0 m-0 p-0">
+  <div class="row min-vh-100 min-vw-100 g-0">
+    <div class="col-sm-2 pl-1">
+      <div class="d-flex flex-column">
+        <div>
+          <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
+            >RESUME</a
+          >
+        </div>
+        <div>
+          <a href="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
+            >EXAM</a
+          >
+        </div>
       </div>
     </div>
-    <div class="col-2 g-0">
-      <div class="pb-1">
-        CARDS
+
+    <div class="col-sm-10">
+      <% if(applicantExamRecord != undefined) { %>
+      <div
+        class="h-50 d-flex flex-column align-items-center justify-content-center"
+      >
+        <h5>YOU HAVE ALREADY TAKEN THE EXAM!</h5>
       </div>
-      <div class="pb-1">
-        CARDS
+      <% } else if(jobQuestion != 0) { %>
+      <div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
+          sequi. Beatae officiis ullam quia soluta temporibus dolorem voluptatem
+          nulla veniam tenetur magni? Adipisci nobis ipsum sunt. Minima, nam
+          neque, facilis commodi tenetur ab veniam beatae, alias molestiae
+          repellat ex?
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
+          dicta tempora aliquam amet dolor quam? Quod vero maxime impedit
+          consequuntur?
+        </p>
       </div>
-      <div class="pb-1">
-        CARDS
-      </div>
-    </div>
-    <div class="col-7 g-0">
-      <div class="d-flex flex-column border-bottom">
-        <div>
-          IMAGE
-        </div>
-        <div>
-          John Doe
-        </div>
-        <div>
-          21 Female Single Davao
-        </div>
-        <div>
-          aaa@gmail.com skype 09090909
-        </div>
-        <div>
-          6 years experience
-        </div>
-        <div>
-          Expert in TECHNOLOGIES
-        </div>
-        <div>
-          assign status
-        </div>
-        <div>
-          save resume
-        </div>
+      <div id="start-btn-container">
+        <button id="start-btn">START NOW</button>
       </div>
 
-      <div class="container py-3">
-        <h3>SKILLS</h3>
-        <div class="row">
-          <div class="col-md-4 m-0">
-            TECH1
-          </div>
-          <div class="col-md-4 m-0">
-            TECH2
-          </div>
-          <div class="col-md-4 m-0">
-            TECH3
-          </div>
-          <div class="col-md-4 m-0">
-            TECH4
-          </div>
-          <div class="col-md-4 m-0">
-            TECH5
-          </div>
-          <div class="col-md-4 m-0">
-            TECH6
-          </div>
+      <div>
+        <form
+          action="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
+          method="post"
+          id="questions"
+        ></form>
+        <div id="next-btn-container">
+          <button id="next-btn" class="d-none">NEXT</button>
         </div>
       </div>
-
-      <div class="py-3">
-        <h3>CAPABILITIES</h3>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
+      <% } else { %>
+      <div
+        class="h-50 d-flex flex-column align-items-center justify-content-center"
+      >
+        <h5>NO EXAM QUESTIONS SELECTED YET!</h5>
       </div>
+      <% } %>
     </div>
   </div>
 </div>
-<%- include('./layout/footer.ejs') %>
+
+<script>
+  $(document).ready(function () {
+    let $questions = $("#questions");
+
+    $("#start-btn").on("click", showQuestions);
+
+    function showQuestions(e) {
+      let category = $("#value-category").val();
+      let question = $("#value-question").val();
+      let delay = 0;
+      $.ajax({
+        url: "/careers/job/<%= jobId %>/exam",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ category: category, question: question }),
+        success: function (response) {
+          $.each(response.responseQuestion, function (key, value) {
+            let questionTimer = setTimeout(function () {
+              key++;
+              $questions.append(`\
+                          <div id="question-container_${key}">
+                            <div>
+                            <p>${key}. ${value.question_detail}</p>
+                            <input type="text"
+                              name="question_id"
+                              value="${value.question_id}"
+                              readonly
+                            >
+                            </div>
+                            <div class="d-none">
+                              <input type="radio"
+                                name="applicant_answer[${value.question_id}]"
+                                id="choice-0"
+                                value="0"
+                                checked
+                              >
+                              <label for="choice_1">No answer</label>
+                            </div>
+                            <div>
+                            <input type="radio"
+                              name="applicant_answer[${value.question_id}]"
+                              id="choice-1"
+                              value="1"
+                            >
+                            <label for="choice_1">${value.choice_1}</label>
+                            </div>
+                            <div>
+                            <input type="radio"
+                              name="applicant_answer[${value.question_id}]"
+                              id="choice-2"
+                              value="2" 
+                            >
+                            <label for="choice_2">${value.choice_2}</label>
+                            </div>
+                            <div>
+                            <input type="radio"
+                              name="applicant_answer[${value.question_id}]"
+                              id="choice-3"
+                              value="3" 
+                            >
+                            <label for="choice_3">${value.choice_3}</label>
+                            </div>
+                            <div>
+                            <input type="radio"
+                              name="applicant_answer[${value.question_id}]"
+                              id="choice-4"
+                              value="4" 
+                            >
+                            <label for="choice_4">${value.choice_4}</label>
+                            </div>
+                          </div>`);
+            }, delay);
+
+            delay += value.question_time_limit * 1000;
+          });
+
+          setTimeout(function () {
+            $("#next-btn").remove();
+            $questions.append('<button type="submit">SUBMIT</button>');
+          }, delay);
+
+          $("#start-btn").remove();
+          $("#next-btn").removeClass("d-none");
+        },
+      });
+    }
+  });
+</script>
+<%- include('./layout/resumeFooter.ejs') %>
