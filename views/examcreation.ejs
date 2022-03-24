@@ -1,5 +1,4 @@
 <%- include('./layout/header.ejs') %>
-
 <div class="row min-vh-100">
   <div class="col-sm-2">
     <div class="d-flex flex-column">
@@ -17,43 +16,21 @@
       </a>
       <% } %> 
     </div>
-<<<<<<< HEAD
-    <div class="col-sm-10">
-      <form action="/examcreation" method="POST">
-        <div>
-<<<<<<< HEAD
-          <div class="form-floating">
-            <!-- to be continue -->
-=======
-          <div class="form-floating">          
->>>>>>> bf6a87da4e1961b5b3029b6b881a06a123f9ab93
-
-            <select name="questioncategory" class="form-select" id="floatingSelectGrid"
-              aria-label="Floating label select example">
-              <% for (let i=0; i < skill.length; i++) { %>
-
-                <option value="<%=skill[i].skill_name %>">
-                  <%=skill[i].skill_name %>
-                </option>
-
-                <% } %>
-            </select>
-            <label for="questioncategory">Category</label>
-=======
   </div>
-  <div class="col-sm-10">
+  <div class="col-sm-10" >
     <form action="/examcreation" method="POST">
       <div>
         <div class="form-floating">
           
           <div>
-          <input type="radio" value="0" name="questiontype" required/>
+          <input type="radio" value="0" name="questiontype" required id="technical-btn" 
+          onclick="technicalShowHide()" />
           <label for="technical">Technical</label><br>
           </div>
           <div>
-          <input type="radio" value="1" name="questiontype" required/>
+          <input type="radio" value="1" name="questiontype" required id="personality-btn"
+          onclick="personalityShowHide()" checked/>
           <label for="personality">Personality</label><br>
->>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
           </div>
         </div>
       </div>
@@ -74,38 +51,7 @@
               </option>
             <% } %>
           </select>
-<<<<<<< HEAD
-          <label for="questionlevel">Level</label>
-        </div>
-<<<<<<< HEAD
-        <div class="timer">
-          <input type="text" placeholder="Timer" name="questiontimer" />
-        </div>
-        <div class="form-floating" class="form-control" id="floatPlace">
-          <input type="text" placeholder="Question" name="questiondetail" />
-        </div>
-
-        <div class="container mt-3">
-          <div>
-            <input type="radio" value="1" name="correctAnswer" />
-            <input type="text" class="form-control" placeholder="Question 1" name="choice_1" />
-            <input type="radio" value="2" name="correctAnswer" />
-            <input type="text" class="form-control" placeholder="Question 2" name="choice_2" />
-            <input type="radio" value="3" name="correctAnswer" />
-            <input type="text" class="form-control" placeholder="Question 3" name="choice_3" />
-            <input type="radio" value="4" name="correctAnswer" />
-            <input type="text" class="form-control" placeholder="Question 4" name="choice_4" />
-=======
-        <div class="form-floating">
-          <input type="text" name="questiontimer" class="form-control" id="floatPlace" placeholder="Timer">
-                <label for="floatPlace">Timer</label>
-        </div>
-        <div class="form-floating">
-          <input type="text" name="questiondetail" class="form-control" id="floatPlace" placeholder="Question">
-                <label for="floatPlace">Question</label>
-=======
           <label for="questioncategory">Category</label>
->>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
         </div>
       </div>
 
@@ -161,10 +107,11 @@
           />
           <input
             type="text"
-            class="form-control"
+            class="form-control choice-value-input d-none"
             id="floatPlace"
             placeholder="Value"
             name="value_1"
+            value="0"
             required
           />
 
@@ -179,10 +126,11 @@
           />
           <input
           type="text"
-          class="form-control"
+          class="form-control choice-value-input d-none"
           id="floatPlace"
           placeholder="Value"
           name="value_2"
+          value="0"
           required
         />
 
@@ -197,22 +145,15 @@
           />
           <input
           type="text"
-          class="form-control"
+          class="form-control choice-value-input d-none"
           id="floatPlace"
           placeholder="Value"
           name="value_3"
+          value="0"
           required
         />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> bf6a87da4e1961b5b3029b6b881a06a123f9ab93
-          </div>
-=======
-          <input type="radio" value="4" name="correctAnswer" />
-=======
           <input type="radio" value="4" name="correctAnswer" required/>
->>>>>>> e5c3ac4073b123187d1bd9145638e25f60d29b6c
           <input
             type="text"
             class="form-control"
@@ -221,23 +162,20 @@
             name="choice_4"
             required
           />
-<<<<<<< HEAD
->>>>>>> 8bc841f69f83f060f4c336672a4d9bca82b6e6a1
-=======
           <input
           type="text"
-          class="form-control"
+          class="form-control choice-value-input d-none"
           id="floatPlace"
           placeholder="Value"
           name="value_4"
+          value="0"
           required
         />
->>>>>>> e5c3ac4073b123187d1bd9145638e25f60d29b6c
         </div>
       </div>
       <button type="">Save</button>
     </form>
   </div>
 </div>
-
+<%- include('./filterFunctions/examCreationFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
