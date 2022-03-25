@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: '0000',
+    password: 'novice0621**',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: '0000',
+  password: 'novice0621**',
   port: 5432,
 });
 
@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS Job_Application.Education (
     REFERENCES Job_Application.Applicant_details(application_id)
 );
 
-CREATE TABLE IF NOT EXISTS Job_Application.Applicant_Exam_Results(
+CREATE TABLE IF NOT EXISTS Job_Application.Applicant_Exam_Answers(
     result_id SERIAL PRIMARY KEY NOT NULL,
     job_id int,
     application_id int,
@@ -294,47 +294,11 @@ CREATE TABLE IF NOT EXISTS Job_Application.Employment_History (
     REFERENCES Job_Application.Applicant_details(application_id)
 );
 CREATE TABLE IF NOT EXISTS Job_Application.Technical_Score (
+    tech_score_id SERIAL PRIMARY KEY NOT NULL,
     application_id	int NOT NULL,
-    skill_id_1 INT,
-    skill_level_1 INT,
-    skill_id_2 INT,
-    skill_level_2 INT,
-    skill_id_3 INT,
-    skill_level_3 INT,
-    skill_id_4 INT,
-    skill_level_4 INT,
-    skill_id_5 INT,
-    skill_level_5 INT,
-    skill_id_6 INT,
-    skill_level_6 INT,
-    skill_id_7 INT,
-    skill_level_7 INT,
-    skill_id_8 INT,
-    skill_level_8 INT,
-    skill_id_9 INT,
-    skill_level_9 INT,
-    skill_id_10 INT,
-    skill_level_10 INT,
-    skill_id_11 INT,
-    skill_level_11 INT,
-    skill_id_12 INT,
-    skill_level_12 INT,
-    skill_id_13 INT,
-    skill_level_13 INT,
-    skill_id_14 INT,
-    skill_level_14 INT,
-    skill_id_15 INT,
-    skill_level_15 INT,
-    skill_id_16 INT,
-    skill_level_16 INT,
-    skill_id_17 INT,
-    skill_level_17 INT,
-    skill_id_18 INT,
-    skill_level_18 INT,
-    skill_id_19 INT,
-    skill_level_19 INT,
-    skill_id_20 INT,
-    skill_level_20 INT,
+    skill_id INT,
+    skill_level INT,
+    skill_total INT,
 
     FOREIGN KEY(application_id)
     REFERENCES Job_Application.Applicant_details(application_id)
