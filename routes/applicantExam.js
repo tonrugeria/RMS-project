@@ -42,33 +42,18 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
     .first();
 
   if (applicantExamRecord == undefined) {
-    if (applicant_answer != null) {
-      for (let i = 0; i < question_id.length; i++) {
-        knex('job_application.applicant_exam_answers')
-          .insert({
-            job_id: jobId,
-            application_id: appId,
-            question_id: question_id[i],
-            applicant_answer: applicant_answer[i],
-          })
-          .then((results) => results);
-      }
-    } else {
-      for (let i = 0; i < question_id.length; i++) {
-        knex('job_application.applicant_exam_answers')
-          .insert({
-            job_id: jobId,
-            application_id: appId,
-            question_id: question_id[i],
-            applicant_answer: 0,
-          })
-          .then((results) => results);
-      }
+    for (let i = 0; i < applicant_answer.length; i++) {
+      knex('job_application.applicant_exam_answers')
+        .insert({
+          job_id: jobId,
+          application_id: appId,
+          question_id: question_id[i],
+          applicant_answer: applicant_answer[i],
+        })
+        .then((results) => results);
     }
-    res.redirect(`/careers/job/${jobId}/exam/application/${appId}`);
-  } else {
-    res.redirect(`/careers/job/${jobId}/exam/application/${appId}`);
   }
+  res.redirect(`/careers/job/${jobId}/exam/application/${appId}`);
 
   // 3 joined tables: applicant_exam_answers, question.question, admin.skill
   const applicantExam_Question = await knex('job_application.applicant_exam_answers')
@@ -107,17 +92,17 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
       applicantTotalScore++;
     }
     for (let j = 0; j < skills.length; j++) {
-      if (
-        applicantExam_Question[i].applicant_answer ===
-        applicantExam_Question[i].correct_answer
-      ) {
-        if (applicantExam_Question[i].skill_id == skills[j].skill_id) {
+      if (applicantExam_Question[i].skill_id == skills[j].skill_id) {
+        if (
+          applicantExam_Question[i].applicant_answer ===
+          applicantExam_Question[i].correct_answer
+        ) {
           skills[j].skill_id = applicantExam_Question[i].skill_id;
           skills[j].score += 1;
           skills[j].skill_total += 1;
+        } else {
+          skills[j].skill_total += 1;
         }
-      } else if (applicantExam_Question[i].skill_id == skills[j].skill_id) {
-        skills[j].skill_total += 1;
       }
     }
     examTotalPoints++;
