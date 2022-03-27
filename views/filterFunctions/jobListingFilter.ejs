@@ -1,49 +1,56 @@
 <script>
-const showAllFunction = () => {
-        const allCheckBox = document.querySelector('#all-checkbox');
-        const allJobs = document.querySelectorAll('.all-jobs');
-        const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
-        if (allCheckBox.checked == true) {
-                allJobs.forEach((job) => {
-                        job.classList.remove('d-none');
-                });
-                allDeptCheckbox.forEach((checkbox) => {
-                        checkbox.checked = false;
-                });
-        } else {
-                allJobs.forEach((job) => {
-                        job.classList.add('d-none');
-                });
-        }
-};
+        const showAllFunction = () => {
+                const allCheckBox = document.querySelector('#all-checkbox');
+                const allJobs = document.querySelectorAll('.all-jobs');
+                const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+                const allStatusCheckbox = document.querySelectorAll('.all-status-checkbox');
+                if (allCheckBox.checked == true) {
+                        allJobs.forEach((job) => {
+                                job.classList.remove('d-none');
+                        });
+                        allDeptCheckbox.forEach((checkbox) => {
+                                checkbox.checked = false;
+                        });
+                        allStatusCheckbox.forEach(checkbox => {
+                                checkbox.checked = false;
+                        })
+                } else {
+                        allJobs.forEach((job) => {
+                                job.classList.add('d-none');
+                        });
+                }
+        };
+        
+        const showDeptFunction = (dept_name) => {
+                const allCheckBox = document.querySelector('#all-checkbox');
+                const deptCheckBox = document.querySelector(`#${dept_name}-checkbox`);
+                const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
+                const dept_jobs = document.querySelectorAll(`.${dept_name}`);
+                const allJobs = document.querySelectorAll('.all-jobs');
+        
+                if (allCheckBox.checked == true) {
+                        allCheckBox.checked = false;
+                        allJobs.forEach((job) => {
+                                job.classList.add('d-none');
+                        });
+                }
+                if (deptCheckBox.checked == true) {
+                        dept_jobs.forEach((job) => {
+                                job.classList.remove('d-none');
+                                job.classList.add('dept-on-show');
+                        });
+                } else {
+                        dept_jobs.forEach((job) => {
+                                job.classList.add('d-none');
+                                job.classList.remove('dept-on-show');
+                        });
+                }
+        };
+        
 
-const showDeptFunction = (dept_name) => {
-        const allCheckBox = document.querySelector('#all-checkbox');
-        const deptCheckBox = document.querySelector(`#${dept_name}-checkbox`);
-        const allDeptCheckbox = document.querySelectorAll('.all-dept-checkbox');
-        const dept_jobs = document.querySelectorAll(`.${dept_name}`);
-        const allJobs = document.querySelectorAll('.all-jobs');
-
-        if (allCheckBox.checked == true) {
-                allCheckBox.checked = false;
-                allJobs.forEach((job) => {
-                        job.classList.add('d-none');
-                });
-        }
-        if (deptCheckBox.checked == true) {
-                dept_jobs.forEach((job) => {
-                        job.classList.remove('d-none');
-                });
-        } else {
-                dept_jobs.forEach((job) => {
-                        job.classList.add('d-none');
-                });
-        }
-};
-$(document).ready(function() {
-    $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+        $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
     $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
-});
 
-
-</script>
+        
+        </script>
+        

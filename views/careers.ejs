@@ -15,15 +15,16 @@
 </br>
 </br>
   <div class="container">
+    <% if (active_job_opening != 0) { %> 
     <div class="row">
-        <% for (let i = 0; i < job_opening.length; i++) { %>
-          <% let noSpaceDept = job_opening[i].job_dept.replace(/\s/g, ''); %>
+        <% for (let i = 0; i < active_job_opening.length; i++) { %>
+          <% let noSpaceDept = active_job_opening[i].job_dept.replace(/\s/g, ''); %>
           <div class ="all-btn <%= noSpaceDept %>-btn dept col-lg-3 col-md-4 col-sm-12">
-            <span><%= date_opened %></span>   
-            <h1><%= job_opening[i].job_title %></h1>
+            <span><%= date %></span>   
+            <h1><%= active_job_opening[i].job_title %></h1>
             <div class="d-flex" style="gap: 5px;">
               <% for (let j=0; j < jobSkill.length; j++) { %>
-                <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
+                <% if(active_job_opening[i].job_id == jobSkill[j].job_id) {%> 
                   <div style="border: solid black 2px; padding: 0 5px;">
 
                     <a href="/careers"><%= jobSkill[j].skill_name %></a> 
@@ -32,11 +33,15 @@
               <% } %>
             </div>
           </br>
-          <br>
-            <a href="/careers/job/<%= job_opening[i].job_id %>"><button class="btns">Apply Now</button></a>
+        </br>
+            <a href="/careers/job/<%= active_job_opening[i].job_id %>"><button class="btns">Apply Now</button></a>
           </div>  
         <% } %>
     </div>
+    <% } else{  %> 
+      <h5> NO ACTIVE JOBS </h5>
+    <%    } %> 
+  
   </div>
 </div>
   

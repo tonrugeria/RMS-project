@@ -33,12 +33,12 @@
         <% } %>
       </div>
 
-      <div class="pb-4">
-        <p><%= jobOpening[i].job_description %> </p>
-      </div>
-    <%} %> 
     <div class="pb-4">
-      <h3>Responsibities</h3>
+      <p><%= jobOpening[i].job_description %> </p>
+    </div>
+  <%} %>
+    <div class="pb-4">
+      <h3>Responsibilities</h3>
       <% for(let i = 0; i < responsibility.length; i++ ){ %>
         <li><%= responsibility[i].responsibility_detail %> </li>
       <% } %> 
@@ -49,6 +49,18 @@
         <li><%= qualification[i].qualification_detail %> </li>
       <% } %> 
     </div>
+
+    <% for(let i = 0; i < category.length; i++ ){ %>
+    <div class="pb-4">
+      <h3><%= category[i].category_detail %> </h3>
+      <% for(let j = 0; j < item.length; j++ ){ %>
+        <%  if (category[i].category_id == item[j].category_id){  %> 
+            <li> <%= item [j].item_detail %> </li>
+        <% } %> 
+      <% } %> 
+    </div>
+    <% } %> 
+    
   <div class="button-wrapper">
     <a href="/careers/job/<%= jobId %>/resume"><button class="btns">Apply Now</button></a>
   </div>
