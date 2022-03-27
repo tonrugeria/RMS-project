@@ -63,7 +63,8 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
     course,
     date_graduated,
   } = req.body;
-
+  
+  const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`
   const startDate = moment(history_start_date, 'MM/DD/YYYY');
   const endDate = moment(history_end_date, 'MM/DD/YYYY');
 
@@ -97,6 +98,7 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
       preferred_interview_date_1,
       preferred_interview_date_2,
       preferred_interview_date_3,
+      application_link: link,
       year_experience: totalYears,
       date_applied: thisDay,
       date_last_updated: thisDay,

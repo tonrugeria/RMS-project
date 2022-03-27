@@ -101,6 +101,7 @@ router.post(
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
+    const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`
     let {
       first_name,
       middle_name,
@@ -137,7 +138,6 @@ router.post(
       date_graduated,
     } = req.body;
     const getStartDates = history_start_date.map((element) => moment(element).format('L'));
-    console.log(getStartDates);
 
     const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
@@ -174,6 +174,7 @@ router.post(
         preferred_interview_date_1,
         preferred_interview_date_2,
         preferred_interview_date_3,
+        application_link: link,
         year_experience: totalYears,
         date_last_updated: thisDay,
       })
