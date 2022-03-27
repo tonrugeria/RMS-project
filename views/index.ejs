@@ -1,7 +1,15 @@
 <%- include('./layout/header.ejs') %>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="style.css">
 <div class="row min-vh-100">
   <div class="col-sm-2 col-md-2 col-xl-2">
     <!-- <link rel="stylesheet" href="/index.css" /> -->
+  </br>
+</br>
+</br>
+</br>
     <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
     <div>
       <input type="checkbox" id="all-checkbox" onclick="showAllFunction()" checked/>
@@ -23,14 +31,21 @@
         </div>
         <% } %>
     </div>
-    <form action="#">
-      <input type="checkbox" id="active" name="active" value="active">
+    <!-- status filter -->
+    <div>
+      <input type="checkbox" id="active-checkbox" name="active"
+      class="all-status-checkbox"
+      onclick="toggleActiveCheckbox()">
       <label for="active">ACTIVE</label><br>
-      <input type="checkbox" id="draft" name="draft" value="draft">
+      <input type="checkbox" id="draft-checkbox" name="draft"
+      class="all-status-checkbox"
+      onclick="toggleDraftCheckbox()">
       <label for="draft">DRAFT</label><br>
-      <input type="checkbox" id="archive" name="archive" value="archive">
+      <input type="checkbox" id="archive-checkbox" name="archive"
+      class="all-status-checkbox" 
+      onclick="toggleArchiveCheckbox()">
       <label for="archive">ARCHIVE</label><br><br>
-    </form>
+    </div>
 
     <form action="/logout?_method=DELETE" class="" method="post">
       <div class="d-flex justify-content-start">
@@ -39,37 +54,46 @@
     </form>
   </div>
 
-  <div class="col-sm-10 col-md-10 col-xl-10">
-    <% for (let i=0; i < job_opening.length; i++) { %>
+  <div class="container">
+    <div class="well well-sm">
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span></a>  
+                </div>
+    <% for (let i=0; i < jobOpening.length; i++) { %>
+      <div id="products" class="row list-group">
+      <div class="item  col-xs-4 col-lg-4">
+        <div class="thumbnail">
       <!-- adding dynamic class for each job -->
-      <div
-      <% for (let j=0; j < admin_department.length; j++) { %> 
-        <% if(job_opening[i].job_dept == admin_department[j].dept_name) {%>
-          <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
-          class="card all-jobs <%= noSpaceDept %>"
+        <div
+        <% for (let j=0; j < admin_department.length; j++) { %> 
+          <% if(jobOpening[i].job_dept == admin_department[j].dept_name) {%>
+            <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
+            class="card all-jobs <%= noSpaceDept %> status-<%= jobOpening[i].status %>"
+          <% } %> 
         <% } %> 
-      <% } %> 
-      >
+        >
         <!-- display date opened -->
         <div>
-          <%= dateOpened %>
+          
         </div>
         <!-- display job-type -->
         <div>
-          <%= job_opening[i].job_type %>
+          <%= jobOpening[i].job_type %>
         </div>
         <!-- display job title -->
         <div>
           <h1>
-            <a href="/job-requirement/<%= job_opening[i].job_id %>">
-              <%= job_opening[i].job_title %>
+            <a href="/job-requirement/<%= jobOpening[i].job_id %>">
+              <%= jobOpening[i].job_title %>
             </a>
           </h1>
         </div>
         <!-- display skills -->
         <div class="d-flex" style="gap: 5px;">
           <% for (let j=0; j < jobSkill.length; j++) { %>
-            <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
+            <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
               <div style="border: solid black 2px; padding: 0 5px;">
                 <%= jobSkill[j].skill_name %> 
               </div>
@@ -81,7 +105,7 @@
           <% let applicants =  0 %>
           <p class="d-flex">
             <% for (let j=0; j < jobApplications.length; j++) { %>
-              <% if(job_opening[i].job_id == jobApplications[j].job_id) { %>
+              <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
                   <% applicants++; %>
               <% } %>
             <% } %>
@@ -89,9 +113,120 @@
             Applications
           </p>
         </div>
+        <!-- status -->
+        <div class= "status">
+            <form action="/job/<%= jobOpening[i].job_id %>/status" method="post">
+              <input type="radio" class="active-radio" 
+                name="status[<%= jobOpening[i].job_id %>]" 
+                value="0"
+                <% if(jobOpening[i].status == '0') {%> 
+                checked
+                <% } %> 
+              >
+              <label for="active">ACTIVE</label><br>
+              <input type="radio" class="draft-radio" 
+                name="status[<%= jobOpening[i].job_id %>]" 
+                value="1"
+                <% if(jobOpening[i].status == '1') {%> 
+                  checked
+                <% } %>
+              >
+              <label for="draft">DRAFT</label><br>
+              <input type="radio" class="archive-radio" 
+                name="status[<%= jobOpening[i].job_id %>]" 
+                value="2"
+                <% if(jobOpening[i].status == '2') {%> 
+                  checked
+                <% } %>
+              >
+              <label for="draft">ARCHIVE</label><br>
+              <button type="submit">x</button>
+            </form>
+        </div>
       </div>
-      <% } %>
+    </div>
   </div>
 </div>
+    <% } %>
+</div>
+<script>
+  function toggleActiveCheckbox(){
+    const activeCheckbox = document.querySelector('#active-checkbox');
+    const activeCard = document.querySelectorAll('.active-radio');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobActiveStatus = document.querySelectorAll('.status-0');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(activeCheckbox.checked == true){
+      allJobs.forEach(job => {
+        if((job.classList.contains('dept-on-show') &&
+            job.classList.contains('status-0')) == false){
+              job.classList.add('d-none')
+            }
+      })
+      jobActiveStatus.forEach(activeJob => {
+        activeJob.classList.remove('d-none');
+      })
+    } else {
+      jobActiveStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+
+  function toggleDraftCheckbox(){
+    const draftCheckbox = document.querySelector('#draft-checkbox');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobDraftStatus = document.querySelectorAll('.status-1');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(draftCheckbox.checked == true){
+      jobDraftStatus.forEach(job => {
+        job.classList.remove('d-none');
+      })
+    } else {
+      jobDraftStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+
+  function toggleArchiveCheckbox(){
+    const archiveCheckbox = document.querySelector('#archive-checkbox');
+    const activeCard = document.querySelectorAll('.active-radio');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobArchiveStatus = document.querySelectorAll('.status-2');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(archiveCheckbox.checked == true){
+      jobArchiveStatus.forEach(job => {
+        job.classList.remove('d-none');
+      })
+    } else {
+      jobArchiveStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+</script>
+
 <%- include('./filterFunctions/jobListingFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
