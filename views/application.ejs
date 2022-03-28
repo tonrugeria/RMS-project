@@ -64,8 +64,8 @@
         <%= applicantSkill[i].skill_name %> 
       <% } %> 
       <div style="height: 100vh; overflow: auto;">
-        <% for(let i = 0; i < skillScore.length; i++) { %>
-          <%= skillScore[i].application_id %> 
+        <% for(let i = 0; i < applicants.length; i++) { %>
+          <%= applicants[i].application_id %> 
           <a href="#" style="text-decoration: none;">
             <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
               <div class="row g-0">
@@ -74,15 +74,15 @@
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                    <h5 class="card-title"><%= skillScore[i].first_name %> <%= skillScore[i].last_name %> </h5>
+                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
                     <p class="card-text">
-                      <% if(skillScore != 0) { %>
-                          <%= skillScore[i].skill_level %> /  <%= skillScore[i].skill_total %>
+                      <% if(applicants != 0) { %>
+                          <%= applicants[i].skill_level %> in TECHNOLOGIES
                       <% } else { %>
                         NO EXAM
                       <% } %> 
                     </p>
-                    <p class="card-text"><small><%= skillScore[i].year_experience  %> Years Experience </small></p>
+                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
                 </div>
               </div>
