@@ -17,7 +17,11 @@ function uniqueId(questionIdColumn) {
 router.get('/examcreation', async (req, res) => {
   const question = await knex('question.question');
   const questionId = uniqueId(question);
-  const skill = await knex('admin.skill').select();
+  let skill = await knex('admin.skill');
+  skill = skill.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.skill_name === value.skill_name)
+  );
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
     'admin.skill.skill_name',
@@ -85,8 +89,11 @@ router.get('/examcreation/:question_category', async (req, res) => {
     'question_category',
     questionCategory
   );
-  const skill = await knex('admin.skill');
-
+  let skill = await knex('admin.skill');
+  skill = skill.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.skill_name === value.skill_name)
+  );
   res.render('editExamCreation', {
     skill,
     qSkill,
@@ -106,7 +113,11 @@ router.get('/examcreation/:question_category/:question_id', async (req, res) => 
     questionCategory
   );
   const question = await knex('question.question').where('question_id', questionId);
-  const skill = await knex('admin.skill');
+  let skill = await knex('admin.skill');
+  skill = skill.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.skill_name === value.skill_name)
+  );
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
     'admin.skill.skill_name',
