@@ -59,28 +59,33 @@
         <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
         <label for="vehicle3">Unread</label>
       </div>
-      <div class="p-4 min-vh-100" style="background-color: #e6e6e6;">
+      <div class="p-4" style="background-color: #e6e6e6;">
 
       </div>
     </div>
-    <div class="col-3 g-0">
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
+    <div class="col-3 g-0" style="height: 100vh;"> 
+      <% for (let i = 0; i < applicantSkill.length; i++) { %>
+        <%= applicantSkill[i].skill_name %> 
+        
+      <% } %> 
+      <div style="height: 100vh; overflow: auto;">
+        <% for(let i = 0; i < applicants.length; i++) { %>
+          <%= applicants[i].application_id %> 
+          <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+            <div class="row g-0">
+              <div class="col-md-4 border border-primary">
+                <img src="..." class="img-fluid rounded-start" alt="This is Image">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                  <p class="card-text">Result in Technologies. Either Beginner, Intermediate or Expert.</p>
+                  <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %> 
       </div>
     </div>
     <div class="col-6 g-0">
