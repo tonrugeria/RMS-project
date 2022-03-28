@@ -13,11 +13,10 @@ router.get(
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
     const jobs = await knex('jobs.job_opening').where('job_id', jobId);
-    const applicants = await knex('job_application.applicant_details').where(
-      'application_id',
-      appId
-    );
-    console.log(applicants);
+    const applicants = await knex('job_application.applicant_details').where({
+      application_id: appId,
+      job_id: jobId,
+    });
     const admin = await knex('admin.skill')
       .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
       .where('job_id', jobId);
@@ -29,73 +28,101 @@ router.get(
       'application_id',
       appId
     );
-    const history = await knex('job_application.employment_history')
-      .where('application_id', appId)
-    const education = await knex('job_application.education')
-      .where('application_id', appId)
-    const {
-      date_of_birth,
-      start_date,
-      preferred_interview_date_1,
-      preferred_interview_date_2,
-      preferred_interview_date_3,
-    } = applicants[0] || {};
-
-    const getStartDates = history.map((element) =>
-      moment(element.history_start_date, 'MM/DD/YYYY')
+    const history = await knex('job_application.employment_history').where(
+      'application_id',
+      appId
+    );
+    const education = await knex('job_application.education').where(
+      'application_id',
+      appId
     );
 
-    const getEndDates = history.map((element) =>
-      moment(element.history_end_date, 'MM/DD/YYYY')
-    );
+    const applicantExamRecord = await knex('job_application.applicant_exam_answers')
+      .where({
+        application_id: appId,
+        job_id: jobId,
+      })
+      .first();
 
-    let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
-    let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
-    let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
-    let yearDiff4 = getEndDates[3].diff(getStartDates[3], 'years');
-    let yearDiff5 = getEndDates[4].diff(getStartDates[4], 'years');
-    if (isNaN(yearDiff1)) yearDiff1 = 0;
-    if (isNaN(yearDiff2)) yearDiff2 = 0;
-    if (isNaN(yearDiff3)) yearDiff3 = 0;
-    if (isNaN(yearDiff4)) yearDiff4 = 0;
-    if (isNaN(yearDiff5)) yearDiff5 = 0;
-    const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
+    if (applicants != 0) {
+      const {
+        date_of_birth,
+        start_date,
+        preferred_interview_date_1,
+        preferred_interview_date_2,
+        preferred_interview_date_3,
+      } = applicants[0] || {};
 
-    const dob = moment(date_of_birth).format('L');
-    const startDate = moment(start_date).format('L');
-    const preferredDate1 = moment(preferred_interview_date_1).format('L');
-    const preferredDate2 = moment(preferred_interview_date_2).format('L');
-    const preferredDate3 = moment(preferred_interview_date_3).format('L');
-    const historyStartDates = history.map((element) =>
-      moment(element.history_start_date).format('L')
-    );
-    const historyEndDates = history.map((element) =>
-      moment(element.history_end_date).format('L')
-    );
-    const gradDates = education.map((element) =>
-      moment(element.date_graduated).format('L')
-    );
+      const getStartDates = history.map((element) =>
+        moment(element.history_start_date, 'MM/DD/YYYY')
+      );
 
-    res.render('editResume', {
-      jobId,
-      appId,
-      jobs,
-      applicants,
-      dob,
-      startDate,
-      preferredDate1,
-      preferredDate2,
-      preferredDate3,
-      rating,
-      admin,
-      capabilities,
-      history,
-      historyStartDates,
-      historyEndDates,
-      totalYears,
-      gradDates,
-      education
-    });
+      const getEndDates = history.map((element) =>
+        moment(element.history_end_date, 'MM/DD/YYYY')
+      );
+
+      let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
+      let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
+      let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
+      let yearDiff4 = getEndDates[3].diff(getStartDates[3], 'years');
+      let yearDiff5 = getEndDates[4].diff(getStartDates[4], 'years');
+      if (isNaN(yearDiff1)) yearDiff1 = 0;
+      if (isNaN(yearDiff2)) yearDiff2 = 0;
+      if (isNaN(yearDiff3)) yearDiff3 = 0;
+      if (isNaN(yearDiff4)) yearDiff4 = 0;
+      if (isNaN(yearDiff5)) yearDiff5 = 0;
+      const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
+
+      const dob = moment(date_of_birth).format('L');
+      const startDate = moment(start_date).format('L');
+      const preferredDate1 = moment(preferred_interview_date_1).format('L');
+      const preferredDate2 = moment(preferred_interview_date_2).format('L');
+      const preferredDate3 = moment(preferred_interview_date_3).format('L');
+      const historyStartDates = history.map((element) =>
+        moment(element.history_start_date).format('L')
+      );
+      const historyEndDates = history.map((element) =>
+        moment(element.history_end_date).format('L')
+      );
+      const gradDates = education.map((element) =>
+        moment(element.date_graduated).format('L')
+      );
+
+      res.render('editResume', {
+        jobId,
+        appId,
+        jobs,
+        applicants,
+        dob,
+        startDate,
+        preferredDate1,
+        preferredDate2,
+        preferredDate3,
+        rating,
+        admin,
+        capabilities,
+        history,
+        historyStartDates,
+        historyEndDates,
+        totalYears,
+        gradDates,
+        education,
+        applicantExamRecord,
+      });
+    } else {
+      res.render('editResume', {
+        jobId,
+        appId,
+        jobs,
+        applicants,
+        rating,
+        admin,
+        capabilities,
+        history,
+        education,
+        applicantExamRecord,
+      });
+    }
   }
 );
 
@@ -140,7 +167,9 @@ router.post(
       course,
       date_graduated,
     } = req.body;
-    const getStartDates = history_start_date.map((element) => moment(element).format('L'));
+    const getStartDates = history_start_date.map((element) =>
+      moment(element).format('L')
+    );
 
     const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
@@ -243,13 +272,13 @@ router.post(
             }
 
             const educationId = await knex('job_application.education').where({
-              application_id: appId
-            })
-            for( let i = 0; i < date_graduated.length; i++){
-              if(date_graduated[i] == '') {
-                date_graduated[i] = null
+              application_id: appId,
+            });
+            for (let i = 0; i < date_graduated.length; i++) {
+              if (date_graduated[i] == '') {
+                date_graduated[i] = null;
               } else {
-                date_graduated[i] = moment(date_graduated[i]).format('L')
+                date_graduated[i] = moment(date_graduated[i]).format('L');
               }
               if (educationId[i] == undefined) {
                 knex('job_application.education')
@@ -257,22 +286,22 @@ router.post(
                     application_id: appId,
                     school: school[i],
                     course: course[i],
-                    date_graduated: date_graduated[i]
+                    date_graduated: date_graduated[i],
                   })
-                  .then(result => result)
+                  .then((result) => result);
               } else {
                 knex('job_application.education')
                   .update({
                     application_id: appId,
                     school: school[i],
                     course: course[i],
-                    date_graduated: date_graduated[i]
+                    date_graduated: date_graduated[i],
                   })
                   .where({
                     application_id: appId,
-                    education_id: educationId[i].education_id
+                    education_id: educationId[i].education_id,
                   })
-                  .then(result => result)
+                  .then((result) => result);
               }
             }
 
