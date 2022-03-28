@@ -31,7 +31,7 @@ router.get('/register', checkNotAuthenticated, (req, res) => {
 
 // register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     const userFound = await knex('admin.users')
         .where({ user_name: username })
         .first()
@@ -50,6 +50,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
             knex('admin.users')
                 .insert({
                     user_name: username,
+                    email: email,
                     password: hashedPassword,
                 })
                 .then(() => {

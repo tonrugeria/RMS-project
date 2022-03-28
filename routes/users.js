@@ -40,7 +40,7 @@ const multer = require('multer');
 const path = require('path');
 const storage = multer.diskStorage({
 destination: (req, file, cb) => {
-cb (null, './image');  
+cb (null, './photo');  
 },
 filename: function (req, file, cb)  {
 cb(null,file.fieldname + '_' + Date.now() + '_' +file.originalname);
@@ -62,7 +62,7 @@ router.post('/users', upload.single('photo'), async (req, res) => {
                   res.redirect('/users');
           });
 });
-router.use(express.static('image'));
+router.use(express.static('photo'));
 
 router.post("/edit/:user_id", upload.single('photo'), async (req, res) => {
   let user_name = req.body.user_name;
@@ -83,5 +83,5 @@ const image= req.file.filename;
   res.redirect("/users");
 });
 });
-router.use(express.static('image'));
+router.use(express.static('photo'));
 module.exports = router;
