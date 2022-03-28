@@ -68,29 +68,30 @@ router.post('/job-requirement', async (req, res) => {
       personality_score: personalityScore,
     })
     .then(() => {
-      if (typeof skill_id != typeof []) {
-        skill_level.forEach((skill) => {
-          knex('jobs.skill')
-            .insert({
-              job_id: jobId,
-              skill_id,
-              skill_level: skill,
-            })
-            .then((results) => results);
-        });
-        res.redirect(`/job-requirement/${jobId}`);
-      } else {
-        for (let i = 0; i < skill_id.length; i++) {
-          knex('jobs.skill')
-            .insert({
-              job_id: jobId,
-              skill_id: skill_id[i],
-              skill_level: skill_level[i],
-            })
-            .then((results) => results);
+      if (skill_id != null) {
+        if (typeof skill_id != typeof []) {
+          skill_level.forEach((skill) => {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id,
+                skill_level: skill,
+              })
+              .then((results) => results);
+          });
+        } else {
+          for (let i = 0; i < skill_id.length; i++) {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id: skill_id[i],
+                skill_level: skill_level[i],
+              })
+              .then((results) => results);
+          }
         }
-        res.redirect(`/job-requirement/${jobId}`);
       }
+      res.redirect(`/job-requirement/${jobId}`);
     });
 });
 
