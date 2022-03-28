@@ -2,26 +2,22 @@
 <div class="container-fluid m-0">
   <div class="row min-vh-100">
     <div class="col-3 g-0">
-      <% for (let i=0; i < job_opening.length; i++) { %>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
-            <% for( let i = 0; i < jobPosition.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+            <% for( let i = 0; i < jobOpening.length; i++) { %>
+              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>"><%= jobOpening[i].job_title %></option>
             <% } %> 
           </select>
         </div>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <div class="row">
-            <% for (let j=0; j < jobSkill.length; j++) { %>
-              <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
-                <div class="col">
-                  <%= jobSkill[j].skill_name %> 
-                </div>
-              <% } %>
+            <% for (let i=0; i < adminSkill.length; i++) { %>
+              <div class="col">
+                <%= adminSkill[i].skill_name %> 
+              </div>
             <% } %>
+            </div>
           </div>
-        </div>
-      <%}%>
       
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
@@ -66,29 +62,36 @@
     <div class="col-3 g-0" style="height: 100vh;"> 
       <% for (let i = 0; i < applicantSkill.length; i++) { %>
         <%= applicantSkill[i].skill_name %> 
-        
       <% } %> 
       <div style="height: 100vh; overflow: auto;">
-        <% for(let i = 0; i < applicants.length; i++) { %>
-          <%= applicants[i].application_id %> 
-          <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-            <div class="row g-0">
-              <div class="col-md-4 border border-primary">
-                <img src="..." class="img-fluid rounded-start" alt="This is Image">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                  <p class="card-text">Result in Technologies. Either Beginner, Intermediate or Expert.</p>
-                  <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+        <% for(let i = 0; i < skillScore.length; i++) { %>
+          <%= skillScore[i].application_id %> 
+          <a href="#" style="text-decoration: none;">
+            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+              <div class="row g-0">
+                <div class="col-md-4 border border-primary">
+                  <img src="#" class="img-fluid rounded-start" alt="This is Image">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= skillScore[i].first_name %> <%= skillScore[i].last_name %> </h5>
+                    <p class="card-text">
+                      <% if(skillScore != 0) { %>
+                          <%= skillScore[i].skill_level %> /  <%= skillScore[i].skill_total %>
+                      <% } else { %>
+                        NO EXAM
+                      <% } %> 
+                    </p>
+                    <p class="card-text"><small><%= skillScore[i].year_experience  %> Years Experience </small></p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </a>
           <% } %> 
       </div>
     </div>
-    <div class="col-6 g-0">
+    <div class="col-6 g-0 p-4">
       <div class="d-flex flex-column border-bottom">
         <div>
           IMAGE
