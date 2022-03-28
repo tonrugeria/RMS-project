@@ -1,7 +1,9 @@
 const express = require('express');
 const moment = require('moment');
 const knex = require('../dbconnection');
+const upload = require('../middlewares/upload')
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const fs = require('fs');
 
 const router = express.Router();
 
@@ -15,6 +17,7 @@ router.get(
       'application_id',
       appId
     );
+    console.log(applicants);
     const admin = await knex('admin.skill')
       .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
       .where('job_id', jobId);
@@ -97,7 +100,7 @@ router.get(
 );
 
 router.post(
-  '/careers/job/:job_id/resume/application/:application_id',
+  '/careers/job/:job_id/resume/application/:application_id', upload,
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
@@ -155,6 +158,19 @@ router.post(
 
     const today = new Date();
     const thisDay = moment(today, 'MM/DD/YYYY');
+
+    let new_image = '';
+
+    if(req.file) {
+      new_image = req.file.filename;
+      try{
+        fs.unlinkSync('../photo' + req.body.old_image);
+      } catch(err) {
+        console.log(err)
+      }
+    } else {
+      new_image = req.body.old_image;
+    }
     knex('job_application.applicant_details')
       .update({
         first_name,
@@ -174,6 +190,7 @@ router.post(
         preferred_interview_date_1,
         preferred_interview_date_2,
         preferred_interview_date_3,
+        photo: new_image,
         application_link: link,
         year_experience: totalYears,
         date_last_updated: thisDay,
