@@ -1,0 +1,31 @@
+<!--Exam_Creation_Filter -->
+<script>
+    function technicalShowHide(){
+      const technicalBtn = document.querySelector('#technical-btn');
+      const choiceValueInput = document.querySelectorAll('.choice-value-input');
+  
+      if(technicalBtn.checked == true){
+        choiceValueInput.forEach(choiceValue => {
+          choiceValue.classList.add('d-none');
+          choiceValue.value = 0;
+        })
+      }
+    }
+  
+    function personalityShowHide(){
+      const personalityBtn = document.querySelector('#personality-btn');
+      const choiceValueInput = document.querySelectorAll('.choice-value-input');
+  
+      if(personalityBtn.checked == true){
+        choiceValueInput.forEach(choiceValue => {
+          choiceValue.classList.remove('d-none');
+          choiceValue.value = '';
+        })
+      }
+    }
+  
+    technicalShowHide();
+    personalityShowHide();
+  </script>
+
+  <!--Edit_Exam_Creation_Filter-->
