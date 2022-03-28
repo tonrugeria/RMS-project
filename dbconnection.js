@@ -1,12 +1,12 @@
 const knex = require('knex')({
-    client: 'pg',
-    connection: {
-            host: '127.0.0.1',
-            port: 5432,
-            user: 'postgres',
-            password: '12345',
-            database: 'rms',
-    },
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    port: 5432,
+    user: 'postgres',
+    password: 'novice0621**',
+    database: 'rms',
+  },
 });
 
 const { Pool } = require('pg');
@@ -320,12 +320,12 @@ FOREIGN KEY(application_id)
 REFERENCES Job_Application.Applicant_details(application_id)
 );`;
 
-execute(text)
-    .then((result) => {
-            if (result) {
-                    console.log('Schemas and tables created');
-            }
-    })
-    .then(() => pool.end());
+
+execute(text).then((result) => {
+  if (result) {
+    console.log('Schemas and tables created');
+  }
+});
+
 
 module.exports = knex;
