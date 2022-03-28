@@ -1,0 +1,37 @@
+<script>
+    
+    function showAllFunction() {
+        const allSkills = document.querySelectorAll('.all-checkbox-radio');
+        allSkills.forEach((element) => {
+            element.classList.remove('d-none');
+        });
+    }
+
+    function toggleShowHide(skill_name) {
+        const skills = document.querySelectorAll('.skill_id'); //get id
+        const target = document.querySelectorAll(`.${skill_type}-checkbox-radio`);
+        skills.forEach((element) => {
+            element.classList.add('d-none');
+        });
+        target.forEach((element) => {
+            element.classList.remove('d-none');
+        });
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("select").change(function(){
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+                if(optionValue){
+                    $(".skilltype").not("." + optionValue).hide();
+                    $("." + optionValue).show();
+                } else{
+                    $(".skilltype").hide();
+                }
+            });
+        }).change();
+    });
+    </script>
