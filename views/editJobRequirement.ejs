@@ -45,7 +45,7 @@
       <br>
       <div>
         <label for="department">DEPARTMENT</label>
-        <select name="department" id="deparment" >
+        <select name="department" id="deparment" onchange="showAllFunction()" value="skill_type"> 
           <% for(let i = 0; i < dept.length; i++) { %>
             <% if (dept[i].dept_name == job[0].job_dept) { %>
               <option value="<%= dept[i].dept_name %>" selected><%= dept[i].dept_name %></option>
@@ -65,15 +65,7 @@
         <label for="career level">CAREER LEVEL</label>
         <select name="careerLevel" id="career level" >
           <% for(let i = 0; i < positionLevel.length; i++) { %>
-            <% if(positionLevel[i].position_level_name == job[0].position_level) {%> 
-              <option value="<%= positionLevel[i].position_level_name %>" selected>
-                <%= positionLevel[i].position_level_name %>
-              </option>
-            <% } else { %>
-              <option value="<%= positionLevel[i].position_level_name %>" >
-                <%= positionLevel[i].position_level_name %>
-              </option>
-            <% } %>
+            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
           <% } %>
         </select>
       </div>
@@ -104,21 +96,19 @@
       </div>
       <br>
       <div>
-        <label for="skill score">SKILL SCORE</label><br />
+        <label for="skill score">EXAM SCORE</label><br />
         <input type="number" min="0" id="skill score" name="skillScore" value="<%= job[0].skill_score %>" required/>
       </div>
       <br>
      <div>
        <label for="personality score">PERSONALITY SCORE</label><br />
-       <input type="number" min="0" id="personality score" name="personalityScore" 
-       value="<%= job[0].personality_score %>" required/>
+       <input type="number" min="0" id="personality score" name="personalityScore" value="<% job[0].personality_score %>"/>
      </div>
-      <br>
       <br>
     
       <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
       <% for(let i=0; i < adminSkill.length; i++) { %>
-        <div>
+        <div class="skilltype <%= adminSkill[i].skill_type %>">
         <input
           type="checkbox"
           id="<%= adminSkill[i].skill_name %>"
@@ -136,7 +126,7 @@
         >
         <input 
           type="radio" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
+          name="skill_level_<%= i + 1%>" 
           value="1"
           id="<%= adminSkill[i].skill_name %>-radio-1"
           class="<%= adminSkill[i].skill_name %>-radio"
@@ -152,7 +142,7 @@
         <input 
           type="radio" 
           id="2" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
+          name="skill_level_<%= i + 1%>" 
           value="2"
           class="<%= adminSkill[i].skill_name %>-radio"
           onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
@@ -167,7 +157,7 @@
         <input 
           type="radio" 
           id="3" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
+          name="skill_level_<%= i + 1%>" 
           value="3"
           class="<%= adminSkill[i].skill_name %>-radio"
           onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
@@ -182,7 +172,7 @@
         <input 
           type="radio" 
           id="4" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
+          name="skill_level_<%= i + 1%>" 
           value="4"
           class="<%= adminSkill[i].skill_name %>-radio"
           onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
@@ -197,7 +187,7 @@
         <input 
           type="radio" 
           id="5" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
+          name="skill_level_<%= i + 1%>" 
           value="5"
           class="<%= adminSkill[i].skill_name %>-radio"
           onclick="autoCheckBox('<%= adminSkill[i].skill_name %>')"
@@ -262,4 +252,6 @@
     })
   }
 </script>
+
+<%- include('./filterFunctions/jrDepartmentFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>

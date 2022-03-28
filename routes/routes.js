@@ -51,37 +51,39 @@ router.get('/register', checkNotAuthenticated, (req, res) => {
 
 // register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-  const { username, password } = req.body;
-  const userFound = await knex('admin.users')
-    .where({ user_name: username })
-    .first()
-    .then((row) => {
-      if (row) {
-        return row.user_name;
-      }
-      return row;
-    });
-  if (userFound === username) {
-    req.flash('error', 'User with that username already exists');
-    res.redirect('/register');
-  } else {
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      knex('admin.users')
-        .insert({
-          user_name: username,
-          password: hashedPassword,
-        })
-        .then(() => {
-          res.redirect('/login');
+    const { username, email, password } = req.body;
+    const userFound = await knex('admin.users')
+        .where({ user_name: username })
+        .first()
+        .then((row) => {
+            if (row) {
+                return row.user_name;
+            }
+            return row;
         });
-    } catch (error) {
-      console.log(error);
-      req.flash('error', 'Cant insert');
-      res.redirect('/register');
+    if (userFound === username) {
+        req.flash('error', 'User with that username already exists');
+        res.redirect('/register');
+    } else {
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            knex('admin.users')
+                .insert({
+                    user_name: username,
+                    email: email,
+                    password: hashedPassword,
+                })
+                .then(() => {
+                    res.redirect('/login');
+                });
+        } catch (error) {
+            console.log(error);
+            req.flash('error', 'Cant insert');
+            res.redirect('/register');
+        }
     }
   }
-});
+);
 
 // login get route
 router.get('/login', checkNotAuthenticated, async (req, res) => {
