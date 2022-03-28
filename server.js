@@ -42,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
+app.use(express.static('/photo'));
 
 // route prefix
 app.use('', require('./routes/routes'));
