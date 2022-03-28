@@ -1,9 +1,6 @@
-const express = require("express");
-const knex = require("../dbconnection");
-const {
-  checkAuthenticated,
-  checkNotAuthenticated,
-} = require("../middlewares/auth");
+const express = require('express');
+const knex = require('../dbconnection');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -16,17 +13,18 @@ function uniqueId(jobIdColumn) {
 }
 
 // job-requirement get route
-router.get("/job-requirement", async (req, res) => {
-  const adminSkill = await knex("admin.skill");
-  const dept = await knex("admin.department");
-  const jobType = await knex("admin.job_type");
-  const job = await knex("jobs.job_opening");
-  const hrAssessment = await knex("admin.remarks");
-  const jobQuestion = await knex("jobs.question");
-  const question = await knex("question.question");
-  const jobPosition = await knex("admin.job_position");
+router.get('/job-requirement', async (req, res) => {
+  const adminSkill = await knex('admin.skill');
+  const dept = await knex('admin.department');
+  const jobType = await knex('admin.job_type');
+  const job = await knex('jobs.job_opening');
+  const hrAssessment = await knex('admin.remarks');
+  const jobQuestion = await knex('jobs.question');
+  const question = await knex('question.question');
+  const jobPosition = await knex('admin.job_position');
+  const positionLevel = await knex('admin.position_level');
   const unique = uniqueId(job);
-  res.render("jobRequirement", {
+  res.render('jobRequirement', {
     adminSkill,
     dept,
     jobType,
@@ -36,33 +34,12 @@ router.get("/job-requirement", async (req, res) => {
     question,
     jobQuestion,
     jobPosition,
+    positionLevel,
   });
 });
 
 // job-requirement post route
-router.post("/job-requirement", async (req, res) => {
-  const {
-    skill_level_1,
-    skill_level_2,
-    skill_level_3,
-    skill_level_4,
-    skill_level_5,
-    skill_level_6,
-    skill_level_7,
-    skill_level_8,
-    skill_level_9,
-    skill_level_10,
-    skill_level_11,
-    skill_level_12,
-    skill_level_13,
-    skill_level_14,
-    skill_level_15,
-    skill_level_16,
-    skill_level_17,
-    skill_level_18,
-    skill_level_19,
-    skill_level_20,
-  } = req.body;
+router.post('/job-requirement', async (req, res) => {
   const {
     jobId,
     jobTitle,
@@ -72,11 +49,12 @@ router.post("/job-requirement", async (req, res) => {
     workType,
     jobDesc,
     yearsOfExp,
-    examScore,
-    hrAssessment,
+    skillScore,
+    personalityScore,
     skill_id,
+    skill_level,
   } = req.body;
-  knex("jobs.job_opening")
+  knex('jobs.job_opening')
     .insert({
       job_id: jobId,
       job_title: jobTitle,
@@ -86,29 +64,31 @@ router.post("/job-requirement", async (req, res) => {
       job_type: workType,
       job_description: jobDesc,
       min_years_experience: yearsOfExp,
-      exam_score: examScore,
-      hr_rating: hrAssessment,
+      skill_score: skillScore,
+      personality_score: personalityScore,
     })
     .then(() => {
       if (typeof skill_id != typeof []) {
-        knex("jobs.skill")
-          .insert({
-            job_id: jobId,
-            skill_id,
-            skill_level: skill_level_1,
-          })
-          .then(() => {
-            res.redirect(`/job-requirement/${jobId}`);
-          });
-      } else {
-        skill_id.forEach((skill) => {
-          knex("jobs.skill")
+        skill_level.forEach((skill) => {
+          knex('jobs.skill')
             .insert({
               job_id: jobId,
-              skill_id: skill,
+              skill_id,
+              skill_level: skill,
             })
             .then((results) => results);
         });
+        res.redirect(`/job-requirement/${jobId}`);
+      } else {
+        for (let i = 0; i < skill_id.length; i++) {
+          knex('jobs.skill')
+            .insert({
+              job_id: jobId,
+              skill_id: skill_id[i],
+              skill_level: skill_level[i],
+            })
+            .then((results) => results);
+        }
         res.redirect(`/job-requirement/${jobId}`);
       }
     });
