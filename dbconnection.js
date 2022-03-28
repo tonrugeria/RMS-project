@@ -295,10 +295,11 @@ const knex = require('knex')({
       );
       CREATE TABLE IF NOT EXISTS Job_Application.Technical_Score (
           tech_score_id SERIAL PRIMARY KEY NOT NULL,
-          application_id	int NOT NULL,
+          application_id int NOT NULL,
           skill_id INT,
-          skill_level INT,
+          skill_score INT,
           skill_total INT,
+          skill_level INT,
       
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
