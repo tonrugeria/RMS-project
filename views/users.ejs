@@ -1,33 +1,39 @@
-<!-- <style>
-.abc{
-  visibility: none;
-  display: none;
+<style>
+/* .abc{
+ margin-bottom: 50%;
+} */
+input{
+  border: none;
 }
-</style> -->
+/* .users{
+  text-decoration: none;
+} */
+</style>
 <%- include('./layout/header.ejs')  %>  
-<div class="">
-  <div class="row min-vh-100">
+<div class="" >
+  <div class="row min-vh-100" style="background-color: 
+  #e6e6e6;" >
     <div class="col-sm-2">
-      <div class="d-flex flex-column min-vh-100">
+      <div class="d-flex flex-column min-vh-100" >
         <div>
-          <a href="/branding">Branding</a>
+          <a style="text-decoration: none; color: black;" href="/branding">Branding</a>
         </div>
         <div>
-          <a href="/users">Users</a>
+          <a style="text-decoration: none; color: black;" class="users" href="/users">Users</a>
         </div>
         <div>
-          <a href="/system-variables">System Variables</a>
+          <a style="text-decoration: none; color: black;" href="/system-variables">System Variables</a>
         </div>
         <div class="mt-auto">
           <a href="#">BACK TO JOB PAGE</a>
         </div>
       </div>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-10" style="background-color: #f2f2f2;">
       <h2>Users</h2>
       <p>User Accounts</p>            
       <table class="table table-bordered">
-        <thead>
+        <!-- <thead>
           <tr>
             <th>image</th>
             <th>Name</th>
@@ -35,13 +41,13 @@
             <th>role</th>
             <th>email</th>
           </tr>
-        </thead>
+        </thead> -->
         <% for (let  i = 0; i < users.length; i++) { %>
       <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
       <% if (users[i].role_id == '4') { %>  
       <tr onchange="addUpdateBtn('<%= users[i].user_id %>')" class="abc">
         <th> 
-          <img src="<%= users[i].photo %> "  width="35" height="35" class="img-thumbnail" >
+          <img src="<%= users[i].photo %> "  width="36" height="36" >
           <input type="file" name="photo" ></i>
         </th>
       <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
@@ -70,7 +76,7 @@
 <% } else { %>
       <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
       <th>
-      <img src="<%= users[i].photo %> "  width="35" height="35" class="img-thumbnail">
+      <img src="<%= users[i].photo %> "  width="36" height="36" class="img-thumbnail">
       <input type="file" id="photo1" name="photo" required>
       </th>
       <th ><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
@@ -78,7 +84,7 @@
       <TD class = "select">
         <select name="role_name"> 
         <% for (let  j = 0; j < userRole.length; j++) { %>
-          <% if (j !==2) { %> 
+          <% if (j !==3) { %> 
             <% if (userRole[j].role_id == users[i].role_id) { %>  
         <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
           <% } else { %>
@@ -103,12 +109,11 @@
     <% } %>
     <% } %>
   </form>
-
     <form method="post" action="/users" encType="multipart/form-data" >
       <th> 
         <label for="photo"><i class="fa-solid fa-plus" ></i></label>
         <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
-        <img height="50" id="output">
+        <img height="40" id="output">
       </th>
       <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
       <th><input type="password" placeholder="Enter Password" name="password"></th>
