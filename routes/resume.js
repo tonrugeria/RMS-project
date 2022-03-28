@@ -1,5 +1,6 @@
 const express = require('express');
 const moment = require('moment');
+const upload = require('../middlewares/upload')
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
@@ -25,8 +26,9 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   res.render('resume', { jobId, jobs, skill, unique });
 });
 
-router.post('/careers/job/:job_id/resume', async (req, res) => {
+router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
   const jobId = req.params.job_id;
+  let image = req.file.filename
   const {
     appId,
     first_name,
@@ -98,6 +100,7 @@ router.post('/careers/job/:job_id/resume', async (req, res) => {
       preferred_interview_date_1,
       preferred_interview_date_2,
       preferred_interview_date_3,
+      photo: image,
       application_link: link,
       year_experience: totalYears,
       date_applied: thisDay,

@@ -3,7 +3,7 @@ const moment = require('moment');
 const knex = require('../dbconnection');
 const upload = require('../middlewares/upload')
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
-const fs = require('fs');
+// const fs = require('fs');
 
 const router = express.Router();
 
@@ -131,6 +131,7 @@ router.post(
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
+    let image = req.file.filename
     const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`
     let {
       first_name,
@@ -188,18 +189,18 @@ router.post(
     const today = new Date();
     const thisDay = moment(today, 'MM/DD/YYYY');
 
-    let new_image = '';
+    // let new_image = '';
 
-    if(req.file) {
-      new_image = req.file.filename;
-      try{
-        fs.unlinkSync('../photo' + req.body.old_image);
-      } catch(err) {
-        console.log(err)
-      }
-    } else {
-      new_image = req.body.old_image;
-    }
+    // if(req.file) {
+    //   new_image = req.file.filename;
+    //   try{
+    //     fs.unlinkSync('../photo' + req.body.old_image);
+    //   } catch(err) {
+    //     console.log(err)
+    //   }
+    // } else {
+    //   new_image = req.body.old_image;
+    // }
     knex('job_application.applicant_details')
       .update({
         first_name,
@@ -219,7 +220,7 @@ router.post(
         preferred_interview_date_1,
         preferred_interview_date_2,
         preferred_interview_date_3,
-        photo: new_image,
+        photo: image,
         application_link: link,
         year_experience: totalYears,
         date_last_updated: thisDay,
