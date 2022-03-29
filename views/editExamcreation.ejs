@@ -4,6 +4,20 @@
   <div class="col-sm-2">
     <div class="d-flex flex-column">
       <a href="/examcreation">+ NEW QUESTION</a>
+      <a
+      <% if (personality != 0) { %>  
+        href="/examcreation/Personality/<%= personality[0].question_id %>"
+      <% } else { %>
+        href="/examcreation/Personality"
+      <% } %>
+      >
+      Personality
+      <% let personalityCount =  0 %>
+        <% for (let j=0; j < personality.length; j++) { %>
+          <% personalityCount++; %>
+        <% } %>
+        (<%= personalityCount%>)
+      </a>
       <% for (let i=0; i < skill.length; i++) { %>
       <a
       <%  for (let j=0; j < qSkill.length; j++) { %>
@@ -13,7 +27,15 @@
       <% } %>
         class="w3-bar-item sidebar"
       >
-        <%= skill[i].skill_name %>
+      <%= skill[i].skill_name %>
+        <% let categoryCount =  0 %>
+        <% for (let j=0; j < qSkill.length; j++) { %>
+          <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
+            <% categoryCount++; %>
+          <% } %>
+        <% } %>
+        (<%= categoryCount%>)
+        
       </a>
       <% } %>
     </div>
@@ -50,33 +72,15 @@
   <div class="col-sm-6">
     <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
       <div>
-        <% for (let i=0; i < question.length; i++){%>
-        <div>
-        <input type="radio" value="0" name="questiontype" 
-        <% if(question[i].question_type =='0' ){ %>  
-          checked 
-        <% }  %> 
-        />
-        <label for="technical">Technical</label><br>
-        </div>
-        <input type="radio" value="1" name="questiontype" 
-        <% if(question[i].question_type =='1' ){ %>
-            checked 
-        <% }  %>
-        />
-        <label for="technical">Personality</label><br>
-        <div>
-        </div>  
-        <%} %> 
-      </div>
-      <div>
+        <% for (let j=0; j < question.length; j++){%>
         <div class="form-floating">
           <select
             name="questionCategory"
-            class="form-select"
+            class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
             id="floatingSelectGrid"
             aria-label="Floating label select example"
           >
+         
             <% for (let i=0; i < skill.length; i++) { %> <% if (question != 0) {
             %> <% if(skill[i].skill_name == question[0].question_category) { %>
             <option value="<%=skill[i].skill_name %>" selected>
@@ -85,21 +89,24 @@
               <% } else { %>
             <option value="<%=skill[i].skill_name %>">
               <%=skill[i].skill_name %>
+              <option value="Personality" class="d-none" <% if(question[j].question_type =='1' ){ %>  selected <% }%>>Personality</option>
+              <% }  %>
             </option>
             <% } %> <% } %> <% } %>
           </select>
-          
           <label for="questioncategory">Category</label>
         </div>
       </div>
-
-      <div class="form-floating">
+      
+      <% for (let i=0; i < question.length; i++){%>
+      <div class="form-floating <% if(question[i].question_type =='1' ){ %>  d-none <% }%>">
         <select
           name="questionlevel"
           class="form-select"
           id="floatingSelectGrid"
           aria-label="Floating label select example"
         >
+        <% }  %>
           <% for (let i=0; i < question.length; i++){%> <%
           if(question[i].question_level =='1' ) { %>
           <option selected value="1">1</option>
@@ -135,11 +142,12 @@
         </select>
         <label for="questionlevel">Level</label>
       </div>
+      <% for (let i=0; i < question.length; i++){%>
       <div class="form-floating">
         <input
           type="text"
           name="questiontimer"
-          class="form-control"
+          class="form-control <% if(question[i].question_type =='1' ){ %>  d-none <% }%>"
           id="floatPlace"
           placeholder="Timer"
           required
@@ -173,9 +181,10 @@
             required
             value="<%= question[0].choice_1 %>"
           />
+          <% }  %>
           <input
             type="text"
-            class="form-control floatPlace"
+            class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
             placeholder="Value"
             name="value_1"
             required
@@ -194,7 +203,7 @@
           />
           <input
             type="text"
-            class="form-control floatPlace"
+            class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
             placeholder="Value"
             name="value_2"
             required
@@ -211,7 +220,7 @@
           />
           <input
             type="text"
-            class="form-control floatPlace"
+            class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
             placeholder="Value"
             name="value_3"
             required
@@ -229,7 +238,7 @@
           />
           <input
             type="text"
-            class="form-control floatPlace"
+            class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
             placeholder="Value"
             name="value_4"
             required
@@ -244,7 +253,9 @@
     <div class="col-sm-10">
       <div class="h-50 d-flex flex-column align-items-center justify-content-center">
       <h5>NO ITEM IN THIS CATEGORY</h5>
+      <a href="/examcreation">
       <h5>CREATE A NEW ONE</h5>
+    </a>
       </div>
     </div>
   <% } %>
