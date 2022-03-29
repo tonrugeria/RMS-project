@@ -32,12 +32,12 @@
       <br>
       <div>
         <label for="department">DEPARTMENT</label>
-        <select name="department" id="department" value="skilltype"> 
+        <select name="department" id="department"> 
           <% for(let i = 0; i < dept.length; i++) { %>
-            <% if (dept[i].dept_name == job[0].job_dept) { %>
-              <option value="<%= dept[i].dept_name %>" selected><%= dept[i].dept_name %></option>
+            <% if (dept[i].dept_id == job[0].job_dept) { %>
+              <option value="<%= dept[i].dept_id %>" selected><%= dept[i].dept_name %></option>
             <% } else {%>
-            <option value="<%= dept[i].dept_name %>"><%= dept[i].dept_name %></option>
+            <option value="<%= dept[i].dept_id %>"><%= dept[i].dept_name %></option>
               <% } %>
           <% } %>
         </select>
@@ -99,6 +99,7 @@
         <input
           type="checkbox"
           id="checkbox-<%= adminSkill[i].skill_id %>"
+          class="all-checkbox"
           name="skill_id"
           value="<%= adminSkill[i].skill_id %>"
           onclick="selectDefaultRadio('<%= adminSkill[i].skill_id %>')"

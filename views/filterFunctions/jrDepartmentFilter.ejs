@@ -2,37 +2,30 @@
 <script>
     // script for auto selecting radio buttons in skills
     function selectDefaultRadio(skill_id){
-    const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
-    const skillRadio1 = document.querySelector(`#radio-1-${skill_id}`);
-    const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
+        const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
+        const skillRadio1 = document.querySelector(`#radio-1-${skill_id}`);
+        const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
 
-    if(skillCheckBox.checked == true){
-        skillRadio1.checked = true;
-    } else {
-        skillRadios.forEach(radio => {
-        radio.checked = false;
-        })
-    }
+        if(skillCheckBox.checked == true){
+            skillRadio1.checked = true;
+        } else {
+            skillRadios.forEach(radio => {
+            radio.checked = false;
+            })
+        }
     }
 
     // script for auto selecting checkbox in skills
     function autoCheckBox(skill_id){
-    const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
-    const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
+        const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
+        const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
 
-    skillRadios.forEach(radio =>{
-        if(radio.checked == true){
-        skillCheckBox.checked = true;
-        }
-    })
+        skillRadios.forEach(radio =>{
+            if(radio.checked == true){
+            skillCheckBox.checked = true;
+            }
+        })
     }
-    
-    // script for showing and hiding skills according to department selected
-    // function showDept(dept_id) {
-    //     const deptSelect = document.querySelector('#department');
-    //     const deptSkill = document.querySelectorAll(`.skilltype-${dept_id}`)
-    // }
-
     // script for showing and hiding skills according to department selected
     $(document).ready(function(){
         $("#department").change(function(){
@@ -40,10 +33,12 @@
                 var optionValue = $(this).attr("value");
                 if(optionValue){
                     $(".skilltype").not("." + optionValue).hide();
+                    $(".skilltype").not("." + optionValue).children().attr('checked', false)
                     $("." + optionValue).show();
                 } else{
                     $(".skilltype").hide();
                 }
+                
             });
         }).change();
     });
