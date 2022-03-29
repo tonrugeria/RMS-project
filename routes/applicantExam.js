@@ -127,14 +127,14 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
   // insert query to technical score
   skills.forEach((item) => {
     const skillAverage = (item.score / item.skill_total) * 100;
-    console.log(skillAverage);
+    const skillAvePrecise = +skillAverage.toFixed(2);
     knex('job_application.technical_score')
       .insert({
         application_id: appId,
         skill_id: item.skill_id,
         skill_score: item.score,
         skill_total: item.skill_total,
-        skill_level: skillAverage,
+        skill_level: skillAvePrecise,
       })
       .then((results) => results);
   });
