@@ -23,6 +23,7 @@ router.get('/examcreation', checkAuthenticated, async (req, res) => {
   );
   const question = await knex('question.question');
   const questionId = uniqueId(question);
+  const personality = await knex('question.question').where('question_category','Personality');
   let skill = await knex('admin.skill');
   skill = skill.filter(
     (value, index, self) =>
@@ -34,6 +35,7 @@ router.get('/examcreation', checkAuthenticated, async (req, res) => {
     'question.question.question_category'
   );
   res.render('examcreation', {
+    personality,
     question,
     skill,
     qSkill,
@@ -95,6 +97,7 @@ router.get('/examcreation/:question_category', checkAuthenticated, async (req, r
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users');
   const userRole = await knex('admin.user_role');
+  const personality = await knex('question.question').where('question_category','Personality');
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
@@ -112,6 +115,7 @@ router.get('/examcreation/:question_category', checkAuthenticated, async (req, r
       index === self.findIndex((t) => t.skill_name === value.skill_name)
   );
   res.render('editExamCreation', {
+    personality,
     skill,
     qSkill,
     questionCategory,
@@ -131,6 +135,7 @@ router.get(
     const currentUserId = req.user.user_id;
     const currentUser = await knex('admin.users');
     const userRole = await knex('admin.user_role');
+    const personality = await knex('question.question').where('question_category','Personality');
     const questionId = req.params.question_id;
     const questionCategory = req.params.question_category;
     const allQuestions = await knex('question.question');
@@ -153,6 +158,7 @@ router.get(
       res.redirect(`/examcreation/${questionCategory}`);
     } else {
       res.render('editExamCreation', {
+        personality,
         question,
         skill,
         questionId,

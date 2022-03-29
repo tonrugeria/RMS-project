@@ -3,6 +3,21 @@
   <div class="col-sm-2">
     <div class="d-flex flex-column">
       <a href="/examcreation">+ NEW QUESTION</a>
+      <a
+      <% if (personality != 0) { %>  
+        href="/examcreation/Personality/<%= personality[0].question_id %>"
+      <% } else { %>
+        href="/examcreation/Personality"
+      <% } %>
+      >
+      Personality
+      <% let personalityCount =  0 %>
+        <% for (let j=0; j < personality.length; j++) { %>
+          <% personalityCount++; %>
+        <% } %>
+        (<%= personalityCount%>)
+    </a>
+    
       <% for (let i=0; i < skill.length; i++) { %>
       <a
       <%  for (let j=0; j < qSkill.length; j++) { %>
@@ -13,6 +28,13 @@
         class="w3-bar-item sidebar"
       >
         <%= skill[i].skill_name %>
+        <% let categoryCount =  0 %>
+        <% for (let j=0; j < qSkill.length; j++) { %>
+          <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
+            <% categoryCount++; %>
+          <% } %>
+        <% } %>
+        (<%= categoryCount%>)
       </a>
       <% } %> 
     </div>
@@ -23,12 +45,12 @@
         <div class="form-floating">
           
           <div>
-          <input type="radio" value="0" name="questiontype" required id="technical-btn" 
+          <input type="radio" value="0" name="questiontype" id="technical-btn" 
           onclick="technicalShowHide()" checked/>
           <label for="technical">Technical</label><br>
           </div>
           <div>
-          <input type="radio" value="1" name="questiontype" required id="personality-btn"
+          <input type="radio" value="1" name="questiontype" id="personality-btn"
           onclick="personalityShowHide()" />
           <label for="personality">Personality</label><br>
           </div>
@@ -41,15 +63,19 @@
         <div class="form-floating">
           <select
             name="questionCategory"
-            class="form-select"
-            id="floatingSelectGrid"
+            class="form-select technical-input "
+            id="categoryPicker"
             aria-label="Floating label select example"
+            required
           >
+          <option  disabled selected hidden value="">Select a Category</option>
             <% for (let i=0; i < skill.length; i++) { %>
-              <option value="<%=skill[i].skill_name %>">
+              <option value="<%=skill[i].skill_name %>">  
                 <%=skill[i].skill_name %>
               </option>
             <% } %>
+            <option value="Personality" class="d-none">Personality</option>
+            
           </select>
           <label for="questioncategory">Category</label>
         </div>
@@ -58,15 +84,16 @@
       <div class="form-floating">
         <select
           name="questionlevel"
-          class="form-select"
-          id="floatingSelectGrid"
+          class="form-select technical-input"
+          id="level"
           aria-label="Floating label select example"
-        >
+        > 
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
+          <option value="0" class="d-none" >0</option>
         </select>
         <label for="questionlevel">Level</label>
       </div>
@@ -74,9 +101,10 @@
         <input
           type="text"
           name="questiontimer"
-          class="form-control"
-          id="floatPlace"
+          class="form-control technical-input"
+          id="time"
           placeholder="Timer"
+          value=""
           required
         />
         <label for="floatPlace">Timer</label>
@@ -96,7 +124,7 @@
 
       <div class="form-floating">
         <div>
-          <input type="radio" value="1" name="correctAnswer" required/>
+          <input type="radio" value="1" name="correctAnswer" id="radioForCorrect"required/>
           <input
             type="text"
             class="form-control"
@@ -115,7 +143,7 @@
             required
           />
 
-          <input type="radio" value="2" name="correctAnswer" required/>
+          <input type="radio" value="2" name="correctAnswer" id="radioForCorrect" required/>
           <input
             type="text"
             class="form-control"
@@ -134,7 +162,7 @@
           required
         />
 
-          <input type="radio" value="3" name="correctAnswer" required/>
+          <input type="radio" value="3" name="correctAnswer" id="radioForCorrect" required/>
           <input
             type="text"
             class="form-control"
@@ -153,7 +181,7 @@
           required
         />
 
-          <input type="radio" value="4" name="correctAnswer" required/>
+          <input type="radio" value="4" name="correctAnswer" id="radioForCorrect" required/>
           <input
             type="text"
             class="form-control"
@@ -176,6 +204,9 @@
       <button type="">Save</button>
     </form>
   </div>
+
+  
+</div>
 </div>
 <%- include('./filterFunctions/examCreationFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
