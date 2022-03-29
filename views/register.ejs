@@ -24,11 +24,16 @@
             <% if (messages) { %>
               <p><%= messages.error %> </p>
               <% } %>
-              <h4>Create an Account Now</h4>
+              <h6>Super Admin account does not exist.</h6>
+              <h4>Create a Super Admin account now!</h4>
             <form action="/register" method="post">
               <div class="form-floating my-2">
                 <input type="text" name="username" class="form-control" id="floatPlace" placeholder="Username">
                 <label for="floatPlace">Username</label>
+              </div>
+              <div class="form-floating mb-2">
+                <input type="email" name="email" id="floatPass" class="form-control" placeholder="email">
+                <label for="floatPass">Email</label>
               </div>
               <div class="form-floating mb-2">
                 <input type="password" name="password" id="floatPass" class="form-control" placeholder="Password">

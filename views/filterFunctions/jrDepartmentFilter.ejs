@@ -1,0 +1,45 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    // script for auto selecting radio buttons in skills
+    function selectDefaultRadio(skill_id){
+        const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
+        const skillRadio1 = document.querySelector(`#radio-1-${skill_id}`);
+        const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
+
+        if(skillCheckBox.checked == true){
+            skillRadio1.checked = true;
+        } else {
+            skillRadios.forEach(radio => {
+            radio.checked = false;
+            })
+        }
+    }
+
+    // script for auto selecting checkbox in skills
+    function autoCheckBox(skill_id){
+        const skillCheckBox = document.querySelector(`#checkbox-${skill_id}`);
+        const skillRadios = document.querySelectorAll(`.radio-${skill_id}`);
+
+        skillRadios.forEach(radio =>{
+            if(radio.checked == true){
+            skillCheckBox.checked = true;
+            }
+        })
+    }
+    // script for showing and hiding skills according to department selected
+    $(document).ready(function(){
+        $("#department").change(function(){
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+                if(optionValue){
+                    $(".skilltype").not("." + optionValue).hide();
+                    $(".skilltype").not("." + optionValue).children().attr('checked', false)
+                    $("." + optionValue).show();
+                } else{
+                    $(".skilltype").hide();
+                }
+                
+            });
+        }).change();
+    });
+</script>

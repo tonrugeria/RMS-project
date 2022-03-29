@@ -5,10 +5,9 @@
             element.classList.remove('d-none');
         });
     }
-
-    function toggleShowHide(dept_name) {
+    function toggleShowHide(dept_id) {
         const allDept = document.querySelectorAll('.dept');
-        const target = document.querySelectorAll(`.${dept_name}-btn`);
+        const target = document.querySelectorAll(`.dept-${dept_id}-btn`);
         allDept.forEach((element) => {
             element.classList.add('d-none');
         });

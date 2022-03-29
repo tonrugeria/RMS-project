@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/tonrugeria/RMS-project#readme",
   "dependencies": {
+    "ajax": "^0.0.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
