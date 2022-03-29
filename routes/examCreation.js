@@ -14,7 +14,10 @@ function uniqueId(questionIdColumn) {
 }
 
 // get route for examcreation
-router.get('/examcreation', async (req, res) => {
+router.get('/examcreation', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users');
+  const userRole = await knex('admin.user_role');
   const question = await knex('question.question');
   const questionId = uniqueId(question);
   let skill = await knex('admin.skill');
@@ -27,7 +30,15 @@ router.get('/examcreation', async (req, res) => {
     'admin.skill.skill_name',
     'question.question.question_category'
   );
-  res.render('examcreation', { question, skill, qSkill, questionId });
+  res.render('examcreation', {
+    question,
+    skill,
+    qSkill,
+    questionId,
+    currentUser,
+    currentUserId,
+    userRole,
+  });
 });
 
 // post route examcreation
@@ -77,7 +88,10 @@ router.post('/examcreation', async (req, res) => {
     });
 });
 // edit get route for examcreation
-router.get('/examcreation/:question_category', async (req, res) => {
+router.get('/examcreation/:question_category', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users');
+  const userRole = await knex('admin.user_role');
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
@@ -100,43 +114,56 @@ router.get('/examcreation/:question_category', async (req, res) => {
     questionCategory,
     allQuestions,
     allCategoryQuestion,
+    currentUser,
+    currentUserId,
+    userRole,
   });
 });
 
 // edit get route for examcreation
-router.get('/examcreation/:question_category/:question_id', async (req, res) => {
-  const questionId = req.params.question_id;
-  const questionCategory = req.params.question_category;
-  const allQuestions = await knex('question.question');
-  const allCategoryQuestion = await knex('question.question').where(
-    'question_category',
-    questionCategory
-  );
-  const question = await knex('question.question').where('question_id', questionId);
-  let skill = await knex('admin.skill');
-  skill = skill.filter(
-    (value, index, self) =>
-      index === self.findIndex((t) => t.skill_name === value.skill_name)
-  );
-  const qSkill = await knex('admin.skill').leftJoin(
-    'question.question',
-    'admin.skill.skill_name',
-    'question.question.question_category'
-  );
-  if (allCategoryQuestion == 0) {
-    res.redirect(`/examcreation/${questionCategory}`);
-  } else {
-    res.render('editExamCreation', {
-      question,
-      skill,
-      questionId,
-      qSkill,
-      questionCategory,
-      allQuestions,
-      allCategoryQuestion,
-    });
+router.get(
+  '/examcreation/:question_category/:question_id',
+  checkAuthenticated,
+  async (req, res) => {
+    const currentUserId = req.user.user_id;
+    const currentUser = await knex('admin.users');
+    const userRole = await knex('admin.user_role');
+    const questionId = req.params.question_id;
+    const questionCategory = req.params.question_category;
+    const allQuestions = await knex('question.question');
+    const allCategoryQuestion = await knex('question.question').where(
+      'question_category',
+      questionCategory
+    );
+    const question = await knex('question.question').where('question_id', questionId);
+    let skill = await knex('admin.skill');
+    skill = skill.filter(
+      (value, index, self) =>
+        index === self.findIndex((t) => t.skill_name === value.skill_name)
+    );
+    const qSkill = await knex('admin.skill').leftJoin(
+      'question.question',
+      'admin.skill.skill_name',
+      'question.question.question_category'
+    );
+    if (allCategoryQuestion == 0) {
+      res.redirect(`/examcreation/${questionCategory}`);
+    } else {
+      res.render('editExamCreation', {
+        question,
+        skill,
+        questionId,
+        qSkill,
+        questionCategory,
+        allQuestions,
+        allCategoryQuestion,
+        currentUser,
+        currentUserId,
+        userRole,
+      });
+    }
   }
-});
+);
 
 // edit post route
 router.post('/examcreation/:question_category/:question_id', async (req, res) => {

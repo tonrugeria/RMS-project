@@ -5,7 +5,10 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // job-requirement update get route
-router.get('/job-requirement/:job_id', async (req, res) => {
+router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users');
+  const userRole = await knex('admin.user_role');
   const jobId = req.params.job_id;
   const adminSkill = await knex('admin.skill');
   const dept = await knex('admin.department');
@@ -35,6 +38,9 @@ router.get('/job-requirement/:job_id', async (req, res) => {
     jobQuestion,
     jobPosition,
     positionLevel,
+    currentUser,
+    currentUserId,
+    userRole,
   });
 });
 

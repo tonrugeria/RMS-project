@@ -5,7 +5,10 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // exam get all question category route
-router.get('/exam/:job_id', async (req, res) => {
+router.get('/exam/:job_id', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users');
+  const userRole = await knex('admin.user_role');
   const jobId = req.params.job_id;
   const jobSkill = await knex('jobs.skill');
   const adminSkill = await knex('admin.skill');
@@ -29,6 +32,9 @@ router.get('/exam/:job_id', async (req, res) => {
     question,
     jobQuestion,
     question_jobQuestion,
+    currentUser,
+    currentUserId,
+    userRole,
   });
 });
 
