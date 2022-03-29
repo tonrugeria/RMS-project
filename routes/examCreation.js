@@ -17,13 +17,14 @@ function uniqueId(questionIdColumn) {
 router.get('/examcreation', async (req, res) => {
   const question = await knex('question.question');
   const questionId = uniqueId(question);
+  const personality = await knex('question.question').where('question_category','Personality');
   const skill = await knex('admin.skill').select();
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
     'admin.skill.skill_name',
     'question.question.question_category'
   );
-  res.render('examcreation', { question, skill, qSkill, questionId });
+  res.render('examcreation', { question, skill, qSkill, questionId, personality });
 });
 
 // post route examcreation
@@ -74,6 +75,7 @@ router.post('/examcreation', async (req, res) => {
 });
 // edit get route for examcreation
 router.get('/examcreation/:question_category', async (req, res) => {
+  const personality = await knex('question.question').where('question_category','Personality');
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
@@ -88,6 +90,7 @@ router.get('/examcreation/:question_category', async (req, res) => {
   const skill = await knex('admin.skill');
 
   res.render('editExamCreation', {
+    personality,
     skill,
     qSkill,
     questionCategory,
@@ -98,6 +101,7 @@ router.get('/examcreation/:question_category', async (req, res) => {
 
 // edit get route for examcreation
 router.get('/examcreation/:question_category/:question_id', async (req, res) => {
+  const personality = await knex('question.question').where('question_category','Personality');
   const questionId = req.params.question_id;
   const questionCategory = req.params.question_category;
   const allQuestions = await knex('question.question');
@@ -116,6 +120,7 @@ router.get('/examcreation/:question_category/:question_id', async (req, res) => 
     res.redirect(`/examcreation/${questionCategory}`);
   } else {
     res.render('editExamCreation', {
+      personality,
       question,
       skill,
       questionId,
