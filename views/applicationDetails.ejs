@@ -98,26 +98,47 @@
           <div class="card p-3 border-0">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image">
+                <% if (applicantInfo != 0) { %>
+                  <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image">
+                <% } else { %>
+                  NO PHOTO  
+                <% } %> 
               </div>
               <div class="col-md-8">
                 <div class="card-body p-0">
                   <h5 class="card-title mb-0">
-                    <%= applicantInfo[0].first_name %>
+                    <% if (applicantInfo != 0) { %>
+                      <%= applicantInfo[0].first_name %>
+                    <% } else { %>
+                      NO NAME ENTERED
+                    <% } %>
                   </h5>
                   <small>
                     <p class="card-text mb-0">
-                      <%= age %> &#8226; <%= applicantInfo[0].gender %>  &#8226; <%= applicantInfo[0].city %>
+                      <% if (applicantInfo != 0) { %>
+                        <%= age %> &#8226; <%= applicantInfo[0].gender %>  &#8226; <%= applicantInfo[0].city %>
+                        <% } else { %>
+                          NO SPECIFIED
+                        <% } %>
                     </p>
                   </small>
                   <p class="card-text mb-5"><small>
-                    <%= applicantInfo[0].email %> &#8226; <%= applicantInfo[0].skype %>  &#8226; <%= applicantInfo[0].mobile %></small>
+                    <% if (applicantInfo != 0) { %>
+                      <%= applicantInfo[0].email %> &#8226; <%= applicantInfo[0].skype %>  &#8226; <%= applicantInfo[0].mobile %>
+                      <% } else { %>
+                        NO SPECIFIED
+                      <% } %>
+                  </small>
                   </p>
                   <p class="card-text mb-0">
-                    <%= applicantInfo[0].year_experience %> years experience
+                    <% if (applicantInfo != 0) { %>
+                      <%= applicantInfo[0].year_experience %> years experience
+                      <% } else { %>
+                        NO EXPERIENCE
+                      <% } %>
                   </p>
                   <p>
-                      <% if(applicants != 0) { %> 
+                      <% if(applicants != 0 && applicantInfo != 0 && technicalScore != 0) { %> 
                         <% if(applicantInfo[0].application_id == technicalScore[0].application_id) { %>
                             <%= technicalScore[0].skill_level %> in TECHNOLOGIES
                         <% } else { %>
@@ -144,31 +165,61 @@
         <div class="container py-3">
           <h3>SKILLS</h3>
           <div class="row">
-            <div class="col-md-4 m-0">
-              TECH1
-            </div>
-            <div class="col-md-4 m-0">
-              TECH2
-            </div>
-            <div class="col-md-4 m-0">
-              TECH3
-            </div>
-            <div class="col-md-4 m-0">
-              TECH4
-            </div>
-            <div class="col-md-4 m-0">
-              TECH5
-            </div>
-            <div class="col-md-4 m-0">
-              TECH6
-            </div>
+            <% if(applicantSkill != 0) { %> 
+              <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                <div class="col-4 m-0 border border-2 m-1">
+                  <div>
+                    <strong><%= applicantSkill[i].skill_name %></strong>
+                  </div>
+                  <div>
+                    <%= applicantSkill[i].skill_years%> years experience
+                  </div>
+                  <div>
+                    Self-rating <%= applicantSkill[i].skill_self_rating%> / 5
+                  </div>
+                </div>
+                <% } %>
+              <% } else { %>
+                NO SKILL  
+              <% } %> 
           </div>
         </div>
 
         <div class="py-3">
           <h3>CAPABILITIES</h3>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
+          <% if(applicantCapability[0].capability_1 != 0) { %> 
+            <div>
+              <p><%= applicantCapability[0].capability_1 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_2 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_3 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_4 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_5 %> </p>
+            </div>
+          <% } else { %>
+            NO CAPABILITIES  
+          <% } %> 
+        </div>
+
+        <div>
+          <h3>Professional Background</h3>
+          <% if (applicantHistory[0].position != 0) { %>
+            <% for ( let i =0; i < applicantHistory.length; i++) { %>
+                <div>
+                  <%= applicantHistory[i].position %>
+                  <%= startDate %> - <%= endDate %>
+                </div>  
+                <% } %> 
+            <% } else { %>
+              NO HISTORY  
+            <% } %> 
         </div>
       </form>
     </div>

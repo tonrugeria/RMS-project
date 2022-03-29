@@ -65,16 +65,34 @@ router.get('/application/job/:job_id/applicant/:application_id', async (req, res
   const technicalScore = await knex('job_application.technical_score')
   const applicantScore = await knex('job_application.technical_score')
     .where({application_id: appId})
-
+  const applicantSkill = await knex('job_application.applicant_rating')
+    .leftJoin('admin.skill', 'job_application.applicant_rating.skill_id', 'admin.skill.skill_id')
+    .where('application_id', appId)
+  const applicantCapability = await knex('job_application.capabilities')
+    .where('application_id', appId)
+  const applicantHistory = await knex('job_application.employment_history')
+    .where('application_id', appId)
 
   const {
     date_of_birth
   } = applicantInfo[0] || {}
-
   const dob = moment(date_of_birth, 'MM/DD/YYYY')
   const age = moment().diff(dob, 'years',false);
 
-  res.render('applicationDetails', {jobId, appId,adminSkill, age, applicants, applicantInfo, applicantScore, jobOpening, technicalScore})
+  const {
+    history_start_date,
+    history_end_date
+  } = applicantHistory[0] || {}
+  const startDate = moment(history_start_date).format('L')
+  const endDate = moment(history_end_date).format('L')
+
+  const getStartDates = applicantHistory.map((element) =>
+        moment(element.history_start_date).format('L')
+      );
+
+      console.log(getStartDates);
+
+  res.render('applicationDetails', {jobId, appId, adminSkill, age, applicants, applicantInfo, applicantScore, jobOpening, technicalScore, applicantSkill, applicantCapability, applicantHistory, startDate, endDate})
   // res.redirect(`/application/job/${jobId}/applicant/${appId}`)
 })
 
