@@ -12,7 +12,6 @@ router.get("/careers", async (req, res) => {
   const active_job_opening = await knex("jobs.job_opening")
   .where('status','0');
   console.log(active_job_opening);
-
   const jobOpening = await knex('jobs.job_opening');
   const admin_department = await knex('admin.department');
   const skill = await knex("jobs.skill");

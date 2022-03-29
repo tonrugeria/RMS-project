@@ -9,10 +9,12 @@ const router = express.Router();
 
 // admin job listing get route
 router.get('/', async (req, res) => {
+  const active_job_opening = await knex("jobs.job_opening")
+  .where('status','0');
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department');
-  const { date_opened } = jobOpening[0] || {};
-  const dateOpened = moment(date_opened).format('Do MMMM YYYY');
+  const {date_opened} = active_job_opening[0]|| {};
+  const date = moment(date_opened).format("DD MMMM YYYY")
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
     .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
@@ -26,7 +28,8 @@ router.get('/', async (req, res) => {
     admin_department,
     jobSkill,
     jobApplications,
-    dateOpened,
+    date,
+    active_job_opening,
   });
 });
 
