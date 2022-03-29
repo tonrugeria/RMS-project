@@ -5,7 +5,20 @@
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
             <% for( let i = 0; i < jobOpening.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>"><%= jobOpening[i].job_title %></option>
+              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
+                <%= jobOpening[i].job_title %>
+                <div>
+                  <% let applicants =  0 %>
+                  <p class="d-flex">
+                    <% for (let j=0; j < jobApplications.length; j++) { %>
+                      <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                          <% applicants++; %>
+                      <% } %>
+                    <% } %>
+                    (<%= applicants; %>)
+                  </p>
+                </div>
+              </option>
             <% } %> 
           </select>
         </div>

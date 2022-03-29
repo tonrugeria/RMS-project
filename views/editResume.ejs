@@ -51,7 +51,8 @@
                 <div>
                   <img height="100" id="output">
                 </div>
-                <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
+                <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)"></i>
+                <input type="hidden" name="old_image" value="<%= applicants[i].photo  %> ">
                 <label for="photo" style="border: 2px solid black" class="p-1"><i class="fa-solid">UPDATE IMAGE</i></label>
                 <p><strong>NAME</strong></p>
                 <input type="text" name="first_name" placeholder="First Name" value="<%= applicants[i].first_name %>">

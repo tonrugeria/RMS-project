@@ -5,7 +5,20 @@
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
             <% for( let i = 0; i < jobOpening.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>"><%= jobOpening[i].job_title %></option>
+              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
+                <%= jobOpening[i].job_title %>
+                <div>
+                <% let applicants =  0 %>
+                <p class="d-flex">
+                  <% for (let j=0; j < jobApplications.length; j++) { %>
+                    <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                        <% applicants++; %>
+                    <% } %>
+                  <% } %>
+                  (<%= applicants; %>)
+                </p>
+              </div>
+            </option>
             <% } %> 
           </select>
         </div>
@@ -73,15 +86,15 @@
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
                     <p class="card-text">
-                      <% for( let j = 0; j < technicalScore.length; j++) { %>
-                        <% if(applicants != 0) { %> 
-                          <% if(applicants[i].application_id == technicalScore[j].application_id) { %>
-                              <%= technicalScore[j].skill_level %> in TECHNOLOGIES
+                      <% for( let j = 0; j < applicantDetails.length; j++) { %>
+                        <% if(applicantDetails[j].application_id != null) { %>
+                          <% if( applicants[i].application_id == applicantDetails[j].application_id) { %>
+                            <%= applicantDetails[j].skill_level %>
                           <% } else { %>
-                            NO EXAM
+                            NO RECORD  
                           <% } %> 
-                        <% } %>
-                      <% } %>
+                        <% } %> 
+                      <% } %> 
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
@@ -108,7 +121,7 @@
                 <div class="card-body p-0">
                   <h5 class="card-title mb-0">
                     <% if (applicantInfo != 0) { %>
-                      <%= applicantInfo[0].first_name %>
+                      <%= applicantInfo[0].first_name %> <%= applicantInfo[0].last_name %>
                     <% } else { %>
                       NO NAME ENTERED
                     <% } %>
@@ -129,33 +142,40 @@
                         NO SPECIFIED
                       <% } %>
                   </small>
-                  </p>
-                  <p class="card-text mb-0">
-                    <% if (applicantInfo != 0) { %>
-                      <%= applicantInfo[0].year_experience %> years experience
-                      <% } else { %>
-                        NO EXPERIENCE
-                      <% } %>
-                  </p>
-                  <p>
-                      <% if(applicants != 0 && applicantInfo != 0 && technicalScore != 0) { %> 
-                        <% if(applicantInfo[0].application_id == technicalScore[0].application_id) { %>
-                            <%= technicalScore[0].skill_level %> in TECHNOLOGIES
+                </p>
+                <div>
+                  
+                </div>
+                  <div class="d-flex">
+                    <div class="me-auto">
+                      <p class="card-text mb-0">
+                        <% if (applicantInfo != 0) { %>
+                          <%= applicantInfo[0].year_experience %> years experience
+                          <% } else { %>
+                            NO EXPERIENCE
+                          <% } %>
+                      </p>
+                      <p class="m-0">
+                        <% if( total >= 75) { %>
+                          Expert
+                        <% } else if (total >= 50) { %>
+                          Intermediate  
                         <% } else { %>
-                          NO EXAM
-                        <% } %> 
-                      <% } %>
-                  </p>
+                          Beginner  
+                        <% } %> | Technologies
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-end">
+                      <div class="me-1">
+                        <button>assign status</button>
+                      </div>
+                      <div>
+                        <button>save resume</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="me-1">
-              <button>assign status</button>
-            </div>
-            <div>
-              <button>save resume</button>
             </div>
           </div>
           <div>
@@ -167,9 +187,26 @@
           <div class="row">
             <% if(applicantSkill != 0) { %> 
               <% for ( let i = 0; i < applicantSkill.length; i++) { %>
-                <div class="col-4 m-0 border border-2 m-1">
+                <div class="col-4 m-0 border border-2 mb-1">
                   <div>
-                    <strong><%= applicantSkill[i].skill_name %></strong>
+                    <strong>
+                      <%= applicantSkill[i].skill_name %> | 
+                      <% if( applicantExam != 0) { %>
+                        <% for ( let j = 0; j < applicantScore.length; j++) { %>
+                          <% if ( applicantSkill[i].skill_id == applicantScore[j].skill_id) { %>
+                            <% if (applicantScore[j].skill_level >= 75) { %>
+                              Expert
+                            <% } else if (applicantScore[j].skill_level >= 50) { %>
+                              Intermediate
+                            <% } else { %>
+                              Beginner  
+                            <% } %>    
+                          <% } %> 
+                        <% } %> 
+                      <% } else { %>
+                        NO EXAM  
+                      <% } %> 
+                    </strong>
                   </div>
                   <div>
                     <%= applicantSkill[i].skill_years%> years experience
@@ -213,8 +250,15 @@
           <% if (applicantHistory[0].position != 0) { %>
             <% for ( let i =0; i < applicantHistory.length; i++) { %>
                 <div>
-                  <%= applicantHistory[i].position %>
-                  <%= startDate %> - <%= endDate %>
+                  <% if(applicantHistory != 0 && getStartDates[i] != 'Invalid date' && getEndDates[i] != 'Invalid date') { %>
+                    <div class="mb-3">
+                      <%= applicantHistory[i].position %> &#8226;
+                      <%= getStartDates[i] %> - <%= getEndDates[i] %>
+                      <div>
+                        <small><%= applicantHistory[i].company %></small>
+                      </div>
+                    </div>
+                  <% } %>
                 </div>  
                 <% } %> 
             <% } else { %>
