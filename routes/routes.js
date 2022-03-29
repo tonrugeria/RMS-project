@@ -12,11 +12,6 @@ const {
 const router = express.Router();
 
 // admin job listing get route
-<<<<<<< HEAD
-router.get('/', async (req, res) => {
-  const active_job_opening = await knex("jobs.job_opening")
-  .where('status','0');
-=======
 router.get('/', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
@@ -24,7 +19,6 @@ router.get('/', checkAuthenticated, async (req, res) => {
     'role_id',
     req.user.role_id
   );
->>>>>>> 3653fb13e7b648be204f5b23103e18f95f359ad2
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department');
   const {date_opened} = active_job_opening[0]|| {};
