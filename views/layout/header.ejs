@@ -53,31 +53,17 @@
                 <div class="nav_right">
                   <ul>
                     <li class="nr_li dd_main" style="list-style: none;">
-                      <% for( let i = 0; i < currentUser.length; i++ ) { %>
-                        <% if (currentUser[i].user_id == currentUserId) { %>
-                          <% if (currentUser[i].photo != null) { %>
-                            <img src="/<%= currentUser[i].photo %>" width="30" height="30" class="fas fa-circle-user">
+                          <% if (currentUser[0].photo != null) { %>
+                            <img src="/<%= currentUser[0].photo %>" width="30" height="30" class="fas fa-circle-user">
                           <% } else { %>
                             <a style="color: blue;"><i class="fas fa-circle-user"></i></a>
                           <% } %>
-                        <% } %>
-                      <% } %>
-                      
                       <div class="dd_menu">
                         <div class="dd_right">
                           <ul style="list-style: none;">
                             <li>
-                              <% for( let i = 0; i < currentUser.length; i++ ) { %>
-                                <% if (currentUser[i].user_id == currentUserId) { %>
-                                  <p>Hello <%= currentUser[i].user_name %> </p>
-                                  you are logged in as
-                                  <% for( let j = 0; j < userRole.length; j++ ) { %>
-                                    <% if (currentUser[i].role_id == userRole[j].role_id) { %>
-                                      <%= userRole[j].role_name %> 
-                                    <% } %>
-                                  <% } %>
-                                <% } %>
-                              <% } %>
+                              <p>Hello <%= currentUser[0].user_name %></p>
+                              you are logged in as <%= currentUserRole[0].role_name %> 
                             </li>
                             <li>
                               <a href="/userProfile"><button>Profile</button></a>

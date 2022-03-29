@@ -7,8 +7,11 @@ const router = express.Router();
 // job-details get route
 router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
-  const userRole = await knex('admin.user_role');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const jobId = req.params.job_id;
   const job = await knex('jobs.job_opening').where('job_id', jobId);
   const jobDetail = await knex('jobs.job_details').where('job_id', jobId);
@@ -30,7 +33,7 @@ router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
     jobCategoryItem,
     currentUser,
     currentUserId,
-    userRole,
+    currentUserRole,
   });
 });
 

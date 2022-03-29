@@ -16,8 +16,11 @@ function uniqueId(questionIdColumn) {
 // get route for examcreation
 router.get('/examcreation', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
-  const userRole = await knex('admin.user_role');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const question = await knex('question.question');
   const questionId = uniqueId(question);
   let skill = await knex('admin.skill');
@@ -37,7 +40,7 @@ router.get('/examcreation', checkAuthenticated, async (req, res) => {
     questionId,
     currentUser,
     currentUserId,
-    userRole,
+    currentUserRole,
   });
 });
 

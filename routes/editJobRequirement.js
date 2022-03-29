@@ -7,8 +7,11 @@ const router = express.Router();
 // job-requirement update get route
 router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
-  const userRole = await knex('admin.user_role');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const jobId = req.params.job_id;
   const adminSkill = await knex('admin.skill');
   const dept = await knex('admin.department');
@@ -40,7 +43,7 @@ router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
     positionLevel,
     currentUser,
     currentUserId,
-    userRole,
+    currentUserRole,
   });
 });
 

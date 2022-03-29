@@ -1,7 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const knex = require('../dbconnection');
 const fs = require('fs');
+const knex = require('../dbconnection');
+const upload = require('../middlewares/upload');
 const {
   checkAuthenticated,
   checkNotAuthenticated,
@@ -13,7 +14,11 @@ const router = express.Router();
 // users
 router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const users = await knex('admin.users');
   const userRole = await knex('admin.user_role');
   const role = await knex
@@ -21,7 +26,14 @@ router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
     .from('admin.user_role')
     .innerJoin('admin.users', 'admin.users.role_id', 'admin.user_role.role_id');
 
-  res.render('users', { users, role, userRole, currentUser, currentUserId });
+  res.render('users', {
+    users,
+    role,
+    userRole,
+    currentUser,
+    currentUserId,
+    currentUserRole,
+  });
 });
 
 // delete user
@@ -34,21 +46,7 @@ router.get('/delete/:user_id', (req, res) => {
     });
 });
 
-const multer = require('multer');
-const path = require('path');
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './photo');
-  },
-  filename(req, file, cb) {
-    cb(null, `${file.fieldname}_${Date.now()}_${file.originalname}`);
-  },
-});
-const upload = multer({
-  storage,
-});
-router.post('/users', upload.single('photo'), async (req, res) => {
+router.post('/users', upload, async (req, res) => {
   const name = req.body.user_name;
   const { password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -69,7 +67,7 @@ router.post('/users', upload.single('photo'), async (req, res) => {
 });
 router.use(express.static('photo'));
 
-router.post('/edit/:user_id', upload.single('photo'), async (req, res) => {
+router.post('/edit/:user_id', upload, async (req, res) => {
   const { user_name } = req.body;
   const role = req.body.role_name;
   const { email } = req.body;

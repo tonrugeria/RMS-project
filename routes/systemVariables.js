@@ -7,8 +7,11 @@ const router = express.Router();
 // display
 router.get('/system-variables', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
-  const userRole = await knex('admin.user_role');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const position = await knex('admin.job_position');
   const technologies = await knex('admin.skill');
   const remarks = await knex('admin.remarks');
@@ -22,7 +25,7 @@ router.get('/system-variables', checkAuthenticated, async (req, res) => {
     department,
     currentUser,
     currentUserId,
-    userRole,
+    currentUserRole,
   });
 });
 
