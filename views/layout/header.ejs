@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RMS</title>
+    <link rel="stylesheet" href="/icon.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
@@ -25,6 +26,7 @@
       href="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.css"
     />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </head>
 <body>
@@ -43,13 +45,50 @@
             <a href="/examcreation" class="nav-link">EXAM</a>
           </li>
           <li class="nav-item ">
-            <a href="/settings" class="nav-link">SETTINGS</a>
+            <a href="/system-variables" class="nav-link">SETTINGS</a>
           </li>
-          <li>
-            <a href="#" class="nav-link"><i class="fas fa-circle-user"></i></a>
+          <li class="nav-item ">
+            <div class="wrapper">
+              <div class="navbar">
+                <div class="nav_right">
+                  <ul>
+                    <li class="nr_li dd_main" style="list-style: none;">
+                          <% if (currentUser[0].photo != null) { %>
+                            <img src="/<%= currentUser[0].photo %>" width="30" height="30" class="fas fa-circle-user">
+                          <% } else { %>
+                            <a style="color: blue;"><i class="fas fa-circle-user"></i></a>
+                          <% } %>
+                      <div class="dd_menu">
+                        <div class="dd_right">
+                          <ul style="list-style: none;">
+                            <li>
+                              <p>Hello <%= currentUser[0].user_name %></p>
+                              you are logged in as <%= currentUserRole[0].role_name %> 
+                            </li>
+                            <li>
+                              <a href="/userProfile"><button>Profile</button></a>
+                            </li>
+                            <li> <form action="/logout?_method=DELETE" class="logout" method="post">
+                              <div class="d-flex justify-content-start">
+                                <button>LOGOUT</button>
+                              </div>
+                            </form></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>	
           </li>
-        </ul>
-      </div>
-    </nav>
+   </nav>
+   	<script>
+	var dd_main = document.querySelector(".dd_main");
+
+dd_main.addEventListener("click", function(){
+  this.classList.toggle("active");
+})
+	</script>
   </body>
 </html>

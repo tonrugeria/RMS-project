@@ -2,26 +2,35 @@
 <div class="container-fluid m-0">
   <div class="row min-vh-100">
     <div class="col-3 g-0">
-      <% for (let i=0; i < job_opening.length; i++) { %>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
-            <% for( let i = 0; i < jobPosition.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobPosition[i].position_name %>"><%= jobPosition[i].position_name %></option>
+            <% for( let i = 0; i < jobOpening.length; i++) { %>
+              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
+                <%= jobOpening[i].job_title %>
+                <div>
+                  <% let applicants =  0 %>
+                  <p class="d-flex">
+                    <% for (let j=0; j < jobApplications.length; j++) { %>
+                      <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                          <% applicants++; %>
+                      <% } %>
+                    <% } %>
+                    (<%= applicants; %>)
+                  </p>
+                </div>
+              </option>
             <% } %> 
           </select>
         </div>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <div class="row">
-            <% for (let j=0; j < jobSkill.length; j++) { %>
-              <% if(job_opening[i].job_id == jobSkill[j].job_id) {%> 
-                <div class="col">
-                  <%= jobSkill[j].skill_name %> 
-                </div>
-              <% } %>
+            <% for (let i=0; i < adminSkill.length; i++) { %>
+              <div class="col">
+                <%= adminSkill[i].skill_name %> 
+              </div>
             <% } %>
+            </div>
           </div>
-        </div>
-      <%}%>
       
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
@@ -59,86 +68,41 @@
         <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
         <label for="vehicle3">Unread</label>
       </div>
-      <div class="p-4 min-vh-100" style="background-color: #e6e6e6;">
+      <div class="p-4" style="background-color: #e6e6e6;">
 
       </div>
     </div>
-    <div class="col-3 g-0">
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-      <div class="p-3 mb-1" style="background-color: #666666; color: white; height: 75px;">
-        CARDS
-      </div>
-    </div>
-    <div class="col-6 g-0">
-      <div class="d-flex flex-column border-bottom">
-        <div>
-          IMAGE
-        </div>
-        <div>
-          John Doe
-        </div>
-        <div>
-          21 Female Single Davao
-        </div>
-        <div>
-          aaa@gmail.com skype 09090909
-        </div>
-        <div>
-          6 years experience
-        </div>
-        <div>
-          Expert in TECHNOLOGIES
-        </div>
-        <div>
-          assign status
-        </div>
-        <div>
-          save resume
-        </div>
-      </div>
-
-      <div class="container py-3">
-        <h3>SKILLS</h3>
-        <div class="row">
-          <div class="col-md-4 m-0">
-            TECH1
-          </div>
-          <div class="col-md-4 m-0">
-            TECH2
-          </div>
-          <div class="col-md-4 m-0">
-            TECH3
-          </div>
-          <div class="col-md-4 m-0">
-            TECH4
-          </div>
-          <div class="col-md-4 m-0">
-            TECH5
-          </div>
-          <div class="col-md-4 m-0">
-            TECH6
-          </div>
-        </div>
-      </div>
-
-      <div class="py-3">
-        <h3>CAPABILITIES</h3>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt sit libero impedit accusantium fugit ut quaerat ipsum autem tempore atque!</p>
+    <div class="col-3 g-0" style="height: 100vh;"> 
+      <div style="height: 100vh; overflow: auto;">
+        <% for(let i = 0; i < applicants.length; i++) { %>
+          <%= applicants[i].application_id %> 
+          <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
+            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                    <p class="card-text">
+                      <% for( let j = 0; j < technicalScore.length; j++) { %>
+                        <% if(applicants != 0) { %> 
+                          <% if(applicants[i].application_id == technicalScore[j].application_id) { %>
+                              <%= technicalScore[j].skill_level %> in TECHNOLOGIES
+                          <% } else { %>
+                            NO EXAM
+                          <% } %> 
+                        <% } %>
+                      <% } %>
+                    </p>
+                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <% } %> 
       </div>
     </div>
   </div>

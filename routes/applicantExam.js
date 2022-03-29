@@ -8,23 +8,32 @@ const router = express.Router();
 router.get('/careers/job/:job_id/exam/application/:application_id', async (req, res) => {
   const jobId = req.params.job_id;
   const appId = req.params.application_id;
+
+  const applicantRecord = await knex('job_application.applicant_details').where({
+    job_id: jobId,
+    application_id: appId,
+  });
+
   const jobQuestion = await knex('jobs.question')
     .innerJoin(
       'question.question',
       'jobs.question.question_id',
       'question.question.question_id'
     )
-    .where({ job_id: jobId });
+    .where('job_id', jobId);
+
   const applicantExamRecord = await knex('job_application.applicant_exam_answers')
     .where({
       application_id: appId,
       job_id: jobId,
     })
     .first();
+
   res.render('applicantExam', {
     jobId,
     appId,
     jobQuestion,
+    applicantRecord,
     applicantExamRecord,
   });
 });
@@ -117,12 +126,15 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
 
   // insert query to technical score
   skills.forEach((item) => {
+    const skillAverage = (item.score / item.skill_total) * 100;
+    const skillAvePrecise = +skillAverage.toFixed(2);
     knex('job_application.technical_score')
       .insert({
         application_id: appId,
         skill_id: item.skill_id,
-        skill_level: item.score,
+        skill_score: item.score,
         skill_total: item.skill_total,
+        skill_level: skillAvePrecise,
       })
       .then((results) => results);
   });

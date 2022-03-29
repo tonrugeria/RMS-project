@@ -3,14 +3,28 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const moment = require('moment');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
 // admin job listing get route
+<<<<<<< HEAD
 router.get('/', async (req, res) => {
   const active_job_opening = await knex("jobs.job_opening")
   .where('status','0');
+=======
+router.get('/', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
+>>>>>>> 3653fb13e7b648be204f5b23103e18f95f359ad2
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department');
   const {date_opened} = active_job_opening[0]|| {};
@@ -48,13 +62,18 @@ router.post('/job/:job_id/status', (req, res) => {
 });
 
 // register get route
-router.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register');
+router.get('/register', checkNotAuthenticated, async (req, res) => {
+  const superAdmin = await knex('admin.users').where({ role_id: 4 });
+  if (superAdmin == 0) {
+    res.render('register');
+  } else {
+    res.redirect('/login');
+  }
 });
 
 // register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   const userFound = await knex('admin.users')
     .where({ user_name: username })
     .first()
@@ -73,6 +92,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
       knex('admin.users')
         .insert({
           user_name: username,
+          email,
           password: hashedPassword,
         })
         .then(() => {
@@ -89,16 +109,18 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 // login get route
 router.get('/login', checkNotAuthenticated, async (req, res) => {
   const user = knex('admin.users');
-  knex('admin.users').then((results) => {
-    if (results != 0) {
-      res.render('login', {
-        title: 'Log In',
-        user,
-      });
-    } else {
-      res.redirect('/register');
-    }
-  });
+  knex('admin.users')
+    .where('role_id', 4)
+    .then((results) => {
+      if (results != 0) {
+        res.render('login', {
+          title: 'Log In',
+          user,
+        });
+      } else {
+        res.redirect('/register');
+      }
+    });
 });
 
 // login post route
@@ -118,7 +140,6 @@ router.delete('/logout', (req, res) => {
   res.redirect('/login');
 });
 
-//load data
-
+// load data
 
 module.exports = router;
