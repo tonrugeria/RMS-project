@@ -96,7 +96,7 @@ router.post('/examcreation', async (req, res) => {
 router.get('/examcreation/:question_category', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users');
-  const userRole = await knex('admin.user_role');
+  const currentUserRole = await knex('admin.user_role');
   const personality = await knex('question.question').where('question_category','Personality');
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
@@ -123,7 +123,7 @@ router.get('/examcreation/:question_category', checkAuthenticated, async (req, r
     allCategoryQuestion,
     currentUser,
     currentUserId,
-    userRole,
+    currentUserRole,
   });
 });
 
@@ -134,7 +134,7 @@ router.get(
   async (req, res) => {
     const currentUserId = req.user.user_id;
     const currentUser = await knex('admin.users');
-    const userRole = await knex('admin.user_role');
+    const currentUserRole = await knex('admin.user_role');
     const personality = await knex('question.question').where('question_category','Personality');
     const questionId = req.params.question_id;
     const questionCategory = req.params.question_category;
@@ -168,7 +168,7 @@ router.get(
         allCategoryQuestion,
         currentUser,
         currentUserId,
-        userRole,
+        currentUserRole,
       });
     }
   }
