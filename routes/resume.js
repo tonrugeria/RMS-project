@@ -67,15 +67,24 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
   } = req.body;
   
   const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`
-  const startDate = moment(history_start_date, 'MM/DD/YYYY');
-  const endDate = moment(history_end_date, 'MM/DD/YYYY');
+  
+  const getStartDates = history_start_date.map((element) =>
+      moment(element).format('L')
+    );
 
-  let yearDiff = endDate.diff(startDate, 'years');
+    const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
-  if (isNaN(yearDiff)) {
-    yearDiff = 0;
-  }
-  const totalYears = yearDiff;
+    let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
+    let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
+    let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
+    let yearDiff4 = getEndDates[3].diff(getStartDates[3], 'years');
+    let yearDiff5 = getEndDates[4].diff(getStartDates[4], 'years');
+    if (isNaN(yearDiff1)) yearDiff1 = 0;
+    if (isNaN(yearDiff2)) yearDiff2 = 0;
+    if (isNaN(yearDiff3)) yearDiff3 = 0;
+    if (isNaN(yearDiff4)) yearDiff4 = 0;
+    if (isNaN(yearDiff5)) yearDiff5 = 0;
+    const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
 
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
