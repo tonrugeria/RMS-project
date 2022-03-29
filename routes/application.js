@@ -67,9 +67,9 @@ router.get('/application/job/:job_id/applicant/:application_id', async (req, res
   const applicants = await knex('job_application.applicant_details')
     .where('job_id', jobId)
   const applicantDetails = await knex('job_application.applicant_details')
-    .innerJoin('job_application.technical_score', 'job_application.technical_score.application_id', 'job_application.applicant_details.application_id')
+    .leftJoin('job_application.technical_score', 'job_application.technical_score.application_id', 'job_application.applicant_details.application_id')
     .where({job_id: jobId})
-    console.log("APPLICANTS", applicantDetails);
+    console.log("DETAILS", applicantDetails);
   const applicantInfo = await knex('job_application.applicant_details')
     .where({
       job_id: jobId,

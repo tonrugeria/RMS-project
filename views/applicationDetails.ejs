@@ -86,7 +86,15 @@
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
                     <p class="card-text">
-                      expertise
+                      <% for( let j = 0; j < applicantDetails.length; j++) { %>
+                        <% if(applicantDetails[j].application_id != null) { %>
+                          <% if( applicants[i].application_id == applicantDetails[j].application_id) { %>
+                            <%= applicantDetails[j].skill_level %>
+                          <% } else { %>
+                            NO RECORD  
+                          <% } %> 
+                        <% } %> 
+                      <% } %> 
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
