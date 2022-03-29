@@ -184,7 +184,6 @@ router.post(
     if (isNaN(yearDiff4)) yearDiff4 = 0;
     if (isNaN(yearDiff5)) yearDiff5 = 0;
     const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
-
     const today = new Date();
     const thisDay = moment(today, 'MM/DD/YYYY');
 
@@ -193,7 +192,7 @@ router.post(
     if(req.file) {
       new_image = req.file.filename;
       try{
-        fs.unlinkSync('../photo' + req.body.old_image);
+        fs.unlinkSync('./photo/' + req.body.old_image);
       } catch(err) {
         console.log(err)
       }

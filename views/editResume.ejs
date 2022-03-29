@@ -32,7 +32,7 @@
             <h5>APPLICANT DOES NOT EXIST</h5>
           </div>
         <% } else {%>  
-          <form action="/careers/job/<%= jobId %>/resume/application/<%= appId %>" method="post">
+          <form action="/careers/job/<%= jobId %>/resume/application/<%= appId %>" method="post" enctype="multipart/form-data">
             <div>
               <h5>YOU ARE APPLYING FOR THE POSITION</h5>
               <% for( let i=0; i < jobs.length; i++) { %>
@@ -41,10 +41,19 @@
                 </h1>
                 <% } %>
             </div>
-  
+          
             <h5>Your Personal Information</h5>
             <div class="mb-4">
               <% for( let i=0; i < applicants.length; i++) { %>
+                <div>
+                  <img src="/<%= applicants[i].photo %>" width="100"> 
+                </div>
+                <div>
+                  <img height="100" id="output">
+                </div>
+                <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)"></i>
+                <input type="hidden" name="old_image" value="<%= applicants[i].photo  %> ">
+                <label for="photo" style="border: 2px solid black" class="p-1"><i class="fa-solid">UPDATE IMAGE</i></label>
                 <p><strong>NAME</strong></p>
                 <input type="text" name="first_name" placeholder="First Name" value="<%= applicants[i].first_name %>">
                 <input type="text" name="middle_name" placeholder="Middle Name" value="<%= applicants[i].middle_name %>">
@@ -312,4 +321,14 @@
     </div>
   </div>
 
+
+  <script>
+    var loadFile = function(event) {
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function() {
+        URL.revokeObjectURL(output.src)
+      }
+    };
+  </script>
   <%- include('./layout/resumeFooter.ejs') %>
