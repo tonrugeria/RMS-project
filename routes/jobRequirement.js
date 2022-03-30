@@ -1,5 +1,6 @@
 const express = require('express');
 const knex = require('../dbconnection');
+const moment = require('moment');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -23,6 +24,9 @@ router.get('/job-requirement', async (req, res) => {
   const question = await knex('question.question');
   const jobPosition = await knex('admin.job_position');
   const positionLevel = await knex('admin.position_level');
+  const today = new Date();
+  const thisDay = moment(today).format("L");
+  console.log(thisDay);
   const unique = uniqueId(job);
   res.render('jobRequirement', {
     adminSkill,
@@ -35,6 +39,7 @@ router.get('/job-requirement', async (req, res) => {
     jobQuestion,
     jobPosition,
     positionLevel,
+    
   });
 });
 
@@ -54,6 +59,10 @@ router.post('/job-requirement', async (req, res) => {
     skill_id,
     skill_level,
   } = req.body;
+
+  const today = new Date();
+  const thisDay = moment(today).format("L");
+  console.log(thisDay);
   knex('jobs.job_opening')
     .insert({
       job_id: jobId,
@@ -66,6 +75,8 @@ router.post('/job-requirement', async (req, res) => {
       min_years_experience: yearsOfExp,
       skill_score: skillScore,
       personality_score: personalityScore,
+      date_opened: thisDay,
+      last_date_updated: thisDay,
     })
     .then(() => {
       if (typeof skill_id != typeof []) {

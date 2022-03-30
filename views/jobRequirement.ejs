@@ -51,7 +51,7 @@
       <div>
         <label for="career level">CAREER LEVEL</label>
         <select name="careerLevel" id="career level" >
-          <option>Select a Career Level</option>
+          <option>Select a career level</option>
           <% for(let i = 0; i < positionLevel.length; i++) { %>
             <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
           <% } %>
@@ -61,7 +61,7 @@
       <div>
         <label for="work type">WORK TYPE</label>
         <select name="workType" id="work type" >
-          <option>Select a Work Type</option>
+          <option>Select a work type</option>
           <% for(let i = 0; i < jobType.length; i++) { %>
             <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
           <% } %>
