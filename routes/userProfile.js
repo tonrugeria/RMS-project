@@ -18,8 +18,14 @@ router.get('/userProfile', checkAuthenticated, async (req, res) => {
 });
 
 router.post('/userProfile', upload, async (req, res) => {
-  const { user_name, email, password } = req.body;
+  const { user_name, email } = req.body;
+  let { password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  if (password[0] !== '$') {
+    password = hashedPassword;
+  }
+
   let new_image = '';
   if (req.file) {
     new_image = req.file.filename;
@@ -38,7 +44,7 @@ router.post('/userProfile', upload, async (req, res) => {
       user_name,
       photo: new_image,
       email,
-      password: hashedPassword,
+      password,
     })
     .then((results) => {
       res.redirect('/userProfile');
