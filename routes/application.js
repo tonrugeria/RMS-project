@@ -180,6 +180,17 @@ router.get(
         application_id: appId,
       })
       .andWhere('question.question.question_type', 0);
+
+    const personalityTestResults = await knex('job_application.applicant_exam_answers')
+      .innerJoin(
+        'question.question',
+        'job_application.applicant_exam_answers.question_id',
+        'question.question.question_id'
+      )
+      .where({
+        application_id: appId,
+      })
+      .andWhere('question.question.question_type', 1);
     let sum = 0;
     for (let i = 0; i < applicantExam.length; i++) {
       sum += applicantExam[i].skill_level;
@@ -222,6 +233,7 @@ router.get(
       total,
       applicantExam,
       applicantExamResults,
+      personalityTestResults,
       applicantDetails,
       currentUser,
       currentUserId,

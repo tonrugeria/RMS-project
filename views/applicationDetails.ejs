@@ -314,7 +314,44 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <h6>Personality test is not available yet</h6>
+                  <% for(let i = 0; i < personalityTestResults.length; i++) { %>
+                    <p>
+                      <%= i+1 %>. <%= personalityTestResults[i].question_detail %>
+                      <% if (personalityTestResults[i].applicant_answer == 0) { %>
+                          (Not answered)
+                        <% } %>
+                    </p>
+                    <ul>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 1) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      a. <%= personalityTestResults[i].choice_1 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 2) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      b. <%= personalityTestResults[i].choice_2 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 3) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      c. <%= personalityTestResults[i].choice_3 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 4) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      d. <%= personalityTestResults[i].choice_4 %>
+                      </p>
+                    </ul>
+                  <% } %> 
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Technical test results</button>
