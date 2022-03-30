@@ -86,31 +86,7 @@
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
                     <p class="card-text"> 
-                      <% for( let j = 0; j < applicantDetails.length; j++) { %>
-                        <% if(applicantDetails[j].application_id != null) { %>
-                          <% if( applicants[i].application_id == applicantDetails[j].application_id) { %>
-                            <% if ( applicantDetails[j].skill_level >= 75) { %> 
-                               <% for ( let k = 0; k < applicantScore.length; k++ ) { %>
-                                <% if (applicantScore[k].skill_id == applicantDetails[j].skill_id) { %>
-                                  EXPERT in <%= applicantScore[k].skill_name %>   
-                                <% } %> 
-                              <% } %> <br>
-                            <% } else if (applicantDetails[j].skill_level >= 50) { %>
-                               <% for ( let k = 0; k < applicantScore.length; k++ ) { %>
-                                <% if (applicantScore[k].skill_id == applicantDetails[j].skill_id) { %>
-                                  Intermediate in <%= applicantScore[k].skill_name %>   
-                                <% } %> 
-                              <% } %> <br>
-                            <% } else { %>
-                               <% for ( let k = 0; k < applicantScore.length; k++ ) { %>
-                                <% if (applicantScore[k].skill_id == applicantDetails[j].skill_id) { %>
-                                  Beginner in <%= applicantScore[k].skill_name %>   
-                                <% } %> 
-                              <% } %> <br>
-                            <% } %>
-                          <% } %> 
-                        <% } %> 
-                      <% } %> 
+                      EXPERT
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
@@ -173,13 +149,17 @@
                       </p>
                       <p class="m-0">
                         <% if( total >= 75) { %>
-                          Expert
+                          Expert in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
                         <% } else if (total >= 50) { %>
-                          Intermediate  
+                          Intermediate in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
                         <% } else { %>
-                          Beginner  
-                        <% } %> in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
-                          <%= applicantSkill[i].skill_name %> 
+                          Beginner  in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %> 
                         <% } %> 
                       </p>
                     </div>
