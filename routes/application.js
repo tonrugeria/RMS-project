@@ -120,6 +120,10 @@ router.get(
       'job_id',
       jobId
     );
+    adminSkill = adminSkill.filter(
+      (value, index, self) =>
+        index === self.findIndex((t) => t.skill_name === value.skill_name)
+    );
     const applicantDetails = await knex('job_application.applicant_details')
       .leftJoin(
         'job_application.technical_score',
@@ -127,7 +131,6 @@ router.get(
         'job_application.applicant_details.application_id'
       )
       .where({ job_id: jobId });
-    console.log('DETAILS', applicantDetails);
     const applicantInfo = await knex('job_application.applicant_details').where({
       job_id: jobId,
       application_id: appId,
@@ -162,15 +165,20 @@ router.get(
       'application_id',
       appId
     );
-    adminSkill = adminSkill.filter(
-      (value, index, self) =>
-        index === self.findIndex((t) => t.skill_name === value.skill_name)
-    );
 
     const applicantExam = await knex('job_application.technical_score').where({
       application_id: appId,
     });
 
+    const applicantExamResults = await knex('job_application.applicant_exam_answers')
+      .innerJoin(
+        'question.question',
+        'job_application.applicant_exam_answers.question_id',
+        'question.question.question_id'
+      )
+      .where({
+        application_id: appId,
+      });
     let sum = 0;
     for (let i = 0; i < applicantExam.length; i++) {
       sum += applicantExam[i].skill_level;
@@ -212,6 +220,7 @@ router.get(
       jobApplications,
       total,
       applicantExam,
+      applicantExamResults,
       applicantDetails,
       currentUser,
       currentUserId,
