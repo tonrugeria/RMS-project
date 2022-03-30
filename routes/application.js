@@ -69,7 +69,29 @@ router.get('/application/job/:job_id/applicant/:application_id', async (req, res
   const applicantDetails = await knex('job_application.applicant_details')
     .leftJoin('job_application.technical_score', 'job_application.technical_score.application_id', 'job_application.applicant_details.application_id')
     .where({job_id: jobId})
-    console.log("DETAILS", applicantDetails);
+    // console.log(applicantDetails);
+    // let level = ''
+    // for( let i = 0; i < applicants.length; i++) { 
+    //  for( let j = 0; j < applicantDetails.length; j++) { 
+    //    if(applicantDetails[j].application_id != null) { 
+    //      if( applicants[i].application_id == applicantDetails[j].application_id) { 
+    //       if ( applicantDetails[j].skill_level >= 75) {
+    //         level = 'Expert'
+    //         for( let k = 0; k < applicantScore.length; k++) {
+    //           if (applicantScore[k].skill_id == applicantDetails[j].skill_id) {
+    //             return applicantScore[k].skill_name
+    //           }
+    //         }
+    //       } else if ( applicantDetails[j].skill_level >= 50 ) {
+    //         level = 'Intermediate'
+    //       } else {
+    //         level = 'Beginner'
+    //       }
+    //      }  
+    //    }  
+    //  } 
+    // } 
+    // console.log("LEVEL", level);
   const applicantInfo = await knex('job_application.applicant_details')
     .where({
       job_id: jobId,
@@ -108,8 +130,7 @@ router.get('/application/job/:job_id/applicant/:application_id', async (req, res
     sum += applicantExam[i].skill_level
   }
   const total = (sum / (applicantExam.length * 100)) * 100
-
-
+  
   const {
     date_of_birth
   } = applicantInfo[0] || {}
