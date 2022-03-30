@@ -85,16 +85,8 @@
                 <div class="col-md-8">
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                    <p class="card-text">
-                      <% for( let j = 0; j < applicantDetails.length; j++) { %>
-                        <% if(applicantDetails[j].application_id != null) { %>
-                          <% if( applicants[i].application_id == applicantDetails[j].application_id) { %>
-                            <%= applicantDetails[j].skill_level %>
-                          <% } else { %>
-                            NO RECORD  
-                          <% } %> 
-                        <% } %> 
-                      <% } %> 
+                    <p class="card-text"> 
+                      EXPERT
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
@@ -157,12 +149,18 @@
                       </p>
                       <p class="m-0">
                         <% if( total >= 75) { %>
-                          Expert
+                          Expert in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
                         <% } else if (total >= 50) { %>
-                          Intermediate  
+                          Intermediate in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
                         <% } else { %>
-                          Beginner  
-                        <% } %> | Technologies
+                          Beginner  in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %> 
+                        <% } %> 
                       </p>
                     </div>
                     <div class="d-flex align-items-end">
