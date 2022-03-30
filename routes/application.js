@@ -178,7 +178,8 @@ router.get(
       )
       .where({
         application_id: appId,
-      });
+      })
+      .andWhere('question.question.question_type', 0);
     let sum = 0;
     for (let i = 0; i < applicantExam.length; i++) {
       sum += applicantExam[i].skill_level;
