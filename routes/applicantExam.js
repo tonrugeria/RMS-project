@@ -65,7 +65,7 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
   res.redirect(`/careers/job/${jobId}/exam/application/${appId}`);
 
   // 3 joined tables: applicant_exam_answers, question.question, admin.skill
-  const applicantExam_Question = await knex('job_application.applicant_exam_answers')
+  let applicantExam_Question = await knex('job_application.applicant_exam_answers')
     .innerJoin(
       'question.question',
       'job_application.applicant_exam_answers.question_id',
@@ -87,10 +87,16 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
   applicantExam_Question.forEach((question) => {
     skills.push({
       skill_id: question.skill_id,
+      skill_name: question.skill_name,
       score: 0,
       skill_total: 0,
     });
   });
+
+  applicantExam_Question = applicantExam_Question.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.question_id === value.question_id)
+  );
 
   // populating the skills array and recording the count of right answers
   for (let i = 0; i < applicantExam_Question.length; i++) {
@@ -107,6 +113,7 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
           applicantExam_Question[i].correct_answer
         ) {
           skills[j].skill_id = applicantExam_Question[i].skill_id;
+          skills[j].skill_name = applicantExam_Question[i].skill_name;
           skills[j].score += 1;
           skills[j].skill_total += 1;
         } else {
@@ -121,7 +128,11 @@ router.post('/careers/job/:job_id/exam/application/:application_id', async (req,
   skills = skills.filter(
     (value, index, self) =>
       index ===
-      self.findIndex((t) => t.skill_id === value.skill_id && t.score === value.score)
+      self.findIndex(
+        (t) =>
+          (t.skill_id === value.skill_id && t.score === value.score) ||
+          (t.skill_name === value.skill_name && t.score === value.score)
+      )
   );
 
   // insert query to technical score
