@@ -13,7 +13,13 @@ function uniqueId(jobIdColumn) {
 }
 
 // job-requirement get route
-router.get('/job-requirement', async (req, res) => {
+router.get('/job-requirement', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const adminSkill = await knex('admin.skill');
   const dept = await knex('admin.department');
   const jobType = await knex('admin.job_type');
@@ -35,6 +41,9 @@ router.get('/job-requirement', async (req, res) => {
     jobQuestion,
     jobPosition,
     positionLevel,
+    currentUser,
+    currentUserId,
+    currentUserRole,
   });
 });
 

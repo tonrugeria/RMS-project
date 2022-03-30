@@ -76,8 +76,11 @@ input{
 <% } else { %>
       <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
       <th>
-      <img src="<%= users[i].photo %> "  width="36" height="36" class="img-thumbnail">
+      <% if (users[i].photo != null) { %>
+        <img src="<%= users[i].photo %>"  width="36" height="36" class="img-thumbnail">
+      <% } %>
       <input type="file" id="photo1" name="photo" required>
+      <input type="hidden" name="old_image" value="<%= users[i].photo %>">
       </th>
       <th ><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
       <th><input type="password" name="password" value="<%= users[i].password%>" ></th>

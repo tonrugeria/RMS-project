@@ -3,12 +3,22 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const moment = require('moment');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
 // admin job listing get route
-router.get('/', async (req, res) => {
+router.get('/', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department');
   const { date_opened } = jobOpening[0] || {};
@@ -27,6 +37,9 @@ router.get('/', async (req, res) => {
     jobSkill,
     jobApplications,
     dateOpened,
+    currentUser,
+    currentUserId,
+    currentUserRole,
   });
 });
 
@@ -45,59 +58,65 @@ router.post('/job/:job_id/status', (req, res) => {
 });
 
 // register get route
-router.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register');
+router.get('/register', checkNotAuthenticated, async (req, res) => {
+  const superAdmin = await knex('admin.users').where({ role_id: 4 });
+  if (superAdmin == 0) {
+    res.render('register');
+  } else {
+    res.redirect('/login');
+  }
 });
 
 // register post route
 router.post('/register', checkNotAuthenticated, async (req, res) => {
-    const { username, email, password } = req.body;
-    const userFound = await knex('admin.users')
-        .where({ user_name: username })
-        .first()
-        .then((row) => {
-            if (row) {
-                return row.user_name;
-            }
-            return row;
+  const { username, email, password } = req.body;
+  const userFound = await knex('admin.users')
+    .where({ user_name: username })
+    .first()
+    .then((row) => {
+      if (row) {
+        return row.user_name;
+      }
+      return row;
+    });
+  if (userFound === username) {
+    req.flash('error', 'User with that username already exists');
+    res.redirect('/register');
+  } else {
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      knex('admin.users')
+        .insert({
+          user_name: username,
+          email,
+          password: hashedPassword,
+        })
+        .then(() => {
+          res.redirect('/login');
         });
-    if (userFound === username) {
-        req.flash('error', 'User with that username already exists');
-        res.redirect('/register');
-    } else {
-        try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            knex('admin.users')
-                .insert({
-                    user_name: username,
-                    email: email,
-                    password: hashedPassword,
-                })
-                .then(() => {
-                    res.redirect('/login');
-                });
-        } catch (error) {
-            console.log(error);
-            req.flash('error', 'Cant insert');
-            res.redirect('/register');
-        }
+    } catch (error) {
+      console.log(error);
+      req.flash('error', 'Cant insert');
+      res.redirect('/register');
     }
   }
-);
+});
 
 // login get route
 router.get('/login', checkNotAuthenticated, async (req, res) => {
   const user = knex('admin.users');
-  knex('admin.users').then((results) => {
-    if (results != 0) {
-      res.render('login', {
-        title: 'Log In',
-        user,
-      });
-    } else {
-      res.redirect('/register');
-    }
-  });
+  knex('admin.users')
+    .where('role_id', 4)
+    .then((results) => {
+      if (results != 0) {
+        res.render('login', {
+          title: 'Log In',
+          user,
+        });
+      } else {
+        res.redirect('/register');
+      }
+    });
 });
 
 // login post route
@@ -117,7 +136,6 @@ router.delete('/logout', (req, res) => {
   res.redirect('/login');
 });
 
-//load data
-
+// load data
 
 module.exports = router;

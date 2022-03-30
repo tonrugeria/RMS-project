@@ -1,0 +1,38 @@
+<%- include('./layout/header.ejs')  %>  
+<div class="container">
+    <div class="row">
+        <form action="/userProfile" method="post" encType="multipart/form-data"> <br>
+        <div class="span8">
+            <br><img src="<%= currentUser[0].photo %> "  width="60"  ><br>
+            <label for="out">UPDATE IMAGE</label>
+            <input type="hidden" name="old_image" value="<%= currentUser[0].photo %>">
+            <input id="out" type="file" onchange="loadFile(event)" style="visibility: none;display: none;" name="photo"> 
+            <img height="60" id="output">
+        </div>
+         <div class="span8">
+             <label for="username">Username</label><br>
+              <input id="username" type="text" name="user_name" value="<%= currentUser[0].user_name %>">
+         </div>
+         <div class="span8">
+            <label for="email">Email</label><br>
+             <input id="email" type="text" name="email" value="<%= currentUser[0].email %>">
+        </div>
+         <div class="span8">
+             <label for="password">Password</label><br>
+              <input id="password" type="password" name="password" value="<%= currentUser[0].password %>">
+         </div>
+       
+             <button type="submit">UPDATE PROFILE</button>
+         </form>
+    </div>
+</div>
+<script>
+    var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src)
+    }
+  };
+</script>
+<%- include('./layout/footer.ejs')  %>  
