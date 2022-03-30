@@ -42,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
+app.use(express.static('/photo'));
 
 // route prefix
 app.use('', require('./routes/routes'));
@@ -61,6 +62,7 @@ app.use('', require('./routes/resume'));
 app.use('', require('./routes/editResume'));
 app.use('', require('./routes/applicantExam'));
 app.use('', require('./routes/application'));
+app.use('', require('./routes/userProfile'));
 
 app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);

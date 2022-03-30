@@ -1,0 +1,270 @@
+<%- include('./layout/header.ejs') %>
+<div class="container-fluid m-0">
+  <div class="row min-vh-100">
+    <div class="col-3 g-0">
+        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+          <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
+            <% for( let i = 0; i < jobOpening.length; i++) { %>
+              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
+                <%= jobOpening[i].job_title %>
+                <div>
+                <% let applicants =  0 %>
+                <p class="d-flex">
+                  <% for (let j=0; j < jobApplications.length; j++) { %>
+                    <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                        <% applicants++; %>
+                    <% } %>
+                  <% } %>
+                  (<%= applicants; %>)
+                </p>
+              </div>
+            </option>
+            <% } %> 
+          </select>
+        </div>
+        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+          <div class="row">
+            <% for (let i=0; i < adminSkill.length; i++) { %>
+              <div class="col">
+                <%= adminSkill[i].skill_name %> 
+              </div>
+            <% } %>
+            </div>
+          </div>
+      
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Expert</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Intermediate</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Beginner</label>
+      </div>
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Meets Minimum years work experience</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Expected salary within offer</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Can start immediately</label>
+      </div>
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">For Review</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">For Interview</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Contacted</label><br>
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Hired</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">For Pooling</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Archive</label>
+      </div>
+      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Read</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Unread</label>
+      </div>
+      <div class="p-4" style="background-color: #e6e6e6;">
+
+      </div>
+    </div>
+    <div class="col-3 g-0" style="height: 100vh;"> 
+      <div style="height: 100vh; overflow: auto;">
+        <% for(let i = 0; i < applicants.length; i++) { %>
+          <%= applicants[i].application_id %> 
+          <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
+            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                    <p class="card-text"> 
+                      EXPERT
+                    </p>
+                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <% } %> 
+      </div>
+    </div>
+    <div class="col-6 g-0 p-4">
+      <form action="/application/job/<%= jobId %> /applicant/<%= appId %>" method="get" enctype="multipart/form-data">
+        <div class="d-flex flex-column border-bottom border-3">
+          <div class="card p-3 border-0">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <% if (applicantInfo != 0) { %>
+                  <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image">
+                <% } else { %>
+                  NO PHOTO  
+                <% } %> 
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-0">
+                  <h5 class="card-title mb-0">
+                    <% if (applicantInfo != 0) { %>
+                      <%= applicantInfo[0].first_name %> <%= applicantInfo[0].last_name %>
+                    <% } else { %>
+                      NO NAME ENTERED
+                    <% } %>
+                  </h5>
+                  <small>
+                    <p class="card-text mb-0">
+                      <% if (applicantInfo != 0) { %>
+                        <%= age %> &#8226; <%= applicantInfo[0].gender %>  &#8226; <%= applicantInfo[0].city %>
+                        <% } else { %>
+                          NO SPECIFIED
+                        <% } %>
+                    </p>
+                  </small>
+                  <p class="card-text mb-5"><small>
+                    <% if (applicantInfo != 0) { %>
+                      <%= applicantInfo[0].email %> &#8226; <%= applicantInfo[0].skype %>  &#8226; <%= applicantInfo[0].mobile %>
+                      <% } else { %>
+                        NO SPECIFIED
+                      <% } %>
+                  </small>
+                </p>
+                <div>
+                  
+                </div>
+                  <div class="d-flex">
+                    <div class="me-auto">
+                      <p class="card-text mb-0">
+                        <% if (applicantInfo != 0) { %>
+                          <%= applicantInfo[0].year_experience %> years experience
+                          <% } else { %>
+                            NO EXPERIENCE
+                          <% } %>
+                      </p>
+                      <p class="m-0">
+                        <% if( total >= 75) { %>
+                          Expert in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
+                        <% } else if (total >= 50) { %>
+                          Intermediate in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %>
+                        <% } else { %>
+                          Beginner  in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                            <%= applicantSkill[i].skill_name %> 
+                          <% } %> 
+                        <% } %> 
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-end">
+                      <div class="me-1">
+                        <button>assign status</button>
+                      </div>
+                      <div>
+                        <button>save resume</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+          </div>
+        </div>
+
+        <div class="container py-3">
+          <h3>SKILLS</h3>
+          <div class="row">
+            <% if(applicantSkill != 0) { %> 
+              <% for ( let i = 0; i < applicantSkill.length; i++) { %>
+                <div class="col-4 m-0 border border-2 mb-1">
+                  <div>
+                    <strong>
+                      <%= applicantSkill[i].skill_name %> | 
+                      <% if( applicantExam != 0) { %>
+                        <% for ( let j = 0; j < applicantScore.length; j++) { %>
+                          <% if ( applicantSkill[i].skill_id == applicantScore[j].skill_id) { %>
+                            <% if (applicantScore[j].skill_level >= 75) { %>
+                              Expert
+                            <% } else if (applicantScore[j].skill_level >= 50) { %>
+                              Intermediate
+                            <% } else { %>
+                              Beginner  
+                            <% } %>    
+                          <% } %> 
+                        <% } %> 
+                      <% } else { %>
+                        NO EXAM  
+                      <% } %> 
+                    </strong>
+                  </div>
+                  <div>
+                    <%= applicantSkill[i].skill_years%> years experience
+                  </div>
+                  <div>
+                    Self-rating <%= applicantSkill[i].skill_self_rating%> / 5
+                  </div>
+                </div>
+                <% } %>
+              <% } else { %>
+                NO SKILL  
+              <% } %> 
+          </div>
+        </div>
+
+        <div class="py-3">
+          <h3>CAPABILITIES</h3>
+          <% if(applicantCapability[0].capability_1 != 0) { %> 
+            <div>
+              <p><%= applicantCapability[0].capability_1 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_2 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_3 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_4 %> </p>
+            </div>
+            <div>
+              <p><%= applicantCapability[0].capability_5 %> </p>
+            </div>
+          <% } else { %>
+            NO CAPABILITIES  
+          <% } %> 
+        </div>
+
+        <div>
+          <h3>Professional Background</h3>
+          <% if (applicantHistory[0].position != 0) { %>
+            <% for ( let i =0; i < applicantHistory.length; i++) { %>
+                <div>
+                  <% if(applicantHistory != 0 && getStartDates[i] != 'Invalid date' && getEndDates[i] != 'Invalid date') { %>
+                    <div class="mb-3">
+                      <%= applicantHistory[i].position %> &#8226;
+                      <%= getStartDates[i] %> - <%= getEndDates[i] %>
+                      <div>
+                        <small><%= applicantHistory[i].company %></small>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>  
+                <% } %> 
+            <% } else { %>
+              NO HISTORY  
+            <% } %> 
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('./layout/footer.ejs') %>

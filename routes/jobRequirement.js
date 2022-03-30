@@ -14,7 +14,13 @@ function uniqueId(jobIdColumn) {
 }
 
 // job-requirement get route
-router.get('/job-requirement', async (req, res) => {
+router.get('/job-requirement', checkAuthenticated, async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const adminSkill = await knex('admin.skill');
   const dept = await knex('admin.department');
   const jobType = await knex('admin.job_type');
@@ -39,7 +45,9 @@ router.get('/job-requirement', async (req, res) => {
     jobQuestion,
     jobPosition,
     positionLevel,
-    
+    currentUser,
+    currentUserId,
+    currentUserRole,
   });
 });
 
@@ -79,29 +87,30 @@ router.post('/job-requirement', async (req, res) => {
       last_date_updated: thisDay,
     })
     .then(() => {
-      if (typeof skill_id != typeof []) {
-        skill_level.forEach((skill) => {
-          knex('jobs.skill')
-            .insert({
-              job_id: jobId,
-              skill_id,
-              skill_level: skill,
-            })
-            .then((results) => results);
-        });
-        res.redirect(`/job-requirement/${jobId}`);
-      } else {
-        for (let i = 0; i < skill_id.length; i++) {
-          knex('jobs.skill')
-            .insert({
-              job_id: jobId,
-              skill_id: skill_id[i],
-              skill_level: skill_level[i],
-            })
-            .then((results) => results);
+      if (skill_id != null) {
+        if (typeof skill_id != typeof []) {
+          skill_level.forEach((skill) => {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id,
+                skill_level: skill,
+              })
+              .then((results) => results);
+          });
+        } else {
+          for (let i = 0; i < skill_id.length; i++) {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id: skill_id[i],
+                skill_level: skill_level[i],
+              })
+              .then((results) => results);
+          }
         }
-        res.redirect(`/job-requirement/${jobId}`);
       }
+      res.redirect(`/job-requirement/${jobId}`);
     });
 });
 

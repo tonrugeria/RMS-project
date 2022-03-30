@@ -15,24 +15,33 @@
         </div>
         <div>
           <a 
-          <% if(applicantExamRecord != undefined) { %>
           href="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
-          <% } %> 
           >
-            <button>SUBMIT</button>
+            <button
+            <% if(applicantExamRecord == undefined) { %>
+              disabled
+            <% } %> 
+            >SUBMIT
+            </button>
           </a>
         </div>
         
       </div>
     </div>
     <div class="col-sm-10">
-      <% if(applicantExamRecord != undefined) { %>
+      <% if (applicantRecord == 0){ %>
+        <div
+        class="h-50 d-flex flex-column align-items-center justify-content-center"
+        >
+          <h5>APPLICANT DOES NOT EXIST</h5>
+        </div>
+      <% } else if(applicantExamRecord != undefined) { %>
       <div
         class="h-50 d-flex flex-column align-items-center justify-content-center"
       >
         <h5>YOU HAVE COMPLETED THE EXAM</h5>
       </div>
-      <% } else if(jobQuestion != 0) { %>
+      <% } else if (jobQuestion != 0) { %>
       <div>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
