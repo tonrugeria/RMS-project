@@ -58,7 +58,11 @@ input{
                   >
                   <!-- allows to edit user without changing image -->
                   <input type="hidden" name="old_image" value="<%= users[i].photo %>">
-                <% } %>
+                <% } else { %>
+                  <label for="photo"><i class="fa-solid fa-plus" ></i></label>
+                  <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event, 0)" required></i>
+                  <img height="40" id="output_0">
+                <% } %> 
               </th>
               <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
               <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
@@ -135,6 +139,10 @@ input{
                   >
                   <!-- allows to edit user without changing image -->
                   <input type="hidden" name="old_image" value="<%= users[i].photo %>">
+                <% } else { %>
+                  <label for="photo"><i class="fa-solid fa-plus" ></i></label>
+                  <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event, 0)" required></i>
+                  <img height="40" id="output_0">
                 <% } %> 
               </th>
               <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
