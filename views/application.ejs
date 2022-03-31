@@ -3,24 +3,28 @@
   <div class="row min-vh-100">
     <div class="col-3 g-0">
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-          <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
-            <% for( let i = 0; i < jobOpening.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
-                <%= jobOpening[i].job_title %>
-                <div>
-                  <% let applicants =  0 %>
-                  <p class="d-flex">
-                    <% for (let j=0; j < jobApplications.length; j++) { %>
-                      <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                          <% applicants++; %>
+          <% for( let i = 0; i < jobOpening.length; i++) { %>
+            <div>
+              <a href="/application/job/<%= jobOpening[i].job_id %>/" style="color: black;">
+                <div class="d-flex">
+                  <div class="me-2">
+                    <%= jobOpening[i].job_title %>
+                  </div>
+                  <div>
+                    <% let applicants =  0 %>
+                    <p style="text-decoration: none;">
+                      <% for (let j=0; j < jobApplications.length; j++) { %>
+                        <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                            <% applicants++; %>
+                        <% } %>
                       <% } %>
-                    <% } %>
-                    (<%= applicants; %>)
-                  </p>
+                      (<%= applicants; %>)
+                    </p>
+                  </div>
                 </div>
-              </option>
-            <% } %> 
-          </select>
+              </a>
+            </div>
+          <% } %> 
         </div>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <div class="row">
@@ -49,18 +53,16 @@
         <label for="vehicle3">Can start immediately</label>
       </div>
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">For Review</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">For Interview</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Contacted</label><br>
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Hired</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">For Pooling</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Archive</label>
+        <% for(let i=0; i < remarks.length; i++) { %>
+          <div>
+            <input type="checkbox" id="dept-<%= remarks[i].remark_id %>-checkbox"
+            class="all-dept-checkbox" 
+              onclick="showDeptFunction('<%= remarks[i].remark_id %>')"/>
+            <label for="<%= remarks[i].remark_name %>">
+              <%= remarks[i].remark_name %>
+            </label>
+          </div>
+          <% } %>
       </div>
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
         <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
@@ -80,21 +82,17 @@
             <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
               <div class="row g-0">
                 <div class="col-md-4">
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image">
+                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                    <p class="card-text">
-                      <% for( let j = 0; j < technicalScore.length; j++) { %>
-                        <% if(applicants != 0) { %> 
-                          <% if(applicants[i].application_id == technicalScore[j].application_id) { %>
-                              <%= technicalScore[j].skill_level %> in TECHNOLOGIES
-                          <% } else { %>
-                            NO EXAM
-                          <% } %> 
-                        <% } %>
-                      <% } %>
+                    <p class="card-text"> 
+                      <% for ( let j = 0; j < applicantJob.length; j++) { %>
+                        <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
+                          <%= applicantJob[j].skill_name %>   
+                        <% } %> 
+                      <% } %> 
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
@@ -102,7 +100,7 @@
               </div>
             </div>
           </a>
-          <% } %> 
+          <% } %>  
       </div>
     </div>
   </div>

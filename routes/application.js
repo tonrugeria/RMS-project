@@ -12,14 +12,34 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     'role_id',
     req.user.role_id
   );
-  const jobOpening = await knex('jobs.job_opening');
+
+  // admin Schema
   const adminSkill = await knex('admin.skill');
+  const remarks = await knex('admin.remarks')
+
+  // job_application Schema
+  // applicant_details Table
   const applicants = await knex('job_application.applicant_details');
-  const jobApplications = await knex('job_application.applicant_details').innerJoin(
-    'jobs.job_opening',
-    'job_application.applicant_details.job_id',
-    'jobs.job_opening.job_id'
-  );
+  const jobApplications = await knex('job_application.applicant_details')
+    .innerJoin(
+      'jobs.job_opening',
+      'job_application.applicant_details.job_id',
+      'jobs.job_opening.job_id'
+    );
+
+  // applicant_rating
+  const applicantJob = await knex('job_application.applicant_rating')
+    .innerJoin(
+      'admin.skill',
+      'job_application.applicant_rating.skill_id',
+      'admin.skill.skill_id'
+    )
+
+  // jobs Schema
+  const jobOpening = await knex('jobs.job_opening');
+  
+  
+
   const technicalScore = await knex('job_application.technical_score');
   res.render('application', {
     jobOpening,
@@ -30,6 +50,8 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
+    applicantJob,
+    remarks
   });
 });
 
@@ -41,24 +63,45 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     req.user.role_id
   );
   const jobId = req.params.job_id;
-  const applicants = await knex('job_application.applicant_details').where(
-    'job_id',
-    jobId
-  );
-  const jobOpening = await knex('jobs.job_opening');
-  const jobApplications = await knex('job_application.applicant_details').innerJoin(
-    'jobs.job_opening',
-    'job_application.applicant_details.job_id',
-    'jobs.job_opening.job_id'
-  );
-  const jobOpeningId = await knex('jobs.job_opening').innerJoin(
-    'job_application.applicant_details',
-    'job_application.applicant_details.job_id',
-    'jobs.job_opening.job_id'
-  );
+
+  // admin Schema
   const jobPosition = await knex('admin.job_position');
   const adminSkill = await knex('admin.skill');
-  const technicalScore = await knex('job_application.technical_score');
+  const remarks = await knex('admin.remarks')
+  const applicantSkill = await knex('admin.skill')
+    .innerJoin(
+    'job_application.applicant_rating',
+    'job_application.applicant_rating.skill_id',
+    'admin.skill.skill_id'
+    );
+
+  // job_application Schema
+  // applicant_details Table
+  const applicants = await knex('job_application.applicant_details')
+    .where({
+      job_id: jobId
+    });
+  const jobApplications = await knex('job_application.applicant_details')
+    .innerJoin(
+      'jobs.job_opening',
+      'job_application.applicant_details.job_id',
+      'jobs.job_opening.job_id'
+    );
+  // const applicantInfo = await knex('job_application.applicant_details')
+  //   .where({
+  //     job_id: jobId,
+  //   });
+  
+  // applicant_rating Table
+  const applicantJob = await knex('job_application.applicant_rating')
+    .innerJoin(
+      'admin.skill',
+      'job_application.applicant_rating.skill_id',
+      'admin.skill.skill_id'
+    )
+
+  // technical_score Table
+  const technicalScore = await knex('job_application.technical_score');  
   const skillScore = await knex('job_application.technical_score')
     .innerJoin(
       'job_application.applicant_details',
@@ -66,27 +109,26 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
       'job_application.technical_score.application_id'
     )
     .where('job_id', jobId);
+
+  // jobs Schema
+  const jobOpening = await knex('jobs.job_opening');
+  const jobOpeningId = await knex('jobs.job_opening')
+    .innerJoin(
+      'job_application.applicant_details',
+      'job_application.applicant_details.job_id',
+      'jobs.job_opening.job_id'
+    );
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
     .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
-  const applicantSkill = await knex('admin.skill')
-    .innerJoin(
-    'job_application.applicant_rating',
-    'job_application.applicant_rating.skill_id',
-    'admin.skill.skill_id'
-  );
   
-  const applicantInfo = await knex('job_application.applicant_details').where({
-    job_id: jobId,
-  });
-
-  const { date_of_birth } = applicantInfo[0] || {};
+  // Format
+  const { date_of_birth } = applicants[0] || {};
 
   const dob = moment(date_of_birth, 'MM/DD/YYYY');
   const age = moment().diff(dob, 'years', false);
 
   res.render('application', {
-    applicantInfo,
     jobOpening,
     jobPosition,
     jobSkill,
@@ -102,6 +144,8 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
+    applicantJob,
+    remarks
   });
 });
 
@@ -182,6 +226,12 @@ router.get(
         'admin.skill.skill_id'
       )
       .where('application_id', appId);
+    const applicantJob = await knex('job_application.applicant_rating')
+    .innerJoin(
+      'admin.skill',
+      'job_application.applicant_rating.skill_id',
+      'admin.skill.skill_id'
+    )
 
     // technical_score Table
     const technicalScore = await knex('job_application.technical_score');
@@ -259,7 +309,8 @@ router.get(
       currentUser,
       currentUserId,
       currentUserRole,
-      remarks
+      remarks,
+      applicantJob
     });
     // res.redirect(`/application/job/${jobId}/applicant/${appId}`)
   }
@@ -268,12 +319,11 @@ router.get(
 router.post('/application/job/:job_id/applicant/:application_id', async (req, res) => {
   const jobId = req.params.job_id
   const appId = req.params.application_id
-  const status = await knex('job_application.applicant_details')
-    .where({
-      job_id: jobId,
-      application_id: appId
-    })
-    console.log("STATUS", status);
+  // const status = await knex('job_application.applicant_details')
+  //   .where({
+  //     job_id: jobId,
+  //     application_id: appId
+  //   })
   const {
     remark
   } = req.body
