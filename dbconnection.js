@@ -1,36 +1,36 @@
 const knex = require('knex')({
-        client: 'pg',
-        connection: {
-          host: '127.0.0.1',
-          port: 5432,
-          user: 'postgres',
-          password: '12345',
-          database: 'rms',
-        },
-      });
-      
-      const { Pool } = require('pg');
-      
-      const pool = new Pool({
-        host: '127.0.0.1',
-        user: 'postgres',
-        database: 'rms',
-        password: '12345',
-        port: 5432,
-      });
-      
-      const execute = async (query) => {
-        try {
-          await pool.connect(); // gets connection
-          await pool.query(query); // sends queries
-          return true;
-        } catch (error) {
-          console.error(error.stack);
-          return false;
-        }
-      };
-      
-      const text = `CREATE SCHEMA IF NOT EXISTS Admin;
+  client: 'pg',
+  connection: {
+    host: '127.0.0.1',
+    port: 5432,
+    user: 'postgres',
+    password: '12345',
+    database: 'rms',
+  },
+});
+
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  host: '127.0.0.1',
+  user: 'postgres',
+  database: 'rms',
+  password: '12345',
+  port: 5432,
+});
+
+const execute = async (query) => {
+  try {
+    await pool.connect(); // gets connection
+    await pool.query(query); // sends queries
+    return true;
+  } catch (error) {
+    console.error(error.stack);
+    return false;
+  }
+};
+
+const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Admin.User_Role(
           role_id SERIAL PRIMARY KEY NOT NULL,
           role_name VARCHAR(100) NOT NULL
@@ -90,7 +90,7 @@ const knex = require('knex')({
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
           job_id INT PRIMARY KEY NOT NULL,
           job_title VARCHAR(100) NOT NULL,
-          job_dept VARCHAR(100) NOT NULL,
+          job_dept INT NOT NULL,
           max_salary INT NOT NULL,
           position_level VARCHAR(100) NOT NULL,
           job_type VARCHAR(100) NOT NULL,
@@ -240,13 +240,14 @@ const knex = require('knex')({
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
       );
-      
+
       CREATE TABLE IF NOT EXISTS Job_Application.Applicant_Exam_Answers(
           result_id SERIAL PRIMARY KEY NOT NULL,
           job_id int,
           application_id int,
           question_id int,
           applicant_answer int,
+          question_type int,
       
           FOREIGN KEY(job_id)
           REFERENCES Jobs.Job_Opening(job_id),
@@ -254,9 +255,8 @@ const knex = require('knex')({
           REFERENCES Job_Application.Applicant_details(application_id),
           FOREIGN KEY(question_id)
           REFERENCES Question.Question(question_id)
-      
       );
-      
+
       CREATE TABLE IF NOT EXISTS Job_Application.Applicant_rating (
           rating_id SERIAL PRIMARY KEY NOT NULL,
           application_id	INT NOT NULL,
@@ -297,8 +297,14 @@ const knex = require('knex')({
           tech_score_id SERIAL PRIMARY KEY NOT NULL,
           application_id	int NOT NULL,
           skill_id INT,
+<<<<<<< HEAD
           skill_level INT,
           skill_total INT,
+=======
+          skill_score INT,
+          skill_total INT,
+          skill_level NUMERIC(3, 0),
+>>>>>>> 512b489751b74e8f027b49b208ad2efdc0f5a93b
       
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
@@ -310,12 +316,11 @@ const knex = require('knex')({
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
       );`;
-      
-      execute(text).then((result) => {
-        if (result) {
-          console.log('Schemas and tables created');
-        }
-      });
-      
-      module.exports = knex;
-      
+
+execute(text).then((result) => {
+  if (result) {
+    console.log('Schemas and tables created');
+  }
+});
+
+module.exports = knex;

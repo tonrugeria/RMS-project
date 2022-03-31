@@ -167,15 +167,15 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
               if (skill_years[i] == '' && skill_self_rating[i] == '') {
                 skill_years[i] = 0;
                 skill_self_rating[i] = 0;
-                knex('job_application.applicant_rating')
-                  .insert({
-                    application_id: appId,
-                    skill_id: skill_id[i],
-                    skill_years: skill_years[i],
-                    skill_self_rating: skill_self_rating[i],
-                  })
-                  .then((result) => result);
               }
+              knex('job_application.applicant_rating')
+                .insert({
+                  application_id: appId,
+                  skill_id: skill_id[i],
+                  skill_years: skill_years[i],
+                  skill_self_rating: skill_self_rating[i],
+                })
+                .then((result) => result);
             }
           }
           res.redirect(`/careers/job/${jobId}/resume/application/${appId}`);

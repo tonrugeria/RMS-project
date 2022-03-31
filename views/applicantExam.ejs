@@ -9,13 +9,18 @@
           >
         </div>
         <div>
-          <a href="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
-            >EXAM</a
+          <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
+            >PERSONALITY TEST</a
+          >
+        </div>
+        <div>
+          <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+            >TECHNICAL EXAM</a
           >
         </div>
         <div>
           <a 
-          href="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
+          href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
           >
             <button
             <% if(applicantExamRecord == undefined) { %>
@@ -29,6 +34,7 @@
       </div>
     </div>
     <div class="col-sm-10">
+      <h1>TECHNICAL EXAM</h1>
       <% if (applicantRecord == 0){ %>
         <div
         class="h-50 d-flex flex-column align-items-center justify-content-center"
@@ -61,7 +67,7 @@
       </div>
       <div>
         <form
-          action="/careers/job/<%= jobId %>/exam/application/<%= appId %>"
+          action="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
           method="post"
           id="questions"
         ></form>
@@ -91,7 +97,7 @@
       let question = $('#value-question').val();
       let delay = 0;
       $.ajax({
-        url: '/careers/job/<%= jobId %>/exam',
+        url: '/careers/job/<%= jobId %>/technical-exam',
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ category: category, question: question }),
@@ -103,6 +109,11 @@
                           <div id="question-container_${key}">
                             <div>
                             <h3>${key}. ${value.question_detail}</h3>
+                            <input type="text"
+                              name="question_type"
+                              value="${value.question_type}"
+                              readonly
+                            >
                             <input type="text"
                               name="question_id"
                               value="${value.question_id}"
