@@ -297,14 +297,9 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           tech_score_id SERIAL PRIMARY KEY NOT NULL,
           application_id	int NOT NULL,
           skill_id INT,
-<<<<<<< HEAD
-          skill_level INT,
-          skill_total INT,
-=======
           skill_score INT,
           skill_total INT,
           skill_level NUMERIC(3, 0),
->>>>>>> 512b489751b74e8f027b49b208ad2efdc0f5a93b
       
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
