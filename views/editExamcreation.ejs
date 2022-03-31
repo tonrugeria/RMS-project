@@ -47,12 +47,17 @@
       href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
       style="color: white;"
       >
+      <% for (let j=0; j < question.length; j++){%>
         <div class="p-3" style="background-color: gray;">
           <div class="d-flex justify-content-between">
             <p>
-              <%= allCategoryQuestion[i].question_category %> | LEVEL <%=
+              <%= allCategoryQuestion[i].question_category %>
+              <% if(question[j].question_type =='0' ){ %>
+               | LEVEL <%=
               allCategoryQuestion[i].question_level %> 
+              <% } %>
             </p>
+      <% } %>
             <div>
               <form
               method="GET"
