@@ -62,10 +62,17 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           department_name VARCHAR(100) NOT NULL,
           position_type VARCHAR(100) NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS Admin.Department(
+        dept_id SERIAL PRIMARY KEY NOT NULL,
+        dept_name VARCHAR(100) NOT NULL
+    );
       CREATE TABLE IF NOT EXISTS Admin.Skill(
           skill_id SERIAL PRIMARY KEY NOT NULL,
           skill_name VARCHAR(100) NOT NULL,
-          skill_type VARCHAR(100) NOT NULL
+          skill_type INT NOT NULL,
+
+          FOREIGN KEY (skill_type)
+          REFERENCES Admin.Department(dept_id)
       );
       CREATE TABLE IF NOT EXISTS Admin.Remarks(
           remark_id SERIAL PRIMARY KEY NOT NULL,
@@ -82,10 +89,6 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           position_level_id SERIAL PRIMARY KEY NOT NULL,
           position_level_name VARCHAR(100) NOT NULL
       );
-      CREATE TABLE IF NOT EXISTS Admin.Department(
-          dept_id SERIAL PRIMARY KEY NOT NULL,
-          dept_name VARCHAR(100) NOT NULL
-      );
       CREATE SCHEMA IF NOT EXISTS Jobs;
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
           job_id INT PRIMARY KEY NOT NULL,
@@ -99,7 +102,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           skill_score VARCHAR(100) NOT NULL,
           hr_rating VARCHAR(100) NOT NULL,
           personality_score VARCHAR(100) NOT NULL,
-          date_opened DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          date_opened DATE NOT NULL,
           last_date_update DATE NOT NULL,
           created_by VARCHAR(100) NOT NULL,
           last_updated_by VARCHAR(100) NOT NULL,
