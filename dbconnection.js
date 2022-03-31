@@ -99,8 +99,8 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           skill_score VARCHAR(100) NOT NULL,
           hr_rating VARCHAR(100) NOT NULL,
           personality_score VARCHAR(100) NOT NULL,
-          date_opened DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          last_date_update DATE NOT NULL,
+          date_opened date NOT NULL,
+          last_date_updated date NOT NULL,
           created_by VARCHAR(100) NOT NULL,
           last_updated_by VARCHAR(100) NOT NULL,
           status INT NOT NULL
@@ -295,7 +295,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       );
       CREATE TABLE IF NOT EXISTS Job_Application.Technical_Score (
           tech_score_id SERIAL PRIMARY KEY NOT NULL,
-          application_id int NOT NULL,
+          application_id	int NOT NULL,
           skill_id INT,
           skill_score INT,
           skill_total INT,
