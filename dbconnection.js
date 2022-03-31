@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: 'novice0621**',
+    password: '12345',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: 'novice0621**',
+  password: '12345',
   port: 5432,
 });
 
@@ -295,7 +295,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       );
       CREATE TABLE IF NOT EXISTS Job_Application.Technical_Score (
           tech_score_id SERIAL PRIMARY KEY NOT NULL,
-          application_id int NOT NULL,
+          application_id	int NOT NULL,
           skill_id INT,
           skill_score INT,
           skill_total INT,

@@ -3,13 +3,13 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link rel="stylesheet" href="style.css">
-<div class="row min-vh-100">
-  <div class="col-sm-2 col-md-2 col-xl-2">
-    <!-- <link rel="stylesheet" href="/index.css" /> -->
+
+<div class="columns">
   </br>
 </br>
 </br>
 </br>
+<div class="sidebar-column">
     <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
     <div>
       <input type="checkbox" id="all-checkbox" onclick="showAllFunction()" checked/>
@@ -46,18 +46,21 @@
       <label for="archive">ARCHIVE</label><br><br>
     </div>
   </div>
-
-  <div class="container">
-    <div class="well well-sm">
+</div>
+ 
         <div class="btn-group">
             <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
             </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
                 class="glyphicon glyphicon-th"></span></a>  
                 </div>
+
+
+     <div class="container">
     <% for (let i=0; i < jobOpening.length; i++) { %>
-      <div id="products" class="row list-group">
-      <div class="item  col-xs-4 col-lg-4">
-        <div class="thumbnail">
+      <div id="products">
+      <div class="item col-xs-6 col-lg-4">
+        <div class="row">
+
       <!-- adding dynamic class for each job -->
         <div
         <% for (let j=0; j < admin_department.length; j++) { %> 
@@ -67,28 +70,26 @@
         <% } %> 
         >
         <!-- display date opened -->
-        <div>
-          
-        </div>
+
+          <span><%= date %></span>  
+  
         <!-- display job-type -->
-        <div>
+        <span>
           <%= jobOpening[i].job_type %>
-        </div>
+        </span>
         <!-- display job title -->
-        <div>
+        
           <h1>
             <a href="/job-requirement/<%= jobOpening[i].job_id %>">
               <%= jobOpening[i].job_title %>
             </a>
           </h1>
-        </div>
+   
         <!-- display skills -->
         <div class="d-flex" style="gap: 5px;">
           <% for (let j=0; j < jobSkill.length; j++) { %>
             <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-              <div style="border: solid black 2px; padding: 0 5px;">
-                <%= jobSkill[j].skill_name %> 
-              </div>
+              <span><%= jobSkill[j].skill_name %></span>
             <% } %>
           <% } %>
         </div>
@@ -138,9 +139,89 @@
       </div>
     </div>
   </div>
-</div>
+
     <% } %>
+  </div>
 </div>
+
+<script>
+  function toggleActiveCheckbox(){
+    const activeCheckbox = document.querySelector('#active-checkbox');
+    const activeCard = document.querySelectorAll('.active-radio');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobActiveStatus = document.querySelectorAll('.status-0');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(activeCheckbox.checked == true){
+      allJobs.forEach(job => {
+        if((job.classList.contains('dept-on-show') &&
+            job.classList.contains('status-0')) == false){
+              job.classList.add('d-none')
+            }
+      })
+      jobActiveStatus.forEach(activeJob => {
+        activeJob.classList.remove('d-none');
+      })
+    } else {
+      jobActiveStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+
+  function toggleDraftCheckbox(){
+    const draftCheckbox = document.querySelector('#draft-checkbox');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobDraftStatus = document.querySelectorAll('.status-1');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(draftCheckbox.checked == true){
+      jobDraftStatus.forEach(job => {
+        job.classList.remove('d-none');
+      })
+    } else {
+      jobDraftStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+
+  function toggleArchiveCheckbox(){
+    const archiveCheckbox = document.querySelector('#archive-checkbox');
+    const activeCard = document.querySelectorAll('.active-radio');
+    const allJobs = document.querySelectorAll('.all-jobs');
+    const allCheckBox = document.querySelector('#all-checkbox');
+    const jobArchiveStatus = document.querySelectorAll('.status-2');
+
+    if (allCheckBox.checked == true) {
+            allCheckBox.checked = false;
+            allJobs.forEach((job) => {
+                    job.classList.add('d-none');
+            });
+    }
+    if(archiveCheckbox.checked == true){
+      jobArchiveStatus.forEach(job => {
+        job.classList.remove('d-none');
+      })
+    } else {
+      jobArchiveStatus.forEach(job => {
+        job.classList.add('d-none');
+      })
+    }
+  }
+</script>
 
 <%- include('./filterFunctions/jobListingFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
