@@ -90,7 +90,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
           job_id INT PRIMARY KEY NOT NULL,
           job_title VARCHAR(100) NOT NULL,
-          job_dept VARCHAR(100) NOT NULL,
+          job_dept INT NOT NULL,
           max_salary INT NOT NULL,
           position_level VARCHAR(100) NOT NULL,
           job_type VARCHAR(100) NOT NULL,
@@ -299,7 +299,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           skill_id INT,
           skill_score INT,
           skill_total INT,
-          skill_level INT,
+          skill_level NUMERIC(3, 0),
       
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
