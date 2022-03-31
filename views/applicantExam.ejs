@@ -71,9 +71,6 @@
           method="post"
           id="questions"
         ></form>
-        <div id="next-btn-container">
-          <button id="next-btn" class="d-none">NEXT</button>
-        </div>
       </div>
       <% } else { %>
       <div
@@ -104,10 +101,11 @@
         success: function (response) {
           $.each(response.responseQuestion, function (key, value) {
             let questionTimer = setTimeout(function () {
+              $('#next-btn').remove();
               key++;
               $questions.append(`\
                           <div id="question-container_${key}">
-                            <div>
+                            <div class="d-flex">
                             <h3>${key}. ${value.question_detail}</h3>
                             <input type="text"
                               name="question_type"
@@ -123,8 +121,11 @@
                               value="${value.question_category}"
                               readonly
                             >
+                            <h5>
+                              Time limit: ${value.question_time_limit}
+                            </h5>
                             </div>
-                            <div class="d-none">
+                            <div>
                               <input type="radio"
                                 name="applicant_answer[${key}]"
                                 id="choice-0"
@@ -165,22 +166,34 @@
                             >
                             <label for="choice_4">${value.choice_4}</label>
                             </div>
+                          </div>
+                          <div id="next-btn-container">
+                            <button type="button" id="next-btn">NEXT</button>
                           </div>`);
+                          
+              // disables the question after the time limit
+              setTimeout(()=>{
+                $(`#question-container_${key}`).fadeTo(100, 0.5)
+                $(`#question-container_${key}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+              }, value.question_time_limit*1000)
+              
+              // disables the question on click and skip to the next question
+              $('#next-btn').on('click', (e)=>{
+                e.preventDefault();
+                $(`#question-container_${key}`).fadeTo(300, 0.4)
+                $(`#question-container_${key}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+                e.target.remove()
+              });
+
             }, delay);
-            // if(value.question_time_limit == 0){
-            //   $('#next-btn').removeClass('d-none');
-            //   clearTimeout(question_timer)
-            // } 
             delay += value.question_time_limit * 1000;
           });
-
           setTimeout(function () {
             $('#next-btn').remove();
             $questions.append('<button type="submit">SAVE EXAM</button>');
           }, delay);
 
           $('#start-btn').remove();
-          $('#next-btn').removeClass('d-none');
         },
       });
     }
