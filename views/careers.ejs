@@ -23,9 +23,9 @@
             <div class="d-flex" style="gap: 5px;">
               <% for (let j=0; j < jobSkill.length; j++) { %>
                 <% if(active_job_opening[i].job_id == jobSkill[j].job_id) {%> 
-                  <div style="border: solid black 2px; padding: 0 5px;">
+                  <div style="padding: 0 5px;">
 
-                    <a href="/careers"><%= jobSkill[j].skill_name %></a> 
+                    <span><%= jobSkill[j].skill_name %></span>
                   </div>
                   <% } %>
               <% } %>

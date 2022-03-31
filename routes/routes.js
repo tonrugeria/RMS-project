@@ -13,6 +13,8 @@ const router = express.Router();
 
 // admin job listing get route
 router.get('/', checkAuthenticated, async (req, res) => {
+  const active_job_opening = await knex("jobs.job_opening")
+  .where('status','0');
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -21,8 +23,8 @@ router.get('/', checkAuthenticated, async (req, res) => {
   );
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department');
-  const { date_opened } = jobOpening[0] || {};
-  const dateOpened = moment(date_opened).format('Do MMMM YYYY');
+  const { date_opened } = active_job_opening[0] || {};
+  const date = moment(date_opened).format('DD MMMM YYYY');
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
     .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
@@ -36,10 +38,11 @@ router.get('/', checkAuthenticated, async (req, res) => {
     admin_department,
     jobSkill,
     jobApplications,
-    dateOpened,
     currentUser,
     currentUserId,
     currentUserRole,
+    date,
+    active_job_opening,
   });
 });
 
@@ -85,11 +88,26 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
   } else {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+      const userRoles = await knex('admin.user_role');
+      if (userRoles == 0) {
+        const roles = [
+          { role_id: 1, role_name: 'Admin' },
+          { role_id: 2, role_name: 'Editor' },
+          { role_id: 3, role_name: 'Reviewer' },
+          { role_id: 4, role_name: 'Super Admin' },
+        ];
+        roles.forEach((role) => {
+          knex('admin.user_role')
+            .insert({ role_id: role.role_id, role_name: role.role_name })
+            .then((results) => results);
+        });
+      }
       knex('admin.users')
         .insert({
           user_name: username,
           email,
           password: hashedPassword,
+          role_id: 4,
         })
         .then(() => {
           res.redirect('/login');

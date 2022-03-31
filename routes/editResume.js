@@ -1,9 +1,9 @@
 const express = require('express');
 const moment = require('moment');
-const knex = require('../dbconnection');
-const upload = require('../middlewares/upload')
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 const fs = require('fs');
+const knex = require('../dbconnection');
+const upload = require('../middlewares/upload');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -41,6 +41,7 @@ router.get(
       .where({
         application_id: appId,
         job_id: jobId,
+        question_type: 0,
       })
       .first();
 
@@ -127,11 +128,12 @@ router.get(
 );
 
 router.post(
-  '/careers/job/:job_id/resume/application/:application_id', upload,
+  '/careers/job/:job_id/resume/application/:application_id',
+  upload,
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
-    const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`
+    const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`;
     let {
       first_name,
       middle_name,
@@ -189,12 +191,12 @@ router.post(
 
     let new_image = '';
 
-    if(req.file) {
+    if (req.file) {
       new_image = req.file.filename;
-      try{
-        fs.unlinkSync('./photo/' + req.body.old_image);
-      } catch(err) {
-        console.log(err)
+      try {
+        fs.unlinkSync(`./photo/${req.body.old_image}`);
+      } catch (err) {
+        console.log(err);
       }
     } else {
       new_image = req.body.old_image;

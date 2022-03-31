@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const moment = require('moment');
 const knex = require('../dbconnection');
 const upload = require('../middlewares/upload');
 const {
@@ -11,7 +12,7 @@ const {
 
 const router = express.Router();
 
-// users
+// get users
 router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
@@ -46,6 +47,7 @@ router.get('/delete/:user_id', (req, res) => {
     });
 });
 
+// add users
 router.post('/users', upload, async (req, res) => {
   const name = req.body.user_name;
   const { password } = req.body;
@@ -53,8 +55,12 @@ router.post('/users', upload, async (req, res) => {
   const role = req.body.role_name;
   const { email } = req.body;
   const image = req.file.filename;
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
   knex('admin.users')
     .insert({
+      date_created: thisDay,
+      date_last_updated: thisDay,
       user_name: name,
       password: hashedPassword,
       photo: image,
@@ -67,12 +73,19 @@ router.post('/users', upload, async (req, res) => {
 });
 router.use(express.static('photo'));
 
+// edit user
 router.post('/edit/:user_id', upload, async (req, res) => {
   const { user_name } = req.body;
   const role = req.body.role_name;
   const { email } = req.body;
-  const { password } = req.body;
+  let { password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
+
+  if (password[0] !== '$') {
+    password = hashedPassword;
+  }
 
   let new_image = '';
   if (req.file) {
@@ -89,11 +102,12 @@ router.post('/edit/:user_id', upload, async (req, res) => {
   knex('admin.users')
     .where('user_id', req.params.user_id)
     .update({
+      date_last_updated: thisDay,
       user_name,
       role_id: role,
       photo: new_image,
       email,
-      password: hashedPassword,
+      password,
     })
     .then((results) => {
       res.redirect('/users');
