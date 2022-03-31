@@ -99,8 +99,8 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           skill_score VARCHAR(100) NOT NULL,
           hr_rating VARCHAR(100) NOT NULL,
           personality_score VARCHAR(100) NOT NULL,
-          date_opened DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          last_date_update DATE NOT NULL,
+          date_opened date NOT NULL,
+          last_date_updated date NOT NULL,
           created_by VARCHAR(100) NOT NULL,
           last_updated_by VARCHAR(100) NOT NULL,
           status INT NOT NULL
