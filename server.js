@@ -51,19 +51,19 @@ app.use('', require('./routes/jobRequirement'));
 app.use('', require('./routes/editJobRequirement'));
 app.use('', require('./routes/jobDetails'));
 app.use('', require('./routes/exam'));
-app.use('', require('./routes/settings'));
+app.use('', require('./routes/branding'));
 app.use('', require('./routes/users'));
+app.use('', require('./routes/systemVariables'));
 app.use('', require('./routes/careerDetails'));
 app.use('', require('./routes/careers'));
 app.use('', require('./routes/examCreation'));
-app.use('', require('./routes/exam'));
-app.use('', require('./routes/systemVariables'));
 app.use('', require('./routes/resume'));
 app.use('', require('./routes/editResume'));
 app.use('', require('./routes/applicantExam'));
 app.use('', require('./routes/personalityTest'));
 app.use('', require('./routes/application'));
 app.use('', require('./routes/userProfile'));
+app.use('', require('./routes/generateResume'));
 
 app.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
