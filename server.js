@@ -61,6 +61,7 @@ app.use('', require('./routes/systemVariables'));
 app.use('', require('./routes/resume'));
 app.use('', require('./routes/editResume'));
 app.use('', require('./routes/applicantExam'));
+app.use('', require('./routes/personalityTest'));
 app.use('', require('./routes/application'));
 app.use('', require('./routes/userProfile'));
 

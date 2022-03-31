@@ -78,7 +78,7 @@
             <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
               <div class="row g-0">
                 <div class="col-md-4">
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image">
+                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -102,7 +102,7 @@
             <div class="row g-0">
               <div class="col-md-4">
                 <% if (applicantInfo != 0) { %>
-                  <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image">
+                  <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image" width="150">
                 <% } else { %>
                   NO PHOTO  
                 <% } %> 
@@ -195,7 +195,10 @@
         </div>
 
         <div class="container py-3">
-          <h3>SKILLS</h3>
+          <div class="d-flex justify-content-between">
+            <h3>SKILLS</h3>
+            <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
+          </div>
           <div class="row">
             <% if(applicantSkill != 0) { %> 
               <% for ( let i = 0; i < applicantSkill.length; i++) { %>
@@ -231,6 +234,144 @@
               <% } else { %>
                 NO SKILL  
               <% } %> 
+          </div>
+          <div class="modal-dialog modal-dialog-scrollable">
+          </div>
+          <!-- Exam results modal -->
+          <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div>
+                    <h5 class="modal-title" id="exampleModalToggleLabel">Technical</h5>
+                    <% let totalExamScore = 0 %>
+                    <% for(let i = 0; i < applicantExamResults.length; i++) {%>
+                      <% totalExamScore++ %> 
+                    <% } %> 
+                    <h5 class="modal-title">
+                      <% if (applicantExamResults != 0) { %>
+                        Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
+                      <% } %>
+                    </h5>
+                  </div>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <% if (applicantExamResults != 0) { %>
+                    <% for( let i = 0; i < applicantExamResults.length; i++ ) { %>
+                      <div 
+                      <% if (applicantExamResults[i].applicant_answer == applicantExamResults[i].correct_answer) { %>
+                        style="color: green;"
+                      <% } else { %>
+                        style="color: red;"
+                      <% } %>  
+                      >
+                        <%= i+1 %>. <%= applicantExamResults[i].question_detail %>
+                        <% if (applicantExamResults[i].applicant_answer == 0) { %>
+                          (Not answered)
+                        <% } %> 
+                      </div>
+                  <ul>
+                    <p>a. <%= applicantExamResults[i].choice_1 %>
+                      <% if (applicantExamResults[i].correct_answer === 1) { %>
+                        <i class="fa-solid fa-check"></i>
+                      <% } %>
+                      <% if (applicantExamResults[i].applicant_answer  === 1 &&
+                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                          <i class="fa-solid fa-xmark"></i>
+                      <% } %> 
+                    </p>
+                    <p>b. <%= applicantExamResults[i].choice_2 %>
+                      <% if (applicantExamResults[i].correct_answer === 2) { %>
+                        <i class="fa-solid fa-check"></i>
+                      <% } %>
+                      <% if (applicantExamResults[i].applicant_answer  === 2 &&
+                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                          <i class="fa-solid fa-xmark"></i>
+                      <% } %> 
+                    </p>
+                    <p>c. <%= applicantExamResults[i].choice_3 %>
+                      <% if (applicantExamResults[i].correct_answer === 3) { %>
+                        <i class="fa-solid fa-check"></i>
+                      <% } %>
+                      <% if (applicantExamResults[i].applicant_answer  === 3 &&
+                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                          <i class="fa-solid fa-xmark"></i>
+                      <% } %> 
+                    </p>
+                    <p>d. <%= applicantExamResults[i].choice_4 %>
+                      <% if (applicantExamResults[i].correct_answer === 4) { %>
+                        <i class="fa-solid fa-check"></i>
+                      <% } %>
+                      <% if (applicantExamResults[i].applicant_answer  === 4 &&
+                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                          <i class="fa-solid fa-xmark"></i>
+                      <% } %> 
+                    </p>
+                  </ul> 
+                <% } %>
+                  <% } else { %>
+                    <h6>The applicant did not take the technical exam yet</h6>
+                  <% } %> 
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Personality test results</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalToggleLabel2">Personality</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <% for(let i = 0; i < personalityTestResults.length; i++) { %>
+                    <p>
+                      <%= i+1 %>. <%= personalityTestResults[i].question_detail %>
+                      <% if (personalityTestResults[i].applicant_answer == 0) { %>
+                          (Not answered)
+                        <% } %>
+                    </p>
+                    <ul>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 1) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      a. <%= personalityTestResults[i].choice_1 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 2) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      b. <%= personalityTestResults[i].choice_2 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 3) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      c. <%= personalityTestResults[i].choice_3 %>
+                      </p>
+                      <p
+                      <% if(personalityTestResults[i].applicant_answer == 4) {%>
+                        style="color: green;"
+                      <% } %>
+                      >
+                      d. <%= personalityTestResults[i].choice_4 %>
+                      </p>
+                    </ul>
+                  <% } %> 
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Technical test results</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

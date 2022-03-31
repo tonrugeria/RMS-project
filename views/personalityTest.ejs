@@ -1,0 +1,148 @@
+<%- include('./layout/resumeHeader.ejs') %>
+<div class="container g-0 m-0 p-0">
+  <div class="row min-vh-100 min-vw-100 g-0">
+    <div class="col-sm-2 pl-1">
+      <div class="d-flex flex-column">
+        <div>
+          <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
+            >RESUME</a
+          >
+        </div>
+        <div>
+            <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
+              >PERSONALITY TEST</a
+            >
+          </div>
+        <div>
+          <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+            >TECHNICAL EXAM</a
+          >
+        </div>
+        <div>
+          <a 
+          href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+          >
+            <button
+            <% if(applicantExamRecord == undefined) { %>
+              disabled
+            <% } %> 
+            >SUBMIT
+            </button>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-sm-10">
+        <h1>PERSONALITY TEST</h1>
+    <% if (applicantRecord == 0){ %>
+    <div
+    class="h-50 d-flex flex-column align-items-center justify-content-center"
+    >
+        <h5>APPLICANT DOES NOT EXIST</h5>
+    </div>
+    <% } else if(personalityRecord != undefined) { %>
+        <div
+        class="h-50 d-flex flex-column align-items-center justify-content-center"
+        >
+            <h5>YOU HAVE COMPLETED THE TEST</h5>
+        </div>
+    <% } else if (personalityQuestions != 0) { %>
+        <div class="header">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste excepturi voluptatem quas voluptas id cumque, illum omnis delectus dignissimos dolores ad velit libero. Laborum nemo rerum, placeat minus consequatur eaque.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere animi explicabo omnis porro voluptatem dolores. Laborum voluptates itaque hic dolore!
+            </p>
+        </div>
+        <div class="questions">
+            <form action="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>" method="post" id="personality-test">
+                <% for( let i = 0; i < personalityQuestions.length; i++ ) { %>
+                    <div class="question_<%= i+1 %>">
+                        <h3>
+                            <%= i+1 %>. <%= personalityQuestions[i].question_detail %>
+                        </h3>
+                        Question Id
+                        <input 
+                            type="text" 
+                            value="<%= personalityQuestions[i].question_id %>"
+                            name="question_id"
+                        >
+                        <input 
+                            type="text" 
+                            value="<%= personalityQuestions[i].question_type %>"
+                            name="question_type"
+                        >
+                        <div>
+                            <input 
+                                type="radio" 
+                                id="choice-0" 
+                                name="applicant_answer[<%= i+1 %>]"
+                                value="0"
+                                checked
+                            >
+                            <label for="choice-0">No Answer</label>
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                id="choice-1" 
+                                name="applicant_answer[<%= i+1 %>]"
+                                value="1"
+                            >
+                            <label for="choice-1">
+                                <%= personalityQuestions[i].choice_1 %>
+                            </label>
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                id="choice-2" 
+                                name="applicant_answer[<%= i+1 %>]"
+                                value="2"
+                            >
+                            <label for="choice-2">
+                                <%= personalityQuestions[i].choice_2 %>
+                            </label>
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                id="choice-3" 
+                                name="applicant_answer[<%= i+1 %>]"
+                                value="3"
+                            >
+                            <label for="choice-3">
+                                <%= personalityQuestions[i].choice_3 %>
+                            </label>
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                id="choice-4" 
+                                name="applicant_answer[<%= i+1 %>]"
+                                value="4"
+                            >
+                            <label for="choice-4">
+                                <%= personalityQuestions[i].choice_4 %>
+                            </label>
+                        </div>
+                    </div> 
+                <% } %>
+                <button type="submit">SAVE TEST</button>
+            </form>
+        </div>
+    <% } else { %>
+        <div
+            class="h-50 d-flex flex-column align-items-center justify-content-center"
+        >
+            <h5>NO PERSONALITY QUESTIONS YET</h5>
+        </div>
+    <% } %>
+    </div>
+  </div>
+</div>
+
+
+<%- include('./layout/resumeFooter.ejs') %>

@@ -71,8 +71,12 @@ router.post('/edit/:user_id', upload, async (req, res) => {
   const { user_name } = req.body;
   const role = req.body.role_name;
   const { email } = req.body;
-  const { password } = req.body;
+  let { password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  if (password[0] !== '$') {
+    password = hashedPassword;
+  }
 
   let new_image = '';
   if (req.file) {
@@ -93,7 +97,7 @@ router.post('/edit/:user_id', upload, async (req, res) => {
       role_id: role,
       photo: new_image,
       email,
-      password: hashedPassword,
+      password,
     })
     .then((results) => {
       res.redirect('/users');

@@ -33,104 +33,183 @@ input{
       <h2>Users</h2>
       <p>User Accounts</p>            
       <table class="table table-bordered">
-        <!-- <thead>
-          <tr>
-            <th>image</th>
-            <th>Name</th>
-            <th>password</th>
-            <th>role</th>
-            <th>email</th>
-          </tr>
-        </thead> -->
-        <% for (let  i = 0; i < users.length; i++) { %>
-      <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
-      <% if (users[i].role_id == '4') { %>  
-      <tr onchange="addUpdateBtn('<%= users[i].user_id %>')" class="abc">
-        <th> 
-          <img src="<%= users[i].photo %> "  width="36" height="36" >
-          <input type="file" name="photo" ></i>
-        </th>
-      <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
-      <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
-      <TD class = "select">
-        <select name="role_name">  
-          <% for (let  j = 0; j < userRole.length; j++) { %>
-                <% if (userRole[j].role_id == users[i].role_id) { %>  
-              <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
+      <% for (let  i = 0; i < users.length; i++) { %>
+        <% if (currentUser[0].role_id != 4 && users[i].role_id != 4) { %>
+          <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
+            <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
+              <th>
+                <% if (users[i].photo != null) { %>
+                  <!-- allows to click on photo to change photo -->
+                  <label for="photo_<%= i+1 %>">
+                    <img src="<%= users[i].photo %>"  
+                      width="36" 
+                      height="36" 
+                      class="img-thumbnail" 
+                      id="output_<%= i+1 %>"
+                    >
+                  </label>
+                  <!-- allows to change photo -->
+                  <input 
+                    type="file" 
+                    id="photo_<%= i+1 %>" 
+                    name="photo" 
+                    style="display: contents;" 
+                    onchange="loadFile(event, '<%= i+1 %>')"
+                  >
+                  <!-- allows to edit user without changing image -->
+                  <input type="hidden" name="old_image" value="<%= users[i].photo %>">
+                <% } %>
+              </th>
+              <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+              <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
+              <td class="select">
+                <select name="role_name"> 
+                  <option hidden>Select role</option>
+                  <% if (users[i].role_id != 4) { %>
+                    <% for (let  j = 0; j < userRole.length; j++) { %>
+                      <% if (j != 3) { %>
+                        <% if (userRole[j].role_id == users[i].role_id) { %>  
+                          <option value="<%= userRole[j].role_id %>" selected>
+                            <%= userRole[j].role_name %>
+                          </option>
+                        <% } else { %>
+                          <option value="<%= userRole[j].role_id %>">
+                            <%= userRole[j].role_name %>
+                          </option>
+                        <% } %>
+                      <% } %>
+                    <% } %>
                   <% } else { %>
-              <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
-                  <% } %>
-          <% } %>
-        </select>
-        </TD>   
-      <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
-      <td class="update-btn d-none" id="<%= users[i].user_id%>">
-        <form method="post" action="/edit/<%=users[i].user_id%>" >
-          <button type="submit"><i class="fa-solid fa-check"></i></button>
-        </form>
-        <th>
-          
-        </th>
-      </td>
-    </tr>
-<% } else { %>
-      <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
-      <th>
-      <% if (users[i].photo != null) { %>
-        <img src="<%= users[i].photo %>"  width="36" height="36" class="img-thumbnail">
-      <% } %>
-      <input type="file" id="photo1" name="photo" required>
-      <input type="hidden" name="old_image" value="<%= users[i].photo %>">
-      </th>
-      <th ><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
-      <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
-      <TD class = "select">
-        <select name="role_name"> 
-        <% for (let  j = 0; j < userRole.length; j++) { %>
-          <% if (j !==3) { %> 
-            <% if (userRole[j].role_id == users[i].role_id) { %>  
-        <option value="<%= userRole[j].role_id %>" selected><%= userRole[j].role_name %></option>
-          <% } else { %>
-        <option value="<%= userRole[j].role_id %>"><%= userRole[j].role_name %></option>
+                    <% for (let  j = 0; j < userRole.length; j++) { %>
+                      <% if (userRole[j].role_id == users[i].role_id) { %>  
+                        <option value="<%= userRole[j].role_id %>" selected>
+                          <%= userRole[j].role_name %>
+                        </option>
+                      <% } else { %>
+                        <option value="<%= userRole[j].role_id %>">
+                          <%= userRole[j].role_name %>
+                        </option>
+                      <% } %>
+                    <% } %>
+                  <% } %> 
+                
+                </select>
+              </td>   
+              <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
+              <td class="update-btn d-none" id="<%= users[i].user_id%>">
+                <form method="post" action="/edit/<%=users[i].user_id%>">
+                  <button type="submit"><i class="fa-solid fa-check"></i></button>
+                </form>
+              </td>
+              
+              <% if (users[i].role_id != '4' && users[i].user_id != currentUser[0].user_id) { %>  
+              <td class="delete-btn" id="<%= users[i].user_id%>">
+                <form method="GET" action="/delete/<%= users[i].user_id%>"> 
+                  <button type="submit"><i class="fa-solid fa-x"></i></button>
+                </form>
+              </td>
               <% } %>
-            <% } %>
-        <% } %>
-        </select>
-        </TD>   
-      <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
-      <td class="update-btn d-none" id="<%= users[i].user_id%>">
-        <form method="post" action="/edit/<%=users[i].user_id%>">
-          <button type="submit"><i class="fa-solid fa-check"></i></button>
-        </form>
-      </td>
-      <td class="delete-btn" id="<%= users[i].user_id%>">
-        <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-          <button type="submit"><i class="fa-solid fa-x"></i></button>
-        </form>
-      </td>
-    </tr>
-    <% } %>
-    <% } %>
-  </form>
-    <form method="post" action="/users" encType="multipart/form-data" >
-      <th> 
-        <label for="photo"><i class="fa-solid fa-plus" ></i></label>
-        <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
-        <img height="40" id="output">
-      </th>
-      <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
-      <th><input type="password" placeholder="Enter Password" name="password"></th>
-      <th>
-      <select name="role_name" >     
-        <% for (let  i = 0; i < userRole.length; i++) { %>  
-        <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
+            </tr>
+          </form>
+        <% } else if(currentUser[0].role_id == 4) { %>
+          <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
+            <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
+              <th>
+                <% if (users[i].photo != null) { %>
+                  <!-- allows to click on photo to change photo -->
+                  <label for="photo_<%= i+1 %>">
+                    <img src="<%= users[i].photo %>"  
+                      width="36" 
+                      height="36" 
+                      class="img-thumbnail" 
+                      id="output_<%= i+1 %>"
+                    >
+                  </label>
+                  <!-- allows to change photo -->
+                  <input 
+                    type="file" 
+                    id="photo_<%= i+1 %>" 
+                    name="photo" 
+                    style="display: contents;" 
+                    onchange="loadFile(event, '<%= i+1 %>')"
+                  >
+                  <!-- allows to edit user without changing image -->
+                  <input type="hidden" name="old_image" value="<%= users[i].photo %>">
+                <% } %> 
+              </th>
+              <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+              <th><input type="password" name="password" value="<%= users[i].password %>" ></th>
+              <td class="select">
+                <select name="role_name"> 
+                  <option hidden>Select role</option>
+                  <% if (users[i].role_id != 4) { %>
+                    <% for (let  j = 0; j < userRole.length; j++) { %>
+                      <% if (j != 3) { %>
+                        <% if (userRole[j].role_id == users[i].role_id) { %>  
+                          <option value="<%= userRole[j].role_id %>" selected>
+                            <%= userRole[j].role_name %>
+                          </option>
+                        <% } else { %>
+                          <option value="<%= userRole[j].role_id %>">
+                            <%= userRole[j].role_name %>
+                          </option>
+                        <% } %>
+                      <% } %>
+                    <% } %>
+                  <% } else { %>
+                    <% for (let  j = 0; j < userRole.length; j++) { %>
+                      <% if (userRole[j].role_id == users[i].role_id) { %>  
+                        <option value="<%= userRole[j].role_id %>" selected>
+                          <%= userRole[j].role_name %>
+                        </option>
+                      <% } else { %>
+                        <option value="<%= userRole[j].role_id %>">
+                          <%= userRole[j].role_name %>
+                        </option>
+                      <% } %>
+                    <% } %>
+                  <% } %> 
+                
+                </select>
+              </td>   
+              <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
+              <td class="update-btn d-none" id="<%= users[i].user_id%>">
+                <form method="post" action="/edit/<%=users[i].user_id%>">
+                  <button type="submit"><i class="fa-solid fa-check"></i></button>
+                </form>
+              </td>
+              
+              <% if (users[i].role_id != '4' && users[i].user_id != currentUser[0].user_id) { %>  
+              <td class="delete-btn" id="<%= users[i].user_id%>">
+                <form method="GET" action="/delete/<%= users[i].user_id%>"> 
+                  <button type="submit"><i class="fa-solid fa-x"></i></button>
+                </form>
+              </td>
+              <% } %>
+            </tr>
+          </form>
         <% } %> 
-      </select></th>
-      <th><input type="text" placeholder="Enter Email Address" name="email"></th>
-      <th><button type="submit"><i class="fa-solid fa-plus"></i></button></th>
-    </form>
-  </table>
-  </div>
+      <% } %>
+        <form method="post" action="/users" encType="multipart/form-data" >
+          <th> 
+            <label for="photo"><i class="fa-solid fa-plus" ></i></label>
+            <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event, 0)" required></i>
+            <img height="40" id="output_0">
+          </th>
+          <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
+          <th><input type="password" placeholder="Enter Password" name="password"></th>
+          <th>
+          <select name="role_name" >    
+            <option>Select role</option> 
+            <% for (let  i = 0; i < userRole.length; i++) { %>  
+            <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
+            <% } %> 
+          </select></th>
+          <th><input type="text" placeholder="Enter Email Address" name="email"></th>
+          <th><button type="submit"><i class="fa-solid fa-plus"></i></button></th>
+        </form>
+      </table>
+    </div>
   </div>
 </div>
 <script>
@@ -165,8 +244,8 @@ function addUpdateBtn(userId) {
     });
   }
 
-var loadFile = function(event) {
-    var output = document.getElementById('output');
+var loadFile = function(event, target) {
+    var output = document.getElementById(`output_${target}`);
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
       URL.revokeObjectURL(output.src)
