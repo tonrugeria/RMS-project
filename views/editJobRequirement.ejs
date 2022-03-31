@@ -35,9 +35,13 @@
         <select name="department" id="department"> 
           <% for(let i = 0; i < dept.length; i++) { %>
             <% if (dept[i].dept_id == job[0].job_dept) { %>
-              <option value="<%= dept[i].dept_id %>" selected><%= dept[i].dept_name %></option>
+              <option value="<%= dept[i].dept_id %>" selected>
+                <%= dept[i].dept_name %>
+              </option>
             <% } else {%>
-            <option value="<%= dept[i].dept_id %>"><%= dept[i].dept_name %></option>
+            <option value="<%= dept[i].dept_id %>">
+              <%= dept[i].dept_name %>
+            </option>
               <% } %>
           <% } %>
         </select>
