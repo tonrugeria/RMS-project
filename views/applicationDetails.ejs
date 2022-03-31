@@ -163,26 +163,22 @@
                     </div>
                     <div class="d-flex align-items-end">
                       <div class="me-1">
-                        <select name="remarks" class="w-100 title" >
+                        <select name="remarks" class="title" >
                           <% for( let i = 0; i < remarks.length; i++) { %>
                             <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
-                              <button type="submit">
                                 <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>" selected>
                                   <%= remarks[i].remark_name %>
                                 </option>
-                              </button>
                             <% } else { %>
-                              <button type="submit">
                                 <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>">
                                   <%= remarks[i].remark_name %>
                                 </option>
-                              </button>  
                             <% } %> 
                           <% } %> 
                         </select>
                       </div>
                       <div>
-                        <button>save resume</button>
+                        <button>submit</button>
                       </div>
                     </div>
                   </div>

@@ -278,7 +278,7 @@ router.post('/application/job/:job_id/applicant/:application_id', async (req, re
     remarks
   } = req.body
 
-  if (status[i].status != null) {
+  if (status[0].status != null) {
     knex('job_application.applicant_details')
       .update({
         status: remarks
