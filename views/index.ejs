@@ -89,9 +89,7 @@
         <div class="d-flex" style="gap: 5px;">
           <% for (let j=0; j < jobSkill.length; j++) { %>
             <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-              <div style="border: solid black 2px; padding: 0 5px;">
-                <%= jobSkill[j].skill_name %> 
-              </div>
+              <span><%= jobSkill[j].skill_name %></span>
             <% } %>
           <% } %>
         </div>
