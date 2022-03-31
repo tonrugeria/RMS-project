@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="col-6 g-0 p-4">
-      <form action="/application/job/<%= jobId %> /applicant/<%= appId %>" method="post" enctype="multipart/form-data">
+      
         <div class="d-flex flex-column border-bottom border-3">
           <div class="card p-3 border-0">
             <div class="row g-0">
@@ -163,22 +163,32 @@
                     </div>
                     <div class="d-flex align-items-end">
                       <div class="me-1">
-                        <select name="remarks" class="title" >
+                        <form action="/application/job/<%= jobId %>/applicant/<%= appId %>" method="post" enctype="multipart/form-data">
+                        <select name="remark" class="title" >
+                          <option>SELECT STATUS</option>
                           <% for( let i = 0; i < remarks.length; i++) { %>
-                            <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
-                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>" selected>
+                              <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
+                                <option 
+                                  style="background-color: transparent; border: none;" 
+                                  value="<%= remarks[i].remark_id %>" 
+                                  selected
+                                >
                                   <%= remarks[i].remark_name %>
                                 </option>
-                            <% } else { %>
-                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>">
+                              <% } else { %>
+                                <option 
+                                  style="background-color: transparent; border: none;" 
+                                  value="<%= remarks[i].remark_id %>"
+                                >
                                   <%= remarks[i].remark_name %>
                                 </option>
-                            <% } %> 
-                          <% } %> 
+                              <% } %> 
+                            <% } %>
                         </select>
-                      </div>
-                      <div>
-                        <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
+                        <div>
+                          <button type="submit" class="border border-0">UPDATE</button>
+                        </div>
+                      </form>
                       </div>
                     </div>
                   </div>
@@ -193,7 +203,14 @@
         <div class="container py-3">
           <div class="d-flex justify-content-between">
             <h3>SKILLS</h3>
-            <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
+            <div class="d-flex">
+              <div class="me-1">
+                <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
+              </div>
+              <div>
+                <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
+              </div>
+            </div>
           </div>
           <div class="row">
             <% if(applicantSkill != 0) { %> 
@@ -418,7 +435,7 @@
               NO HISTORY  
             <% } %> 
         </div>
-      </form>
+      
     </div>
   </div>
 </div>

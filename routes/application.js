@@ -140,7 +140,6 @@ router.get(
         job_id: jobId,
         application_id: appId,
       });
-      console.log(applicantInfo);
     const applicantDetails = await knex('job_application.applicant_details')
       .leftJoin(
         'job_application.technical_score',
@@ -274,25 +273,23 @@ router.post('/application/job/:job_id/applicant/:application_id', async (req, re
       job_id: jobId,
       application_id: appId
     })
+    console.log("STATUS", status);
   const {
-    remarks
+    remark
   } = req.body
-
-  if (status[0].status != null) {
+  console.log("remarks", remark);
+  if (remark != null) {
     knex('job_application.applicant_details')
       .update({
-        status: remarks
+        status: remark
       })
       .where({
         job_id: jobId,
         application_id: appId
       })
-  } else {
-    knex('job_application.applicant_details')
-      .insert({
-        status: remarks
-      })
+      .then(result => result)
   }
+  res.redirect(`/application/job/${jobId}/applicant/${appId}`)
 })
 
 
