@@ -49,18 +49,16 @@
         <label for="vehicle3">Can start immediately</label>
       </div>
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">For Review</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">For Interview</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Contacted</label><br>
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Hired</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">For Pooling</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Archive</label>
+        <% for(let i=0; i < remarks.length; i++) { %>
+          <div>
+            <input type="checkbox" id="dept-<%= remarks[i].remark_id %>-checkbox"
+            class="all-dept-checkbox" 
+              onclick="showDeptFunction('<%= remarks[i].remark_id %>')"/>
+            <label for="<%= remarks[i].remark_name %>">
+              <%= remarks[i].remark_name %>
+            </label>
+          </div>
+          <% } %>
       </div>
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
         <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
@@ -98,7 +96,7 @@
       </div>
     </div>
     <div class="col-6 g-0 p-4">
-      <form action="/application/job/<%= jobId %> /applicant/<%= appId %>" method="get" enctype="multipart/form-data">
+      <form action="/application/job/<%= jobId %> /applicant/<%= appId %>" method="post" enctype="multipart/form-data">
         <div class="d-flex flex-column border-bottom border-3">
           <div class="card p-3 border-0">
             <div class="row g-0">
@@ -165,7 +163,23 @@
                     </div>
                     <div class="d-flex align-items-end">
                       <div class="me-1">
-                        <button>assign status</button>
+                        <select name="remarks" class="w-100 title" >
+                          <% for( let i = 0; i < remarks.length; i++) { %>
+                            <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
+                              <button type="submit">
+                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>" selected>
+                                  <%= remarks[i].remark_name %>
+                                </option>
+                              </button>
+                            <% } else { %>
+                              <button type="submit">
+                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>">
+                                  <%= remarks[i].remark_name %>
+                                </option>
+                              </button>  
+                            <% } %> 
+                          <% } %> 
+                        </select>
                       </div>
                       <div>
                         <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
