@@ -97,31 +97,30 @@
         url: '/careers/job/<%= jobId %>/technical-exam',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ category: category, question: question }),
         success: function (response) {
           $.each(response.responseQuestion, function (key, value) {
             let questionTimer = setTimeout(function () {
-              $('#next-btn').remove();
+              $('#next-btn').remove()
               key++;
               $questions.append(`\
                           <div id="question-container_${key}">
                             <div class="d-flex">
                             <h3>${key}. ${value.question_detail}</h3>
-                            <input type="text"
+                            <input type="hidden"
                               name="question_type"
                               value="${value.question_type}"
                               readonly
                             >
-                            <input type="text"
+                            <input type="hidden"
                               name="question_id"
                               value="${value.question_id}"
                               readonly
                             >
-                            <input type="text"
+                            <input type="hidden"
                               value="${value.question_category}"
                               readonly
                             >
-                            <h5>
+                            <h5 id="count_${key}" class="mx-auto">
                               Time limit: ${value.question_time_limit}
                             </h5>
                             </div>
@@ -170,11 +169,22 @@
                           <div id="next-btn-container">
                             <button type="button" id="next-btn">NEXT</button>
                           </div>`);
-                          
+
+              // question timer
+              let $count = value.question_time_limit;
+              let interval = setInterval(() => {
+                $count--;
+                $(`#count_${key}`).html('Time limit: ' + $count);
+                if($count == 0){
+                  clearInterval(interval);
+                }
+              }, 1000);
+              
               // disables the question after the time limit
               setTimeout(()=>{
                 $(`#question-container_${key}`).fadeTo(100, 0.5)
                 $(`#question-container_${key}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+                $(`#count_${key}`).remove()
               }, value.question_time_limit*1000)
               
               // disables the question on click and skip to the next question
@@ -182,14 +192,17 @@
                 e.preventDefault();
                 $(`#question-container_${key}`).fadeTo(300, 0.4)
                 $(`#question-container_${key}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+                $(`#count_${key}`).remove()
                 e.target.remove()
               });
-
-            }, delay);
+              
+            }, delay)
             delay += value.question_time_limit * 1000;
+
           });
+          
           setTimeout(function () {
-            $('#next-btn').remove();
+            $('#next-btn').remove()
             $questions.append('<button type="submit">SAVE EXAM</button>');
           }, delay);
 
