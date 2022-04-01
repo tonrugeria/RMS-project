@@ -3,28 +3,64 @@
   <div class="row min-vh-100">
     <div class="col-3 g-0">
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-          <% for( let i = 0; i < jobOpening.length; i++) { %>
-            <div>
-              <a href="/application/job/<%= jobOpening[i].job_id %>/" style="color: black;">
-                <div class="d-flex">
-                  <div class="me-2">
-                    <%= jobOpening[i].job_title %>
-                  </div>
-                  <div>
-                    <% let applicants =  0 %>
-                    <p style="text-decoration: none;">
-                      <% for (let j=0; j < jobApplications.length; j++) { %>
-                        <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                            <% applicants++; %>
-                        <% } %>
-                      <% } %>
-                      (<%= applicants; %>)
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          <% } %> 
+          <div class="dropdown">
+            <a 
+              class="btn btn-secondary d-block dropdown-toggle w-100 border-0 p-0" 
+              href="#" 
+              role="button" 
+              id="dropdownMenuLink" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+              style="background-color: transparent; color: black;"
+            >
+              <% if (jobId != '') { %>
+                <% for( let i = 0; i < jobOpening.length; i++ ) { %>
+                  <% if (jobOpening[i].job_id == jobId) { %>
+                   <div class="d-flex align-items-center">
+                     <div class="me-2">
+                      <strong><%= jobOpening[i].job_title %></strong>
+                     </div>
+                     <div>
+                        <% let applicants =  0 %>
+                        <p class="m-0">
+                          <% for (let j=0; j < jobApplications.length; j++) { %>
+                            <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                                <% applicants++; %>
+                            <% } %>
+                          <% } %>
+                          <strong>( <%= applicants; %> )</strong>
+                        </p>
+                    </div>
+                   </div>
+                  <% } %>
+                <% } %>
+              <% } else { %>
+                Select job
+              <% } %> 
+            </a>
+            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+            <% for( let i = 0; i < jobOpening.length; i++) { %>
+              <li>
+                  <a class="dropdown-item" href="/application/job/<%= jobOpening[i].job_id %>">
+                    <div class="d-flex">
+                      <div><%= jobOpening[i].job_title %></div>
+                      <div>
+                        <% let applicants =  0 %>
+                        <p style="text-decoration: none;">
+                          <% for (let j=0; j < jobApplications.length; j++) { %>
+                            <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                                <% applicants++; %>
+                            <% } %>
+                          <% } %>
+                          (<%= applicants; %>)
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+              </li>
+            <% } %> 
+            </ul>
+          </div>
         </div>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <div class="row">
@@ -76,31 +112,39 @@
     </div>
     <div class="col-3 g-0" style="height: 100vh;"> 
       <div style="height: 100vh; overflow: auto;">
-        <% for(let i = 0; i < applicants.length; i++) { %>
-          <%= applicants[i].application_id %> 
-          <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
-            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                    <p class="card-text"> 
-                      <% for ( let j = 0; j < applicantJob.length; j++) { %>
-                        <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
-                          <%= applicantJob[j].skill_name %>   
+        <% if ( applicants != 0 ) { %>
+          <% for(let i = 0; i < applicants.length; i++) { %>
+            <%= applicants[i].application_id %> 
+            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
+              <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                      <p class="card-text"> 
+                        <% for ( let j = 0; j < applicantJob.length; j++) { %>
+                          <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
+                            <%= applicantJob[j].skill_name %>   
+                          <% } %> 
                         <% } %> 
-                      <% } %> 
-                    </p>
-                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                      </p>
+                      <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
-          <% } %>  
+            </a>
+            <% } %>    
+        <% } else { %>
+          <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
+            <h1>
+              NO APPLICANTS
+            </h1>
+          </div>  
+        <% } %> 
       </div>
     </div>
   </div>

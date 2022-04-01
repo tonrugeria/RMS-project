@@ -6,6 +6,7 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 router.get('/application', checkAuthenticated, async (req, res) => {
+  const jobId = ''
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -38,8 +39,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
   // jobs Schema
   const jobOpening = await knex('jobs.job_opening');
   
-  
-
+  // technical_score Table
   const technicalScore = await knex('job_application.technical_score');
   res.render('application', {
     jobOpening,
@@ -51,7 +51,8 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     currentUserId,
     currentUserRole,
     applicantJob,
-    remarks
+    remarks,
+    jobId
   });
 });
 
