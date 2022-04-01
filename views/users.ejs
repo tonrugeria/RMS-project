@@ -31,7 +31,10 @@ input{
     </div>
     <div class="col-sm-10" style="background-color: #f2f2f2;">
       <h2>Users</h2>
-      <p>User Accounts</p>            
+      <p>User Accounts</p> 
+      <% if (messages) { %>
+        <p><%-messages.error%></p>
+        <% } %>           
       <table class="table table-bordered">
       <% for (let  i = 0; i < users.length; i++) { %>
         <% if (currentUser[0].role_id != 4 && users[i].role_id != 4) { %>
@@ -41,7 +44,7 @@ input{
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
                   <label for="photo_<%= i+1 %>">
-                    <img src="<%= users[i].photo %>"  
+                    <img src="/<%= users[i].photo %>"  
                       width="36" 
                       height="36" 
                       class="img-thumbnail" 
@@ -99,7 +102,7 @@ input{
                 
                 </select>
               </td>   
-              <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
+              <th><input type="email" name="email" value="<%= users[i].email %>" ></th>
               <td class="update-btn d-none" id="<%= users[i].user_id%>">
                 <form method="post" action="/edit/<%=users[i].user_id%>">
                   <button type="submit"><i class="fa-solid fa-check"></i></button>
@@ -180,7 +183,7 @@ input{
                 
                 </select>
               </td>   
-              <th><input type="text" name="email" value="<%= users[i].email %>" ></th>
+              <th><input type="email" name="email" value="<%= users[i].email %>" ></th>
               <td class="update-btn d-none" id="<%= users[i].user_id%>">
                 <form method="post" action="/edit/<%=users[i].user_id%>">
                   <button type="submit"><i class="fa-solid fa-check"></i></button>
@@ -213,7 +216,7 @@ input{
             <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
             <% } %> 
           </select></th>
-          <th><input type="text" placeholder="Enter Email Address" name="email"></th>
+          <th><input type="email" placeholder="Enter Email Address" name="email"></th>
           <th><button type="submit"><i class="fa-solid fa-plus"></i></button></th>
         </form>
       </table>

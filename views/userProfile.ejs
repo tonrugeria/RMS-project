@@ -9,19 +9,21 @@
             <input id="out" type="file" onchange="loadFile(event)" style="visibility: none;display: none;" name="photo"> 
             <img height="60" id="output">
         </div>
+        <% if (messages) { %>
+            <p><%-messages.error%></p>
+            <% } %>
          <div class="span8">
              <label for="username">Username</label><br>
               <input id="username" type="text" name="user_name" value="<%= currentUser[0].user_name %>">
          </div>
          <div class="span8">
             <label for="email">Email</label><br>
-             <input id="email" type="text" name="email" value="<%= currentUser[0].email %>">
+             <input id="email" type="email" name="email" value="<%= currentUser[0].email %>">
         </div>
          <div class="span8">
              <label for="password">Password</label><br>
               <input id="password" type="password" name="password" value="<%= currentUser[0].password %>">
-         </div>
-       
+         </div><br>
              <button type="submit">UPDATE PROFILE</button>
          </form>
     </div>
