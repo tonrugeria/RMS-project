@@ -16,7 +16,9 @@ router.get('/system-variables', checkAuthenticated, async (req, res) => {
   const technologies = await knex('admin.skill').orderBy('skill_id');
   const remarks = await knex('admin.remarks').orderBy('remark_id');
   const jobType = await knex('admin.job_type').orderBy('job_type_id');
-  const department = await knex('admin.department').orderBy('dept_id');
+  const department = await knex('admin.department')
+    .where('dept_status', 'active')
+    .orderBy('dept_id');
   res.render('systemVariables', {
     position,
     technologies,
@@ -171,6 +173,7 @@ router.post('/addDepartment', async (req, res) => {
   await knex('admin.department')
     .insert({
       dept_name: department,
+      dept_status: 'active',
     })
     .then((result) => {
       res.redirect('/system-variables');
@@ -191,190 +194,17 @@ router.post('/system-variables/department/:dept_id', async (req, res) => {
 
 router.post('/delete/department/:dept_id', async (req, res) => {
   const departmentId = req.params.dept_id;
-  await knex('job_application.employment_history')
-    .innerJoin(
-      'job_application.applicant_details',
-      'job_application.employment_history.application_id',
-      'job_application.applicant_details.application_id'
-    )
-    .innerJoin(
-      'jobs.job_opening',
-      'job_application.applicant_details.job_id',
-      'jobs.job_opening.job_id'
-    )
-    .where('job_dept', departmentId)
-    .del()
-    .then(() => {
-      knex('job_application.capabilities')
-        .innerJoin(
-          'job_application.applicant_details',
-          'job_application.capabilities.application_id',
-          'job_application.applicant_details.application_id'
-        )
-        .innerJoin(
-          'jobs.job_opening',
-          'job_application.applicant_details.job_id',
-          'jobs.job_opening.job_id'
-        )
-        .where('job_dept', departmentId)
-        .del()
-        .then(() => {
-          knex('job_application.applicant_rating')
-            .innerJoin(
-              'job_application.applicant_details',
-              'job_application.applicant_rating.application_id',
-              'job_application.applicant_details.application_id'
-            )
-            .innerJoin(
-              'jobs.job_opening',
-              'job_application.applicant_details.job_id',
-              'jobs.job_opening.job_id'
-            )
-            .where('job_dept', departmentId)
-            .del()
-            .then(() => {
-              knex('job_application.applicant_exam_answers')
-                .innerJoin(
-                  'job_application.applicant_details',
-                  'job_application.applicant_exam_answers.application_id',
-                  'job_application.applicant_details.application_id'
-                )
-                .innerJoin(
-                  'jobs.job_opening',
-                  'job_application.applicant_details.job_id',
-                  'jobs.job_opening.job_id'
-                )
-                .where('job_dept', departmentId)
-                .del()
-                .then(() => {
-                  knex('job_application.education')
-                    .innerJoin(
-                      'job_application.applicant_details',
-                      'job_application.education.application_id',
-                      'job_application.applicant_details.application_id'
-                    )
-                    .innerJoin(
-                      'jobs.job_opening',
-                      'job_application.applicant_details.job_id',
-                      'jobs.job_opening.job_id'
-                    )
-                    .where('job_dept', departmentId)
-                    .del()
-                    .then(() => {
-                      knex('job_application.applicant_details')
-                        .innerJoin(
-                          'jobs.job_opening',
-                          'job_application.applicant_details.job_id',
-                          'jobs.job_opening.job_id'
-                        )
-                        .where('job_dept', departmentId)
-                        .del()
-                        .then(() => {
-                          knex('jobs.item')
-                            .innerJoin(
-                              'jobs.category',
-                              'jobs.item.category_id',
-                              'jobs.category.category_id'
-                            )
-                            .innerJoin(
-                              'jobs.job_opening',
-                              'jobs.category.job_id',
-                              'jobs.job_opening.job_id'
-                            )
-                            .where('job_dept', departmentId)
-                            .del()
-                            .then(() => {
-                              knex('jobs.category')
-                                .innerJoin(
-                                  'jobs.job_opening',
-                                  'jobs.category.job_id',
-                                  'jobs.job_opening.job_id'
-                                )
-                                .where('job_dept', departmentId)
-                                .del()
-                                .then(() => {
-                                  knex('jobs.qualification')
-                                    .innerJoin(
-                                      'jobs.job_opening',
-                                      'jobs.qualification.job_id',
-                                      'jobs.job_opening.job_id'
-                                    )
-                                    .where('job_dept', departmentId)
-                                    .del()
-                                    .then(() => {
-                                      knex('jobs.responsibility')
-                                        .innerJoin(
-                                          'jobs.job_opening',
-                                          'jobs.responsibility.job_id',
-                                          'jobs.job_opening.job_id'
-                                        )
-                                        .where('job_dept', departmentId)
-                                        .del()
-                                        .then(() => {
-                                          knex('jobs.job_details')
-                                            .innerJoin(
-                                              'jobs.job_opening',
-                                              'jobs.job_details.job_id',
-                                              'jobs.job_opening.job_id'
-                                            )
-                                            .where('job_dept', departmentId)
-                                            .del()
-                                            .then(() => {
-                                              knex('jobs.question')
-                                                .innerJoin(
-                                                  'jobs.job_opening',
-                                                  'jobs.question.job_id',
-                                                  'jobs.job_opening.job_id'
-                                                )
-                                                .where('job_dept', departmentId)
-                                                .del()
-                                                .then(() => {
-                                                  knex('jobs.skill')
-                                                    .innerJoin(
-                                                      'admin.skill',
-                                                      'jobs.skill.skill_id',
-                                                      'admin.skill.skill_id'
-                                                    )
-                                                    .where('skill_type', departmentId)
-                                                    .del()
-                                                    .then(() => {
-                                                      knex('jobs.job_opening')
-                                                        .where('job_dept', departmentId)
-                                                        .del()
-                                                        .then(() => {
-                                                          knex('admin.skill')
-                                                            .where(
-                                                              'skill_type',
-                                                              departmentId
-                                                            )
-                                                            .del()
-                                                            .then(() => {
-                                                              knex('admin.department')
-                                                                .where(
-                                                                  'dept_id',
-                                                                  departmentId
-                                                                )
-                                                                .del()
-                                                                .then((result) => {
-                                                                  res.redirect(
-                                                                    '/system-variables'
-                                                                  );
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+  const deptJobs = await knex('jobs.job_opening').where('job_dept', departmentId);
+
+  try {
+    await knex('admin.department')
+      .where('dept_id', departmentId)
+      .update({ dept_status: 'inactive' });
+    res.redirect('/system-variables');
+  } catch (err) {
+    console.log(err);
+    res.redirect('/system-variables');
+  }
 });
 
 module.exports = router;

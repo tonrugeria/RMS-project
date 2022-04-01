@@ -51,14 +51,8 @@
                     <h5 class="modal-title" id="staticBackdropLabel">Delete department</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body text-center">
                     <h5>Are you sure you want to delete <%= department[i].dept_name %> department?</h5>
-                    <p>The following will also be deleted:</p>
-                    <ul>
-                      <li><%= department[i].dept_name %> skills</li>
-                      <li><%= department[i].dept_name %> jobs</li>
-                      <li><%= department[i].dept_name %> applicants</li>
-                    </ul>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
@@ -117,6 +111,7 @@
               </form>
             </div>
           </div>
+          <%  %> 
         <% } %>
         <form action="/addTechnologies" method="post" id="add-skills" class="d-none">
           <div class="mb-4">
@@ -125,6 +120,8 @@
             <button type="submit">+</button>
           </div>
         </form>
+      <% } else { %>
+        <h6>Add department!</h6> 
       <% } %>
     </div>
 
