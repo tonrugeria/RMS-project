@@ -110,6 +110,7 @@ router.post('/edit/:user_id', upload, async (req, res) => {
       password,
     })
     .then((results) => {
+      req.flash('error', 'The Profile succesully updated');
       res.redirect('/users');
     });
 });
