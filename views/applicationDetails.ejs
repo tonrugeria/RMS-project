@@ -35,7 +35,9 @@
                   <% } %>
                 <% } %>
               <% } else { %>
-                Select job
+                <div class="d-flex align-items-center">
+                  <strong>Select job</strong>
+                </div>
               <% } %> 
             </a>
             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
@@ -52,13 +54,19 @@
                                 <% applicants++; %>
                             <% } %>
                           <% } %>
-                          (<%= applicants; %>)
+                          <strong>( <%= applicants; %> )</strong>
                         </p>
                       </div>
                     </div>
                   </a>
               </li>
             <% } %> 
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item" href="/application"><strong>SHOW ALL</strong></a>
+            </li>
             </ul>
           </div>
         </div>
@@ -110,33 +118,52 @@
 
       </div>
     </div>
-    <div class="col-3 g-0" style="height: 100vh;"> 
+    <div class="col-3 g-0" style="height: 100vh;">
+      <div>
+        <input id="myInput" class="w-100 border-bottom m-1" type="text" placeholder="Search" style="height: 40px; border: none; outline: none;">
+      </div>
       <div style="height: 100vh; overflow: auto;">
-        <% for(let i = 0; i < applicants.length; i++) { %>
-          <%= applicants[i].application_id %> 
-          <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
-            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                    <p class="card-text"> 
-                      <% for ( let j = 0; j < applicantJob.length; j++) { %>
-                        <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
-                          <%= applicantJob[j].skill_name %>   
+        <% if ( applicants != 0 ) { %>
+          <% for(let i = 0; i < applicants.length; i++) { %>
+            <%= applicants[i].application_id %> 
+            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;" id="myCard">
+              <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <div class="d-flex">
+                        <div class="me-2">
+                          <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                        </div>  
+                        <div class="d-flex align-items-center">
+                          <p><%= applicants[i].status %></p>
+                        </div>
+                      </div>
+                      <p class="card-text"> 
+                        <% for ( let j = 0; j < applicantJob.length; j++) { %>
+                          <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
+                            <%= applicantJob[j].skill_name %>   
+                          <% } %> 
                         <% } %> 
-                      <% } %> 
-                    </p>
-                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                      </p>
+                      <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
+          <% } %>
+        <% } else { %>
+            <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
+              <h1>
+                NO APPLICANTS
+              </h1>
+            </div>  
           <% } %> 
+          <div class="no-results" style="display:none"><h1>no results found</h1></div> 
       </div>
     </div>
     <div class="col-6 g-0 p-4">
@@ -485,4 +512,36 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    var $block = $('.no-results');
+$("#myInput").keyup(function() {
+    var val = $(this).val();
+    var isMatch = false;
+    
+    $("#myCard .card").each(function(i) {
+        var content = $(this).html();
+        if(content.toLowerCase().indexOf(val) == -1) {
+           $(this).hide();         
+        } else {
+            isMatch = true;
+            $(this).show();
+        }
+    });
+    $block.toggle(!isMatch);
+});
+});
+</script>
+
+// <script>
+//   $(document).ready(function(){
+//   $("#myInput").on("keyup", function() {
+//     var value = $(this).val().toLowerCase();
+//     $("#myCard .card").filter(function() {
+//       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+//     });
+//   });
+// });
+// </script>
 <%- include('./layout/footer.ejs') %>

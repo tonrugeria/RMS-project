@@ -35,7 +35,9 @@
                   <% } %>
                 <% } %>
               <% } else { %>
-                Select job
+                <div class="d-flex align-items-center">
+                  <strong>Select job</strong>
+                </div>
               <% } %> 
             </a>
             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
@@ -43,7 +45,7 @@
               <li>
                   <a class="dropdown-item" href="/application/job/<%= jobOpening[i].job_id %>">
                     <div class="d-flex">
-                      <div><%= jobOpening[i].job_title %></div>
+                      <div><strong><%= jobOpening[i].job_title %></strong></div>
                       <div>
                         <% let applicants =  0 %>
                         <p style="text-decoration: none;">
@@ -52,13 +54,19 @@
                                 <% applicants++; %>
                             <% } %>
                           <% } %>
-                          (<%= applicants; %>)
+                          <strong>( <%= applicants; %> )</strong>
                         </p>
                       </div>
                     </div>
                   </a>
               </li>
-            <% } %> 
+              <% } %> 
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="/application"><strong>SHOW ALL</strong></a>
+              </li>
             </ul>
           </div>
         </div>
@@ -92,7 +100,7 @@
         <% for(let i=0; i < remarks.length; i++) { %>
           <div>
             <input type="checkbox" id="dept-<%= remarks[i].remark_id %>-checkbox"
-            class="all-dept-checkbox" 
+            class="all-status-checkbox" 
               onclick="showDeptFunction('<%= remarks[i].remark_id %>')"/>
             <label for="<%= remarks[i].remark_name %>">
               <%= remarks[i].remark_name %>
@@ -111,15 +119,18 @@
       </div>
     </div>
     <div class="col-3 g-0" style="height: 100vh;"> 
+      <div>
+        <input id="myInput" class="w-100 border-bottom m-1" type="text" placeholder="Search" style="height: 40px; border: none; outline: none;" onkeyup="buttonUp()">
+      </div>
       <div style="height: 100vh; overflow: auto;">
         <% if ( applicants != 0 ) { %>
           <% for(let i = 0; i < applicants.length; i++) { %>
             <%= applicants[i].application_id %> 
-            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
+            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;" id="myCard">
               <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
+                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start img" alt="This is Image" width="100">
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
@@ -145,8 +156,41 @@
             </h1>
           </div>  
         <% } %> 
+        <div class="no-results" style="display:none"><h1>no results found</h1></div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    var $block = $('.no-results');
+$("#myInput").keyup(function() {
+    var val = $(this).val();
+    var isMatch = false;
+    
+    $("#myCard .card").each(function(i) {
+        var content = $(this).html();
+        if(content.toLowerCase().indexOf(val) == -1) {
+           $(this).hide();         
+        } else {
+            isMatch = true;
+            $(this).show();
+        }
+    });
+    $block.toggle(!isMatch);
+});
+});
+</script>
+
+<!-- <script>
+  $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myCard .card").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script> -->
 <%- include('./layout/footer.ejs') %>

@@ -227,12 +227,22 @@ router.get(
         'admin.skill.skill_id'
       )
       .where('application_id', appId);
+      
     const applicantJob = await knex('job_application.applicant_rating')
     .innerJoin(
       'admin.skill',
       'job_application.applicant_rating.skill_id',
       'admin.skill.skill_id'
     )
+
+    const ScoreArr = []
+    for ( let i = 0; i < applicantDetails.length; i++) {
+      if(applicantDetails[i].application_id == appId) {
+        // let highestScore = applicantDetails[i].skill_level
+        ScoreArr.push(applicantDetails[i].skill_level)
+      }
+    }
+    const highestScore = Math.max(...ScoreArr)
 
     // technical_score Table
     const technicalScore = await knex('job_application.technical_score');
@@ -260,6 +270,7 @@ router.get(
       'application_id',
       appId
     );
+
 
     // get total percentage of skill_level
     let sum = 0;
@@ -311,7 +322,8 @@ router.get(
       currentUserId,
       currentUserRole,
       remarks,
-      applicantJob
+      applicantJob,
+      highestScore
     });
     // res.redirect(`/application/job/${jobId}/applicant/${appId}`)
   }
@@ -328,7 +340,6 @@ router.post('/application/job/:job_id/applicant/:application_id', async (req, re
   const {
     remark
   } = req.body
-  console.log("remarks", remark);
   if (remark != null) {
     knex('job_application.applicant_details')
       .update({
