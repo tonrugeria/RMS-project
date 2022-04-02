@@ -67,6 +67,37 @@ router.post(
         .then((results) => results);
     }
 
+    const personalityAnswers = await knex('job_application.applicant_exam_answers')
+      .innerJoin(
+        'question.question',
+        'job_application.applicant_exam_answers.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, application_id: appId })
+      .andWhere('question.question.question_type', 1);
+
+    let applicantPersonalityTotal = 0;
+    for (let i = 0; i < personalityAnswers.length; i++) {
+      if (applicant_answer[i] == 1) {
+        applicantPersonalityTotal += personalityAnswers[i].choice_1_value;
+      } else if (applicant_answer[i] == 2) {
+        applicantPersonalityTotal += personalityAnswers[i].choice_2_value;
+      } else if (applicant_answer[i] == 3) {
+        applicantPersonalityTotal += personalityAnswers[i].choice_3_value;
+      } else {
+        applicantPersonalityTotal += personalityAnswers[i].choice_4_value;
+      }
+    }
+
+    await knex('job_application.applicant_details')
+      .where({ application_id: appId })
+      .update({ personality_test_score: applicantPersonalityTotal });
+
+    await knex('job_application.personality_score').insert({
+      application_id: appId,
+      score: applicantPersonalityTotal,
+    });
+
     res.redirect(`/careers/job/${jobId}/personality-test/application/${appId}`);
   }
 );
