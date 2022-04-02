@@ -70,9 +70,11 @@
           action="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
           method="post"
           id="questions"
-        ></form>
+        >
+        </form>
+        <button id="save-exam" type="submit" form="questions">SAVE EXAM</button>
         <div id="next-btn-container">
-          <button id="next-btn" class="d-none">NEXT</button>
+          <button type="button" id="next-btn">NEXT</button>
         </div>
       </div>
       <% } else { %>
@@ -87,46 +89,57 @@
 </div>
 
 <script>
-  $(document).ready(function () {
-    let $questions = $('#questions');
+$(document).ready(function(){
+  let $questions = $('#questions')
+  let count = 0;
+  let interval = null;
+  let disable = null;
+  $('#next-btn').hide()
+  $('#save-exam').hide()
 
-    $('#start-btn').on('click', showQuestions);
+  $(`#next-btn`).click(function(e){
+    e.preventDefault();
+    clearTimeout(disable)
+    clearInterval(interval)
+    $(`#question-container_${count}`).fadeTo(300, 0.4)
+    $(`#question-container_${count}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+    $(`#count_${count}`).remove()
+    skipped = true;
+    count++
+    showQuestions()
+  });
+  
+  $("#start-btn").click((e)=>{
+    e.preventDefault()
+    e.target.remove();
+    showQuestions()
+  });
 
-    function showQuestions(e) {
-      let category = $('#value-category').val();
-      let question = $('#value-question').val();
-      let delay = 0;
-      $.ajax({
-        url: '/careers/job/<%= jobId %>/technical-exam',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ category: category, question: question }),
-        success: function (response) {
-          $.each(response.responseQuestion, function (key, value) {
-            let questionTimer = setTimeout(function () {
-              key++;
-              $questions.append(`\
-                          <div id="question-container_${key}">
-                            <div>
-                            <h3>${key}. ${value.question_detail}</h3>
-                            <input type="text"
+  function showQuestions(){
+    $.get("/careers/job/<%= jobId %>/technical-exam", function(data, status){
+      // console.log("Data: " + JSON.stringify(data.responseQuestion[count]) + "\nStatus: " + status);
+      $('#next-btn').show()
+      if(JSON.stringify(data.responseQuestion[count]) !== undefined){
+        $questions.append(`<div id="question-container_${count}">
+                            <div class="d-flex">
+                            <h3>${data.responseQuestion[count].question_detail}</h3>
+                            <input type="hidden"
                               name="question_type"
-                              value="${value.question_type}"
+                              value="${data.responseQuestion[count].question_type}"
                               readonly
                             >
-                            <input type="text"
+                            <input type="hidden"
                               name="question_id"
-                              value="${value.question_id}"
+                              value="${data.responseQuestion[count].question_id}"
                               readonly
                             >
-                            <input type="text"
-                              value="${value.question_category}"
-                              readonly
-                            >
+                            <h5 id="count_${count}" class="mx-auto">
+                              Time limit: ${data.responseQuestion[count].question_time_limit}
+                            </h5>
                             </div>
-                            <div class="d-none">
+                            <div>
                               <input type="radio"
-                                name="applicant_answer[${key}]"
+                                name="applicant_answer[${count}]"
                                 id="choice-0"
                                 value="0"
                                 checked
@@ -135,55 +148,64 @@
                             </div>
                             <div>
                             <input type="radio"
-                              name="applicant_answer[${key}]"
+                              name="applicant_answer[${count}]"
                               id="choice-1"
                               value="1"
                             >
-                            <label for="choice_1">${value.choice_1}</label>
+                            <label for="choice_1">${data.responseQuestion[count].choice_1}</label>
                             </div>
                             <div>
                             <input type="radio"
-                              name="applicant_answer[${key}]"
+                              name="applicant_answer[${count}]"
                               id="choice-2"
                               value="2"
                             >
-                            <label for="choice_2">${value.choice_2}</label>
+                            <label for="choice_2">${data.responseQuestion[count].choice_2}</label>
                             </div>
                             <div>
                             <input type="radio"
-                              name="applicant_answer[${key}]"
+                              name="applicant_answer[${count}]"
                               id="choice-3"
                               value="3" 
                             >
-                            <label for="choice_3">${value.choice_3}</label>
+                            <label for="choice_3">${data.responseQuestion[count].choice_3}</label>
                             </div>
                             <div>
                             <input type="radio"
-                              name="applicant_answer[${key}]"
+                              name="applicant_answer[${count}]"
                               id="choice-4"
                               value="4" 
                             >
-                            <label for="choice_4">${value.choice_4}</label>
+                            <label for="choice_4">${data.responseQuestion[count].choice_4}</label>
                             </div>
-                          </div>`);
-            }, delay);
-            // if(value.question_time_limit == 0){
-            //   $('#next-btn').removeClass('d-none');
-            //   clearTimeout(question_timer)
-            // } 
-            delay += value.question_time_limit * 1000;
-          });
+                          </div>`)
+              // question timer
+              let $counter = data.responseQuestion[count].question_time_limit;
+              interval = setInterval(() => {
+                $counter--;
+                $(`#count_${count}`).html('Time limit: ' + $counter);
+                if($counter == 0){
+                  clearInterval(interval);
+                }
+              }, 1000);
 
-          setTimeout(function () {
-            $('#next-btn').remove();
-            $questions.append('<button type="submit">SAVE EXAM</button>');
-          }, delay);
+              // disables the question after the time limit
+              disable = setTimeout(()=>{
+                $(`#question-container_${count}`).fadeTo(100, 0.5)
+                $(`#question-container_${count}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+                $(`#count_${count}`).remove()
+                count++
+                showQuestions()
+              }, data.responseQuestion[count].question_time_limit*1000)
 
-          $('#start-btn').remove();
-          $('#next-btn').removeClass('d-none');
-        },
-      });
-    }
-  });
+      } else {
+        $('#next-btn').remove()
+        $('#save-exam').show()
+        return
+      }
+      
+    });
+  }
+});
 </script>
 <%- include('./layout/resumeFooter.ejs') %>

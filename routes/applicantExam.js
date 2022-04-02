@@ -166,7 +166,7 @@ router.post(
 );
 
 // ajax route for showing questions
-router.post('/careers/job/:job_id/technical-exam', async (req, res) => {
+router.get('/careers/job/:job_id/technical-exam', async (req, res) => {
   const jobId = req.params.job_id;
   const jobQuestion = await knex('jobs.question')
     .innerJoin(

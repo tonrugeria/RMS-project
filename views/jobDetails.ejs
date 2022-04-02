@@ -59,7 +59,7 @@
               type="text"
               name="responsibility_item"
               value="<%= jobResponsibility[i].responsibility_detail %>"
-              onchange="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>')"
+              onkeydown="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>', 'responsibility')"
             />
             <button
               class="update-btn d-none"
@@ -105,7 +105,7 @@
               type="text"
               name="qualification_item"
               value="<%= jobQualification[i].qualification_detail%>"
-              onchange="addUpdateBtn('<%= jobQualification[i].qualification_id%>')"
+              onkeydown="addUpdateBtn('<%= jobQualification[i].qualification_id%>', 'qualification')"
             />
             <button
               class="update-btn d-none"
@@ -154,7 +154,7 @@
               type="text"
               name="category_item"
               value="<%= jobCategoryItem[j].item_detail %>"
-              onchange="addUpdateBtn('<%= jobCategoryItem[j].item_id %>', '<%= jobCategory[i].category_detail %>')"
+              onkeypress="addUpdateBtn('<%= jobCategoryItem[j].item_id %>', '<%= jobCategory[i].category_detail %>')"
             />
             <button
               class="update-btn d-none"
@@ -213,8 +213,6 @@
 
     allDelBtn.forEach((btn) => {
       if (
-        btn.getAttribute('id') == `responsibility_${itemId}` ||
-        btn.getAttribute('id') == `qualification_${itemId}` ||
         btn.getAttribute('id') == `${category}_${itemId}`
       ) {
         btn.classList.add('d-none');
@@ -223,8 +221,6 @@
 
     allUpdateBtn.forEach((btn) => {
       if (
-        btn.getAttribute('id') == `responsibility_${itemId}` ||
-        btn.getAttribute('id') == `qualification_${itemId}` ||
         btn.getAttribute('id') == `${category}_${itemId}`
       ) {
         btn.classList.remove('d-none');
