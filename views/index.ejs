@@ -9,7 +9,8 @@
 </br>
 </br>
 </br>
-<div class="sidebar-column">
+<!-- sidebar for filter-->
+<div class="job-filter">
     <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
     <div>
       <input type="checkbox" id="all-checkbox" onclick="showAllFunction()" checked/>
@@ -47,17 +48,17 @@
     </div>
   </div>
 </div>
- 
+
+<!-- list view and grid view buttons-->
         <div class="btn-group">
             <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span></a>  
+            </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span></a>  
                 </div>
-
-
-     <div class="container">
+<!-- Cards -->
+    <div class="container">
+     <div class="card-inner">
     <% for (let i=0; i < jobOpening.length; i++) { %>
-      <div id="products">
+      <div id="products"> 
       <div class="item col-xs-6 col-lg-4">
         <div class="row">
 
@@ -70,79 +71,69 @@
         <% } %> 
         >
         <!-- display date opened -->
-
           <span><%= date %></span>  
-  
+
         <!-- display job-type -->
         <span>
           <%= jobOpening[i].job_type %>
         </span>
+
+        <!-- display skills -->
+           <div class="d-flex">
+            <% for (let j=0; j < jobSkill.length; j++) { %>
+                <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
+                  <div class="skill-item">
+                    <%= jobSkill[j].skill_name %>
+                  </div>
+                  <% } %>
+                  <% } %>
+            </div>
         <!-- display job title -->
-        
+
           <h1>
             <a href="/job-requirement/<%= jobOpening[i].job_id %>">
               <%= jobOpening[i].job_title %>
             </a>
           </h1>
-   
-        <!-- display skills -->
-        <div class="d-flex" style="gap: 5px;">
-          <% for (let j=0; j < jobSkill.length; j++) { %>
-            <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-              <span><%= jobSkill[j].skill_name %></span>
-            <% } %>
-          <% } %>
-        </div>
-        <!-- number of applications -->
-        <div>
-          <% let applicants =  0 %>
-          <p class="d-flex">
-            <% for (let j=0; j < jobApplications.length; j++) { %>
-              <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                  <% applicants++; %>
-              <% } %>
-            <% } %>
-            <%= applicants; %>
-            Applications
-          </p>
-        </div>
-        <!-- status -->
-        <div class= "status">
-            <form action="/job/<%= jobOpening[i].job_id %>/status" method="post">
-              <input type="radio" class="active-radio" 
-                name="status[<%= jobOpening[i].job_id %>]" 
-                value="0"
-                <% if(jobOpening[i].status == '0') {%> 
-                checked
-                <% } %> 
-              >
-              <label for="active">ACTIVE</label><br>
-              <input type="radio" class="draft-radio" 
-                name="status[<%= jobOpening[i].job_id %>]" 
-                value="1"
-                <% if(jobOpening[i].status == '1') {%> 
-                  checked
-                <% } %>
-              >
-              <label for="draft">DRAFT</label><br>
-              <input type="radio" class="archive-radio" 
-                name="status[<%= jobOpening[i].job_id %>]" 
-                value="2"
-                <% if(jobOpening[i].status == '2') {%> 
-                  checked
-                <% } %>
-              >
-              <label for="draft">ARCHIVE</label><br>
-              <button type="submit">x</button>
-            </form>
-        </div>
+ 
+            <!-- status-->
+              <div class= "status">
+                  <form action="/job/<%= jobOpening[i].job_id %>/status" method="post">
+                    <input type="radio" class="active-radio" 
+                      name="status[<%= jobOpening[i].job_id %>]" 
+                      value="0"
+                      <% if(jobOpening[i].status == '0') {%> 
+                      checked
+                      <% } %> 
+                    >
+                    <label for="active">ACTIVE</label><br>
+                    <input type="radio" class="draft-radio" 
+                      name="status[<%= jobOpening[i].job_id %>]" 
+                      value="1"
+                      <% if(jobOpening[i].status == '1') {%> 
+                        checked
+                      <% } %>
+                    >
+                    <label for="draft">DRAFT</label><br>
+                    <input type="radio" class="archive-radio" 
+                      name="status[<%= jobOpening[i].job_id %>]" 
+                      value="2"
+                      <% if(jobOpening[i].status == '2') {%> 
+                        checked
+                      <% } %>
+                    >
+                    <label for="draft">ARCHIVE</label><br>
+                    <button type="submit">x</button>
+                  </form>
+              </div>     
       </div>
     </div>
-  </div>
-
+    </div>
     <% } %>
   </div>
 </div>
+
+
 
 <script>
   function toggleActiveCheckbox(){
