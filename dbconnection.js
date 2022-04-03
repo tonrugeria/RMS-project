@@ -309,6 +309,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           REFERENCES Job_Application.Applicant_details(application_id)
       );
       CREATE TABLE IF NOT EXISTS Job_Application.Personality_Score (
+          score_id SERIAL PRIMARY KEY NOT NULL,
           application_id INT NOT NULL,
           score	int,
       
