@@ -65,7 +65,22 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item" href="/application"><strong>SHOW ALL</strong></a>
+              <a class="dropdown-item" href="/application">
+                <div class="d-flex">
+                  <div class="me-2">
+                    <strong>SHOW ALL</strong>
+                  </div>
+                  <div>
+                    <% let allApplicants =  0 %>
+                    <p class="m-0">
+                      <% for (let i=0; i < jobApplications.length; i++) { %>
+                            <% allApplicants++; %>
+                      <% } %>
+                      <strong>( <%= allApplicants; %> )</strong>
+                    </p>
+                  </div>
+                </div>
+              </a>
             </li>
             </ul>
           </div>
@@ -149,7 +164,16 @@
                           <% } %> 
                         <% } %> 
                       </p>
-                      <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                      <p class="card-text">
+                      <small>
+                        <%= applicants[i].year_experience  %>
+                        <% if (applicants[i].year_experience > 1) { %>
+                          years
+                        <% } else { %>
+                          year
+                        <% } %> experience
+                      </small>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -211,25 +235,40 @@
                     <div class="me-auto">
                       <p class="card-text mb-0">
                         <% if (applicantInfo != 0) { %>
-                          <%= applicantInfo[0].year_experience %> years experience
+                          <%= applicantInfo[0].year_experience %> 
+                          <% if (applicantInfo[0].year_experience > 1) { %>
+                            years
+                          <% } else { %>
+                            year
+                          <% } %>  
+                          experience
                           <% } else { %>
                             NO EXPERIENCE
                           <% } %>
                       </p>
                       <p class="m-0">
-                        <% if( total >= 75) { %>
-                          Expert in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
-                            <%= applicantSkill[i].skill_name %> 
-                          <% } %>
-                        <% } else if (total >= 50) { %>
-                          Intermediate in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
-                            <%= applicantSkill[i].skill_name %> 
-                          <% } %>
-                        <% } else { %>
-                          Beginner  in <% for ( let i = 0; i < applicantSkill.length; i++) { %>
-                            <%= applicantSkill[i].skill_name %> 
+                        <% if( highestScore >= 75 ) { %>
+                          EXPERT in 
+                          <% for ( let j = 0; j < expert.length; j++) { %>
+                            <% if ( expert[j].application_id == appId) { %>
+                              <%= expert[j].skill_name %>  
+                            <% } %>
                           <% } %> 
-                        <% } %> 
+                        <% } else if ( highestScore >= 50) { %>
+                          INTERMEDIATE in 
+                          <% for ( let j = 0; j < intermediate.length; j++) { %>
+                            <% if ( expert[j].application_id == appId) { %>
+                              <%= intermediate[j].skill_name %>   
+                            <% } %>
+                          <% } %>  
+                        <% } else { %>
+                          BEGINNER in 
+                          <% for ( let j = 0; j < beginner.length; j++) { %>
+                            <% if ( expert[j].application_id == appId) { %>
+                              <%= beginner[j].skill_name %>   
+                            <% } %> 
+                          <% } %> 
+                        <% } %>    
                       </p>
                     </div>
                     <div class="d-flex align-items-end">
@@ -310,7 +349,12 @@
                     </strong>
                   </div>
                   <div>
-                    <%= applicantSkill[i].skill_years%> years experience
+                    <%= applicantSkill[i].skill_years%> 
+                    <% if (applicantSkill[i].skill_years > 1) { %>
+                      years
+                    <% } else { %>
+                      year
+                    <% } %> experience
                   </div>
                   <div>
                     Self-rating <%= applicantSkill[i].skill_self_rating%> / 5
@@ -355,8 +399,7 @@
                       <% if (applicantExamResults[i].correct_answer === 1) { %>
                         <i class="fa-solid fa-check"></i>
                       <% } %>
-                      <% if (applicantExamResults[i].applicant_answer  === 1 &&
-                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                      <% if (applicantExamResults[i].applicant_answer  === 1 && applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
                           <i class="fa-solid fa-xmark"></i>
                       <% } %> 
                     </p>
@@ -364,8 +407,7 @@
                       <% if (applicantExamResults[i].correct_answer === 2) { %>
                         <i class="fa-solid fa-check"></i>
                       <% } %>
-                      <% if (applicantExamResults[i].applicant_answer  === 2 &&
-                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                      <% if (applicantExamResults[i].applicant_answer  === 2 && applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
                           <i class="fa-solid fa-xmark"></i>
                       <% } %> 
                     </p>
@@ -373,8 +415,7 @@
                       <% if (applicantExamResults[i].correct_answer === 3) { %>
                         <i class="fa-solid fa-check"></i>
                       <% } %>
-                      <% if (applicantExamResults[i].applicant_answer  === 3 &&
-                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                      <% if (applicantExamResults[i].applicant_answer  === 3 && applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
                           <i class="fa-solid fa-xmark"></i>
                       <% } %> 
                     </p>
@@ -382,8 +423,7 @@
                       <% if (applicantExamResults[i].correct_answer === 4) { %>
                         <i class="fa-solid fa-check"></i>
                       <% } %>
-                      <% if (applicantExamResults[i].applicant_answer  === 4 &&
-                      applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
+                      <% if (applicantExamResults[i].applicant_answer  === 4 && applicantExamResults[i].applicant_answer != applicantExamResults[i].correct_answer) { %>
                           <i class="fa-solid fa-xmark"></i>
                       <% } %> 
                     </p>
@@ -469,7 +509,6 @@
             </div>
           </div>
         </div>
-
         <div class="py-3">
           <h3>CAPABILITIES</h3>
           <% if(applicantCapability[0].capability_1 != 0) { %> 

@@ -65,7 +65,22 @@
                 <hr class="dropdown-divider">
               </li>
               <li>
-                <a class="dropdown-item" href="/application"><strong>SHOW ALL</strong></a>
+                <a class="dropdown-item" href="/application">
+                  <div class="d-flex">
+                    <div class="me-2">
+                      <strong>SHOW ALL</strong>
+                    </div>
+                    <div>
+                      <% let allApplicants =  0 %>
+                      <p class="m-0">
+                        <% for (let i=0; i < jobApplications.length; i++) { %>
+                              <% allApplicants++; %>
+                        <% } %>
+                        <strong>( <%= allApplicants; %> )</strong>
+                      </p>
+                    </div>
+                  </div>
+                </a>
               </li>
             </ul>
           </div>
@@ -135,6 +150,9 @@
                   <div class="col-md-8">
                     <div class="card-body">
                       <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                      <div class="d-flex align-items-center">
+                        <p><%= applicants[i].status %></p>
+                      </div>
                       <p class="card-text"> 
                         <% for ( let j = 0; j < applicantJob.length; j++) { %>
                           <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
@@ -142,7 +160,16 @@
                           <% } %> 
                         <% } %> 
                       </p>
-                      <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
+                      <p class="card-text">
+                        <small>
+                        <%= applicants[i].year_experience  %>
+                        <% if (applicants[i].year_experience > 1) { %>
+                          years
+                        <% } else { %>
+                          year
+                        <% } %> experience
+                      </small>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -158,6 +185,9 @@
         <% } %> 
         <div class="no-results" style="display:none"><h1>no results found</h1></div>
       </div>
+    </div>
+    <div class="col-6 d-flex justify-content-center align-items-center">
+      <h1><strong>PLEASE SELECT APPLICANTS</strong></h1>
     </div>
   </div>
 </div>
