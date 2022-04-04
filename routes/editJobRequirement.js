@@ -49,6 +49,8 @@ router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
 
 // job-requirement update post route
 router.post('/job-requirement/:job_id', async (req, res) => {
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
   const currentUserId = req.user.user_id;
   const jobId = req.params.job_id;
   const {
@@ -76,6 +78,8 @@ router.post('/job-requirement/:job_id', async (req, res) => {
       skill_score: skillScore,
       personality_score: personalityScore,
       last_updated_by: currentUserId,
+      last_date_updated: thisDay,
+
     })
     .where('job_id', jobId)
     .then(async () => {

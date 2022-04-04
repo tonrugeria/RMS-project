@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const knex = require('../dbconnection');
 
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
@@ -67,7 +68,8 @@ router.post('/job-requirement', async (req, res) => {
     skill_level,
   } = req.body;
 
-  
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
   knex('jobs.job_opening')
   knex('jobs.job_opening')
     .insert({
@@ -84,6 +86,8 @@ router.post('/job-requirement', async (req, res) => {
       status: 1,
       created_by: currentUserId,
       last_updated_by: currentUserId,
+      last_date_updated: thisDay,
+      date_opened: thisDay,
       
 
     })
