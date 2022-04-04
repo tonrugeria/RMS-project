@@ -264,11 +264,11 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <div>
-                    <h5 class="modal-title">Exam results</h5>
+                    <h5 class="modal-title">Exam results for Technical</h5>
 
-                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical</button>
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
 
-                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality</button>
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
                   </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -335,9 +335,14 @@
                     <% for(let i = 0; i < applicantExamResults.length; i++) {%>
                       <% totalExamScore++ %> 
                     <% } %> 
-                    <h5 class="modal-title">
+                    <h5 class="me-auto">
                     <% if (applicantExamResults != 0) { %>
                       Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
+                    <% } %>
+                    </h5>
+                    <h5>
+                    <% if (applicantExamResults != 0) { %>
+                      Percentage: <%= (applicantInfo[0].technical_test_score/totalExamScore)*100 %>&#37;
                     <% } %>
                     </h5>
                 </div>
@@ -349,9 +354,9 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <div>
-                    <h5 class="modal-title">Exam results</h5>
-                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical</button>
-                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality</button>
+                    <h5 class="modal-title">Exam results for Personality</h5>
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
                   </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -400,7 +405,7 @@
                   <% } %>
                 </div>
                 <div class="modal-footer">
-                  <h5>Score:</h5>
+                  <h5 class="me-auto">Score: <%= applicantInfo[0].personality_test_score %></h5>
                 </div>
               </div>
             </div>

@@ -104,7 +104,6 @@ $(document).ready(function(){
     $(`#question-container_${count}`).fadeTo(300, 0.4)
     $(`#question-container_${count}`).children().children((':radio:not(:checked)')).attr('disabled', true);
     $(`#count_${count}`).remove()
-    skipped = true;
     count++
     showQuestions()
   });
@@ -123,12 +122,12 @@ $(document).ready(function(){
         $questions.append(`<div id="question-container_${count}">
                             <div class="d-flex">
                             <h3>${data.responseQuestion[count].question_detail}</h3>
-                            <input type="hidden"
+                            <input type="text"
                               name="question_type"
                               value="${data.responseQuestion[count].question_type}"
                               readonly
                             >
-                            <input type="hidden"
+                            <input type="text"
                               name="question_id"
                               value="${data.responseQuestion[count].question_id}"
                               readonly
@@ -137,7 +136,7 @@ $(document).ready(function(){
                               Time limit: ${data.responseQuestion[count].question_time_limit}
                             </h5>
                             </div>
-                            <div>
+                            <div class="d-none">
                               <input type="radio"
                                 name="applicant_answer[${count}]"
                                 id="choice-0"
@@ -179,25 +178,29 @@ $(document).ready(function(){
                             <label for="choice_4">${data.responseQuestion[count].choice_4}</label>
                             </div>
                           </div>`)
-              // question timer
+              
               let $counter = data.responseQuestion[count].question_time_limit;
-              interval = setInterval(() => {
-                $counter--;
-                $(`#count_${count}`).html('Time limit: ' + $counter);
-                if($counter == 0){
-                  clearInterval(interval);
-                }
-              }, 1000);
+              // question timer
+              if($counter != 0){
+                interval = setInterval(() => {
+                  $counter--;
+                  $(`#count_${count}`).html('Time limit: ' + $counter);
+                  if($counter == 0){
+                    clearInterval(interval);
+                  }
+                }, 1000);
 
-              // disables the question after the time limit
-              disable = setTimeout(()=>{
-                $(`#question-container_${count}`).fadeTo(100, 0.5)
-                $(`#question-container_${count}`).children().children((':radio:not(:checked)')).attr('disabled', true);
-                $(`#count_${count}`).remove()
-                count++
-                showQuestions()
-              }, data.responseQuestion[count].question_time_limit*1000)
-
+                // disables the question after the time limit
+                disable = setTimeout(()=>{
+                  $(`#question-container_${count}`).fadeTo(100, 0.5)
+                  $(`#question-container_${count}`).children().children((':radio:not(:checked)')).attr('disabled', true);
+                  $(`#count_${count}`).remove()
+                  count++
+                  showQuestions()
+                }, data.responseQuestion[count].question_time_limit*1000)
+              } else {
+                $(`#count_${count}`).html('Time limit: &#8734');
+              }
       } else {
         $('#next-btn').remove()
         $('#save-exam').show()
