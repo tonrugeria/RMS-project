@@ -3,24 +3,28 @@
   <div class="row min-vh-100">
     <div class="col-3 g-0">
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-          <select name="jobTitle" class="w-100 title" style="background-color: transparent; border: none;">
             <% for( let i = 0; i < jobOpening.length; i++) { %>
-              <option style="background-color: transparent; border: none;" value="<%= jobOpening[i].job_title %>">
-                <%= jobOpening[i].job_title %>
-                <div>
-                <% let applicants =  0 %>
-                <p class="d-flex">
-                  <% for (let j=0; j < jobApplications.length; j++) { %>
-                    <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                        <% applicants++; %>
-                    <% } %>
-                  <% } %>
-                  (<%= applicants; %>)
-                </p>
+              <div>
+                <a href="/application/job/<%= jobOpening[i].job_id %>/" style="color: black;">
+                  <div class="d-flex">
+                    <div class="me-2">
+                      <%= jobOpening[i].job_title %>
+                    </div>
+                    <div>
+                      <% let applicants =  0 %>
+                      <p style="text-decoration: none;">
+                        <% for (let j=0; j < jobApplications.length; j++) { %>
+                          <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                              <% applicants++; %>
+                          <% } %>
+                        <% } %>
+                        (<%= applicants; %>)
+                      </p>
+                    </div>
+                  </div>
+                </a>
               </div>
-            </option>
             <% } %> 
-          </select>
         </div>
         <div class="p-4 mb-1" style="background-color: #e6e6e6;">
           <div class="row">
@@ -84,7 +88,11 @@
                   <div class="card-body">
                     <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
                     <p class="card-text"> 
-                      EXPERT
+                      <% for ( let j = 0; j < applicantJob.length; j++) { %>
+                        <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
+                          <%= applicantJob[j].skill_name %>   
+                        <% } %> 
+                      <% } %> 
                     </p>
                     <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
                   </div>
@@ -96,7 +104,7 @@
       </div>
     </div>
     <div class="col-6 g-0 p-4">
-      <form action="/application/job/<%= jobId %> /applicant/<%= appId %>" method="post" enctype="multipart/form-data">
+      
         <div class="d-flex flex-column border-bottom border-3">
           <div class="card p-3 border-0">
             <div class="row g-0">
@@ -163,26 +171,34 @@
                     </div>
                     <div class="d-flex align-items-end">
                       <div class="me-1">
-                        <select name="remarks" class="w-100 title" >
-                          <% for( let i = 0; i < remarks.length; i++) { %>
-                            <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
-                              <button type="submit">
-                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>" selected>
-                                  <%= remarks[i].remark_name %>
-                                </option>
-                              </button>
-                            <% } else { %>
-                              <button type="submit">
-                                <option style="background-color: transparent; border: none;" value="<%= remarks[i].remark_id %>">
-                                  <%= remarks[i].remark_name %>
-                                </option>
-                              </button>  
-                            <% } %> 
-                          <% } %> 
-                        </select>
-                      </div>
-                      <div>
-                        <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
+                        <form action="/application/job/<%= jobId %>/applicant/<%= appId %>" method="post" enctype="multipart/form-data">
+                        <div class="d-flex">
+                          <select name="remark" class="title" >
+                            <option>SELECT STATUS</option>
+                            <% for( let i = 0; i < remarks.length; i++) { %>
+                                <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
+                                  <option
+                                    style="background-color: transparent; border: none;"
+                                    value="<%= remarks[i].remark_id %>"
+                                    selected
+                                  >
+                                    <%= remarks[i].remark_name %>
+                                  </option>
+                                <% } else { %>
+                                  <option
+                                    style="background-color: transparent; border: none;"
+                                    value="<%= remarks[i].remark_id %>"
+                                  >
+                                    <%= remarks[i].remark_name %>
+                                  </option>
+                                <% } %>
+                              <% } %>
+                          </select>
+                          <div class="ms-1">
+                            <button type="submit" class="border border-0">UPDATE</button>
+                          </div>
+                        </div>
+                      </form>
                       </div>
                     </div>
                   </div>
@@ -197,7 +213,14 @@
         <div class="container py-3">
           <div class="d-flex justify-content-between">
             <h3>SKILLS</h3>
-            <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
+            <div class="d-flex">
+              <div class="me-1">
+                <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
+              </div>
+              <div>
+                <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
+              </div>
+            </div>
           </div>
           <div class="row">
             <% if(applicantSkill != 0) { %> 
@@ -235,24 +258,17 @@
                 NO SKILL  
               <% } %> 
           </div>
-          <div class="modal-dialog modal-dialog-scrollable">
-          </div>
           <!-- Exam results modal -->
           <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
                   <div>
-                    <h5 class="modal-title" id="exampleModalToggleLabel">Technical</h5>
-                    <% let totalExamScore = 0 %>
-                    <% for(let i = 0; i < applicantExamResults.length; i++) {%>
-                      <% totalExamScore++ %> 
-                    <% } %> 
-                    <h5 class="modal-title">
-                      <% if (applicantExamResults != 0) { %>
-                        Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
-                      <% } %>
-                    </h5>
+                    <h5 class="modal-title">Exam results for Technical</h5>
+
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
                   </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -315,7 +331,20 @@
                   <% } %> 
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Personality test results</button>
+                  <% let totalExamScore = 0 %>
+                    <% for(let i = 0; i < applicantExamResults.length; i++) {%>
+                      <% totalExamScore++ %> 
+                    <% } %> 
+                    <h5 class="me-auto">
+                    <% if (applicantExamResults != 0) { %>
+                      Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
+                    <% } %>
+                    </h5>
+                    <h5>
+                    <% if (applicantExamResults != 0) { %>
+                      Percentage: <%= (applicantInfo[0].technical_test_score/totalExamScore)*100 %>&#37;
+                    <% } %>
+                    </h5>
                 </div>
               </div>
             </div>
@@ -324,7 +353,11 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalToggleLabel2">Personality</h5>
+                  <div>
+                    <h5 class="modal-title">Exam results for Personality</h5>
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                  </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -372,7 +405,7 @@
                   <% } %>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Technical test results</button>
+                  <h5 class="me-auto">Score: <%= applicantInfo[0].personality_test_score %></h5>
                 </div>
               </div>
             </div>
@@ -422,7 +455,7 @@
               NO HISTORY  
             <% } %> 
         </div>
-      </form>
+      
     </div>
   </div>
 </div>

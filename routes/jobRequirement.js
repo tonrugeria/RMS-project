@@ -23,7 +23,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
     req.user.role_id
   );
   const adminSkill = await knex('admin.skill');
-  const dept = await knex('admin.department');
+  const dept = await knex('admin.department').where({ dept_status: 'active' });
   const jobType = await knex('admin.job_type');
   const job = await knex('jobs.job_opening');
   const hrAssessment = await knex('admin.remarks');
@@ -31,7 +31,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
   const question = await knex('question.question');
   const jobPosition = await knex('admin.job_position');
   const positionLevel = await knex('admin.position_level');
-  
+
   const unique = uniqueId(job);
   res.render('jobRequirement', {
     adminSkill,
@@ -51,7 +51,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
 });
 
 // job-requirement post route
-router.post('/job-requirement', async (req, res) => {
+router.post('/job-requirement', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const {
     jobId,
@@ -114,9 +114,8 @@ router.post('/job-requirement', async (req, res) => {
               .then((results) => results);
           }
         }
-      }
-      res.redirect(`/job-requirement/${jobId}`);
+        res.redirect(`/job-requirement/${jobId}`);
+      } 
     });
-});
-
-module.exports = router;
+  })
+      module.exports = router;

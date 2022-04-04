@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: '12345',
+    password: 'novice0621**',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: '12345',
+  password: 'novice0621**',
   port: 5432,
 });
 
@@ -62,10 +62,18 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           department_name VARCHAR(100) NOT NULL,
           position_type VARCHAR(100) NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS Admin.Department(
+        dept_id SERIAL PRIMARY KEY NOT NULL,
+        dept_name VARCHAR(100) NOT NULL,
+        dept_status VARCHAR(10)
+    );
       CREATE TABLE IF NOT EXISTS Admin.Skill(
           skill_id SERIAL PRIMARY KEY NOT NULL,
           skill_name VARCHAR(100) NOT NULL,
-          skill_type VARCHAR(100) NOT NULL
+          skill_type INT NOT NULL,
+
+          FOREIGN KEY (skill_type)
+          REFERENCES Admin.Department(dept_id)
       );
       CREATE TABLE IF NOT EXISTS Admin.Remarks(
           remark_id SERIAL PRIMARY KEY NOT NULL,
@@ -81,10 +89,6 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Admin.Position_Level(
           position_level_id SERIAL PRIMARY KEY NOT NULL,
           position_level_name VARCHAR(100) NOT NULL
-      );
-      CREATE TABLE IF NOT EXISTS Admin.Department(
-          dept_id SERIAL PRIMARY KEY NOT NULL,
-          dept_name VARCHAR(100) NOT NULL
       );
       CREATE SCHEMA IF NOT EXISTS Jobs;
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
@@ -305,6 +309,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           REFERENCES Job_Application.Applicant_details(application_id)
       );
       CREATE TABLE IF NOT EXISTS Job_Application.Personality_Score (
+          score_id SERIAL PRIMARY KEY NOT NULL,
           application_id INT NOT NULL,
           score	int,
       
