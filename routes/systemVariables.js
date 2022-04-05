@@ -1,11 +1,11 @@
 const express = require('express');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // display
-router.get('/system-variables', checkAuthenticated, async (req, res) => {
+router.get('/system-variables', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -16,6 +16,7 @@ router.get('/system-variables', checkAuthenticated, async (req, res) => {
   const technologies = await knex('admin.skill').orderBy('skill_id');
   const remarks = await knex('admin.remarks').orderBy('remark_id');
   const jobType = await knex('admin.job_type').orderBy('job_type_id');
+  const positionLevel = await knex('admin.position_level').orderBy('position_level_id');
   const department = await knex('admin.department')
     .where('dept_status', 'active')
     .orderBy('dept_id');
@@ -23,6 +24,7 @@ router.get('/system-variables', checkAuthenticated, async (req, res) => {
     position,
     technologies,
     remarks,
+    positionLevel,
     jobType,
     department,
     currentUser,
@@ -207,4 +209,37 @@ router.post('/delete/department/:dept_id', async (req, res) => {
   }
 });
 
+//CAREER LEVEL
+router.post('/addCareer', async (req, res) => {
+  const { positionLevel } = req.body;
+  await knex('admin.position_level')
+    .insert({
+      position_level_name: positionLevel,
+    })
+    .then((result) => {
+      res.redirect('/system-variables');
+    });
+});
+
+router.post('/system-variables/career-level/:position_level_id', async (req, res) => {
+  const positionLevelId = req.params.position_level_id;
+  const { career } = req.body;
+
+  knex('admin.position_level')
+    .where({ position_level_id: positionLevelId })
+    .update({ position_level_name: career })
+    .then(() => {
+      res.redirect('/system-variables');
+    });
+});
+
+router.post('/delete/career-level/:position_level_id', async (req, res) => {
+  const positionLevelId = req.params.position_level_id;
+  await knex('admin.position_level')
+    .where('position_level_id', positionLevelId)
+    .del()
+    .then((result) => {
+      res.redirect('/system-variables');
+    });
+});
 module.exports = router;
