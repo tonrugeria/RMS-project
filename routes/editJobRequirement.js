@@ -1,11 +1,11 @@
 const express = require('express');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // job-requirement update get route
-router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
+router.get('/job-requirement/:job_id', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -55,7 +55,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
     jobTitle,
     department,
     salaryRange,
-    careerLevel,
+    positionLevel,
     workType,
     jobDesc,
     yearsOfExp,
@@ -69,7 +69,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
       job_title: jobTitle,
       job_dept: department,
       max_salary: salaryRange,
-      position_level: careerLevel,
+      position_level: positionLevel,
       job_type: workType,
       job_description: jobDesc,
       min_years_experience: yearsOfExp,

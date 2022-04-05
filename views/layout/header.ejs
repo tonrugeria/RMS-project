@@ -36,16 +36,27 @@
       <div id="my-nav" class="">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item ">
-            <a href="/" class="nav-link">JOBS</a>
+            <% if (currentUser[0].role_id == '3') { %>
+              <a href="/" class="nav-link">JOBS</a>
+             <% } else if (currentUser[0].role_id == '1') { %>
+              <a href="/" class="nav-link">JOBS</a>
+             <% } else { %>
+             <% } %>
           </li>
           <li class="nav-item ">
             <a href="/application" class="nav-link">APPLICATION</a>
           </li>
           <li class="nav-item ">
-            <a href="/examcreation" class="nav-link">EXAM</a>
+            <% if (currentUser[0].role_id == '3') { %>
+              <a href="/examcreation" class="nav-link">EXAM</a>
+             <% } else if (currentUser[0].role_id == '1') { %>
+              <a href="/examcreation" class="nav-link">EXAM</a>
+             <% } else { %>
+             <% } %>
+            
           </li>
           <li class="nav-item ">
-            <% if (currentUser[0].role_id == '4') { %>
+            <% if (currentUser[0].role_id == '3') { %>
               <a href="/branding" class="nav-link">SETTINGS</a>
              <% } else if (currentUser[0].role_id == '1') { %>
               <a href="/branding" class="nav-link">SETTINGS</a>
@@ -71,7 +82,7 @@
                               you are logged in as <%= currentUserRole[0].role_name %> 
                             </li>
                             <li>
-                              <% if (currentUser[0].role_id == '4') { %>
+                              <% if (currentUser[0].role_id == '3') { %>
                                <a></a>
                               <% } else if (currentUser[0].role_id == '1') { %>
                               <a></a>

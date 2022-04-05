@@ -34,6 +34,9 @@ router.get('/', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
+  if (currentUserRole[0].role_id ===2 ){
+    res.redirect('/application');
+  } else{
   res.render('index', {
     jobOpening,
     admin_department,
@@ -45,7 +48,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
     date,
     active_job_opening,
   });
-});
+}});
 
 // admin job listing post route
 router.post('/job/:job_id/status', (req, res) => {
@@ -63,7 +66,7 @@ router.post('/job/:job_id/status', (req, res) => {
 
 // register get route
 router.get('/register', checkNotAuthenticated, async (req, res) => {
-  const superAdmin = await knex('admin.users').where({ role_id: 4 });
+  const superAdmin = await knex('admin.users').where({ role_id: 3 });
   if (superAdmin == 0) {
     res.render('register');
   } else {
@@ -93,9 +96,8 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
       if (userRoles == 0) {
         const roles = [
           { role_id: 1, role_name: 'Admin' },
-          { role_id: 2, role_name: 'Editor' },
-          { role_id: 3, role_name: 'Reviewer' },
-          { role_id: 4, role_name: 'Super Admin' },
+          { role_id: 2, role_name: 'Reviewer' },
+          { role_id: 3, role_name: 'Super Admin' },
         ];
         roles.forEach((role) => {
           knex('admin.user_role')
@@ -108,7 +110,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
           user_name: username,
           email,
           password: hashedPassword,
-          role_id: 4,
+          role_id: 3,
         })
         .then(() => {
           res.redirect('/login');
@@ -125,7 +127,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 router.get('/login', checkNotAuthenticated, async (req, res) => {
   const user = knex('admin.users');
   knex('admin.users')
-    .where('role_id', 4)
+    .where('role_id', 3)
     .then((results) => {
       if (results != 0) {
         res.render('login', {
