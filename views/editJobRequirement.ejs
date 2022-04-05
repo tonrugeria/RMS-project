@@ -31,6 +31,15 @@
       </div>
       <br>
       <div>
+        <label for="career level">CAREER LEVEL</label>
+        <select name="careerLevel" id="career level" >
+          <% for(let i = 0; i < positionLevel.length; i++) { %>
+            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
+          <% } %>
+        </select>
+      </div>
+      <br>
+      <div>
         <label for="department">DEPARTMENT</label>
         <select name="department" id="department"> 
           <% for(let i = 0; i < dept.length; i++) { %>
@@ -50,15 +59,6 @@
       <div>
         <label for="salary range">SALARY RANGE</label>
         <input type="number" min="1" name="salaryRange" id="salary range" value="<%= job[0].max_salary %>">
-      </div>
-      <br>
-      <div>
-        <label for="career level">CAREER LEVEL</label>
-        <select name="careerLevel" id="career level" >
-          <% for(let i = 0; i < positionLevel.length; i++) { %>
-            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
-          <% } %>
-        </select>
       </div>
       <br>
       <div>
@@ -192,7 +192,7 @@
         <label for="5">5</label>
         </div>
       <% } %> 
-      <button>SAVE</button>
+      
     </form>
       <div>
         <h4>EXAM</h4>
@@ -214,6 +214,16 @@
             <h6>SELECT IN THE EXAM TAB ON THE SIDEBAR</h6>
           <% } %> 
         </ul>
+        <h7>Status</h7>
+        <div>
+          <input type="radio" id="Draft" name="status" value="1">
+           <label for="Draft">Draft</label>
+          <input type="radio" id="Active" name="status" value="0">
+            <label for="Active">Active</label>
+          <input type="radio" id="Archive" name="status" value="2">
+            <label for="Archive">Archive</label>
+        </div><br>
+        <button>SAVE</button>
       </div>
     </div>
   </div>

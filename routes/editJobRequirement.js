@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
@@ -44,6 +45,7 @@ router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
+    
   });
 });
 
@@ -79,7 +81,6 @@ router.post('/job-requirement/:job_id', async (req, res) => {
       personality_score: personalityScore,
       last_updated_by: currentUserId,
       last_date_updated: thisDay,
-
     })
     .where('job_id', jobId)
     .then(async () => {

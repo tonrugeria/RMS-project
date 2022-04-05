@@ -4,6 +4,7 @@ const knex = require('../dbconnection');
 
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
+
 const router = express.Router();
 
 function uniqueId(jobIdColumn) {
@@ -66,11 +67,11 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
     personalityScore,
     skill_id,
     skill_level,
+    status,
   } = req.body;
 
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
-  knex('jobs.job_opening')
   knex('jobs.job_opening')
     .insert({
       job_id: jobId,
@@ -83,13 +84,11 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
       min_years_experience: yearsOfExp,
       skill_score: skillScore,
       personality_score: personalityScore,
-      status: 1,
+      status: status,
       created_by: currentUserId,
       last_updated_by: currentUserId,
       last_date_updated: thisDay,
-      date_opened: thisDay,
       
-
     })
     .then(() => {
       if (skill_id != null) {
