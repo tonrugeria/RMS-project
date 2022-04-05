@@ -68,64 +68,64 @@ router.get(
         'admin.skill.skill_id'
       )
       .where({ application_id: appId });
-    // ejs.renderFile(
-    //   path.join(__dirname, '../views/', 'generateResume.ejs'),
-    //   {
-    //     currentUser,
-    //     currentUserId,
-    //     currentUserRole,
-    //     applicantInfo,
-    //     applicantSkill,
-    //     applicantCapability,
-    //     applicantHistory,
-    //     applicantExam,
-    //     applicantScore,
-    //     getStartDates,
-    //     getEndDates,
-    //     age,
-    //     total,
-    //   },
-    //   (err, data) => {
-    //     if (err) {
-    //       console.log('here');
-    //       res.send(err);
-    //     } else {
-    //       const options = {
-    //         height: '11.25in',
-    //         width: '8.5in',
-    //         header: {
-    //           height: '20mm',
-    //         },
-    //         footer: {
-    //           height: '20mm',
-    //         },
-    //       };
-    //       pdf.create(data, options).toFile('report.pdf', (err, data) => {
-    //         if (err) {
-    //           res.send(err);
-    //         } else {
-    //           console.log('PDF CREATED');
-    //           res.redirect(`/application/job/${jobId}/applicant/${appId}`);
-    //         }
-    //       });
-    //     }
-    //   }
-    // );
-    res.render('generateResume', {
-      currentUser,
-      currentUserId,
-      currentUserRole,
-      applicantInfo,
-      applicantSkill,
-      applicantCapability,
-      applicantHistory,
-      applicantExam,
-      applicantScore,
-      getStartDates,
-      getEndDates,
-      age,
-      total,
-    });
+    ejs.renderFile(
+      path.join(__dirname, '../views/', 'generateResume.ejs'),
+      {
+        currentUser,
+        currentUserId,
+        currentUserRole,
+        applicantInfo,
+        applicantSkill,
+        applicantCapability,
+        applicantHistory,
+        applicantExam,
+        applicantScore,
+        getStartDates,
+        getEndDates,
+        age,
+        total,
+      },
+      (err, data) => {
+        if (err) {
+          console.log('here');
+          res.send(err);
+        } else {
+          const options = {
+            height: '11.25in',
+            width: '8.5in',
+            header: {
+              height: '20mm',
+            },
+            footer: {
+              height: '20mm',
+            },
+          };
+          pdf.create(data, options).toFile('report.pdf', (err, data) => {
+            if (err) {
+              res.send(err);
+            } else {
+              console.log('PDF CREATED');
+              res.redirect(`/application/job/${jobId}/applicant/${appId}`);
+            }
+          });
+        }
+      }
+    );
+//     res.render('generateResume', {
+//       currentUser,
+//       currentUserId,
+//       currentUserRole,
+//       applicantInfo,
+//       applicantSkill,
+//       applicantCapability,
+//       applicantHistory,
+//       applicantExam,
+//       applicantScore,
+//       getStartDates,
+//       getEndDates,
+//       age,
+//       total,
+//     });
   }
 );
 
