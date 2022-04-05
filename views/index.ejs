@@ -95,7 +95,19 @@
               <%= jobOpening[i].job_title %>
             </a>
           </h1>
- 
+     <!-- number of applications -->
+     <div>
+      <% let applicants =  0 %>
+      <p class="d-flex">
+        <% for (let j=0; j < jobApplications.length; j++) { %>
+          <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+              <% applicants++; %>
+          <% } %>
+        <% } %>
+        <%= applicants; %>
+        Applications
+      </p>
+    </div>
             <!-- status-->
               <div class= "status">
                   <form action="/job/<%= jobOpening[i].job_id %>/status" method="post">
