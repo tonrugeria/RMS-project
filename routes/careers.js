@@ -11,7 +11,17 @@ router.get("/careers", async (req, res) => {
   .where('status','0');
   console.log(active_job_opening);
   const jobOpening = await knex('jobs.job_opening');
-  const admin_department = await knex('admin.department');
+  let admin_department = await knex('admin.department')
+    .innerJoin(
+      'jobs.job_opening',
+      'admin.department.dept_id',
+      'jobs.job_opening.job_dept'
+    )
+    .where('status', '0');
+
+  admin_department = admin_department.filter(
+    (value, index, self) => index === self.findIndex((t) => t.dept_id === value.dept_id)
+  );
   const skill = await knex('jobs.skill');
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
