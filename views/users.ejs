@@ -37,7 +37,7 @@ input{
         <% } %>           
       <table class="table table-bordered">
       <% for (let  i = 0; i < users.length; i++) { %>
-        <% if (currentUser[0].role_id != 4 && users[i].role_id != 4) { %>
+        <% if (currentUser[0].role_id != 3 && users[i].role_id != 3) { %>
           <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
             <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
               <th>
@@ -72,9 +72,9 @@ input{
               <td class="select">
                 <select name="role_name"> 
                   <option hidden>Select role</option>
-                  <% if (users[i].role_id != 4) { %>
+                  <% if (users[i].role_id != 3) { %>
                     <% for (let  j = 0; j < userRole.length; j++) { %>
-                      <% if (j != 3) { %>
+                      <% if (j != 2) { %>
                         <% if (userRole[j].role_id == users[i].role_id) { %>  
                           <option value="<%= userRole[j].role_id %>" selected>
                             <%= userRole[j].role_name %>
@@ -109,7 +109,7 @@ input{
                 </form>
               </td>
               
-              <% if (users[i].role_id != '4' && users[i].user_id != currentUser[0].user_id) { %>  
+              <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
               <td class="delete-btn" id="<%= users[i].user_id%>">
                 <form method="GET" action="/delete/<%= users[i].user_id%>"> 
                   <button type="submit"><i class="fa-solid fa-x"></i></button>
@@ -118,7 +118,7 @@ input{
               <% } %>
             </tr>
           </form>
-        <% } else if(currentUser[0].role_id == 4) { %>
+        <% } else if(currentUser[0].role_id == 3) { %>
           <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
             <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
               <th>
@@ -153,9 +153,9 @@ input{
               <td class="select">
                 <select name="role_name"> 
                   <option hidden>Select role</option>
-                  <% if (users[i].role_id != 4) { %>
+                  <% if (users[i].role_id != 3) { %>
                     <% for (let  j = 0; j < userRole.length; j++) { %>
-                      <% if (j != 3) { %>
+                      <% if (j != 2) { %>
                         <% if (userRole[j].role_id == users[i].role_id) { %>  
                           <option value="<%= userRole[j].role_id %>" selected>
                             <%= userRole[j].role_name %>
@@ -190,7 +190,7 @@ input{
                 </form>
               </td>
               
-              <% if (users[i].role_id != '4' && users[i].user_id != currentUser[0].user_id) { %>  
+              <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
               <td class="delete-btn" id="<%= users[i].user_id%>">
                 <form method="GET" action="/delete/<%= users[i].user_id%>"> 
                   <button type="submit"><i class="fa-solid fa-x"></i></button>

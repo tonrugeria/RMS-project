@@ -1,7 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ function uniqueId(questionIdColumn) {
 }
 
 // get route for examcreation
-router.get('/examcreation', checkAuthenticated, async (req, res) => {
+router.get('/examcreation', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(

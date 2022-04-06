@@ -2,12 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
 const upload = require('../middlewares/upload');
 
 const router = express.Router();
 
-router.get('/userProfile', checkAuthenticated, async (req, res) => {
+router.get('/userProfile', checkAuthenticated, authRole([2]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
