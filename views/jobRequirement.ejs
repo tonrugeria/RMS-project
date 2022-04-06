@@ -27,13 +27,23 @@
       <br>
       <div>
         <label for="jobtitle">JOB TITLE</label><br />
-        <input type="text" name="jobTitle">
+        <input type="text" name="jobTitle" required>
+      </div>
+      <br>
+      <div>
+        <label for="career level">CAREER LEVEL</label>
+        <select name="careerLevel" id="career level" >
+          <option hidden value="">Select a career level</option>
+          <% for(let i = 0; i < positionLevel.length; i++) { %>
+            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
+          <% } %>
+        </select>
       </div>
       <br>
       <div>
         <label for="department">DEPARTMENT</label>
-        <select name="department" id="department" >
-          <option>Select a department</option>
+        <select name="department" id="department" required>
+          <option hidden value="">Select a department</option>
           <% for(let i = 0; i < dept.length; i++) { %>
           <option value="<%= dept[i].dept_id %>" ><%= dept[i].dept_name %></option>
           <% } %>
@@ -46,19 +56,9 @@
       </div>
       <br>
       <div>
-        <label for="career level">CAREER LEVEL</label>
-        <select name="careerLevel" id="career level" >
-          <option>Select a career level</option>
-          <% for(let i = 0; i < positionLevel.length; i++) { %>
-            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
-          <% } %>
-        </select>
-      </div>
-      <br>
-      <div>
         <label for="work type">WORK TYPE</label>
-        <select name="workType" id="worktype" >
-          <option>Select a Work Type</option>
+        <select name="workType" id="worktype" required>
+          <option hidden value="">Select a work type</option>
           <% for(let i = 0; i < jobType.length; i++) { %>
             <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
           <% } %>
@@ -158,6 +158,15 @@
           <h6>SELECT LATER IN THE EXAM TAB ON THE SIDEBAR AFTER SAVING</h6>
         </ul>
       </div>
+      <h7>Status</h7>
+      <div>
+        <input type="radio" id="Draft" name="status" value="1" checked>
+         <label for="Draft">Draft</label>
+        <input type="radio" id="Active" name="status" value="0">
+          <label for="Active">Active</label>
+        <input type="radio" id="Archive" name="status" value="2">
+          <label for="Archive">Archive</label>
+      </div><br>
       <button>SAVE</button>
     </form>
     </div>

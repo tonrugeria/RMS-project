@@ -1,7 +1,9 @@
 const express = require('express');
+const moment = require('moment');
 const knex = require('../dbconnection');
 
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+
 
 const router = express.Router();
 
@@ -22,7 +24,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
     req.user.role_id
   );
   const adminSkill = await knex('admin.skill');
-  const dept = await knex('admin.department');
+  const dept = await knex('admin.department').where({ dept_status: 'active' });
   const jobType = await knex('admin.job_type');
   const job = await knex('jobs.job_opening');
   const hrAssessment = await knex('admin.remarks');
@@ -30,7 +32,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
   const question = await knex('question.question');
   const jobPosition = await knex('admin.job_position');
   const positionLevel = await knex('admin.position_level');
-  
+
   const unique = uniqueId(job);
   res.render('jobRequirement', {
     adminSkill,
@@ -50,7 +52,7 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
 });
 
 // job-requirement post route
-router.post('/job-requirement', async (req, res) => {
+router.post('/job-requirement', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const {
     jobId,
@@ -65,10 +67,11 @@ router.post('/job-requirement', async (req, res) => {
     personalityScore,
     skill_id,
     skill_level,
+    status,
   } = req.body;
 
-  
-  knex('jobs.job_opening')
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
   knex('jobs.job_opening')
     .insert({
       job_id: jobId,
@@ -81,13 +84,13 @@ router.post('/job-requirement', async (req, res) => {
       min_years_experience: yearsOfExp,
       skill_score: skillScore,
       personality_score: personalityScore,
-      status: 1,
+      status: status,
       created_by: currentUserId,
       last_updated_by: currentUserId,
+      last_date_updated: thisDay,
       
-
     })
-    .then(() => {
+    .then(async() => {
       if (skill_id != null) {
         if (typeof skill_id != typeof []) {
           skill_level.forEach((skill) => {
@@ -110,9 +113,13 @@ router.post('/job-requirement', async (req, res) => {
               .then((results) => results);
           }
         }
-      }
-      res.redirect(`/job-requirement/${jobId}`);
+        if (status == 0) {
+          await knex('jobs.job_opening')
+            .where({ job_id: jobId })
+            .update({ date_opened: thisDay });
+        }
+        res.redirect(`/job-requirement/${jobId}`);
+      } 
     });
-});
-
-module.exports = router;
+  })
+      module.exports = router;

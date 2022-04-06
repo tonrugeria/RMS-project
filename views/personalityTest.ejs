@@ -63,21 +63,20 @@
                         <h3>
                             <%= i+1 %>. <%= personalityQuestions[i].question_detail %>
                         </h3>
-                        Question Id
                         <input 
-                            type="text" 
+                            type="hidden" 
                             value="<%= personalityQuestions[i].question_id %>"
                             name="question_id"
                         >
                         <input 
-                            type="text" 
+                            type="hidden" 
                             value="<%= personalityQuestions[i].question_type %>"
                             name="question_type"
                         >
-                        <div>
+                        <div class="d-none">
                             <input 
                                 type="radio" 
-                                id="choice-0" 
+                                id="q-<%= i+1 %>-choice-0" 
                                 name="applicant_answer[<%= i+1 %>]"
                                 value="0"
                                 checked
@@ -87,7 +86,7 @@
                         <div>
                             <input 
                                 type="radio" 
-                                id="choice-1" 
+                                id="q-<%= i+1 %>-choice-1" 
                                 name="applicant_answer[<%= i+1 %>]"
                                 value="1"
                             >
@@ -98,7 +97,7 @@
                         <div>
                             <input 
                                 type="radio" 
-                                id="choice-2" 
+                                id="q-<%= i+1 %>-choice-2" 
                                 name="applicant_answer[<%= i+1 %>]"
                                 value="2"
                             >
@@ -109,7 +108,7 @@
                         <div>
                             <input 
                                 type="radio" 
-                                id="choice-3" 
+                                id="q-<%= i+1 %>-choice-3" 
                                 name="applicant_answer[<%= i+1 %>]"
                                 value="3"
                             >
@@ -120,7 +119,7 @@
                         <div>
                             <input 
                                 type="radio" 
-                                id="choice-4" 
+                                id="q-<%= i+1 %>-choice-4" 
                                 name="applicant_answer[<%= i+1 %>]"
                                 value="4"
                             >

@@ -258,24 +258,17 @@
                 NO SKILL  
               <% } %> 
           </div>
-          <div class="modal-dialog modal-dialog-scrollable">
-          </div>
           <!-- Exam results modal -->
           <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
                   <div>
-                    <h5 class="modal-title" id="exampleModalToggleLabel">Technical</h5>
-                    <% let totalExamScore = 0 %>
-                    <% for(let i = 0; i < applicantExamResults.length; i++) {%>
-                      <% totalExamScore++ %> 
-                    <% } %> 
-                    <h5 class="modal-title">
-                      <% if (applicantExamResults != 0) { %>
-                        Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
-                      <% } %>
-                    </h5>
+                    <h5 class="modal-title">Exam results for Technical</h5>
+
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
                   </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -338,7 +331,20 @@
                   <% } %> 
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Personality test results</button>
+                  <% let totalExamScore = 0 %>
+                    <% for(let i = 0; i < applicantExamResults.length; i++) {%>
+                      <% totalExamScore++ %> 
+                    <% } %> 
+                    <h5 class="me-auto">
+                    <% if (applicantExamResults != 0) { %>
+                      Score: <%= applicantInfo[0].technical_test_score %> / <%= totalExamScore %>  
+                    <% } %>
+                    </h5>
+                    <h5>
+                    <% if (applicantExamResults != 0) { %>
+                      Percentage: <%= (applicantInfo[0].technical_test_score/totalExamScore)*100 %>&#37;
+                    <% } %>
+                    </h5>
                 </div>
               </div>
             </div>
@@ -347,7 +353,11 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalToggleLabel2">Personality</h5>
+                  <div>
+                    <h5 class="modal-title">Exam results for Personality</h5>
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                  </div>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -395,7 +405,7 @@
                   <% } %>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">View Technical test results</button>
+                  <h5 class="me-auto">Score: <%= applicantInfo[0].personality_test_score %></h5>
                 </div>
               </div>
             </div>

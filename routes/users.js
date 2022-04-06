@@ -13,7 +13,7 @@ const {
 const router = express.Router();
 
 // get users
-router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
+router.get('/users', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -41,8 +41,15 @@ router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
 router.get('/delete/:user_id', (req, res) => {
   knex('admin.users')
     .where('user_id', req.params.user_id)
-    .del()
-    .then((results) => {
+    .then(async (results) => {
+      if (results[0].photo !== '') {
+        try {
+          fs.unlinkSync(`./photo/${results[0].photo}`);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      await knex('admin.users').where('user_id', req.params.user_id).del();
       res.redirect('/users');
     });
 });
@@ -54,22 +61,36 @@ router.post('/users', upload, async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const role = req.body.role_name;
   const { email } = req.body;
-  const image = req.file.filename;
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
-  knex('admin.users')
-    .insert({
-      date_created: thisDay,
-      date_last_updated: thisDay,
-      user_name: name,
-      password: hashedPassword,
-      photo: image,
-      role_id: role,
-      email,
-    })
-    .then((results) => {
-      res.redirect('/users');
-    });
+  if (req.file !== undefined) {
+    knex('admin.users')
+      .insert({
+        date_created: thisDay,
+        date_last_updated: thisDay,
+        user_name: name,
+        password: hashedPassword,
+        photo: req.file.filename,
+        role_id: role,
+        email,
+      })
+      .then((results) => {
+        res.redirect('/users');
+      });
+  } else {
+    knex('admin.users')
+      .insert({
+        date_created: thisDay,
+        date_last_updated: thisDay,
+        user_name: name,
+        password: hashedPassword,
+        role_id: role,
+        email,
+      })
+      .then((results) => {
+        res.redirect('/users');
+      });
+  }
 });
 router.use(express.static('photo'));
 
@@ -110,6 +131,7 @@ router.post('/edit/:user_id', upload, async (req, res) => {
       password,
     })
     .then((results) => {
+      req.flash('error', 'The Profile succesully updated');
       res.redirect('/users');
     });
 });
