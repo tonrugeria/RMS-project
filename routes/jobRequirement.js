@@ -90,7 +90,7 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
       last_date_updated: thisDay,
       
     })
-    .then(() => {
+    .then(async() => {
       if (skill_id != null) {
         if (typeof skill_id != typeof []) {
           skill_level.forEach((skill) => {
@@ -112,6 +112,11 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
               })
               .then((results) => results);
           }
+        }
+        if (status == 0) {
+          await knex('jobs.job_opening')
+            .where({ job_id: jobId })
+            .update({ date_opened: thisDay });
         }
         res.redirect(`/job-requirement/${jobId}`);
       } 

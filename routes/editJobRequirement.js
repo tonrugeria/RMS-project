@@ -45,7 +45,6 @@ router.get('/job-requirement/:job_id', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
-    
   });
 });
 
@@ -55,6 +54,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
   const thisDay = moment(today, 'MM/DD/YYYY');
   const currentUserId = req.user.user_id;
   const jobId = req.params.job_id;
+  const jobStatus = await knex('jobs.job_opening').where({ job_id: jobId });
   const {
     jobTitle,
     department,
@@ -67,7 +67,13 @@ router.post('/job-requirement/:job_id', async (req, res) => {
     personalityScore,
     skill_id,
     skill_level,
+    status,
   } = req.body;
+  if (status == 0 && jobStatus[0].date_opened == null) {
+    await knex('jobs.job_opening')
+      .where({ job_id: jobId })
+      .update({ date_opened: thisDay });
+  }
   knex('jobs.job_opening')
     .update({
       job_title: jobTitle,
@@ -81,6 +87,7 @@ router.post('/job-requirement/:job_id', async (req, res) => {
       personality_score: personalityScore,
       last_updated_by: currentUserId,
       last_date_updated: thisDay,
+      status: status,
     })
     .where('job_id', jobId)
     .then(async () => {
@@ -92,32 +99,29 @@ router.post('/job-requirement/:job_id', async (req, res) => {
             })
             .del()
             .then(() => {
-              skill_level.forEach((skill) => {
-                knex('jobs.skill')
+              skill_level.forEach(async (skill) => {
+              await knex('jobs.skill')
                   .insert({
                     job_id: jobId,
                     skill_id,
                     skill_level: skill,
                   })
-                  .then((results) => results);
               });
               res.redirect(`/job-requirement/${jobId}`);
             });
         } else {
-          knex('jobs.skill')
+          await knex('jobs.skill')
             .where({
               job_id: jobId,
             })
             .del()
-            .then((results) => results);
           for (let i = 0; i < skill_id.length; i++) {
-            knex('jobs.skill')
+            await knex('jobs.skill')
               .insert({
                 job_id: jobId,
                 skill_id: skill_id[i],
                 skill_level: skill_level[i],
               })
-              .then((results) => results);
           }
           res.redirect(`/job-requirement/${jobId}`);
         }

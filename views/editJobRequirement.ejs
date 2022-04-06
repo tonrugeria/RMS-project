@@ -19,7 +19,7 @@
 
   <div class="col-sm-10">
     <h3>NEW JOB OPENING</h3>
-    <form method="post" action="/job-requirement/<%= jobId %>" >
+    <form method="post" action="/job-requirement/<%= jobId %>" id="jobForm">
       <div>
         <label for="jobId">JOB ID</label> <br>
         <input type="number" name="jobId" value="<%= unique %>" readonly>
@@ -192,7 +192,28 @@
         <label for="5">5</label>
         </div>
       <% } %> 
-      
+      <h7>Status</h7>
+      <div>
+        <input type="radio" id="Draft" name="status" value="1"
+        <% if(job[0].status == 1) {%> 
+          checked
+        <% } %>
+        >
+         <label for="Draft">Draft</label>
+        <input type="radio" id="Active" name="status" value="0"
+        <% if(job[0].status == 0) {%> 
+          checked
+        <% } %>
+        >
+          <label for="Active">Active</label>
+        <input type="radio" id="Archive" name="status" value="2"
+        <% if(job[0].status == 2) {%> 
+          checked
+        <% } %>
+        >
+          <label for="Archive">Archive</label>
+      </div><br>
+    
     </form>
       <div>
         <h4>EXAM</h4>
@@ -214,17 +235,8 @@
             <h6>SELECT IN THE EXAM TAB ON THE SIDEBAR</h6>
           <% } %> 
         </ul>
-        <h7>Status</h7>
-        <div>
-          <input type="radio" id="Draft" name="status" value="1">
-           <label for="Draft">Draft</label>
-          <input type="radio" id="Active" name="status" value="0">
-            <label for="Active">Active</label>
-          <input type="radio" id="Archive" name="status" value="2">
-            <label for="Archive">Archive</label>
-        </div><br>
-        <button>SAVE</button>
       </div>
+      <button form="jobForm">SAVE</button>
     </div>
   </div>
 </div>
