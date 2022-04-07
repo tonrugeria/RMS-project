@@ -13,7 +13,7 @@ const {
 const router = express.Router();
 
 // get users
-router.get('/users', checkAuthenticated, authRole([4, 1]), async (req, res) => {
+router.get('/users', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(

@@ -1,7 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ function uniqueId(questionIdColumn) {
 }
 
 // get route for examcreation
-router.get('/examcreation', checkAuthenticated, async (req, res) => {
+router.get('/examcreation', checkAuthenticated, authRole([3, 1]), async (req, res) => {
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -48,10 +48,10 @@ router.get('/examcreation', checkAuthenticated, async (req, res) => {
 
 // post route examcreation
 router.post('/examcreation', async (req, res) => {
+  const currentUserId = req.user.user_id;
   const today = new Date();
   const examDate = moment(today, 'MM/DD/YYYY');
   const {
-    date_created,
     question_id,
     questiontype,
     questionCategory,
@@ -70,6 +70,8 @@ router.post('/examcreation', async (req, res) => {
   } = req.body;
   knex('question.question')
     .insert({
+      created_by: currentUserId,
+      last_updated_by: currentUserId,
       date_last_updated: examDate,
       date_created: examDate,
       question_id,
@@ -95,8 +97,11 @@ router.post('/examcreation', async (req, res) => {
 // edit get route for examcreation
 router.get('/examcreation/:question_category', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users');
-  const currentUserRole = await knex('admin.user_role');
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
   const personality = await knex('question.question').where('question_category','Personality');
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
@@ -133,8 +138,11 @@ router.get(
   checkAuthenticated,
   async (req, res) => {
     const currentUserId = req.user.user_id;
-    const currentUser = await knex('admin.users');
-    const currentUserRole = await knex('admin.user_role');
+    const currentUser = await knex('admin.users').where('user_id', currentUserId);
+    const currentUserRole = await knex('admin.user_role').where(
+      'role_id',
+      req.user.role_id
+    );
     const personality = await knex('question.question').where('question_category','Personality');
     const questionId = req.params.question_id;
     const questionCategory = req.params.question_category;
@@ -176,6 +184,7 @@ router.get(
 
 // edit post route
 router.post('/examcreation/:question_category/:question_id', async (req, res) => {
+  const currentUserId = req.user.user_id;
   const questionId = req.params.question_id;
   const today = new Date();
   const dateLastUpdated = moment(today, 'MM/DD/YYYY');
@@ -198,6 +207,7 @@ router.post('/examcreation/:question_category/:question_id', async (req, res) =>
   } = req.body;
   knex('question.question')
     .update({
+      last_updated_by: currentUserId,
       date_last_updated: dateLastUpdated,
       question_category: questionCategory,
       question_type: questiontype,

@@ -1,7 +1,9 @@
 const express = require('express');
+const moment = require('moment');
 const knex = require('../dbconnection');
 
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
+
 
 const router = express.Router();
 
@@ -65,55 +67,59 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
     personalityScore,
     skill_id,
     skill_level,
+    status,
   } = req.body;
 
-  try {
-    knex('jobs.job_opening')
-      .insert({
-        job_id: jobId,
-        job_title: jobTitle,
-        job_dept: department,
-        max_salary: salaryRange,
-        position_level: careerLevel,
-        job_type: workType,
-        job_description: jobDesc,
-        min_years_experience: yearsOfExp,
-        skill_score: skillScore,
-        personality_score: personalityScore,
-        status: 1,
-        created_by: currentUserId,
-        last_updated_by: currentUserId,
-      })
-      .then(() => {
-        if (skill_id != null) {
-          if (typeof skill_id != typeof []) {
-            skill_level.forEach((skill) => {
-              knex('jobs.skill')
-                .insert({
-                  job_id: jobId,
-                  skill_id,
-                  skill_level: skill,
-                })
-                .then((results) => results);
-            });
-          } else {
-            for (let i = 0; i < skill_id.length; i++) {
-              knex('jobs.skill')
-                .insert({
-                  job_id: jobId,
-                  skill_id: skill_id[i],
-                  skill_level: skill_level[i],
-                })
-                .then((results) => results);
-            }
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
+  knex('jobs.job_opening')
+    .insert({
+      job_id: jobId,
+      job_title: jobTitle,
+      job_dept: department,
+      max_salary: salaryRange,
+      position_level: careerLevel,
+      job_type: workType,
+      job_description: jobDesc,
+      min_years_experience: yearsOfExp,
+      skill_score: skillScore,
+      personality_score: personalityScore,
+      status: status,
+      created_by: currentUserId,
+      last_updated_by: currentUserId,
+      last_date_updated: thisDay,
+      
+    })
+    .then(async() => {
+      if (skill_id != null) {
+        if (typeof skill_id != typeof []) {
+          skill_level.forEach((skill) => {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id,
+                skill_level: skill,
+              })
+              .then((results) => results);
+          });
+        } else {
+          for (let i = 0; i < skill_id.length; i++) {
+            knex('jobs.skill')
+              .insert({
+                job_id: jobId,
+                skill_id: skill_id[i],
+                skill_level: skill_level[i],
+              })
+              .then((results) => results);
           }
         }
+        if (status == 0) {
+          await knex('jobs.job_opening')
+            .where({ job_id: jobId })
+            .update({ date_opened: thisDay });
+        }
         res.redirect(`/job-requirement/${jobId}`);
-      });
-  } catch (err) {
-    console.log(err);
-    res.redirect('/job-requirement');
-  }
-});
-
-module.exports = router;
+      } 
+    });
+  })
+      module.exports = router;

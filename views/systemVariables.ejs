@@ -157,6 +157,38 @@
       </form>
     </div>
 
+    <h5 class="pt-4">Career Level</h5>
+    <div class="d-flex border-bottom p-2">
+      <% for(let i = 0; i < positionLevel.length; i++) { %>
+        <div class="d-flex">
+          <div>
+            <form action="/system-variables/career-level/<%= positionLevel[i].position_level_id %>" method="post">
+              <input
+                autocomplete="off"
+                type="text"
+                name="career"
+                placeholder="Enter Type"
+                value="<%= positionLevel[i].position_level_name %>"
+                onkeydown="addUpdateBtn('<%= positionLevel[i].position_level_id %>', 'position_level')"
+              />
+              <button class="update-btn d-none" id="position_level_<%= positionLevel[i].position_level_id %>"><i class="fa-solid fa-check"></i></button>
+            </form>
+          </div>
+          <div>
+            <form action="/delete/career-level/<%= positionLevel[i].position_level_id %>" method="post" class="pe-1">
+              <button class="delete-btn" id="position_level_<%= positionLevel[i].position_level_id %>" type="submit">x</button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      <form action="/addCareer" method="post">
+        <div class="mb-4">
+          <input type="text" name="positionLevel" placeholder="Enter Type" />
+          <button type="submit">+</button>
+        </div>
+      </form>
+    </div>
+
     <h5 class="pt-4">HR Remarks</h5>
     <div class="d-flex border-bottom p-2">
       <% for(let i = 0; i < remarks.length; i++) { %>

@@ -1,3 +1,4 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <%- include('./layout/header.ejs') %>
 <div class="row min-vh-100">
   <div class="col-sm-2">
@@ -59,27 +60,28 @@
       <div>
       <input type="hidden" value="<%= questionId %>" readonly name="question_id">
     </div>
+
+    <div>
       <div>
-        <div class="form-floating">
-          <select
-            name="questionCategory"
-            class="form-select technical-input "
-            id="categoryPicker"
-            aria-label="Floating label select example"
-            required
-          >
-          <option  disabled selected hidden value="">Select a Category</option>
-            <% for (let i=0; i < skill.length; i++) { %>
-              <option value="<%=skill[i].skill_name %>">  
-                <%=skill[i].skill_name %>
-              </option>
-            <% } %>
-            <option value="Personality" class="d-none">Personality</option>
-            
-          </select>
-          <label for="questioncategory">Category</label>
-        </div>
+        <input 
+        list="categoryList"
+        placeholder="Select Category" 
+        name="questionCategory" 
+        id="inputCategory"
+        required
+        onblur="CheckListed(this.value)"
+        >
+        <datalist id="categoryList">
+          <% for (let i=0; i < skill.length; i++) { %>
+            <option value="<%=skill[i].skill_name %>">  
+              <%=skill[i].skill_name %>
+            </option>
+          <% } %>
+          <option hidden disabled value="Personality">Personality</option>
+        </datalist>
+        <span id="output"></span>
       </div>
+    </div>
 
       <div class="form-floating">
         <select
@@ -87,7 +89,9 @@
           class="form-select technical-input"
           id="level"
           aria-label="Floating label select example"
+          required
         > 
+        <option disabled hidden selected value="">Select a level</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -96,6 +100,7 @@
           <option value="0" class="d-none" >0</option>
         </select>
         <label for="questionlevel">Level</label>
+        
       </div>
       <div class="form-floating">
         <input

@@ -77,31 +77,30 @@
   <div class="col-sm-6">
     <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
       <div>
-        <% for (let j=0; j < question.length; j++){%>
-        <div class="form-floating">
-          <select
-            name="questionCategory"
-            class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
-            id="floatingSelectGrid"
-            aria-label="Floating label select example"
+        <div>
+          <input 
+          list="categoryList"
+          placeholder="Select Category" 
+          name="questionCategory" 
+          id="inputCategory"
+          required
+          <% for (let j=0; j < question.length; j++) { %>
+      class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
+          <% } %> 
+          onblur="CheckListed(this.value)"
+    value="<%=question[0].question_category %>"
           >
-         
-            <% for (let i=0; i < skill.length; i++) { %> <% if (question != 0) {
-            %> <% if(skill[i].skill_name == question[0].question_category) { %>
-            <option value="<%=skill[i].skill_name %>" selected>
-              <%=skill[i].skill_name %>
-            </option>
-              <% } else { %>
-            <option value="<%=skill[i].skill_name %>">
-              <%=skill[i].skill_name %>
-              <option value="Personality" class="d-none" <% if(question[j].question_type =='1' ){ %>  selected <% }%>>Personality</option>
-              <% }  %>
-            </option>
-            <% } %> <% } %> <% } %>
-          </select>
-          <label for="questioncategory">Category</label>
+          <datalist id="categoryList">
+            <% for (let i=0; i < skill.length; i++) { %>
+              <option value="<%=skill[i].skill_name %>">  
+                <%=skill[i].skill_name %>
+              </option>
+            <% } %> 
+            <option hidden disabled value="Personality">Personality</option>
+          </datalist>
+          <span id="output"></span>
         </div>
-      </div>
+  </div>
       
       <% for (let i=0; i < question.length; i++){%>
       <div class="form-floating <% if(question[i].question_type =='1' ){ %>  d-none <% }%>">
@@ -112,38 +111,14 @@
           aria-label="Floating label select example"
         >
         <% }  %>
-          <% for (let i=0; i < question.length; i++){%> <%
-          if(question[i].question_level =='1' ) { %>
-          <option selected value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <% } else if (question[i].question_level =='2'){ %>
-          <option value="1">1</option>
-          <option selected value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <% } else if (question[i].question_level =='3'){ %>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option selected value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          %> <%} else if (question[i].question_level =='4'){ %>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option selected value="4">4</option>
-          <option value="5">5</option>
-          %> <%} else { %>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option selected value="5">5</option>
-          %> <%} %> <%} %>
+          <% for (let i=0; i < question.length; i++){%>
+          <option <% if(question[i].question_level =='1' ){ %>  selected <% }%> value="1">1</option>
+          <option <% if(question[i].question_level =='2' ){ %>  selected <% }%>value="2">2</option>
+          <option <% if(question[i].question_level =='3' ){ %>  selected <% }%>value="3">3</option>
+          <option <% if(question[i].question_level =='4' ){ %>  selected <% }%>value="4">4</option>
+          <option <% if(question[i].question_level =='5' ){ %>  selected <% }%>value="5">5</option>
+          <option hidden <% if(question[i].question_level =='0' ){ %>  selected <% }%>value="0">5</option>
+          <%} %>
         </select>
         <label for="questionlevel">Level</label>
       </div>
@@ -177,7 +152,7 @@
       <div class="form-floating">
         <% for (let i=0; i < question.length; i++){%>
           
-          <input type="radio" value="1" name="correctAnswer" <% if(question[i].correct_answer =='1' ){ %>  checked <% }  %> />
+          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="1" name="correctAnswer" <% if(question[i].correct_answer =='1' ){ %>  checked <% }  %> />
           <input
             type="text"
             class="form-control floatPlace"
@@ -197,7 +172,7 @@
           />
           
 
-          <input type="radio" value="2" name="correctAnswer" <% if(question[i].correct_answer =='2' ){ %>  checked <% }  %> />
+          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="2" name="correctAnswer" <% if(question[i].correct_answer =='2' ){ %>  checked <% }  %> />
           <input
             type="text"
             class="form-control floatPlace"
@@ -214,7 +189,7 @@
             required
             value="<%= question[0].choice_2_value %>"
           />
-          <input type="radio" value="3" name="correctAnswer" <% if(question[i].correct_answer =='3' ){ %>  checked <% }  %> />
+          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="3" name="correctAnswer" <% if(question[i].correct_answer =='3' ){ %>  checked <% }  %> />
           <input
             type="text"
             class="form-control floatPlace"
@@ -232,7 +207,7 @@
             value="<%= question[0].choice_3_value %>"
           />
 
-          <input type="radio" value="4" name="correctAnswer" <% if(question[i].correct_answer =='4' ){ %>  checked <% }  %> />
+          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="4" name="correctAnswer" <% if(question[i].correct_answer =='4' ){ %>  checked <% }  %> />
           <input
             type="text"
             class="form-control floatPlace"
