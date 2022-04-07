@@ -78,7 +78,7 @@
   
                 <p><strong>CONTACT</strong></p>
                 <input type="email" name="email" placeholder="Email Address" value="<%= applicants[i].email %>">
-                <input type="number" name="skype" placeholder="Skype ID" value="<%= applicants[i].skype %>" required>
+                <input type="text" name="skype" placeholder="Skype ID" value="<%= applicants[i].skype %>" required>
                 <input type="text" name="mobile" placeholder="Mobile Number" value="<%= applicants[i].mobile %>" required>
   
                 <p><strong>PREFERRED CONTACT</strong></p>
@@ -107,7 +107,15 @@
                 <input type="number" name="expected_salary" value="<%= applicants[i].expected_salary %>" required>
   
                 <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
-                <input type="text" name="start_date" value="<%= startDate %>" required>
+                <input 
+                  type="text" 
+                  name="start_date" 
+                  placeholder="MM / DD / YYYY"
+                  <% if (startDate != 'Invalid date') { %>
+                    value="<%= startDate %>"  
+                  <% } %>
+                  required
+                >
   
                 <p><strong>PREFERRED INTERVIEW DATE</strong></p>
                 <input type="text" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required>

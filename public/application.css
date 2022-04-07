@@ -1,7 +1,9 @@
-.card-container {
-  overflow: auto;
+.dropdown-toggle {
+  position: relative;
 }
 
-.card {
-
+.dropdown-toggle::after {
+  position: absolute;
+  right: 20px;
+  bottom: 45%;
 }
