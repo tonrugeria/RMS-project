@@ -29,7 +29,7 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
 router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
   const jobId = req.params.job_id;
   let image = req.file.filename
-  const {
+  let {
     appId,
     first_name,
     middle_name,
@@ -88,6 +88,13 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
 
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
+
+  if(start_date != '') {
+    start_date
+  } else {
+    start_date = null
+  }
+
   knex('job_application.applicant_details')
     .insert({
       job_id: jobId,
