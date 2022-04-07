@@ -15,30 +15,22 @@ router.get('/application', checkAuthenticated, async (req, res) => {
   );
 
   // admin Schema
-  const adminSkill = await knex('admin.skill');
+  let adminSkill = await knex('admin.skill');
+      adminSkill = adminSkill.filter(
+        (value, index, self) =>
+        index === self.findIndex((t) => t.skill_name === value.skill_name)
+        );
   const remarks = await knex('admin.remarks')
 
   // job_application Schema
   // applicant_details Table
-  const applicants = await knex('job_application.applicant_details');
+  const applicants = await knex('job_application.applicant_details')
   const jobApplications = await knex('job_application.applicant_details')
     .innerJoin(
       'jobs.job_opening',
       'job_application.applicant_details.job_id',
       'jobs.job_opening.job_id'
     );
-  const jobApplicants = await knex('job_application.technical_score')
-      .innerJoin(
-        'job_application.applicant_details',
-        'job_application.applicant_details.application_id',
-        'job_application.technical_score.application_id'
-      )
-      .innerJoin(
-        'admin.skill',
-        'admin.skill.skill_id',
-        'job_application.technical_score.skill_id'
-      )
-      console.log("SKILLS", jobApplicants);
 
   // applicant_rating
   const applicantJob = await knex('job_application.applicant_rating')
@@ -53,6 +45,18 @@ router.get('/application', checkAuthenticated, async (req, res) => {
   
   // technical_score Table
   const technicalScore = await knex('job_application.technical_score');
+  const jobApplicants = await knex('job_application.technical_score')
+    .innerJoin(
+      'job_application.applicant_details',
+      'job_application.applicant_details.application_id',
+      'job_application.technical_score.application_id'
+    )
+    .innerJoin(
+      'admin.skill',
+      'admin.skill.skill_id',
+      'job_application.technical_score.skill_id'
+    )
+
   res.render('application', {
     jobOpening,
     adminSkill,
@@ -64,7 +68,8 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     currentUserRole,
     applicantJob,
     remarks,
-    jobId
+    jobId,
+    jobApplicants
   });
 });
 
@@ -79,7 +84,11 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
 
   // admin Schema
   const jobPosition = await knex('admin.job_position');
-  const adminSkill = await knex('admin.skill');
+  let adminSkill = await knex('admin.skill');
+      adminSkill = adminSkill.filter(
+        (value, index, self) =>
+        index === self.findIndex((t) => t.skill_name === value.skill_name)
+        );
   const remarks = await knex('admin.remarks')
   const applicantSkill = await knex('admin.skill')
     .innerJoin(
@@ -93,7 +102,7 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
   const applicants = await knex('job_application.applicant_details')
     .where({
       job_id: jobId
-    });
+    })
   const jobApplications = await knex('job_application.applicant_details')
     .innerJoin(
       'jobs.job_opening',
@@ -122,6 +131,20 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
       'job_application.technical_score.application_id'
     )
     .where('job_id', jobId);
+  const jobApplicants = await knex('job_application.technical_score')
+    .innerJoin(
+      'job_application.applicant_details',
+      'job_application.applicant_details.application_id',
+      'job_application.technical_score.application_id'
+    )
+    .innerJoin(
+      'admin.skill',
+      'admin.skill.skill_id',
+      'job_application.technical_score.skill_id'
+    )
+    .where({
+      job_id: jobId
+    })
 
   // jobs Schema
   const jobOpening = await knex('jobs.job_opening');
@@ -158,7 +181,76 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     currentUserId,
     currentUserRole,
     applicantJob,
-    remarks
+    remarks,
+    jobApplicants
+  });
+});
+
+router.get('/remark-listing-ajax', checkAuthenticated, async (req, res) => {
+  const jobId = ''
+  const currentUserId = req.user.user_id;
+  const currentUser = await knex('admin.users').where('user_id', currentUserId);
+  const currentUserRole = await knex('admin.user_role').where(
+    'role_id',
+    req.user.role_id
+  );
+
+  // admin Schema
+  let adminSkill = await knex('admin.skill');
+      adminSkill = adminSkill.filter(
+        (value, index, self) =>
+        index === self.findIndex((t) => t.skill_name === value.skill_name)
+        );
+  const remarks = await knex('admin.remarks')
+
+  // job_application Schema
+  // applicant_details Table
+  const applicants = await knex('job_application.applicant_details')
+  const jobApplications = await knex('job_application.applicant_details')
+    .innerJoin(
+      'jobs.job_opening',
+      'job_application.applicant_details.job_id',
+      'jobs.job_opening.job_id'
+    );
+
+  // applicant_rating
+  const applicantJob = await knex('job_application.applicant_rating')
+    .innerJoin(
+      'admin.skill',
+      'job_application.applicant_rating.skill_id',
+      'admin.skill.skill_id'
+    )
+
+  // jobs Schema
+  const jobOpening = await knex('jobs.job_opening');
+  
+  // technical_score Table
+  const technicalScore = await knex('job_application.technical_score');
+  const jobApplicants = await knex('job_application.technical_score')
+    .innerJoin(
+      'job_application.applicant_details',
+      'job_application.applicant_details.application_id',
+      'job_application.technical_score.application_id'
+    )
+    .innerJoin(
+      'admin.skill',
+      'admin.skill.skill_id',
+      'job_application.technical_score.skill_id'
+    )
+
+  res.send({
+    jobOpening,
+    adminSkill,
+    applicants,
+    technicalScore,
+    jobApplications,
+    currentUser,
+    currentUserId,
+    currentUserRole,
+    applicantJob,
+    remarks,
+    jobId,
+    jobApplicants
   });
 });
 

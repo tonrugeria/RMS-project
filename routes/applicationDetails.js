@@ -96,6 +96,20 @@ router.get(
       .where({
         application_id: appId,
       });
+    const jobApplicants = await knex('job_application.technical_score')
+      .innerJoin(
+        'job_application.applicant_details',
+        'job_application.applicant_details.application_id',
+        'job_application.technical_score.application_id'
+      )
+      .innerJoin(
+        'admin.skill',
+        'admin.skill.skill_id',
+        'job_application.technical_score.skill_id'
+      )
+      .where({
+        job_id: jobId
+      })
     const applicantScore = await knex('job_application.technical_score')
       .innerJoin(
         'admin.skill',
@@ -259,7 +273,8 @@ router.get(
       expertise,
       beginner,
       intermediate,
-      expert
+      expert,
+      jobApplicants
     });
     // res.redirect(`/application/job/${jobId}/applicant/${appId}`)
   }
