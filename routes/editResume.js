@@ -169,6 +169,7 @@ router.post(
       course,
       date_graduated,
     } = req.body;
+    console.log("STARTDATE", start_date);
     const getStartDates = history_start_date.map((element) =>
       moment(element).format('L')
     );

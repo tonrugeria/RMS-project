@@ -62,6 +62,7 @@ app.use('', require('./routes/editResume'));
 app.use('', require('./routes/applicantExam'));
 app.use('', require('./routes/personalityTest'));
 app.use('', require('./routes/application'));
+app.use('', require('./routes/applicationDetails'));
 app.use('', require('./routes/userProfile'));
 app.use('', require('./routes/generateResume'));
 

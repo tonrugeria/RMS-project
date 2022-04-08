@@ -1,62 +1,76 @@
 <!--Exam_Creation_Filter -->
 <script>
-    function technicalShowHide(){
-      const technicalBtn = document.querySelector('#technical-btn');
-      const choiceValueInput = document.querySelectorAll('.choice-value-input');
-      const timerLevelCategoryInput= document.querySelectorAll('.technical-input');
-      const levelToOne = document.querySelector('#level');
-      const timerToNone = document.querySelector('#time');
-      const correctRadioEnable = document.querySelectorAll('#radioForCorrect');
-      const categoryToFirst = document.querySelector('#categoryPicker');
-      if(technicalBtn.checked == true){
-        choiceValueInput.forEach(choiceValue => {
-          choiceValue.classList.add('d-none');
-          choiceValue.value = 0;
-        })
-        correctRadioEnable.forEach(choiceValue3 =>{
-          choiceValue3.required= true;
-          choiceValue3.classList.remove('d-none');
-        })
-        timerLevelCategoryInput.forEach(choiceValue2 => {
-          choiceValue2.classList.remove('d-none');
-        })
-        timerToNone.value = '';
-        levelToOne.value='1';
-        categoryToFirst.value = 'Select a Category';
-      }
-    }
+  function technicalShowHide(){
+    const technicalBtn = document.querySelector('#technical-btn');
+    const choiceValueInput = document.querySelectorAll('.choice-value-input');
+    const timerLevelCategoryInput= document.querySelectorAll('.technical-input');
+    const levelToOne = document.querySelector('#level');
+    const timerToNone = document.querySelector('#time');
+    const correctRadioEnable = document.querySelectorAll('#radioForCorrect');
+    const categoryToNull = document.querySelector('#categoryPicker');
+    const showCategory = document.querySelector('#inputCategory');
     
-    function personalityShowHide(){
-      const personalityBtn = document.querySelector('#personality-btn');
-      const choiceValueInput = document.querySelectorAll('.choice-value-input');
-      const timerLevelCategoryInput= document.querySelectorAll('.technical-input');
-      const categoryToPersonality = document.querySelector('#categoryPicker');
-      const timerToZero = document.querySelector('#time');
-      const levelToZero = document.querySelector('#level');
-      const correctRadioDisable = document.querySelectorAll('#radioForCorrect');
-  
-      if(personalityBtn.checked == true){
-        choiceValueInput.forEach(choiceValue => {
-          choiceValue.classList.remove('d-none');
-          choiceValue.value = '';
-        })
-        timerLevelCategoryInput.forEach(choiceValue2 =>{
-          choiceValue2.classList.add('d-none');
-        })
-        correctRadioDisable.forEach(choiceValue3 =>{
-          choiceValue3.required= false;
-          choiceValue3.classList.add('d-none');
-        })
-        categoryToPersonality.value = 'Personality';
-
-        timerToZero.value = '0';
-       
-        levelToZero.value = '0';
-      }
+    if(technicalBtn.checked == true){
+      choiceValueInput.forEach(choiceValue => {
+        choiceValue.classList.add('d-none');
+        choiceValue.value = 0;
+      })
+      correctRadioEnable.forEach(choiceValue3 =>{
+        choiceValue3.required= true;
+        choiceValue3.classList.remove('d-none');
+      })
+      timerLevelCategoryInput.forEach(choiceValue2 => {
+        choiceValue2.classList.remove('d-none');
+      })
+      timerToNone.value = '';
+      levelToOne.value='';
+      showCategory.classList.remove('d-none');
+      showCategory.value='';
     }
+  }
   
-    technicalShowHide();
-    personalityShowHide();
-  </script>
+  function personalityShowHide(){
+    const personalityBtn = document.querySelector('#personality-btn');
+    const choiceValueInput = document.querySelectorAll('.choice-value-input');
+    const timerLevelCategoryInput= document.querySelectorAll('.technical-input');
+    const timerToZero = document.querySelector('#time');
+    const levelToZero = document.querySelector('#level');
+    const correctRadioDisable = document.querySelectorAll('#radioForCorrect');
+    const hideCategory = document.querySelector('#inputCategory');
+   
 
-  <!--Edit_Exam_Creation_Filter-->
+    if(personalityBtn.checked == true){
+      choiceValueInput.forEach(choiceValue => {
+        choiceValue.classList.remove('d-none');
+        choiceValue.value = '';
+      })
+      timerLevelCategoryInput.forEach(choiceValue2 =>{
+        choiceValue2.classList.add('d-none');
+      })
+      correctRadioDisable.forEach(choiceValue3 =>{
+        choiceValue3.required= false;
+        choiceValue3.classList.add('d-none');
+      })
+      timerToZero.value = '0';
+      levelToZero.value = '0';
+      hideCategory.classList.add('d-none');
+      hideCategory.value = 'Personality';
+    }
+  }
+
+  function CheckListed( txtSearch  ) {
+   var objList = document.getElementById("categoryList")  ;
+   for (var i = 0; i < objList.options.length; i++) {
+    if ( objList.options[i].value.trim().toUpperCase() == txtSearch.trim().toUpperCase() ) {
+       return true }
+    }
+      alert( 'No match found Select again') ;
+      const selectCategoryId = document.querySelector("#inputCategory");
+      selectCategoryId.value="";
+      return false ;
+  }
+
+
+  technicalShowHide();
+  personalityShowHide();
+</script>

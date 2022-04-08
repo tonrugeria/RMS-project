@@ -1,108 +1,12 @@
 <%- include('./layout/header.ejs') %>
 <div class="container-fluid m-0">
   <div class="row min-vh-100">
-    <div class="col-3 g-0">
-        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-          <% for( let i = 0; i < jobOpening.length; i++) { %>
-            <div>
-              <a href="/application/job/<%= jobOpening[i].job_id %>/" style="color: black;">
-                <div class="d-flex">
-                  <div class="me-2">
-                    <%= jobOpening[i].job_title %>
-                  </div>
-                  <div>
-                    <% let applicants =  0 %>
-                    <p style="text-decoration: none;">
-                      <% for (let j=0; j < jobApplications.length; j++) { %>
-                        <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                            <% applicants++; %>
-                        <% } %>
-                      <% } %>
-                      (<%= applicants; %>)
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          <% } %> 
-        </div>
-        <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-          <div class="row">
-            <% for (let i=0; i < adminSkill.length; i++) { %>
-              <div class="col">
-                <%= adminSkill[i].skill_name %> 
-              </div>
-            <% } %>
-            </div>
-          </div>
-      
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Expert</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">Intermediate</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Beginner</label>
-      </div>
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Meets Minimum years work experience</label><br>
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">Expected salary within offer</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Can start immediately</label>
-      </div>
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <% for(let i=0; i < remarks.length; i++) { %>
-          <div>
-            <input type="checkbox" id="dept-<%= remarks[i].remark_id %>-checkbox"
-            class="all-dept-checkbox" 
-              onclick="showDeptFunction('<%= remarks[i].remark_id %>')"/>
-            <label for="<%= remarks[i].remark_name %>">
-              <%= remarks[i].remark_name %>
-            </label>
-          </div>
-          <% } %>
-      </div>
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-        <label for="vehicle2">Read</label><br>
-        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-        <label for="vehicle3">Unread</label>
-      </div>
-      <div class="p-4" style="background-color: #e6e6e6;">
-
-      </div>
-    </div>
-    <div class="col-3 g-0" style="height: 100vh;"> 
-      <div style="height: 100vh; overflow: auto;">
-        <% for(let i = 0; i < applicants.length; i++) { %>
-          <%= applicants[i].application_id %> 
-          <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;">
-            <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start" alt="This is Image" width="100">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                    <p class="card-text"> 
-                      <% for ( let j = 0; j < applicantJob.length; j++) { %>
-                        <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
-                          <%= applicantJob[j].skill_name %>   
-                        <% } %> 
-                      <% } %> 
-                    </p>
-                    <p class="card-text"><small><%= applicants[i].year_experience  %> Years Experience </small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-          <% } %>  
-      </div>
+    <%- include('./layout/sideMidBarApplication.ejs') %>
+    <div class="col-6 d-flex justify-content-center align-items-center">
+      <h1><strong>PLEASE SELECT APPLICANTS</strong></h1>
     </div>
   </div>
 </div>
+
+<%- include('./filterFunctions/applicationFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>

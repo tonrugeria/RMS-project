@@ -1,0 +1,188 @@
+<div class="col-3 g-0">
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <div class="dropdown">
+      <a 
+        class="btn btn-secondary d-block dropdown-toggle w-100 border-0 p-0" 
+        href="#" 
+        role="button" 
+        id="dropdownMenuLink" 
+        data-bs-toggle="dropdown" 
+        aria-expanded="false"
+        style="background-color: transparent; color: black;"
+      >
+        <% if (jobId != '') { %>
+          <% for( let i = 0; i < jobOpening.length; i++ ) { %>
+            <% if (jobOpening[i].job_id == jobId) { %>
+             <div class="d-flex align-items-center">
+               <div class="me-2">
+                <strong><%= jobOpening[i].job_title %></strong>
+               </div>
+               <div>
+                  <% let applicants =  0 %>
+                  <p class="m-0">
+                    <% for (let j=0; j < jobApplications.length; j++) { %>
+                      <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                          <% applicants++; %>
+                      <% } %>
+                    <% } %>
+                    <strong>( <%= applicants; %> )</strong>
+                  </p>
+              </div>
+             </div>
+            <% } %>
+          <% } %>
+        <% } else { %>
+          <div class="d-flex align-items-center">
+            <strong>Select job</strong>
+          </div>
+        <% } %> 
+      </a>
+      <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+      <% for( let i = 0; i < jobOpening.length; i++) { %>
+        <li>
+            <a class="dropdown-item" href="/application/job/<%= jobOpening[i].job_id %>">
+              <div class="d-flex">
+                <div><strong><%= jobOpening[i].job_title %></strong></div>
+                <div>
+                  <% let applicants =  0 %>
+                  <p style="text-decoration: none;">
+                    <% for (let j=0; j < jobApplications.length; j++) { %>
+                      <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                          <% applicants++; %>
+                      <% } %>
+                    <% } %>
+                    <strong>( <%= applicants; %> )</strong>
+                  </p>
+                </div>
+              </div>
+            </a>
+        </li>
+        <% } %> 
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <a class="dropdown-item" href="/application">
+            <div class="d-flex">
+              <div class="me-2">
+                <strong>SHOW ALL</strong>
+              </div>
+              <div>
+                <% let allApplicants =  0 %>
+                <p class="m-0">
+                  <% for (let i=0; i < jobApplications.length; i++) { %>
+                        <% allApplicants++; %>
+                  <% } %>
+                  <strong>( <%= allApplicants; %> )</strong>
+                </p>
+              </div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Technologies -->
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <div class="row">
+      <% for (let i=0; i < adminSkill.length; i++) { %>
+        <div class="col">
+          <%= adminSkill[i].skill_name %> 
+        </div>
+      <% } %>
+      </div>
+    </div>
+
+  <!-- Expertise -->
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <input 
+      type="checkbox" 
+      id="expert" 
+      name="expert" 
+      class="all-status-checkbox" 
+    >
+    <label for="vehicle1">Expert</label><br>
+    <input 
+      type="checkbox" 
+      id="intermediate" 
+      name="intermediate" 
+      class="all-status-checkbox" 
+    >
+    <label for="vehicle2">Intermediate</label><br>
+    <input 
+      type="checkbox" 
+      id="beginner" 
+      name="beginner" 
+      class="all-status-checkbox" 
+    >
+    <label for="vehicle3">Beginner</label>
+  </div>
+
+  <!-- other options -->
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <input 
+      type="checkbox" 
+      id="minExperience" 
+      name="minExperience" 
+      class="all-status-checbox"
+    >
+    <label for="vehicle1">Meets Minimum years work experience</label><br>
+    <input 
+      type="checkbox" 
+      id="expectedSalary" 
+      name="expectedSalary" 
+      class="all-status-checbox"
+    >
+    <label for="vehicle2">Expected salary within offer</label><br>
+    <input 
+      type="checkbox" 
+      id="startNow" 
+      name="startNow" 
+      class="all-status-checbox"
+    >
+    <label for="vehicle3">Can start immediately</label>
+  </div>
+
+  <!-- Status -->
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <% for(let i=0; i < remarks.length; i++) { %>
+      <div>
+        <input 
+          type="checkbox" 
+          id="remark-<%= remarks[i].remark_id %>-checkbox"
+          class="all-status-checkbox" 
+          onclick="showRemarkFunction('<%= remarks[i].remark_id %>')"
+        />
+        <label for="<%= remarks[i].remark_name %>">
+          <%= remarks[i].remark_name %>
+        </label>
+      </div>
+      <% } %>
+  </div>
+
+  <!-- Read and Unread -->
+  <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+    <label for="vehicle2">Read</label><br>
+    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+    <label for="vehicle3">Unread</label>
+  </div>
+
+  <div class="p-4" style="background-color: #e6e6e6;">
+
+  </div>
+</div>
+
+<!-- Mid Section -->
+<div class="col-3 g-0" style="height: 100vh;"> 
+  <!-- Seacr Bar -->
+  <div>
+    <input id="myInput" class="w-100 border-bottom m-1" type="text" placeholder="Search" style="height: 40px; border: none; outline: none;" onkeyup="buttonUp()">
+  </div>
+
+  <!-- Cards -->
+  <div style="height: 100vh; overflow: auto;" id="card-container">
+
+  </div>
+</div>
