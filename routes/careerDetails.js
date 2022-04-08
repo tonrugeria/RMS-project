@@ -15,7 +15,6 @@ router.get("/careers/job/:job_id", async (req, res) => {
   const job_opening = await knex('jobs.job_opening');
   const jobOpening = await knex('jobs.job_opening')
     .where('job_id', jobId)
-    
   const responsibility = await knex('jobs.responsibility')
   .where('job_id', jobId)
   const qualification = await knex('jobs.qualification')
@@ -28,9 +27,11 @@ router.get("/careers/job/:job_id", async (req, res) => {
   const jobSkill = await knex('jobs.job_opening')
         .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
         .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
-      
 
-  if (jobOpening != 0) {
+
+  const { status = 'empty' } = jobOpening[0] || {}; 
+        
+  if (status == 0) {
     res.render('careerDetails', {
       jobId,
       jobDetail,
@@ -44,10 +45,14 @@ router.get("/careers/job/:job_id", async (req, res) => {
       item,
       active_job_opening,
       date,
+      status,
     });
+
   } else {
-    res.redirect('/careers');
-    res.render("careerDetails", {jobId, jobDetail, job_opening, jobOpening, responsibility, qualification, admin_department, jobSkill,category,item,active_job_opening, date });
+    res.status(404).send(
+      '<p>Job is closed. Follow<a href="/careers">this</a> to see active jobs.</p>'
+      
+   )
   }
 });
 
