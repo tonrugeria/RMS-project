@@ -34,33 +34,36 @@ router.get('/', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
-  if (currentUserRole[0].role_id ===2 ){
+  if (currentUserRole[0].role_id === 2) {
     res.redirect('/application');
-  } else{
-  res.render('index', {
-    jobOpening,
-    admin_department,
-    jobSkill,
-    jobApplications,
-    currentUser,
-    currentUserId,
-    currentUserRole,
-    date,
-    active_job_opening,
-  });
-}});
+  } else {
+    res.render('index', {
+      jobOpening,
+      admin_department,
+      jobSkill,
+      jobApplications,
+      currentUser,
+      currentUserId,
+      currentUserRole,
+      date,
+      active_job_opening,
+    });
+  }
+});
 
 // admin job listing post route
-router.post('/job/:job_id/status', (req, res) => {
+router.post('/job/:job_id/status', async (req, res) => {
   const jobId = req.params.job_id;
   const { status } = req.body;
 
-  status.forEach((jobStatus) => {
-    knex('jobs.job_opening')
-      .update({ status: jobStatus })
-      .where({ job_id: jobId })
-      .then((results) => results);
-  });
+  if (typeof status != typeof []) {
+    await knex('jobs.job_opening').update({ status }).where({ job_id: jobId });
+  } else {
+    status.forEach(async (item) => {
+      await knex('jobs.job_opening').update({ status: item }).where({ job_id: jobId });
+    });
+  }
+
   res.redirect('/');
 });
 

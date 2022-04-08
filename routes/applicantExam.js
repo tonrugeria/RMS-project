@@ -84,7 +84,6 @@ router.post(
 
     // to keep track of the applicant's total score
     let applicantTotalScore = 0;
-
     // remove duplicating questions
     applicantExam_Question = applicantExam_Question.filter(
       (value, index, self) =>
@@ -92,7 +91,7 @@ router.post(
     );
 
     // skills array to store score for each skill
-    const skills = [];
+    let skills = [];
     applicantExam_Question.forEach((question) => {
       skills.push({
         skill_id: question.skill_id,
@@ -126,6 +125,11 @@ router.post(
         }
       }
     }
+
+    skills = skills.filter(
+      (value, index, self) =>
+        index === self.findIndex((t) => t.skill_id === value.skill_id)
+    );
 
     // insert query to technical score
     skills.forEach(async (item) => {
