@@ -1,100 +1,119 @@
 <script>
-  var $filterCheckboxes = $('input[type="checkbox"]').not('#all-checkbox');
-
-  // checkbox filter function
-  function showFiltered() {
-
-    let selectedFilters = {};
-
-    $filterCheckboxes.filter(':checked').each(function() {
-
-      if (!selectedFilters.hasOwnProperty(this.name)) {
-        selectedFilters[this.name] = [];
-      }
-
-      selectedFilters[this.name].push(this.value);
-
-    });
-
-    // create a collection containing all of the filterable elements
-    var $filteredResults = $('.all-jobs');
-
-    // loop over the selected filter name -> (array) values pairs
-    $.each(selectedFilters, function(name, filterValues) {
-
-      // filter each .flower element
-      $filteredResults = $filteredResults.filter(function() {
-
-        var matched = false,
-          currentFilterValues = $(this).data('category').split(' ');
-
-        // loop over each category value in the current .flower's data-category
-        $.each(currentFilterValues, function(_, currentFilterValue) {
-
-          // if the current category exists in the selected filters array
-          // set matched to true, and stop looping. as we're ORing in each
-          // set of filters, we only need to match once
-
-          if ($.inArray(currentFilterValue, filterValues) != -1) {
-            matched = true;
-            return false;
-          }
-        });
-
-        // if matched is true the current .flower element is returned
-        return matched;
-
+  $(document).ready(function(){
+    let $filterCheckboxes = $('input[type="checkbox"]').not('#all-checkbox');
+  
+    // checkbox filter function
+    function showFiltered() {
+  
+      let selectedFilters = {};
+  
+      $filterCheckboxes.filter(':checked').each(function() {
+  
+        if (!selectedFilters.hasOwnProperty(this.name)) {
+          selectedFilters[this.name] = [];
+        }
+  
+        selectedFilters[this.name].push(this.value);
+  
       });
-    });
-
-    $('.all-jobs').hide().filter($filteredResults).show();
-  }
-
-
-$filterCheckboxes.on('change', showFiltered);
-
-// AJAX post on changing status
-$(".statusForm").submit(function(e) {
-  // Stop form from submitting normally
-  e.preventDefault();
-
-  // Get some values from elements on the page:
-  const $form = $(this),
-    statusBody = $form.find('input').attr('name');
-    status = $form.find(`input[name="${statusBody}"]:checked`).val(),
-    url = $form.attr( "action" );
-    let card = $(this).parent().parent().parent().parent().parent()
-    let cardDept = $(this).parent().parent().parent().parent().parent().attr('department');
-    card.removeAttr('data-category').attr('data-category', `${cardDept} status-${status}`);
-  // Send the data using post
-  $.post( url, { status: status });
-});
-
-  // ALL checkbox logic
-  $('input:checkbox').not('#all-checkbox').click(() => {
-    if(!$('input:checkbox').is(':checked')){
-      $('#all-checkbox').prop('checked', true);
-    } else {
-      $('#all-checkbox').prop('checked', false);
+      // create a collection containing all of the filterable elements
+      let $filteredResults = $('.all-jobs');
+  
+      // loop over the selected filter name -> (array) values pairs
+      $.each(selectedFilters, function(name, filterValues) {
+  
+        // filter each .flower element
+        $filteredResults = $filteredResults.filter(function() {
+  
+          let matched = false,
+            currentFilterValues = $(this).data('category').split(' ');
+  
+          // loop over each category value in the current .flower's data-category
+          $.each(currentFilterValues, function(_, currentFilterValue) {
+  
+            // if the current category exists in the selected filters array
+            // set matched to true, and stop looping. as we're ORing in each
+            // set of filters, we only need to match once
+  
+            if ($.inArray(currentFilterValue, filterValues) != -1) {
+              matched = true;
+              return false;
+            }
+          });
+  
+          // if matched is true the current .flower element is returned
+          return matched;
+  
+        });
+      });
+  
+      $('.all-jobs').hide().filter($filteredResults).show();
     }
+  
+    $filterCheckboxes.on('change', showFiltered);
+  
+    // AJAX post on changing status
+    $(".statusForm").submit(function(e) {
+        // Stop form from submitting normally
+        e.preventDefault();
+  
+        // Get some values from elements on the page:
+        const $form = $(this),
+          statusBody = $form.find('input').attr('name');
+          status = $form.find(`input[name="${statusBody}"]:checked`).val(),
+          url = $form.attr( "action" );
+  
+        // Send the data using post
+        $.post( url, { status: status })
+        .done(()=>{
+          const card = $form.parent().parent().parent().parent().parent()
+          const cardDept = card.attr('department');
+          const cardId = card.attr('id')
+          card.attr('data-category', `${cardDept} status-${status}`);
+  
+          const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+          ];
+          const d = new Date();
+  
+          if (status == 0) {
+            $(`#${cardId}-date`).html(`${d.getDate()-1} ${monthNames[d.getMonth()]} ${d.getFullYear()}`)
+          } else {
+            $(`#${cardId}-date`).html('Not opened')
+          }
+  
+          card.remove()
+          $('.container').append(card)
+          showFiltered()
+        })
+        
+      });
+  
+    // 'ALL' checkbox logic
+    $('input:checkbox').not('#all-checkbox').click(() => {
+      if(!$('input:checkbox').is(':checked')){
+        $('#all-checkbox').prop('checked', true);
+      } else {
+        $('#all-checkbox').prop('checked', false);
+      }
+    })
+  
+    $("#all-checkbox").click(()=>{
+      if($("#all-checkbox").prop('checked') == true){
+        $('input:checkbox').not('#all-checkbox').prop('checked', false)
+        $('.all-jobs').show();
+      } 
+    });
+  
+  //list and grid buttons
+    $('#list').click(function (event) {
+      event.preventDefault();
+      $('.all-jobs .item').addClass('list-group-item');
+    });
+    $('#grid').click(function (event) {
+      event.preventDefault();
+      $('.all-jobs .item').removeClass('list-group-item');
+      $('.all-jobs .item').addClass('grid-group-item');
+    });
   })
-
-  $("#all-checkbox").click(()=>{
-    if($("#all-checkbox").prop('checked') == true){
-      $('input:checkbox').not('#all-checkbox').prop('checked', false)
-      $('.all-jobs').show();
-    } 
-  });
-
-//list and grid buttons
-  $('#list').click(function (event) {
-    event.preventDefault();
-    $('#products .item').addClass('list-group-item');
-  });
-  $('#grid').click(function (event) {
-    event.preventDefault();
-    $('#products .item').removeClass('list-group-item');
-    $('#products .item').addClass('grid-group-item');
-  });
-
 </script>
