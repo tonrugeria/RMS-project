@@ -4,6 +4,7 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link rel="stylesheet" href="style.css">
 
+<br><br>
 <!-- sidebar for filter-->
 <div class="sidebar-column">
   <a href="/job-requirement">+ CREATE NEW JOB</a><br><br>
@@ -51,10 +52,11 @@
   <!-- Cards -->
   <div class="container">
     <% for (let i=0; i < jobOpening.length; i++) { %>
-      <div id="products" data-id="job_<%= jobOpening[i].job_id %>"
+      <div id="job-<%= jobOpening[i].job_id %>"
       <% for (let j=0; j < admin_department.length; j++) { %> 
         <% if(jobOpening[i].job_dept == admin_department[j].dept_id) {%>
-          class="all-jobs status-<%= jobOpening[i].status %>"
+          data-id="job_<%= jobOpening[i].job_id %>"
+          class="all-jobs"
           department="dept-<%= admin_department[j].dept_id %>"
           data-category="dept-<%= admin_department[j].dept_id %> status-<%= jobOpening[i].status %>"
         <% } %> 
@@ -65,7 +67,13 @@
               <!-- adding dynamic class for each job -->
               <div class="card">
               <!-- display date opened -->
-              <span><%= date %></span>  
+              <% if (date[i].job_id == jobOpening[i].job_id) { %>
+                <% if (date[i].date != 'Invalid date') { %>
+                  <span id="job-<%= jobOpening[i].job_id %>-date"><%= date[i].date %></span>  
+                <% } else { %>
+                  <span id="job-<%= jobOpening[i].job_id %>-date">Not opened</span>
+                <% } %> 
+              <% } %>
 
               <!-- display job-type -->
               <span>
