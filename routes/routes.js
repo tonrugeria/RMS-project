@@ -13,7 +13,6 @@ const router = express.Router();
 
 // admin job listing get route
 router.get('/', checkAuthenticated, async (req, res) => {
-  const active_job_opening = await knex('jobs.job_opening').where('status', '0');
   const currentUserId = req.user.user_id;
   const currentUser = await knex('admin.users').where('user_id', currentUserId);
   const currentUserRole = await knex('admin.user_role').where(
@@ -24,8 +23,13 @@ router.get('/', checkAuthenticated, async (req, res) => {
   const admin_department = await knex('admin.department').where({
     dept_status: 'active',
   });
-  const { date_opened } = active_job_opening[0] || {};
-  const date = moment(date_opened).format('DD MMMM YYYY');
+  const date = [];
+  jobOpening.forEach((job) =>
+    date.push({
+      job_id: job.job_id,
+      date: moment(job.date_opened).format('DD MMMM YYYY'),
+    })
+  );
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
     .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
@@ -46,21 +50,49 @@ router.get('/', checkAuthenticated, async (req, res) => {
       currentUserId,
       currentUserRole,
       date,
-      active_job_opening,
     });
   }
 });
 
 // admin job listing post route
 router.post('/job/:job_id/status', async (req, res) => {
+  const currentUserId = req.user.user_id;
+  const today = new Date();
+  const thisDay = moment(today, 'MM/DD/YYYY');
   const jobId = req.params.job_id;
   const { status } = req.body;
 
   if (typeof status != typeof []) {
     await knex('jobs.job_opening').update({ status }).where({ job_id: jobId });
+    if (status == 0) {
+      await knex('jobs.job_opening').where({ job_id: jobId }).update({
+        date_opened: thisDay,
+        last_date_updated: thisDay,
+        last_updated_by: currentUserId,
+      });
+    } else {
+      await knex('jobs.job_opening').where({ job_id: jobId }).update({
+        date_opened: null,
+        last_date_updated: thisDay,
+        last_updated_by: currentUserId,
+      });
+    }
   } else {
     status.forEach(async (item) => {
       await knex('jobs.job_opening').update({ status: item }).where({ job_id: jobId });
+      if (item == 0) {
+        await knex('jobs.job_opening').where({ job_id: jobId }).update({
+          date_opened: thisDay,
+          last_date_updated: thisDay,
+          last_updated_by: currentUserId,
+        });
+      } else {
+        await knex('jobs.job_opening').where({ job_id: jobId }).update({
+          date_opened: null,
+          last_date_updated: thisDay,
+          last_updated_by: currentUserId,
+        });
+      }
     });
   }
 
