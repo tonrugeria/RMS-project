@@ -91,16 +91,22 @@ router.get(
           res.send(err);
         } else {
           const options = {
+            localUrlAccess: true,
+            base: "file:///" + __dirname.replace(/\\/g, "/") + "/",
             height: '11.25in',
             width: '8.5in',
             header: {
-              height: '20mm',
+              height: '10mm',
             },
             footer: {
               height: '20mm',
             },
+            border: {
+              left: '10mm',
+              right: '10mm',
+            }
           };
-          pdf.create(data, options).toFile('report.pdf', (err, data) => {
+          pdf.create(data, options).toFile(Date.now()+'Resume.pdf', (err, data) => {
             if (err) {
               res.send(err);
             } else {
