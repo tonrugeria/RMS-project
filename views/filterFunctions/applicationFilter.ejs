@@ -1,160 +1,113 @@
+<style>
+  .active{
+    background-color: grey; 
+    color: white;
+  }
+</style>
 <script>
   $(document).ready(function(){
-    showAll()
-    let displayAll = false
+    // search bar function
     var $block = $('.no-results');
-  $("#myInput").keyup(function() {
-    var val = $(this).val();
-    var isMatch = false;
-    
-    $("#myCard .card").each(function(i) {
-        var content = $(this).html();
-        if(content.toLowerCase().indexOf(val) == -1) {
-           $(this).hide();         
-        } else {
-            isMatch = true;
-            $(this).show();
-        }
-    });
-    $block.toggle(!isMatch);
-  });
-  });
+    $("#myInput").keyup(function() {
+      var val = $(this).val();
+      var isMatch = false;
 
-  $('.all-status-checkbox').change(() => {
-    if( !$('.all-status-checkbox').is(':checked')) {
-      showAll()
-    }
-  })
-
-  const showRemarkFunction = (remark_id) => {
-    if(displayAll == true) {
-      $('#card-container').children().remove()
-      displayAll = false
-    }
-    if ($(`#remark-${remark_id}-checkbox`).prop('checked') == true) {
-      $.get('/remark-listing-ajax', function(data, status){
-        $.each(data.applicants, (key, value) => {
-          if(remark_id == value.status){
-            $('#card-container').append(
-              `
-              <% if ( applicants != 0 ) { %>
-                  ${value.application_id}
-                  <a href="/application/job/${value.job_id}/applicant/${value.application_id}" style="text-decoration: none;" id="myCard" class="remark-${value.status}">
-                    <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-                      <div class="row g-0">
-                        <div class="col-md-4">
-                          <img src="/${value.photo}" class="img-fluid rounded-start img" alt="This is Image" width="100">
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body" id="applicantJob-${key}">
-                            <h5 class="card-title">${value.first_name} ${value.last_name} </h5>
-                            <div class="d-flex align-items-center">
-                              <p>${value.status}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-              <% } else { %>
-                <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
-                  <h1>
-                    NO APPLICANTS
-                  </h1>
-                </div>  
-              <% } %> 
-              <div class="no-results" style="display:none"><h1>no results found</h1></div>
-              `
-            )
-            $(`#applicantJob-${key}`).append(
-              `<p class="card-text" id="applicantJobContainer-${key}"> 
-                      
-              </p>
-              <p class="card-text" id="jobYearExperience-${key}">
-                
-              </p>`
-            )
-            $.each(data.applicantJob, (jobKey, jobValue) => {
-              if (value.application_id == jobValue.application_id) {
-                $(`#applicantJobContainer-${key}`).append(
-                  `${jobValue.skill_name}`
-                )
-              }
-            })
-            if(value.year_experience > 1) {
-              $(`#jobYearExperience-${key}`).append(
-                `<small>
-                  ${value.year_experience}
-                  years experience
-                </small>`
-              )
-            } else {
-              `<small>
-                ${value.year_experience}
-                year experience
-              </small>`
-            }
+      $("#myCard .card").each(function(i) {
+          var content = $(this).html();
+          if(content.toLowerCase().indexOf(val) == -1) {
+            $(this).hide();         
+          } else {
+              isMatch = true;
+              $(this).show();
           }
-        })
-      })
-    } else {
-      $(`.remark-${remark_id}`).remove()
-    }
-  }
+      });
+      $block.toggle(!isMatch);
+    });
 
-  function showAll() {$.get("/application", function(data, status){
-    displayAll = true
-    $('#card-container').html(
-      `
-        <% if ( applicants != 0 ) { %>
-          <% for(let i = 0; i < applicants.length; i++) { %>
-            <%= applicants[i].application_id %> 
-            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;" id="myCard" class="remark-<%= applicants[i].status %>">
-              <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start img" alt="This is Image" width="100">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                      <div class="d-flex align-items-center">
-                        <p><%= applicants[i].status %></p>
-                      </div>
-                      <p class="card-text"> 
-                        <% for ( let j = 0; j < applicantJob.length; j++) { %>
-                          <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
-                            <%= applicantJob[j].skill_name %>   
-                          <% } %> 
-                        <% } %> 
-                      </p>
-                      <p class="card-text">
-                        <small>
-                        <%= applicants[i].year_experience  %>
-                        <% if (applicants[i].year_experience > 1) { %>
-                          years
-                        <% } else { %>
-                          year
-                        <% } %> experience
-                      </small>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <% } %>    
-        <% } else { %>
-          <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
-            <h1>
-              NO APPLICANTS
-            </h1>
-          </div>  
-        <% } %> 
-        <div class="no-results" style="display:none"><h1>no results found</h1></div>
-      `
-      )
-  })
-}
+    // skills changing style onclick
+    $(':button').click(function(){
+      if($(this).hasClass('active')){
+        $(this).removeClass('active')
+      } else {
+        $(this).addClass('active')
+      }
+    })
+
+    let $filterCheckboxes = $('input:checkbox');
+    let $filterButtons = $(':button');
+
+    // checkbox filter function
+    function checkboxFilter() {
+  
+      let selectedFilters = {};
+  
+      $filterCheckboxes.filter(':checked').each(function() {
+  
+        if (!selectedFilters.hasOwnProperty(this.name)) {
+          selectedFilters[this.name] = [];
+        }
+  
+        selectedFilters[this.name].push(this.value);
+  
+      });
+
+      $filterButtons.filter('.active').each(function() {
+  
+        if (!selectedFilters.hasOwnProperty(this.name)) {
+          selectedFilters[this.name] = [];
+        }
+
+        selectedFilters[this.name].push(this.value);
+
+      });
+      // create a collection containing all of the filterable elements
+      let $filteredResults = $('.applicants');
+  
+      // loop over the selected filter name -> (array) values pairs
+      $.each(selectedFilters, function(name, filterValues) {
+  
+        // filter each .flower element
+        $filteredResults = $filteredResults.filter(function() {
+  
+          let matched = false,
+            currentFilterValues = $(this).data('category').split(" ").map(item => item.trim());
+  
+          // loop over each category value in the current .flower's data-category
+          $.each(currentFilterValues, function(_, currentFilterValue) {
+  
+            // if the current category exists in the selected filters array
+            // set matched to true, and stop looping. as we're ORing in each
+            // set of filters, we only need to match once
+  
+            if ($.inArray(currentFilterValue, filterValues) != -1) {
+              matched = true;
+              return false;
+            }
+          });
+  
+          // if matched is true the current .flower element is returned
+          return matched;
+  
+        });
+      });
+  
+      $('.applicants').hide().filter($filteredResults).show();
+    }
+  
+    $filterCheckboxes.on('change', checkboxFilter);
+    $filterButtons.on('click', checkboxFilter);
+
+    // AJAX post on changing status
+    $(".statusForm").change(function() {
+        // Get some values from elements on the page:
+        const $form = $(this),
+          remark = $form.find(`select`).val(),
+          url = $form.attr( "action" );
+  
+        // Send the data using post
+        $.post( url, { remark: remark });
+
+    });
+  });
 </script>
 

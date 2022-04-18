@@ -10,8 +10,8 @@
         <div class="card p-3 border-0">
           <div class="row g-0">
             <div class="col-md-4">
-              <% if (applicantInfo != 0) { %>
-                <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="This is Image" width="150">
+              <% if (applicantInfo[0].photo != null) { %>
+                <img src="/<%= applicantInfo[0].photo %>" class="rounded-start" alt="Failed to load image" width="150">
               <% } else { %>
                 NO PHOTO  
               <% } %> 
@@ -75,7 +75,7 @@
                             <%= intermediate[j].skill_name %>   
                           <% } %>
                         <% } %>  
-                      <% } else { %>
+                      <% } else if ( highestScore > 0) { %>
                         BEGINNER in 
                         <% for ( let j = 0; j < beginner.length; j++) { %>
                           <% if ( beginner[j].application_id == appId) { %>
@@ -87,34 +87,36 @@
                   </div>
                   <div class="d-flex align-items-end">
                     <div class="me-1">
-                      <form action="/application/job/<%= applicantInfo[0].job_id %>/applicant/<%= applicantInfo[0].application_id %>" method="post">
+                      <form action="/application/job/<%= applicantInfo[0].job_id %>/applicant/<%= applicantInfo[0].application_id %>" method="post" class="statusForm">
                       <div class="d-flex">
                         <select name="remark" class="title" required>
-                          <option hidden value="">SELECT STATUS</option>
+                          <option hidden value="">ASSIGN STATUS</option>
                           <% for( let i = 0; i < remarks.length; i++) { %>
-                              <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
-                                <option
-                                  style="background-color: transparent; border: none;"
-                                  value="<%= remarks[i].remark_id %>"
-                                  selected
-                                >
-                                  <%= remarks[i].remark_name %>
-                                </option>
-                              <% } else { %>
-                                <option
-                                  style="background-color: transparent; border: none;"
-                                  value="<%= remarks[i].remark_id %>"
-                                >
-                                  <%= remarks[i].remark_name %>
-                                </option>
-                              <% } %>
+                            <% if (remarks[i].remark_id == applicantInfo[0].status) { %>
+                              <option
+                                style="background-color: transparent; border: none;"
+                                value="<%= remarks[i].remark_id %>"
+                                selected
+                              >
+                                <%= remarks[i].remark_name %>
+                              </option>
+                            <% } else { %>
+                              <option
+                                style="background-color: transparent; border: none;"
+                                value="<%= remarks[i].remark_id %>"
+                              >
+                                <%= remarks[i].remark_name %>
+                              </option>
                             <% } %>
+                          <% } %>
                         </select>
-                        <div class="ms-1">
-                          <button type="submit" class="border border-0">UPDATE</button>
-                        </div>
                       </div>
                     </form>
+                    </div>
+                    <div>
+                      <a  href="/generateResume/job/<%= jobId %>/application/<%= appId %>">
+                        <button>SAVE RESUME</button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -132,9 +134,6 @@
             <div class="d-flex">
               <div class="me-1">
                 <a class="btn btn-secondary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">VIEW EXAM RESULTS</a>
-              </div>
-              <div>
-                <a class="btn btn-secondary" href="/generateResume/job/<%= jobId %>/application/<%= appId %>">save resume</a>
               </div>
             </div>
           </div>
@@ -322,57 +321,58 @@
                   <% } %>
                 </div>
                 <div class="modal-footer">
+                  <% if(personalityTestResults != 0) { %>
                   <h5 class="me-auto">Score: <%= applicantInfo[0].personality_test_score %></h5>
+                  <% } %>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="py-3">
-          <h3>CAPABILITIES</h3>
-          <% if(applicantCapability[0].capability_1 != 0) { %> 
-            <div>
-              <p><%= applicantCapability[0].capability_1 %> </p>
-            </div>
-            <div>
-              <p><%= applicantCapability[0].capability_2 %> </p>
-            </div>
-            <div>
-              <p><%= applicantCapability[0].capability_3 %> </p>
-            </div>
-            <div>
-              <p><%= applicantCapability[0].capability_4 %> </p>
-            </div>
-            <div>
-              <p><%= applicantCapability[0].capability_5 %> </p>
-            </div>
-          <% } else { %>
-            NO CAPABILITIES  
-          <% } %> 
-        </div>
-
-        <div>
-          <h3>Professional Background</h3>
-          <% if (applicantHistory[0].position != 0) { %>
-            <% for ( let i =0; i < applicantHistory.length; i++) { %>
-                <div>
-                  <% if(applicantHistory != 0 && getStartDates[i] != 'Invalid date' && getEndDates[i] != 'Invalid date') { %>
-                    <div class="mb-3">
-                      <%= applicantHistory[i].position %> &#8226;
-                      <%= getStartDates[i] %> - <%= getEndDates[i] %>
-                      <div>
-                        <small><%= applicantHistory[i].company %></small>
-                      </div>
-                    </div>
-                  <% } %>
-                </div>  
-                <% } %> 
+          <div class="py-3">
+            <h3>CAPABILITIES</h3>
+            <% if(applicantCapability[0].capability_1 != 0) { %> 
+              <div>
+                <p><%= applicantCapability[0].capability_1 %> </p>
+              </div>
+              <div>
+                <p><%= applicantCapability[0].capability_2 %> </p>
+              </div>
+              <div>
+                <p><%= applicantCapability[0].capability_3 %> </p>
+              </div>
+              <div>
+                <p><%= applicantCapability[0].capability_4 %> </p>
+              </div>
+              <div>
+                <p><%= applicantCapability[0].capability_5 %> </p>
+              </div>
             <% } else { %>
-              NO HISTORY  
+              NO CAPABILITIES  
             <% } %> 
-        </div>
+          </div>
+  
+          <div>
+            <h3>Professional Background</h3>
+            <% if (applicantHistory[0].position != 0) { %>
+              <% for ( let i =0; i < applicantHistory.length; i++) { %>
+                  <div>
+                    <% if(applicantHistory != 0 && getStartDates[i] != 'Invalid date' && getEndDates[i] != 'Invalid date') { %>
+                      <div class="mb-3">
+                        <%= applicantHistory[i].position %> &#8226;
+                        <%= getStartDates[i] %> - <%= getEndDates[i] %>
+                        <div>
+                          <small><%= applicantHistory[i].company %></small>
+                        </div>
+                      </div>
+                    <% } %>
+                  </div>  
+                  <% } %> 
+              <% } else { %>
+                NO HISTORY  
+              <% } %> 
+          </div>
     </div>
   </div>
-
+</div>
 <%- include('./filterFunctions/applicationFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>

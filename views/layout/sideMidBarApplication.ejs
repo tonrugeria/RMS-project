@@ -32,8 +32,19 @@
             <% } %>
           <% } %>
         <% } else { %>
-          <div class="d-flex align-items-center">
-            <strong>Select job</strong>
+          <div class="d-flex">
+            <div class="me-2">
+              <strong>SHOW ALL</strong>
+            </div>
+            <div>
+              <% let allApplicants =  0 %>
+              <p class="m-0">
+                <% for (let i=0; i < jobApplications.length; i++) { %>
+                      <% allApplicants++; %>
+                <% } %>
+                <strong>( <%= allApplicants; %> )</strong>
+              </p>
+            </div>
           </div>
         <% } %> 
       </a>
@@ -87,9 +98,14 @@
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
     <div class="row">
       <% for (let i=0; i < adminSkill.length; i++) { %>
-        <div class="col">
-          <%= adminSkill[i].skill_name %> 
-        </div>
+        <span class="col p-0">
+          <button 
+            type="button" 
+            name="skills" 
+            value="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>" 
+            id="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>"
+          ><%= adminSkill[i].skill_name %></button>
+        </span>
       <% } %>
       </div>
     </div>
@@ -98,50 +114,50 @@
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
     <input 
       type="checkbox" 
+      name="expertise" 
+      value="expert"
       id="expert" 
-      name="expert" 
-      class="all-status-checkbox" 
     >
-    <label for="vehicle1">Expert</label><br>
+    <label for="expert">Expert</label><br>
     <input 
       type="checkbox" 
+      name="expertise" 
+      value="intermediate"
       id="intermediate" 
-      name="intermediate" 
-      class="all-status-checkbox" 
     >
-    <label for="vehicle2">Intermediate</label><br>
+    <label for="intermediate">Intermediate</label><br>
     <input 
       type="checkbox" 
+      name="expertise" 
+      value="beginner"
       id="beginner" 
-      name="beginner" 
-      class="all-status-checkbox" 
     >
-    <label for="vehicle3">Beginner</label>
+    <label for="beginner">Beginner</label>
   </div>
 
   <!-- other options -->
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
     <input 
       type="checkbox" 
-      id="minExperience" 
-      name="minExperience" 
-      class="all-status-checbox"
+      name="minYears"
+      value="minYears"
+      id="minYears" 
     >
-    <label for="vehicle1">Meets Minimum years work experience</label><br>
+    <label for="minYears">Meets Minimum years work experience</label><br>
     <input 
       type="checkbox" 
-      id="expectedSalary" 
       name="expectedSalary" 
-      class="all-status-checbox"
+      value="expectedSalary"
+      id="expectedSalary" 
     >
-    <label for="vehicle2">Expected salary within offer</label><br>
+    <label for="expectedSalary">Expected salary within offer</label><br>
     <input 
       type="checkbox" 
+      name="startNow"
+      value="startNow"
       id="startNow" 
-      name="startNow" 
-      class="all-status-checbox"
     >
-    <label for="vehicle3">Can start immediately</label>
+    <label for="startNow">Can start immediately</label>
   </div>
 
   <!-- Status -->
@@ -150,23 +166,33 @@
       <div>
         <input 
           type="checkbox" 
-          id="remark-<%= remarks[i].remark_id %>-checkbox"
-          class="all-status-checkbox" 
-          onclick="showRemarkFunction('<%= remarks[i].remark_id %>')"
+          name="status"
+          value="status-<%= remarks[i].remark_id %>"
+          id="status-<%= remarks[i].remark_id %>"
         />
-        <label for="<%= remarks[i].remark_name %>">
+        <label for="status-<%= remarks[i].remark_id %>">
           <%= remarks[i].remark_name %>
         </label>
       </div>
-      <% } %>
+    <% } %>
   </div>
 
   <!-- Read and Unread -->
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-    <label for="vehicle2">Read</label><br>
-    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-    <label for="vehicle3">Unread</label>
+    <input 
+      type="checkbox" 
+      name="readUnread" 
+      value="read" 
+      id="read"
+    >
+    <label for="read">Read</label><br>
+    <input 
+      type="checkbox" 
+      name="readUnread" 
+      value="unread" 
+      id="unread"
+    >
+    <label for="unread">Unread</label>
   </div>
 
   <div class="p-4" style="background-color: #e6e6e6;">
@@ -176,13 +202,84 @@
 
 <!-- Mid Section -->
 <div class="col-3 g-0" style="height: 100vh;"> 
-  <!-- Seacr Bar -->
+  <!-- Search Bar -->
   <div>
-    <input id="myInput" class="w-100 border-bottom m-1" type="text" placeholder="Search" style="height: 40px; border: none; outline: none;" onkeyup="buttonUp()">
+    <input id="myInput" class="w-100 border-bottom m-1" type="text" placeholder="Search" style="height: 40px; border: none; outline: none;">
   </div>
 
   <!-- Cards -->
-  <div style="height: 100vh; overflow: auto;" id="card-container">
-
+  <div class="card-container" style="height: 100vh; overflow: auto;" id="card-container">
+    <% if ( applicants != 0 ) { %>
+      <% for(let i = 0; i < applicants.length; i++) { %>
+        <a 
+          href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" 
+          style="text-decoration: none;"
+          class="applicants"
+          id="myCard"
+          data-id="<%= applicants[i].job_id %>"
+          data-category="
+          <% for ( let j = 0; j < applicantJob.length; j++) { %> 
+            <% if ( applicants[i].application_id == applicantJob[j].application_id) { %> 
+              <%= applicantJob[j].skill_name.replace(/\s/g, '') %> 
+            <% } %> 
+          <% } %>
+          <% for( let j = 0; j < jobOpening.length; j++ ) { %>
+            <% if (applicants[i].job_id == jobOpening[j].job_id) { %>
+              <% if (applicants[i].year_experience >= jobOpening[j].min_years_experience) { %>
+                minYears
+              <% } %>
+              <% if (applicants[i].expected_salary <= jobOpening[j].max_salary) { %>
+                expectedSalary
+              <% } %>
+            <% } %>
+          <% } %>
+          <% if (applicants[i].start_date == null) { %>
+            startNow
+          <% } %> 
+          status-<%= applicants[i].status %>"
+        >
+          <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <% if (applicants[i].photo != null) { %>
+                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start img" alt="Failed to load image" width="100">
+                <% } else { %>
+                  NO PHOTO  
+                <% } %>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
+                  <p class="card-text"> 
+                    <% for ( let j = 0; j < applicantJob.length; j++) { %>
+                      <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
+                        <%= applicantJob[j].skill_name %>   
+                      <% } %> 
+                    <% } %> 
+                  </p>
+                  <p class="card-text">
+                    <p>
+                    <%= applicants[i].year_experience  %>
+                    <% if (applicants[i].year_experience > 1) { %>
+                      years
+                    <% } else { %>
+                      year
+                    <% } %> experience
+                  </p>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <% } %>    
+    <% } else { %>
+      <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
+        <h1>
+          NO APPLICANTS
+        </h1>
+      </div>  
+    <% } %> 
+    <div class="no-results" style="display:none"><h1>no results found</h1></div>
   </div>
 </div>
