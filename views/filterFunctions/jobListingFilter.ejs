@@ -53,7 +53,7 @@
     $filterCheckboxes.on('change', showFiltered);
   
     // AJAX post on changing status
-    $(".statusForm").submit(function(e) {
+    $(".statusForm").change(function(e) {
         // Stop form from submitting normally
         e.preventDefault();
   
@@ -108,6 +108,7 @@
   //list and grid buttons
     $('#list').click(function (event) {
       event.preventDefault();
+      $('.all-jobs .item').removeClass('grid-group-item');
       $('.all-jobs .item').addClass('list-group-item');
     });
     $('#grid').click(function (event) {

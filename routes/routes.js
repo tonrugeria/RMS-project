@@ -55,7 +55,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 });
 
 // admin job listing post route
-router.post('/job/:job_id/status', async (req, res) => {
+router.post('/job/:job_id/status', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
