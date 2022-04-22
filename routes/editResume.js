@@ -3,12 +3,16 @@ const moment = require('moment');
 const fs = require('fs');
 const knex = require('../dbconnection');
 const upload = require('../middlewares/upload');
-const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
 router.get(
-  '/careers/job/:job_id/resume/application/:application_id', authRole([3, 1]),
+  '/careers/job/:job_id/resume/application/:application_id',
   async (req, res) => {
     const jobId = req.params.job_id;
     const appId = req.params.application_id;
@@ -169,7 +173,7 @@ router.post(
       course,
       date_graduated,
     } = req.body;
-    console.log("STARTDATE", start_date);
+    console.log('STARTDATE', start_date);
     const getStartDates = history_start_date.map((element) =>
       moment(element).format('L')
     );
