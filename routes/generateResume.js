@@ -87,12 +87,11 @@ router.get(
       },
       (err, data) => {
         if (err) {
-          console.log('here');
           res.send(err);
         } else {
           const options = {
             localUrlAccess: true,
-            base: "file:///" + __dirname.replace(/\\/g, "/") + "/",
+            base: `file:///${__dirname.replace(/\\/g, '/')}/`,
             height: '11.25in',
             width: '8.5in',
             header: {
@@ -104,34 +103,19 @@ router.get(
             border: {
               left: '10mm',
               right: '10mm',
-            }
+            },
           };
-          pdf.create(data, options).toFile(Date.now()+'Resume.pdf', (err, data) => {
+          pdf.create(data, options).toBuffer((err, buffer) => {
             if (err) {
               res.send(err);
             } else {
-              console.log('PDF CREATED');
-              res.redirect(`/application/job/${jobId}/applicant/${appId}`);
+              res.type('pdf');
+              res.end(buffer, 'binary');
             }
           });
         }
       }
     );
-//     res.render('generateResume', {
-//       currentUser,
-//       currentUserId,
-//       currentUserRole,
-//       applicantInfo,
-//       applicantSkill,
-//       applicantCapability,
-//       applicantHistory,
-//       applicantExam,
-//       applicantScore,
-//       getStartDates,
-//       getEndDates,
-//       age,
-//       total,
-//     });
   }
 );
 
