@@ -53,7 +53,7 @@
     $filterCheckboxes.on('change', showFiltered);
   
     // AJAX post on changing status
-    $(".statusForm").change(function(e) {
+    $(".container").on('change', 'form', function(e) {
         // Stop form from submitting normally
         e.preventDefault();
   
