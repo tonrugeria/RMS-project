@@ -130,13 +130,6 @@ router.get(
         job_id: jobId,
       });
 
-    // for ( let i = 0; i < expertise.length; i++) {
-    //   const {
-    //     skill_level
-    //   } = expertise[i]
-    //   console.log("SKILL_LEVEL", skill_level);
-    // }
-
     const expert = await knex('job_application.technical_score')
       .innerJoin(
         'job_application.applicant_details',
@@ -233,7 +226,7 @@ router.get(
       moment(element.history_end_date).format('MMMM YYYY')
     );
 
-    res.render('applicationDetails', {
+    res.send({
       jobId,
       appId,
       adminSkill,
@@ -275,11 +268,6 @@ router.get(
 router.post('/application/job/:job_id/applicant/:application_id', async (req, res) => {
   const jobId = req.params.job_id;
   const appId = req.params.application_id;
-  // const status = await knex('job_application.applicant_details')
-  //   .where({
-  //     job_id: jobId,
-  //     application_id: appId
-  //   })
   const { remark } = req.body;
   if (remark != null) {
     knex('job_application.applicant_details')
@@ -292,7 +280,7 @@ router.post('/application/job/:job_id/applicant/:application_id', async (req, re
       })
       .then((result) => result);
   }
-  res.redirect(`/application/job/${jobId}/applicant/${appId}`);
+  res.redirect(`/application`);
 });
 
 module.exports = router;
