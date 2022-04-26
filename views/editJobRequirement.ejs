@@ -34,7 +34,15 @@
         <label for="career level">CAREER LEVEL</label>
         <select name="careerLevel" id="career level" >
           <% for(let i = 0; i < positionLevel.length; i++) { %>
-            <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
+            <% if (positionLevel[i].position_level_name == job[0].position_level) { %> 
+              <option value="<%= positionLevel[i].position_level_name %>" selected>
+                <%= positionLevel[i].position_level_name %>
+              </option>
+            <% } else { %> 
+              <option value="<%= positionLevel[i].position_level_name %>">
+                <%= positionLevel[i].position_level_name %>
+              </option>
+            <% } %> 
           <% } %>
         </select>
       </div>
