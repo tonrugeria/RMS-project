@@ -77,13 +77,13 @@
           const d = new Date();
   
           if (status == 0) {
-            $(`#${cardId}-date`).html(`${d.getDate()-1} ${monthNames[d.getMonth()]} ${d.getFullYear()}`)
+            $(`#${cardId}-date`).html(`${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`)
           } else {
             $(`#${cardId}-date`).html('Not opened')
           }
   
           card.remove()
-          $('.container').append(card)
+          $('.container').prepend(card)
           showFiltered()
         })
         

@@ -52,6 +52,7 @@
   <!-- Cards -->
   <div class="container">
     <% for (let i=0; i < jobOpening.length; i++) { %>
+      <!-- adding dynamic class for each job -->
       <div id="job-<%= jobOpening[i].job_id %>"
       <% for (let j=0; j < admin_department.length; j++) { %> 
         <% if(jobOpening[i].job_dept == admin_department[j].dept_id) {%>
@@ -61,11 +62,10 @@
           data-category="dept-<%= admin_department[j].dept_id %> status-<%= jobOpening[i].status %>"
         <% } %> 
       <% } %> 
-      > 
+      >
         <div class="item col-xs-6 col-lg-4">
           <div class="row">
-              <!-- adding dynamic class for each job -->
-              <div class="card">
+            <div class="card">
               <!-- display date opened -->
               <% if (date[i].job_id == jobOpening[i].job_id) { %>
                 <% if (date[i].date != 'Invalid date') { %>
@@ -148,7 +148,6 @@
       </div>
     <% } %>
   </div>
-</div>
 
 <%- include('./filterFunctions/jobListingFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>
