@@ -27,7 +27,7 @@
         </div>
       </div>
       
-      <div class="col-sm-10 main">
+      <div class="col-sm-10 p-5 main">
         <% if(applicants == 0) {%>
           <div
           class="h-50 d-flex flex-column align-items-center justify-content-center"
@@ -45,103 +45,216 @@
                 <% } %>
             </div>
           
-            <h5>Your Personal Information</h5>
-            <div class="mb-4">
-              <% for( let i=0; i < applicants.length; i++) { %>
-                <div>
-                  <img src="/<%= applicants[i].photo %>" width="100"> 
-                </div>
-                <div>
-                  <img height="100" id="output">
-                </div>
-                <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)"></i>
-                <input type="hidden" name="old_image" value="<%= applicants[i].photo  %> ">
-                <label for="photo" style="border: 2px solid black" class="p-1"><i class="fa-solid">UPDATE IMAGE</i></label>
-                <p><strong>NAME</strong></p>
-                <input type="text" name="first_name" placeholder="First Name" value="<%= applicants[i].first_name %>">
-                <input type="text" name="middle_name" placeholder="Middle Name" value="<%= applicants[i].middle_name %>">
-                <input type="text" name="last_name" placeholder="Last Name" value="<%= applicants[i].last_name %>">
-  
-                <p><strong>GENDER</strong></p>
-                <select name="gender" id="contact">
-                  <% if(applicants[i].gender=="Male" ) { %>
-                    <option value="Male" selected>Male</option>
-                    <option value="Female">Female</option>
-                    <% } else { %>
-                      <option value="Male">Male</option>
-                      <option value="Female" selected>Female</option>
+            <% for( let i=0; i < applicants.length; i++) { %>
+              <div>
+                <img src="/<%= applicants[i].photo %>" width="100"> 
+              </div>
+              <div>
+                <img height="100" id="output">
+              </div>
+              <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)"></i>
+              <input type="hidden" name="old_image" value="<%= applicants[i].photo  %> ">
+              <label for="photo" class="border border-dark p-2">UPDATE IMAGE</label>
+              <h5>Your Personal Information</h5>
+              <div class="container-fluid mb-4">
+                <div class="row mb-2">
+                  <div class="d-flex">
+                    <p class="w-75 pe-1"><strong>NAME</strong></p>
+                    <p class="w-25 px-2"><strong>DATE OF BIRTH</strong></p>
+                    <p class="w-25 px-2"><strong>GENDER</strong></p>
+                  </div>
+                  <div class="col pe-1">
+                    <input 
+                      type="text" 
+                      name="first_name" 
+                      placeholder="First Name" 
+                      value="<%= applicants[i].first_name %>"
+                      class="w-100"
+                    >
+                  </div>
+                  <div class="col px-1">
+                    <input 
+                    type="text" 
+                    name="middle_name" 
+                    placeholder="Middle Name" 
+                    value="<%= applicants[i].middle_name %>"
+                    class="w-100"
+                  >
+                  </div>
+                  <div class="col px-1">
+                    <input 
+                    type="text" 
+                    name="last_name" 
+                    placeholder="Last Name" 
+                    value="<%= applicants[i].last_name %>"
+                    class="w-100"
+                  >
+                  </div>
+                  <div class="col px-1">
+                    <input 
+                      type="text" 
+                      name="date_of_birth" 
+                      placeholder="MM/DD/YYYY" 
+                      required value="<%= dob %>"
+                      class="w-100"
+                    >
+                  </div>
+                  <div class="col ps-1">
+                    <select name="gender" id="contact" class="w-100">
+                      <% if(applicants[i].gender=="Male" ) { %>
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                      <% } else { %>
+                        <option value="Male">Male</option>
+                        <option value="Female" selected>Female</option>
                       <% } %>
-                </select>
-  
-                <p><strong>DATE OF BIRTH</strong></p>
-                <input type="text" name="date_of_birth" placeholder="MM/DD/YYYY" required value="<%= dob %>">
-  
-                <p><strong>CONTACT</strong></p>
-                <input type="email" name="email" placeholder="Email Address" value="<%= applicants[i].email %>">
-                <input type="text" name="skype" placeholder="Skype ID" value="<%= applicants[i].skype %>" required>
-                <input type="text" name="mobile" placeholder="Mobile Number" value="<%= applicants[i].mobile %>" required>
-  
-                <p><strong>PREFERRED CONTACT</strong></p>
-                <select name="preferred_contact" id="contact">
-                  <% if(applicants[i].preferred_contact=="Email" ) { %>
-                    <option value="Email" selected>Email</option>
-                    <option value="Skype">Skype</option>
-                    <option value="Mobile">Mobile</option>
-                    <% } else if(applicants[i].preferred_contact=="Email" ) { %>
-                      <option value="Email">Email</option>
-                      <option value="Skype" selected>Skype</option>
-                      <option value="Mobile">Mobile</option>
-                      <% } else {%>
-                        <option value="Email">Email</option>
-                        <option value="Skype">Skype</option>
-                        <option value="Mobile" selected>Mobile</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row mb-2">
+                  <div class="d-flex">
+                    <div class="w-75">
+                      <p><strong>CONTACT</strong></p>
+                      <div class="d-flex">
+                        <div class="col pe-1">
+                          <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Email Address" 
+                            value="<%= applicants[i].email %>"
+                            class="w-100"
+                          >
+                        </div>
+                        <div class="col px-1">
+                          <input 
+                            type="text" 
+                            name="skype" 
+                            placeholder="Skype ID" 
+                            value="<%= applicants[i].skype %>" required
+                            class="w-100"
+                          >
+                        </div>
+                        <div class="col px-1">
+                          <input 
+                            type="text" 
+                            name="mobile" 
+                            placeholder="Mobile Number" 
+                            value="<%= applicants[i].mobile %>" 
+                            required
+                            class="w-100"
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-25">
+                      <p><strong>PREFERRED CONTACT</strong></p>
+                      <div class="col">
+                        <select name="preferred_contact" id="contact" class="w-100">
+                          <% if(applicants[i].preferred_contact=="Email" ) { %>
+                            <option value="Email" selected>Email</option>
+                            <option value="Skype">Skype</option>
+                            <option value="Mobile">Mobile</option>
+                          <% } else if(applicants[i].preferred_contact=="Email" ) { %>
+                            <option value="Email">Email</option>
+                            <option value="Skype" selected>Skype</option>
+                            <option value="Mobile">Mobile</option>
+                          <% } else {%>
+                            <option value="Email">Email</option>
+                            <option value="Skype">Skype</option>
+                            <option value="Mobile" selected>Mobile</option>
+                          <% } %>
+                        </select>  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-2">
+                  <p><strong>ADDRESS</strong></p>
+                  <div class="col-6 pe-1">
+                    <input 
+                      type="text" 
+                      name="address" 
+                      placeholder="Address" 
+                      value="<%= applicants[i].address %>"
+                      class="w-100"
+                    >
+                  </div>
+                  <div class="col-3 px-1">
+                    <input 
+                      type="text" 
+                      name="city" 
+                      placeholder="City" 
+                      value="<%= applicants[i].city %>"
+                      class="w-100"
+                    >
+                  </div>
+                  <div class="col-3 px-1">
+                    <input 
+                      type="text" 
+                      name="province" 
+                      placeholder="Province" 
+                      value="<%= applicants[i].province %>"
+                      class="w-100"
+                    >
+                  </div>
+
+                  <div class="d-flex row">
+                    <div class="col-2 pe-1">
+                      <p><strong>EXPECTED SALARY</strong></p>
+                      <input 
+                        type="number" 
+                        name="expected_salary" 
+                        value="<%= applicants[i].expected_salary %>" 
+                        required
+                        class="w-100"
+                      >
+                    </div>
+                    <div class="col-4 p-0 pe-2">
+                      <strong>PREFERRED START DATE (SKIP TO START IMMEDIATELY)</strong>
+                      <input 
+                        type="text" 
+                        name="start_date" 
+                        placeholder="MM / DD / YYYY"
+                        <% if (startDate != 'Invalid date') { %>
+                          value="<%= startDate %>"  
                         <% } %>
-                </select>
-  
-                <p><strong>ADDRESS</strong></p>
-                <input type="text" name="address" placeholder="Address" value="<%= applicants[i].address %>">
-                <input type="text" name="city" placeholder="City" value="<%= applicants[i].city %>">
-                <input type="text" name="province" placeholder="Province" value="<%= applicants[i].province %>">
-  
-                <p><strong>EXPECTED SALARY</strong></p>
-                <input type="number" name="expected_salary" value="<%= applicants[i].expected_salary %>" required>
-  
-                <p><strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong></p>
-                <input 
-                  type="text" 
-                  name="start_date" 
-                  placeholder="MM / DD / YYYY"
-                  <% if (startDate != 'Invalid date') { %>
-                    value="<%= startDate %>"  
-                  <% } %>
-                  required
-                >
-  
-                <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-                <input type="text" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required>
-                <input type="text" name="preferred_interview_date_2" value="<%= preferredDate2 %>" required>
-                <input type="text" name="preferred_interview_date_3" value="<%= preferredDate3 %>" required>
-                <% } %>
-            </div>
+                        required
+                        class="w-100"
+                      >
+                    </div>
+                    <div class="col-6">
+                      <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+                      <div class="row">
+                        <input type="text" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required class="col">
+                        <input type="text" name="preferred_interview_date_2" value="<%= preferredDate2 %>" required class="col">
+                        <input type="text" name="preferred_interview_date_3" value="<%= preferredDate3 %>" required class="col">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
   
             <div>
               <h5>Your Qualification</h5>
-              <p>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</p>
-              <div class="">
+              <strong>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</strong>
+              <div class="container">
                 <div class="row">
                   <% if(admin.length != 0) { %>
                   <% for( let i=0; i < admin.length; i++) { %>
-                    <div class="col-3 mb-1">
+                    <div class="col-4 mb-1">
                       <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
                       <label style="width: 90px">
                         <%= admin[i].skill_name %>
                       </label>
-                      <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 70px" <% for( let j=0; j < rating.length; j++) { %>
+                      <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 70px; text-align: center;" <% for( let j=0; j < rating.length; j++) { %>
                         <% if(rating[j].skill_id==admin[i].skill_id) { %>
                             value="<%= rating[j].skill_years %>"
                         <% } %>
                       <% } %>>
-                      <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 60px" <% for(let j=0; j < rating.length; j++) { %>
+                      <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 60px; text-align: center;" <% for(let j=0; j < rating.length; j++) { %>
                         <% if(rating[j].skill_id==admin[i].skill_id) { %>
                           value="<%= rating[j].skill_self_rating %>"
                         <% } %>
@@ -153,150 +266,219 @@
                     <% } %>
                 </div>
               </div>
-  
             </div>
             <div>
-              <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS
-                  SUCCESS</strong></p>
-                <div>
-                  <input type="text" name="capability_1" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
-                    value="<%= capabilities[0].capability_1 %>"
+              <p><strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong></p>
+                <div class="form-floating col-12 mb-2">
+                  <input 
+                    type="text" 
+                    name="capability_1" 
+                    placeholder="Enter your story" 
+                    <% if(capabilities.length != 0) { %>
+                      value="<%= capabilities[0].capability_1 %>"
                     <% } %>
-                    >
+                    class="form-control w-100"
+                  >
+                  <label for="floatingInput">Enter your story</label>
                 </div>
-                <div>
-                  <input type="text" name="capability_2" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
-                    value="<%= capabilities[0].capability_2 %>"
+                <div class="form-floating col-12 mb-2">
+                  <input 
+                    type="text" 
+                    name="capability_2" 
+                    placeholder="Enter your story" 
+                    <% if(capabilities.length != 0) { %>
+                      value="<%= capabilities[0].capability_2 %>"
                     <% } %>
-                    >
+                    class="form-control w-100"
+                  >
+                  <label for="floatingInput">Enter your story</label>
                 </div>
-                <div>
-                  <input type="text" name="capability_3" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
-                    value="<%= capabilities[0].capability_3 %>"
+                <div class="form-floating col-12 mb-2">
+                  <input 
+                    type="text" 
+                    name="capability_3" 
+                    placeholder="Enter your story" 
+                    <% if(capabilities.length != 0) { %>
+                      value="<%= capabilities[0].capability_3 %>"
                     <% } %>
-                    >
+                    class="form-control w-100"
+                  >
+                  <label for="floatingInput">Enter your story</label>
                 </div>
-                <div>
-                  <input type="text" name="capability_4" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
-                    value="<%= capabilities[0].capability_4 %>"
+                <div class="form-floating col-12 mb-2">
+                  <input 
+                    type="text" 
+                    name="capability_4" 
+                    placeholder="Enter your story" 
+                    <% if(capabilities.length != 0) { %>
+                      value="<%= capabilities[0].capability_4 %>"
                     <% } %>
-                    >
+                    class="form-control w-100"
+                  >
+                  <label for="floatingInput">Enter your story</label>
                 </div>
-                <div>
-                  <input type="text" name="capability_5" placeholder="Enter your story" <% if(capabilities.length != 0) { %>
-                    value="<%= capabilities[0].capability_5 %>"
+                <div class="form-floating col-12 mb-2">
+                  <input 
+                    type="text" 
+                    name="capability_5" 
+                    placeholder="Enter your story" 
+                    <% if(capabilities.length != 0) { %>
+                      value="<%= capabilities[0].capability_5 %>"
                     <% } %>
-                    >
+                    class="form-control w-100"
+                  >
+                  <label for="floatingInput">Enter your story</label>
                 </div>
             </div>
   
-            <div class="">
-              <p><strong>Employment History</strong></p>
-                  <div class="d-flex">
-                    <div class="">
-                      <p><strong>FROM</strong></p>
-                      <input type="text" name="history_start_date" placeholder="MM / DD / YY" <% if(history != 0 && historyStartDates[0] != 'Invalid date') { %>
-                        value="<%= historyStartDates[0] %>"
-                      <% } %>
-                      >
-                    </div>
-                    <div class="">
-                      <p><strong>TO</strong></p>
-                      <input type="text" name="history_end_date" placeholder="MM / DD / YY" <% if(history != 0 && historyEndDates[0] != 'Invalid date') { %>
-                        value="<%= historyEndDates[0] %>"
-                      <% } %>
-                      >
-                    </div>
-                    <div class="">
-                      <p><strong>POSITION</strong></p>
-                    <input type="text" name="position" placeholder="Enter Position" 
-                    <% if(history != 0) { %>
-                      value="<%= history[0].position %>"
-                    <% } %>
-                      >  
-                    </div>
-                    <div class="">
-                      <p><strong>COMPANY</strong></p>
-                      <input type="text" name="company" placeholder="Enter Company Name"
-                      <% if(history != 0) { %>
-                        value="<%= history[0].company %>"
-                      <% } %>
-                      >
-                    </div>
-                  </div>
-                  <% for (let i = 1; i < history.length; i++) { %>
-                    <div class="d-flex">
-                      <div class="">
-                        <input type="text" name="history_start_date" placeholder="MM / DD / YY" <% if(history != 0 && historyStartDates[i] != 'Invalid date') { %>
+            <p><strong>Employment History</strong></p>
+            <div class="d-flex mb-2">
+              <div class="me-1 w-25">
+                <p><strong>FROM</strong></p>
+                <input 
+                  type="text" 
+                  name="history_start_date" 
+                  placeholder="MM / DD / YY" 
+                  <% if(history != 0 && historyStartDates[0] != 'Invalid date') { %>
+                    value="<%= historyStartDates[0] %>"
+                  <% } %>
+                  class="w-100"
+                >
+              </div>
+              <div class="me-1 w-25">
+                <p><strong>TO</strong></p>
+                <input 
+                  type="text" 
+                  name="history_end_date" 
+                  placeholder="MM / DD / YY" 
+                  <% if(history != 0 && historyEndDates[0] != 'Invalid date') { %>
+                    value="<%= historyEndDates[0] %>"
+                  <% } %>
+                  class="w-100"
+                >
+              </div>
+              <div class="me-1 w-75">
+                <p><strong>POSITION</strong></p>
+                <input 
+                  type="text" 
+                  name="position" 
+                  placeholder="Enter Position" 
+                  <% if(history != 0) { %>
+                    value="<%= history[0].position %>"
+                  <% } %>
+                  class="w-100"
+                >  
+              </div>
+              <div class="me-1 w-75">
+                <p><strong>COMPANY</strong></p>
+                <input 
+                  type="text" 
+                  name="company" 
+                  placeholder="Enter Company Name"
+                  <% if(history != 0) { %>
+                    value="<%= history[0].company %>"
+                  <% } %>
+                  class="w-100"
+                >
+              </div>
+            </div>
+                <% for (let i = 1; i < history.length; i++) { %>
+                  <div class="d-flex mb-2">
+                    <div class="me-1 w-25">
+                      <input 
+                        type="text" 
+                        name="history_start_date" 
+                        placeholder="MM / DD / YY" 
+                        <% if(history != 0 && historyStartDates[i] != 'Invalid date') { %>
                           value="<%= historyStartDates[i] %>"
                         <% } %>
-                        >
-                      </div>
-                      <div class="">
-                        <input type="text" name="history_end_date" placeholder="MM / DD / YY" <% if(history != 0 && historyEndDates[i] != 'Invalid date') { %>
+                        class="w-100"
+                      >
+                    </div>
+                    <div class="me-1 w-25">
+                      <input 
+                        type="text" 
+                        name="history_end_date" 
+                        placeholder="MM / DD / YY" 
+                        <% if(history != 0 && historyEndDates[i] != 'Invalid date') { %>
                           value="<%= historyEndDates[i] %>"
                         <% } %>
-                        >
-                      </div>
-                      <div class="">
-                      <input type="text" name="position" placeholder="Enter Position" 
-                      <% if(history != 0) { %>
-                        value="<%= history[i].position %>"
-                      <% } %>
-                        >  
-                      </div>
-                      <div class="">
-                        <input type="text" name="company" placeholder="Enter Company Name"
+                        class="w-100"
+                      >
+                    </div>
+                    <div class="me-1 w-75">
+                      <input 
+                        type="text" 
+                        name="position" 
+                        placeholder="Enter Position" 
+                        <% if(history != 0) { %>
+                          value="<%= history[i].position %>"
+                        <% } %>
+                        class="w-100"
+                      >  
+                    </div>
+                    <div class="me-1 w-75">
+                      <input 
+                        type="text" 
+                        name="company" 
+                        placeholder="Enter Company Name"
                         <% if(history != 0) { %>
                           value="<%= history[i].company %>"
                         <% } %>
-                        >
-                      </div>
+                        class="w-100"
+                      >
                     </div>
-                  <% } %> 
-                    
-                  <div>
-                    <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
-                    <input type="text" name="year_experience" placeholder="0 Years" value="<%= applicants[0].year_experience %>" readonly>
                   </div>
-            </div>
+                <% } %> 
+                  
+                <div>
+                  <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
+                  <input type="text" name="year_experience" placeholder="0 Years" value="<%= applicants[0].year_experience %>" readonly>
+                </div>
   
             <p><strong>Education and Training</strong></p>
-          <div class="d-flex mb-2">
-            <div class="me-1">
-              <p><strong>School</strong></p>
-              <input
-                type="text"
-                name="school"
-                placeholder="Enter School" 
-                <% if(education != 0) { %>
-                  value="<%= education[0].school %>"
-                <% } %>
-              />
+            <div class="d-flex mb-2">
+              <div class="me-1 w-75">
+                <p><strong>School</strong></p>
+                <input
+                  type="text"
+                  name="school"
+                  placeholder="Enter School" 
+                  <% if(education != 0) { %>
+                    value="<%= education[0].school %>"
+                  <% } %>
+                  class="w-100"
+                />
+              </div>
+              <div class="me-1 w-50">
+                <p><strong>Course</strong></p>
+                <input 
+                  type="text" 
+                  name="course" 
+                  placeholder="Enter Course" 
+                  <% if(education != 0) { %>
+                    value="<%= education[0].course %>"
+                  <% } %> 
+                  class="w-100"
+                />
+              </div>
+              <div class="me-1 w-25">
+                <p><strong>Date Graduated</strong></p>
+                <input
+                  type="text"
+                  name="date_graduated"
+                  placeholder="MM/DD/YYYY"
+                  <% if(education != 0 && gradDates[0] != 'Invalid date') { %>
+                    value="<%= gradDates[0] %>"
+                  <% } %>
+                  class="w-100"
+                />
+              </div>
             </div>
-            <div class="me-1">
-              <p><strong>Course</strong></p>
-              <input type="text" name="course" placeholder="Enter Course" 
-              <% if(education != 0) { %>
-                  value="<%= education[0].course %>"
-                <% } %> />
-            </div>
-            <div class="me-1">
-              <p><strong>Date Graduated</strong></p>
-              <input
-                type="text"
-                name="date_graduated"
-                placeholder="MM/DD/YYYY"
-                <% if(education != 0 && gradDates[0] != 'Invalid date') { %>
-                        value="<%= gradDates[0] %>"
-                      <% } %>
-              />
-            </div>
-          </div>
   
           <% for ( let i = 1; i < education.length; i++) { %>
             <div class="d-flex mb-2">
-              <div class="me-1">
+              <div class="me-1 w-75">
                 <input
                   type="text"
                   name="school"
@@ -304,22 +486,26 @@
                   <% if(education != 0) { %>
                     value="<%= education[i].school %>"
                   <% } %>
+                  class="w-100"
                 />
               </div>
-              <div class="me-1">
+              <div class="me-1 w-50">
                 <input type="text" name="course" placeholder="Enter Course" 
                 <% if(education != 0) { %>
                     value="<%= education[i].course %>"
-                  <% } %> />
+                  <% } %> 
+                  class="w-100"
+                />
               </div>
-              <div class="me-1">
+              <div class="me-1 w-25">
                 <input
                   type="text"
                   name="date_graduated"
                   placeholder="MM/DD/YYYY"
                   <% if(education != 0 && gradDates[i] != 'Invalid date') { %>
-                          value="<%= gradDates[i] %>"
-                        <% } %>
+                    value="<%= gradDates[i] %>"
+                  <% } %>
+                  class="w-100"
                 />
               </div>
             </div>
