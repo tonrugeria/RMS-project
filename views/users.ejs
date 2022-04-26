@@ -39,7 +39,10 @@ input{
       <% for (let  i = 0; i < users.length; i++) { %>
         <% if (currentUser[0].role_id != 3 && users[i].role_id != 3) { %>
           <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
-            <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
+            <tr 
+              onkeyup="addUpdateBtn('<%= users[i].user_id %>')" 
+              onchange="addUpdateBtn('<%= users[i].user_id %>')"
+            >
               <th>
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
@@ -120,12 +123,15 @@ input{
           </form>
         <% } else if(currentUser[0].role_id == 3) { %>
           <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
-            <tr onchange="addUpdateBtn('<%= users[i].user_id %>')">
+            <tr 
+              onkeyup="addUpdateBtn('<%= users[i].user_id %>')"
+              onchange="addUpdateBtn('<%= users[i].user_id %>')"
+            >
               <th>
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
                   <label for="photo_<%= i+1 %>">
-                    <img src="<%= users[i].photo %>"  
+                    <img src="/<%= users[i].photo %>"  
                       width="36" 
                       height="36" 
                       class="img-thumbnail" 
