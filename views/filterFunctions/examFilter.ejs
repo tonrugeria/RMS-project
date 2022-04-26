@@ -1,3 +1,9 @@
+<style>
+  .active{
+    background-color: grey; 
+    color: white;
+  }
+</style>
 <script>
     function showAllFunction() {
       const allSkills = document.querySelectorAll('.all-btn');
@@ -8,6 +14,7 @@
 
     function toggleShowHide(skill_name) {
       const allSkills = document.querySelectorAll('.skill');
+      skill_name = skill_name.replace(/\s/g, '');
       const target = document.querySelectorAll(`.${skill_name}-btn`);
       allSkills.forEach((element) => {
         element.classList.add('d-none');
@@ -23,4 +30,25 @@
         checkbox.checked = source.checked;
       }
     }
+
+    // buttons changing style onclick
+    $('.button-container button').click(function(){
+      $('.button-container button').removeClass('active');
+      $(this).addClass('active')
+    })
+
+    // ajax post
+    $('.job-exam-form, #questionCheckbox').on('change', function(){
+      const $form = $('.job-exam-form'),
+        url = $form.attr('action'),
+        jobId = url.split('/').pop();
+
+      const checked = [];
+
+      $("input[name='question_id']:checked").each(function (){
+        checked.push(parseInt($(this).val()));
+      });
+
+      $.post( url, { job_id: jobId, question_id: checked})
+    })
   </script>
