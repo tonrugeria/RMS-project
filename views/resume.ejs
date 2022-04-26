@@ -35,7 +35,7 @@
           <img height="100" id="output">
         </div>
         <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
-        <label for="photo"><i class="fa-solid fa-plus" >ADD IMAGE</i></label>
+        <label for="photo" class="border border-dark p-2"><strong>ADD IMAGE</strong></label>
         <h5>Your Personal Information</h5>
         <div class="container-fluid mb-4">
           <div class="row mb-2">
@@ -90,43 +90,49 @@
 
           <div class="row mb-2">
             <div class="d-flex">
-              <p class="w-100"><strong>CONTACT</strong></p>
-              <p class="w-100 ps-2"><strong>PREFERRED CONTACT</strong></p>
-            </div>
-            <div class="col pe-1">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                class="w-100"
-                required
-              />
-            </div>
-            <div class="col px-1">
-              <input
-                type="text"
-                name="skype"
-                placeholder="Skype ID"
-                required
-                class="w-100"
-              />
-            </div>
-            <div class="col px-1">
-              <input
-                type="text"
-                name="mobile"
-                placeholder="Mobile Number"
-                required
-                class="w-100"
-              />
-            </div>
-            <div class="col px-1">
-              <select name="preferred_contact" id="contact" class="w-100">
-                <option hidden value="">Select</option>
-                <option value="Email">Email</option>
-                <option value="Skype">Skype</option>
-                <option value="Mobile">Mobile</option>
-              </select>
+              <div class="w-75">
+                <strong>CONTACT</strong>
+                <div class="d-flex">
+                  <div class="col pe-1">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      class="w-100"
+                      required
+                    />
+                  </div>
+                  <div class="col px-1">
+                    <input
+                      type="text"
+                      name="skype"
+                      placeholder="Skype ID"
+                      required
+                      class="w-100"
+                    />
+                  </div>
+                  <div class="col px-1">
+                    <input
+                      type="text"
+                      name="mobile"
+                      placeholder="Mobile Number"
+                      required
+                      class="w-100"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="w-25">
+                <strong>PREFERRED CONTACT</strong>
+                <div class="col">
+                  <select name="preferred_contact" id="contact" class="w-100">
+                    <option hidden value="">Select</option>
+                    <option value="Email">Email</option>
+                    <option value="Skype">Skype</option>
+                    <option value="Mobile">Mobile</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -154,44 +160,57 @@
               />
             </div>
           </div>
-
-          <p><strong>EXPECTED SALARY</strong></p>
-          <input type="number" name="expected_salary" required />
-          <p>
-            <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
-          </p>
-          <input
-            type="text"
-            name="start_date"
-            placeholder="MM/DD/YY"
-            
-          />
-          <p><strong>PREFERRED INTERVIEW DATE</strong></p>
-          <input
-            type="text"
-            name="preferred_interview_date_1"
-            placeholder="MM/DD/YY"
-            required
-          />
-          <input
-            type="text"
-            name="preferred_interview_date_2"
-            placeholder="MM/DD/YY"
-            required
-          />
-          <input
-            type="text"
-            name="preferred_interview_date_3"
-            placeholder="MM/DD/YY"
-            required
-          />
+          
+          <div class="d-flex row">
+            <div class="col-2 pe-1">
+              <p><strong>EXPECTED SALARY</strong></p>
+              <input type="number" name="expected_salary" class="w-100" required />
+            </div>
+            <div class="col-4 p-0 pe-2">
+              <p>
+                <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
+              </p>
+              <input
+                type="text"
+                name="start_date"
+                placeholder="MM/DD/YY"
+                class="w-100"
+              />
+            </div>
+            <div class="col-6">
+              <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+              <div class="row">
+                <input
+                  type="text"
+                  name="preferred_interview_date_1"
+                  placeholder="MM/DD/YY"
+                  required
+                  class="col"
+                />
+                <input
+                  type="text"
+                  name="preferred_interview_date_2"
+                  placeholder="MM/DD/YY"
+                  required
+                  class="col"
+                />
+                <input
+                  type="text"
+                  name="preferred_interview_date_3"
+                  placeholder="MM/DD/YY"
+                  required
+                  class="col"
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <h5>Your Qualification</h5>
-          <p>
+          <strong>
             RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING
             PROGRAMMING LANGUAGES AND FRAMEWORKS
-          </p>
+          </strong>
           <div class="container">
             <div class="row">
               <% for( let i =0; i < skill.length; i++) { %>
@@ -200,14 +219,14 @@
                   type="number"
                   name="skill_id"
                   value="<%= skill[i].skill_id %>"
-                  style="width: 40px"
+                  style="width: 40px;"
                 />
-                <label style="width: 90px"><%= skill[i].skill_name %> </label>
+                <label style="width: 90px;"><%= skill[i].skill_name %> </label>
                 <input
                   type="number"
                   name="skill_years"
                   placeholder="Years"
-                  style="width: 70px"
+                  style="width: 70px; text-align: center;"
                   min="0"
                 />
                 <input
@@ -361,30 +380,30 @@
 
         <p><strong>Education and Training</strong></p>
         <div class="d-flex mb-2">
-          <div class="me-1">
+          <div class="me-1 w-75">
             <p><strong>School</strong></p>
-            <input type="text" name="school" placeholder="Enter School" />
+            <input type="text" name="school" placeholder="Enter School" class="w-100" />
           </div>
-          <div class="me-1">
+          <div class="me-1 w-50">
             <p><strong>Course</strong></p>
-            <input type="text" name="course" placeholder="Enter Course" />
+            <input type="text" name="course" placeholder="Enter Course" class="w-100" />
           </div>
-          <div class="me-1">
+          <div class="me-1 w-25">
             <p><strong>Date Graduated</strong></p>
-            <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" />
+            <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
           </div>
         </div>
         
         <% for (let i = 0; i < 4; i++) { %>
           <div class="d-flex mb-2">
-            <div class="me-1">
-              <input type="text" name="school" placeholder="Enter School" />
+            <div class="me-1 w-75">
+              <input type="text" name="school" placeholder="Enter School" class="w-100" />
             </div>
-            <div class="me-1">
-              <input type="text" name="course" placeholder="Enter Course" />
+            <div class="me-1 w-50">
+              <input type="text" name="course" placeholder="Enter Course" class="w-100" />
             </div>
-            <div class="me-1">
-              <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" />
+            <div class="me-1 w-25">
+              <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
             </div>
           </div>
         <% } %> 
