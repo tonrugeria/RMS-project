@@ -22,8 +22,14 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   const skill = await knex('admin.skill')
     .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
     .where('job_id', jobId);
-
+  const {
+    status
+  } = jobs[0]
+  if (status == 0) {
   res.render('resume', { jobId, jobs, skill, unique });
+  } else {
+    res.redirect('/careers');
+  }
 });
 
 router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
