@@ -261,7 +261,6 @@ router.get(
       expert,
       jobApplicants,
     });
-    // res.redirect(`/application/job/${jobId}/applicant/${appId}`)
   }
 );
 

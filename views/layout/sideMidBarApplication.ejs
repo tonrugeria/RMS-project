@@ -248,6 +248,37 @@
             startNow
           <% } %>
           status-<%= applicants[i].status %>"
+
+          updated="
+            <% for ( let j = 0; j < applicantJob.length; j++) { %> 
+              <% if ( applicants[i].application_id == applicantJob[j].application_id) { %> 
+                <%= applicantJob[j].skill_name.replace(/\s/g, '') %> 
+              <% } %> 
+            <% } %>
+            <% for( let j = 0; j < jobApplicants.length; j++ ) { %>
+              <% if (applicants[i].application_id == jobApplicants[j].application_id) { %>
+                <% if (jobApplicants[j].skill_level >= 75) { %>
+                  expert
+                <% } else if (jobApplicants[j].skill_level >= 50) { %>
+                  intermediate
+                <% } else if (jobApplicants[j].skill_level > 0) { %>
+                  beginner
+                <% } %>
+              <% } %>
+            <% } %>
+            <% for( let j = 0; j < jobOpening.length; j++ ) { %>
+              <% if (applicants[i].job_id == jobOpening[j].job_id) { %>
+                <% if (applicants[i].year_experience >= jobOpening[j].min_years_experience) { %>
+                  minYears
+                <% } %>
+                <% if (applicants[i].expected_salary <= jobOpening[j].max_salary) { %>
+                  expectedSalary
+                <% } %>
+              <% } %>
+            <% } %>
+            <% if (applicants[i].start_date == null) { %>
+              startNow
+            <% } %>"
         >
           <div class="card mb-1 p-3 mid-cards" style="background-color: #666666; color: white;">
             <div class="row g-0">

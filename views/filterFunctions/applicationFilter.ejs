@@ -106,35 +106,42 @@
     // AJAX post on changing status
     $("#app-details-container").on('change', 'form', function(e) {
       e.preventDefault()
+
       // Get some values from elements on the page:
       const $form = $(this),
-        remark = $form.find(`select`).val(),
+        remark = $form.find("select").val(),
         url = $form.attr( "action" );
 
       // Send the data using post
       $.post( url, { remark: remark })
-      .done(()=>{
-        $('.applicants').each(function(){
-          if($(this).attr('href') == url){
-            const wow = document.URL;
-          }
+        .done(()=>{
+          $('.applicants').each(function(){
+            if($(this).attr('href') == url){
+              const $card = $(this),
+                updatedCat = $card.attr('updated');
+
+              $card.attr('data-category', `${updatedCat} status-${remark}`)
+              $card.remove()
+              $('.card-container').prepend($card)
+              checkboxFilter()
+            }
+          })
         })
-      })
 
     });
 
     // ajax get applicant details
-    $('.applicants').click(function(e){
+    $('.card-container').on('click', '.applicants', function(e){
       e.preventDefault()
 
       const $card = $(this),
-       url = $card.attr('href');
+        url = $card.attr('href');
 
-       $('.mid-cards').css('background-color', '#666666');
-       $('.mid-cards').css('color', 'white');
-       $('.mid-cards').css('border', 'none');
-       $card.children().first().css('background-color', 'white');
-       $card.children().first().css('color', 'black')
+      $('.mid-cards').css('background-color', '#666666');
+      $('.mid-cards').css('color', 'white');
+      $('.mid-cards').css('border', 'none');
+      $card.children().first().css('background-color', 'white');
+      $card.children().first().css('color', 'black')
 
       $.get(url, function(data, status){
         const detailContainer = $('#app-details-container');
