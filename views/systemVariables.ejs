@@ -76,7 +76,7 @@
 
     <div class="d-flex">
       <h5 class="pt-4">Skills</h5>
-      <div class="pt-3">
+      <div class="pt-3 skill-buttons">
         <% for(let i = 0; i < department.length; i++) { %>
           <button onclick="showDept('<%= department[i].dept_id %>')"
             id="dept-<%= department[i].dept_id %>"
@@ -222,6 +222,12 @@
     </div>
   </div>
 </div>
+<style>
+  .active{
+    background-color: grey; 
+    color: white;
+  }
+</style>
 <script>
   function addUpdateBtn(dept_id, dept) {
     const allUpdateBtn = document.querySelectorAll('.update-btn');
@@ -265,9 +271,14 @@
   };
 
   $(function() {
-    $('.dept-btn-1').focus();
     $('.dept-btn-1').click();
-});
+  });
+
+  // cards changing style onclick
+  $('.skill-buttons button').click(function(){
+    $('.skill-buttons button').removeClass('active');
+    $(this).addClass('active')
+  })
 </script>
 
 <%- include('./layout/footer.ejs') %>
