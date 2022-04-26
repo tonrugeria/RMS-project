@@ -1,127 +1,96 @@
 <%- include('./layout/header2.ejs') %>
 
-  <div class="content-title text-left">
+<div class="container">
+  <div class="row">
+    <div class="content-title text-left  col-9">
     
-    <% for( let i = 0; i < jobOpening.length; i++){ %> 
-      <div
-        <% for (let j=0; j < admin_department.length; j++) { %> 
-          <% if(jobOpening[i].job_dept == admin_department[j].dept_name) {%>
-            <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
-            class="all-jobs <%= noSpaceDept %>"
+      <% for( let i = 0; i < jobOpening.length; i++){ %> 
+        <div
+          <% for (let j=0; j < admin_department.length; j++) { %> 
+            <% if(jobOpening[i].job_dept == admin_department[j].dept_name) {%>
+              <% let noSpaceDept =  admin_department[j].dept_name.replace(/\s/g, ''); %> 
+              class="all-jobs <%= noSpaceDept %>"
+            <% } %> 
+          <% } %> 
+        >
+        <!-- date -->
+        <div class="pb-4">
+        <% for( let i = 0; i < jobOpening.length; i++){ %> 
+        <span>Date Posted:<%= date %></span>   
+        </div>
+        <% } %>
+       <!-- job title -->
+        <div class="job-title">
+          <h2><%= jobOpening[i].job_title %> </h2>
+        </div>
+      <!-- job skill -->
+        <div class="d-flex">
+          <% for (let j=0; j < jobSkill.length; j++) { %>
+              <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
+                <div class="skill-item">
+                  <%= jobSkill[j].skill_name %>
+                </div>
+              <% } %>
+          <% } %>
+        </div>
+  
+        <!-- job role -->
+        <div class="pb-4">
+          <% for (let j=0; j < jobDetail.length; j++) { %>
+            <p> <%= jobDetail[j].role %>  </p>
+          <% } %>
+        </div>
+        <!-- job description -->
+      <div class="pb-4">
+        <h3>Job Description</h3>
+        <p><%= jobOpening[i].job_description %> </p>
+      </div>
+    <%} %>
+      <!-- job responsibilities -->
+      <div class="pb-4">
+        <h3>Responsibilities</h3>
+        <% for(let i = 0; i < responsibility.length; i++ ){ %>
+          <li><%= responsibility[i].responsibility_detail %> </li>
+        <% } %> 
+      </div>
+      <!-- qualification-->
+      <div class="pb-4">
+        <h3>Qualification</h3>
+        <% for(let i = 0; i < qualification.length; i++ ){ %>
+          <li><%= qualification[i].qualification_detail %> </li>
+        <% } %> 
+      </div>
+  <!-- categories-->
+      <% for(let i = 0; i < category.length; i++ ){ %>
+      <div class="pb-4">
+        <h3><%= category[i].category_detail %> </h3>
+        <% for(let j = 0; j < item.length; j++ ){ %>
+          <%  if (category[i].category_id == item[j].category_id){  %> 
+              <li> <%= item [j].item_detail %> </li>
           <% } %> 
         <% } %> 
-      >
-      <!-- date -->
-      <div class="pb-4">
-      <% for( let i = 0; i < jobOpening.length; i++){ %> 
-      <span>Date Posted:<%= date %></span>   
       </div>
-      <% } %>
-     <!-- job title -->
-      <div class="job-title">
-        <h2><%= jobOpening[i].job_title %> </h2>
-      </div>
-    <!-- job skill -->
-      <div class="d-flex">
-        <% for (let j=0; j < jobSkill.length; j++) { %>
-            <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-              <div class="skill-item">
-                <%= jobSkill[j].skill_name %>
-              </div>
-            <% } %>
-        <% } %>
-      </div>
-
-      <!-- job role -->
-      <div class="pb-4">
-        <% for (let j=0; j < jobDetail.length; j++) { %>
-          <p> <%= jobDetail[j].role %>  </p>
-        <% } %>
-      </div>
-      <!-- job description -->
-    <div class="pb-4">
-      <h3>Job Description</h3>
-      <p><%= jobOpening[i].job_description %> </p>
-    </div>
-  <%} %>
-    <!-- job responsibilities -->
-    <div class="pb-4">
-      <h3>Responsibilities</h3>
-      <% for(let i = 0; i < responsibility.length; i++ ){ %>
-        <li><%= responsibility[i].responsibility_detail %> </li>
       <% } %> 
+  
+    <div class="button-wrapper">
+      <a href="/careers/job/<%= jobId %>/resume"><button class="btns">Apply Now</button></a>
     </div>
-    <!-- qualification-->
-    <div class="pb-4">
-      <h3>Qualification</h3>
-      <% for(let i = 0; i < qualification.length; i++ ){ %>
-        <li><%= qualification[i].qualification_detail %> </li>
-      <% } %> 
-    </div>
-<!-- categories-->
-    <% for(let i = 0; i < category.length; i++ ){ %>
-    <div class="pb-4">
-      <h3><%= category[i].category_detail %> </h3>
-      <% for(let j = 0; j < item.length; j++ ){ %>
-        <%  if (category[i].category_id == item[j].category_id){  %> 
-            <li> <%= item [j].item_detail %> </li>
-        <% } %> 
-      <% } %> 
-    </div>
-    <% } %> 
-
-  <div class="button-wrapper">
-    <a href="/careers/job/<%= jobId %>/resume"><button class="btns">Apply Now</button></a>
+  </div>
+  </div>
+  
+  <!-- active jobs tags -->
+    <div class="sidebar-column col-3">
+      <h3 class="sidebar-title side-head pb-4 mb-4" >Career Opportunities<br/>@FilAmSoftware</h3>
+  <% for( let i = 0; i < active_job_opening.length; i++){ %> 
+    <ul class="p-0">
+      <a href="/careers/job/<%= active_job_opening[i].job_id %>" style="text-decoration:none; color: black;">
+        <%=active_job_opening[i].job_title %> <hr>
+      </a>
+    </ul>
+  <% } %>
+  </div>
   </div>
 </div>
-</div>
 
-<!-- active jobs tags -->
-  <div class="sidebar-column">
-    <h3 class="sidebar-title side-head" >Career Opportunities<br/>@FilAmSoftware</h3>
-<% for( let i = 0; i < active_job_opening.length; i++){ %> 
-  <ul><a href="/careers/job/<%= active_job_opening[i].job_id %>" style="text-decoration:none; color: black;"><%=active_job_opening[i].job_title %></a></ul>
-  
-
-<% } %>
-</div>
-
-
-<style>
-
-.content-title{
- width: 30%;
-display: inline-block;
-float:left;
-padding: 0 30px;
-max-width: 450px;
-padding-top: 50px;
-min-width: 300px; 
-
-        
-}
-.sidebar-column {
-width: 30%;
-background-color: #fff;
-display: inline-block;
-float: right;
-padding: 0 40px;
-max-width: 450px;
-padding-top: 50px;
-min-width: 300px;
-}
-.sidebar-title{
-padding-bottom: 20px;
-text-transform: uppercase;
-font-size: 1em;
-color: blue;
-}
-
-
-
-
-
-</style>
-
-  <%- include('./layout/footer2.ejs') %> 
+<%- include('./layout/footer2.ejs') %> 
 
