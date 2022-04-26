@@ -140,8 +140,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
             .then((results) => results);
         });
       }
+      const today = new Date();
+      const thisDay = moment(today, 'MM/DD/YYYY');
       knex('admin.users')
         .insert({
+          date_created: thisDay,
+          date_last_updated: thisDay,
           user_name: username,
           email,
           password: hashedPassword,
