@@ -20,7 +20,7 @@ router.get('/users', checkAuthenticated, authRole([3, 1]), async (req, res) => {
     'role_id',
     req.user.role_id
   );
-  const users = await knex('admin.users');
+  const users = await knex('admin.users').orderBy('user_id');
   const userRole = await knex('admin.user_role');
   const role = await knex
     .select('')
