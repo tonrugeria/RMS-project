@@ -221,14 +221,14 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           preferred_interview_date_1 date,
           preferred_interview_date_2 date,
           preferred_interview_date_3 date,
-          technical_test_score int NOT NULL,
-          personality_test_score int NOT NULL,
+          technical_test_score int,
+          personality_test_score int,
           year_experience	int NOT NULL,
           photo VARCHAR(100) NOT NULL,
           date_applied date,
           date_last_updated date ,
           application_link VARCHAR(100) NOT NULL,
-          status int NOT NULL,
+          status int,
       
           FOREIGN KEY(job_id)
           REFERENCES Jobs.Job_Opening(job_id)
