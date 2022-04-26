@@ -6,10 +6,8 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/au
 const router = express.Router();
 
 // careers main page
-router.get("/careers", async (req, res) => {
-  const active_job_opening = await knex("jobs.job_opening")
-  .where('status','0');
-  console.log(active_job_opening);
+router.get('/careers', async (req, res) => {
+  const active_job_opening = await knex('jobs.job_opening').where('status', '0');
   const jobOpening = await knex('jobs.job_opening');
   let admin_department = await knex('admin.department')
     .innerJoin(

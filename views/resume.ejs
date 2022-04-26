@@ -29,9 +29,7 @@
         </div>
         <div>
           <h5>YOU ARE APPLYING FOR THE POSITION</h5>
-          <% for( let i = 0; i < jobs.length; i++) { %>
-            <h1><%= jobs[i].job_title %></h1>
-          <% } %>
+          <h1><%= jobs[0].job_title %></h1>
         </div>
         <div>
           <img height="100" id="output">
@@ -52,6 +50,7 @@
                 name="first_name"
                 placeholder="First Name"
                 class="w-100"
+                required
               />
             </div>
             <div class="col px-1">
@@ -68,6 +67,7 @@
                 name="last_name"
                 placeholder="Last Name"
                 class="w-100"
+                required
               />
             </div>
             <div class="col px-1">
@@ -80,7 +80,8 @@
               />
             </div>
             <div class="col ps-1">
-              <select name="gender" id="contact" class="w-100">
+              <select name="gender" id="contact" class="w-100" required>
+                <option hidden value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
@@ -98,6 +99,7 @@
                 name="email"
                 placeholder="Email Address"
                 class="w-100"
+                required
               />
             </div>
             <div class="col px-1">
@@ -120,6 +122,7 @@
             </div>
             <div class="col px-1">
               <select name="preferred_contact" id="contact" class="w-100">
+                <option hidden value="">Select</option>
                 <option value="Email">Email</option>
                 <option value="Skype">Skype</option>
                 <option value="Mobile">Mobile</option>
@@ -135,10 +138,11 @@
                 name="address"
                 placeholder="Address"
                 class="w-100"
+                required
               />
             </div>
             <div class="col-3 px-1">
-              <input type="text" name="city" placeholder="City" class="w-100" />
+              <input type="text" name="city" placeholder="City" class="w-100" required/>
             </div>
             <div class="col-3 px-1">
               <input
@@ -146,6 +150,7 @@
                 name="province"
                 placeholder="Province"
                 class="w-100"
+                required
               />
             </div>
           </div>

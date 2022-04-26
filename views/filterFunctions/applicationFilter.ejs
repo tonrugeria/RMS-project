@@ -1,160 +1,585 @@
+<style>
+  .active{
+    background-color: grey; 
+    color: white;
+  }
+</style>
 <script>
   $(document).ready(function(){
-    showAll()
-    let displayAll = false
+    // search bar function
     var $block = $('.no-results');
-  $("#myInput").keyup(function() {
-    var val = $(this).val();
-    var isMatch = false;
-    
-    $("#myCard .card").each(function(i) {
-        var content = $(this).html();
-        if(content.toLowerCase().indexOf(val) == -1) {
-           $(this).hide();         
-        } else {
-            isMatch = true;
-            $(this).show();
-        }
+    $("#myInput").keyup(function() {
+      var val = $(this).val();
+      var isMatch = false;
+
+      $("#myCard .card").each(function(i) {
+          var content = $(this).html();
+          if(content.toLowerCase().indexOf(val) == -1) {
+            $(this).hide();         
+          } else {
+              isMatch = true;
+              $(this).show();
+          }
+      });
+      $block.toggle(!isMatch);
     });
-    $block.toggle(!isMatch);
-  });
-  });
 
-  $('.all-status-checkbox').change(() => {
-    if( !$('.all-status-checkbox').is(':checked')) {
-      showAll()
-    }
-  })
+    // skills changing style onclick
+    $(':button').click(function(){
+      if($(this).hasClass('active')){
+        $(this).removeClass('active')
+      } else {
+        $(this).addClass('active')
+      }
+    })
 
-  const showRemarkFunction = (remark_id) => {
-    if(displayAll == true) {
-      $('#card-container').children().remove()
-      displayAll = false
-    }
-    if ($(`#remark-${remark_id}-checkbox`).prop('checked') == true) {
-      $.get('/remark-listing-ajax', function(data, status){
-        $.each(data.applicants, (key, value) => {
-          if(remark_id == value.status){
-            $('#card-container').append(
-              `
-              <% if ( applicants != 0 ) { %>
-                  ${value.application_id}
-                  <a href="/application/job/${value.job_id}/applicant/${value.application_id}" style="text-decoration: none;" id="myCard" class="remark-${value.status}">
-                    <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-                      <div class="row g-0">
-                        <div class="col-md-4">
-                          <img src="/${value.photo}" class="img-fluid rounded-start img" alt="This is Image" width="100">
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body" id="applicantJob-${key}">
-                            <h5 class="card-title">${value.first_name} ${value.last_name} </h5>
-                            <div class="d-flex align-items-center">
-                              <p>${value.status}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-              <% } else { %>
-                <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
-                  <h1>
-                    NO APPLICANTS
-                  </h1>
-                </div>  
-              <% } %> 
-              <div class="no-results" style="display:none"><h1>no results found</h1></div>
-              `
-            )
-            $(`#applicantJob-${key}`).append(
-              `<p class="card-text" id="applicantJobContainer-${key}"> 
-                      
-              </p>
-              <p class="card-text" id="jobYearExperience-${key}">
-                
-              </p>`
-            )
-            $.each(data.applicantJob, (jobKey, jobValue) => {
-              if (value.application_id == jobValue.application_id) {
-                $(`#applicantJobContainer-${key}`).append(
-                  `${jobValue.skill_name}`
-                )
-              }
-            })
-            if(value.year_experience > 1) {
-              $(`#jobYearExperience-${key}`).append(
-                `<small>
-                  ${value.year_experience}
-                  years experience
-                </small>`
-              )
-            } else {
-              `<small>
-                ${value.year_experience}
-                year experience
-              </small>`
+    // cards changing style onclick
+    $('.applicants').click(function(){
+      $('.applicants').removeClass('active');
+      $(this).addClass('active')
+    })
+
+    let $filterCheckboxes = $('input:checkbox');
+    let $filterButtons = $(':button');
+
+    // checkbox filter function
+    function checkboxFilter() {
+  
+      let selectedFilters = {};
+  
+      $filterCheckboxes.filter(':checked').each(function() {
+  
+        if (!selectedFilters.hasOwnProperty(this.name)) {
+          selectedFilters[this.name] = [];
+        }
+  
+        selectedFilters[this.name].push(this.value);
+  
+      });
+
+      $filterButtons.filter('.active').each(function() {
+  
+        if (!selectedFilters.hasOwnProperty(this.name)) {
+          selectedFilters[this.name] = [];
+        }
+
+        selectedFilters[this.name].push(this.value);
+
+      });
+      // create a collection containing all of the filterable elements
+      let $filteredResults = $('.applicants');
+  
+      // loop over the selected filter name -> (array) values pairs
+      $.each(selectedFilters, function(name, filterValues) {
+  
+        // filter each .flower element
+        $filteredResults = $filteredResults.filter(function() {
+  
+          let matched = false,
+            currentFilterValues = $(this).data('category').split(" ").map(item => item.trim());
+  
+          // loop over each category value in the current .flower's data-category
+          $.each(currentFilterValues, function(_, currentFilterValue) {
+  
+            // if the current category exists in the selected filters array
+            // set matched to true, and stop looping. as we're ORing in each
+            // set of filters, we only need to match once
+  
+            if ($.inArray(currentFilterValue, filterValues) != -1) {
+              matched = true;
+              return false;
             }
+          });
+  
+          // if matched is true the current .flower element is returned
+          return matched;
+  
+        });
+      });
+  
+      $('.applicants').hide().filter($filteredResults).show();
+    }
+  
+    $filterCheckboxes.on('change', checkboxFilter);
+    $filterButtons.on('click', checkboxFilter);
+
+    // AJAX post on changing status
+    $("#app-details-container").on('change', 'form', function(e) {
+      e.preventDefault()
+      // Get some values from elements on the page:
+      const $form = $(this),
+        remark = $form.find(`select`).val(),
+        url = $form.attr( "action" );
+
+      // Send the data using post
+      $.post( url, { remark: remark })
+      .done(()=>{
+        $('.applicants').each(function(){
+          if($(this).attr('href') == url){
+            const wow = document.URL;
           }
         })
       })
-    } else {
-      $(`.remark-${remark_id}`).remove()
-    }
-  }
 
-  function showAll() {$.get("/application", function(data, status){
-    displayAll = true
-    $('#card-container').html(
-      `
-        <% if ( applicants != 0 ) { %>
-          <% for(let i = 0; i < applicants.length; i++) { %>
-            <%= applicants[i].application_id %> 
-            <a href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" style="text-decoration: none;" id="myCard" class="remark-<%= applicants[i].status %>">
-              <div class="card mb-1 p-3" style="background-color: #666666; color: white;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start img" alt="This is Image" width="100">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= applicants[i].first_name %> <%= applicants[i].last_name %> </h5>
-                      <div class="d-flex align-items-center">
-                        <p><%= applicants[i].status %></p>
+    });
+
+    // ajax get applicant details
+    $('.applicants').click(function(e){
+      e.preventDefault()
+
+      const $card = $(this),
+       url = $card.attr('href');
+
+       $('.mid-cards').css('background-color', '#666666');
+       $('.mid-cards').css('color', 'white');
+       $('.mid-cards').css('border', 'none');
+       $card.children().first().css('background-color', 'white');
+       $card.children().first().css('color', 'black')
+
+      $.get(url, function(data, status){
+        const detailContainer = $('#app-details-container');
+        detailContainer.attr('class', 'col-6 g-0 p-4')
+        detailContainer.html(`
+          <div class="d-flex flex-column border-3">
+          <div class="card p-3 border-bottom border-0">
+            <div class="row g-0">
+              <div class="col-md-4" id="photo-container">
+                
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-0">
+                  <h5 class="card-title mb-0">
+                    ${data.applicantInfo[0].first_name} ${data.applicantInfo[0].last_name}
+                  </h5>
+                  <small>
+                    <p class="card-text mb-0">
+                      ${data.age} &#8226; ${data.applicantInfo[0].gender}  &#8226; ${data.applicantInfo[0].city}
+                    </p>
+                  </small>
+                  <p class="card-text mb-5">
+                    <small>
+                      ${data.applicantInfo[0].email} &#8226; ${data.applicantInfo[0].skype}  &#8226; ${data.applicantInfo[0].mobile}
+                    </small>
+                  </p>
+                  <div class="d-flex">
+                    <div class="me-auto">
+                      <p class="card-text mb-0" id="year-exp-container">
+                        ${data.applicantInfo[0].year_experience}
+                      </p>
+                      <p class="m-0" id="expertise-container">
+
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-end">
+                      <div class="me-1">
+                        <form action="/application/job/${data.applicantInfo[0].job_id}/applicant/${data.applicantInfo[0].application_id}" method="post" class="statusForm">
+                          <div class="d-flex">
+                            <select name="remark" class="title" required id="status-selector">
+                              <option hidden value="">ASSIGN STATUS</option>
+                              
+                            </select>
+                          </div>
+                        </form>
                       </div>
-                      <p class="card-text"> 
-                        <% for ( let j = 0; j < applicantJob.length; j++) { %>
-                          <% if ( applicants[i].application_id == applicantJob[j].application_id) { %>
-                            <%= applicantJob[j].skill_name %>   
-                          <% } %> 
-                        <% } %> 
-                      </p>
-                      <p class="card-text">
-                        <small>
-                        <%= applicants[i].year_experience  %>
-                        <% if (applicants[i].year_experience > 1) { %>
-                          years
-                        <% } else { %>
-                          year
-                        <% } %> experience
-                      </small>
-                      </p>
+                      <div>
+                        <a target="_blank" href="/generateResume/job/${data.applicantInfo[0].job_id}/application/${data.applicantInfo[0].application_id}">
+                          <button>SAVE RESUME</button>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </a>
-            <% } %>    
-        <% } else { %>
-          <div class="d-flex flex-column justify-content-center min-vh-100 ps-5 border-end border-2">
-            <h1>
-              NO APPLICANTS
-            </h1>
-          </div>  
-        <% } %> 
-        <div class="no-results" style="display:none"><h1>no results found</h1></div>
-      `
-      )
-  })
-}
+            </div>
+          </div>
+
+          <div class="container py-3">
+            <div class="d-flex justify-content-between">
+              <h3>Skills</h3>
+              <div class="d-flex">
+                <div class="me-1">
+                  <a data-bs-toggle="modal" href="#exampleModalToggle" role="button">
+                    <button>VIEW EXAM RESULTS</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="skills-container">
+              
+            </div>
+            <!-- Exam results modal -->
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true"  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <div>
+                      <h5 class="modal-title">Exam results for Technical</h5>
+
+                      <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+
+                      <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" id="tech-exam-results">
+                    
+                  </div>
+                  <div class="modal-footer" id="tech-exam-score">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div>
+                    <h5 class="modal-title">Exam results for Personality</h5>
+                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                  </div>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="personality-results">
+                  
+                </div>
+                <div class="modal-footer" id="personality-score">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="py-3" id="capabilities">
+            <h3>Capabilities</h3>
+            
+          </div>
+
+          <div id="pro-bg">
+            <h3>Professional Background</h3>
+             
+          </div>
+        </div> 
+        `)
+
+        // applicant photo logic
+        if (data.applicantInfo[0].photo != null) {
+          $('#photo-container').html(`
+            <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="150">
+          `)
+        } else {
+          $('#photo-container').html(`NO PHOTO`)
+        }
+
+        // applicant year experience logic
+        if (data.applicantInfo[0].year_experience > 1) {
+          $('#year-exp-container').append('years experience')
+        } else {
+          $('#year-exp-container').append('year experience')
+        }
+
+        // applicant expertise logic
+        const scoreArr = [];
+        for (let i = 0; i < data.applicantExam.length; i++) {
+          if (data.applicantExam[i].application_id == data.applicantInfo[0].application_id) {
+            scoreArr.push(data.applicantExam[i].skill_level);
+          }
+        }
+        const highestScore = Math.max(...scoreArr);
+
+        if( highestScore >= 75 ) { 
+          $('#expertise-container').html(`EXPERT in `);
+          
+          for ( let j = 0; j < data.expert.length; j++) { 
+            if (data.expert[j].application_id == data.applicantInfo[0].application_id) { 
+              $('#expertise-container').append(`${data.expert[j].skill_name}`)
+            } 
+          }  
+        } else if ( highestScore >= 50) { 
+          $('#expertise-container').html(`INTERMEDIATE in `);
+        
+          for ( let j = 0; j < data.intermediate.length; j++) { 
+            if (data.intermediate[j].application_id == data.applicantInfo[0].application_id) { 
+              $('#expertise-container').append(`${data.intermediate[j].skill_name}`)    
+            } 
+          }   
+        } else if ( highestScore > 0) { 
+          $('#expertise-container').html(`BEGINNER in `);
+        
+          for ( let j = 0; j < beginner.length; j++) { 
+            if (data.beginner[j].application_id == data.applicantInfo[0].application_id) { 
+              $('#expertise-container').append(`${data.beginner[j].skill_name}`)    
+            }  
+          }  
+        }  
+
+        // applicant status options logic
+        for( let i = 0; i < data.remarks.length; i++) { 
+          if (data.remarks[i].remark_id == data.applicantInfo[0].status) { 
+            $('#status-selector').append(`
+            <option
+            style="background-color: transparent; border: none;"
+            value="${data.remarks[i].remark_id}"
+            selected
+            >
+              ${data.remarks[i].remark_name} 
+            </option>
+            `)
+          } else { 
+            $('#status-selector').append(`
+            <option
+            style="background-color: transparent; border: none;"
+            value="${data.remarks[i].remark_id}"
+            >
+              ${data.remarks[i].remark_name} 
+            </option>
+            `)
+          } 
+        } 
+
+        // applicant skills
+        if(data.applicantSkill != 0) {  
+          for ( let i = 0; i < data.applicantSkill.length; i++) { 
+            $('#skills-container').append(`
+              <div class="col-4 m-0 border border-2 mb-1">
+                <div>
+                  <strong id="skill-expertise-${i+1}">
+                    ${data.applicantSkill[i].skill_name}  | 
+                  </strong>
+                </div>
+                <div id="skill-experience-${i+1}">
+                  ${data.applicantSkill[i].skill_years} 
+                </div>
+                <div>
+                  Self-rating ${data.applicantSkill[i].skill_self_rating} / 5
+                </div>
+              </div>
+            `);
+
+            if( data.applicantExam != 0) { 
+              for ( let j = 0; j < data.applicantScore.length; j++) { 
+                if ( data.applicantSkill[i].skill_id == data.applicantScore[j].skill_id) { 
+                  if (data.applicantScore[j].skill_level >= 75) { 
+                    $(`#skill-expertise-${i+1}`).append(`Expert`)
+                  } else if (data.applicantScore[j].skill_level >= 50) { 
+                    $(`#skill-expertise-${i+1}`).append(`Intermediate`)
+                  } else { 
+                    $(`#skill-expertise-${i+1}`).append(`Beginner`)
+                  }     
+                }  
+              }  
+            } else { 
+              $('#skill-expertise').append(`NO EXAM`)
+            }
+
+            // skill experience
+            if (data.applicantSkill[i].skill_years > 1) { 
+              $(`#skill-experience-${i+1}`).append('years experience')
+            } else { 
+              $(`#skill-experience-${i+1}`).append('year experience')
+            }
+
+          } 
+        } else { 
+          $('#skills-container').append(`NO SKILL`)
+        } 
+
+        // tech exam results modal body
+        if (data.applicantExamResults != 0) { 
+          for( let i = 0; i < data.applicantExamResults.length; i++ ) { 
+              
+            if (data.applicantExamResults[i].applicant_answer == data.applicantExamResults[i].correct_answer) { 
+              $('#tech-exam-results').append(`
+                <div style="color: green;">
+                  ${i+1} . ${data.applicantExamResults[i].question_detail} 
+                </div>
+              `)
+            } else { 
+              $('#tech-exam-results').append(`
+                <div style="color: red;" id="question-${i+1}">
+                  ${i+1} . ${data.applicantExamResults[i].question_detail} 
+                </div>
+              `)
+            } 
+
+            if (data.applicantExamResults[i].applicant_answer == 0) { 
+              $(`#question-${i+1}`).append(`(Not answered)`)
+            }
+
+            $('#tech-exam-results').append(`
+              <ul>
+                <p id="question-${i+1}-choice-1">a. ${data.applicantExamResults[i].choice_1} </p>
+                <p id="question-${i+1}-choice-2">b. ${data.applicantExamResults[i].choice_2} </p>
+                <p id="question-${i+1}-choice-3">c. ${data.applicantExamResults[i].choice_3} </p>
+                <p id="question-${i+1}-choice-4">d. ${data.applicantExamResults[i].choice_4} </p>
+              </ul> 
+            `)
+
+            // choice-1
+            if (data.applicantExamResults[i].correct_answer === 1) { 
+              $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-check"></i>`)
+            } 
+            if (data.applicantExamResults[i].applicant_answer  === 1 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+              $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-xmark"></i>`)
+            }
+
+            // choice-2
+            if (data.applicantExamResults[i].correct_answer === 2) { 
+              $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-check"></i>');
+            } 
+            if (data.applicantExamResults[i].applicant_answer  === 2 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+              $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-xmark"></i>');
+            }
+
+            // choice-3
+            if (data.applicantExamResults[i].correct_answer === 3) { 
+              $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-check"></i>');
+            } 
+            if (data.applicantExamResults[i].applicant_answer  === 3 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+              $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-xmark"></i>');
+            }
+
+            // choice-4
+            if (data.applicantExamResults[i].correct_answer === 4) { 
+              $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-check"></i>');
+            } 
+            if (data.applicantExamResults[i].applicant_answer  === 4 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+              $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-xmark"></i>');
+            }
+              
+          } 
+        } else { 
+          $('#tech-exam-results').html(`
+            <h6>The applicant did not take the technical exam yet</h6>
+          `)
+        } 
+
+        // tech exam results modal footer
+        let totalExamScore = 0 
+        for(let i = 0; i < data.applicantExamResults.length; i++) {
+          totalExamScore++  
+        }  
+
+        if (data.applicantExamResults != 0) { 
+          $('#tech-exam-score').append(`
+            <h5 class="me-auto">
+              Score:  ${data.applicantInfo[0].technical_test_score} / ${totalExamScore}  
+            </h5>
+          `)
+
+          $('#tech-exam-score').append(`
+            <h5>
+              Percentage:  ${(data.applicantInfo[0].technical_test_score/totalExamScore)*100} &#37;
+            </h5>
+          `)
+        }
+
+        // personality test results modal body
+        if(data.personalityTestResults != 0) { 
+          for(let i = 0; i < data.personalityTestResults.length; i++) { 
+            $('#personality-results').append(`
+              <p id="personalityQuestion-${i+1}">
+                ${i+1} .  ${data.personalityTestResults[i].question_detail} 
+              </p>
+            `)
+
+            if (data.personalityTestResults[i].applicant_answer == 0) { 
+              $(`#personalityQuestion-${i+1}`).append(`(Not answered)`)
+            }
+
+            $('#personality-results').append(`
+              <ul>
+                <p id="per-${i+1}-choice-1">
+                  a.  ${data.personalityTestResults[i].choice_1} 
+                </p>
+                <p id="per-${i+1}-choice-2">
+                  b.  ${data.personalityTestResults[i].choice_2} 
+                </p>
+                <p id="per-${i+1}-choice-3">
+                  c.  ${data.personalityTestResults[i].choice_3} 
+                </p>
+                <p id="per-${i+1}-choice-4">
+                  d.  ${data.personalityTestResults[i].choice_4} 
+                </p>
+              </ul>
+            `)
+
+            if(data.personalityTestResults[i].applicant_answer == 1) {
+              $(`#per-${i+1}-choice-1`).css('color', 'green')
+            }
+            if(data.personalityTestResults[i].applicant_answer == 2) {
+              $(`#per-${i+1}-choice-2`).css('color', 'green')
+            }
+            if(data.personalityTestResults[i].applicant_answer == 3) {
+              $(`#per-${i+1}-choice-3`).css('color', 'green')
+            }
+            if(data.personalityTestResults[i].applicant_answer == 4) {
+              $(`#per-${i+1}-choice-4`).css('color', 'green')
+            } 
+
+          }  
+        } else { 
+          $('#personality-results').append(`
+            <h6>The applicant did not take the personality test yet</h6>
+          `)
+        }
+
+        // personality test results modal footer
+        if(data.personalityTestResults != 0) { 
+          $('#personality-score').html(`
+            <h5 class="me-auto">Score: ${data.applicantInfo[0].personality_test_score} </h5>
+          `)
+        } 
+
+        // capabilities
+        if(data.applicantCapability[0].capability_1 != 0) {  
+          $('#capabilities').append(`
+            <div>
+              <p> ${data.applicantCapability[0].capability_1}  </p>
+            </div>
+            <div>
+              <p> ${data.applicantCapability[0].capability_2}  </p>
+            </div>
+            <div>
+              <p> ${data.applicantCapability[0].capability_3}  </p>
+            </div>
+            <div>
+              <p> ${data.applicantCapability[0].capability_4}  </p>
+            </div>
+            <div>
+              <p> ${data.applicantCapability[0].capability_5}  </p>
+            </div>
+          `)
+        } else { 
+          $('#capabilities').append('NO CAPABILITIES')
+        }  
+
+        // professional background
+        $('#pro-bg').append(``);
+        if (data.applicantHistory[0].position != 0) { 
+          for ( let i =0; i < data.applicantHistory.length; i++) { 
+            $('#pro-bg').append(`
+              <div id="app-${i+1}-history"></div>  
+            `);
+
+            if(data.applicantHistory != 0 && data.getStartDates[i] != 'Invalid date' && data.getEndDates[i] != 'Invalid date') { 
+              $(`#app-${i+1}-history`).append(`
+                <div class="mb-3">
+                    ${data.applicantHistory[i].position}  &#8226;
+                    ${data.getStartDates[i]}  -  ${data.getEndDates[i]} 
+                  <div>
+                    <small> ${data.applicantHistory[i].company} </small>
+                  </div>
+                </div>
+              `);
+            } 
+          }  
+        } else { 
+          $('#pro-bg').append(`NO HISTORY`);
+        } 
+      })
+    })
+  });
 </script>
 
