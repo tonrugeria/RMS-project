@@ -1,7 +1,11 @@
 const express = require('express');
 const moment = require('moment');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -23,7 +27,10 @@ router.get('/examcreation', checkAuthenticated, authRole([3, 1]), async (req, re
   );
   const question = await knex('question.question');
   const questionId = uniqueId(question);
-  const personality = await knex('question.question').where('question_category','Personality');
+  const personality = await knex('question.question').where(
+    'question_category',
+    'Personality'
+  );
   let skill = await knex('admin.skill');
   skill = skill.filter(
     (value, index, self) =>
@@ -47,7 +54,7 @@ router.get('/examcreation', checkAuthenticated, authRole([3, 1]), async (req, re
 });
 
 // post route examcreation
-router.post('/examcreation', async (req, res) => {
+router.post('/examcreation', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
   const today = new Date();
   const examDate = moment(today, 'MM/DD/YYYY');
@@ -94,6 +101,7 @@ router.post('/examcreation', async (req, res) => {
       res.redirect(`/examcreation/${questionCategory}/${question_id}`);
     });
 });
+
 // edit get route for examcreation
 router.get('/examcreation/:question_category', checkAuthenticated, async (req, res) => {
   const currentUserId = req.user.user_id;
@@ -102,7 +110,10 @@ router.get('/examcreation/:question_category', checkAuthenticated, async (req, r
     'role_id',
     req.user.role_id
   );
-  const personality = await knex('question.question').where('question_category','Personality');
+  const personality = await knex('question.question').where(
+    'question_category',
+    'Personality'
+  );
   const questionCategory = req.params.question_category;
   const qSkill = await knex('admin.skill').leftJoin(
     'question.question',
@@ -143,14 +154,16 @@ router.get(
       'role_id',
       req.user.role_id
     );
-    const personality = await knex('question.question').where('question_category','Personality');
+    const personality = await knex('question.question').where(
+      'question_category',
+      'Personality'
+    );
     const questionId = req.params.question_id;
     const questionCategory = req.params.question_category;
     const allQuestions = await knex('question.question');
-    const allCategoryQuestion = await knex('question.question').where(
-      'question_category',
-      questionCategory
-    );
+    const allCategoryQuestion = await knex('question.question')
+      .where('question_category', questionCategory)
+      .orderBy('question_level');
     const question = await knex('question.question').where('question_id', questionId);
     let skill = await knex('admin.skill');
     skill = skill.filter(
