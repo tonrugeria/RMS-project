@@ -1,11 +1,11 @@
 <%- include('./layout/header2.ejs')  %>  
   
-<div class="columns">       
+<div class="columns" style="background-color: #ededed;">       
   <div class="d-flex mr-2">
     <div id ="buttons">
-      <button onclick="showAllFunction()">Show All</button>
+      <button class="change-color" onclick="showAllFunction()">Show All</button>
      <% for (let  i = 0; i < admin_department.length; i++) { %>
-    <button onclick="toggleShowHide('<%= admin_department[i].dept_id %>')">
+    <button class="change-color" onclick="toggleShowHide('<%= admin_department[i].dept_id %>')">
       <%= admin_department[i].dept_name %>
     </button>
     <% } %>
@@ -17,9 +17,9 @@
     <% if (active_job_opening != 0) { %> 
     <div class="row">
         <% for (let i = 0; i < active_job_opening.length; i++) { %>
-          <div class ="all-btn dept-<%= active_job_opening[i].job_dept %>-btn dept col-lg-3 col-md-4 col-sm-12">
-            <span><%= date %></span>   
-            <h1><%= active_job_opening[i].job_title %></h1>
+          <div class ="all-btn dept-<%= active_job_opening[i].job_dept %>-btn dept col-lg-3 col-md-4 col-sm-12 card p-4 me-3">
+            <span style="color: #acb3c2;"><%= date %></span>   
+            <p style="font-size: 1.5em; font-family: 'Segoe UI',Roboto,'Helvetica Neue',sans-serif;"><%= active_job_opening[i].job_title %></p>
             <div class="d-flex" style="gap: 5px;">
               <% for (let j=0; j < jobSkill.length; j++) { %>
                 <% if(active_job_opening[i].job_id == jobSkill[j].job_id) {%> 
@@ -32,7 +32,7 @@
             </div>
           </br>
         </br>
-            <a href="/careers/job/<%= active_job_opening[i].job_id %>"><button class="btns">Apply Now</button></a>
+            <a href="/careers/job/<%= active_job_opening[i].job_id %>"><button class="btns" style="background-color: #93268f; color: #fff; border: 2px solid #93268f; border-radius: 5px; width: 8em; margin-top: 0.4rem !important; padding: 10px 5px;">APPLY NOW</button></a>
           </div>  
         <% } %>
     </div>
