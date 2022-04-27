@@ -22,14 +22,10 @@
         <% if(adminJobSkill != 0) { %>
         <div class="d-flex button-container">
           <button onclick="showAllFunction()" class="active">ALL</button>
-          <% for(let i=0; i < adminSkill.length; i++) { %>
-            <% for(let j=0; j < adminJobSkill.length; j++) { %>
-              <% if(adminSkill[i].skill_id == adminJobSkill[j].skill_id) {%> 
-                <button onclick="toggleShowHide('<%= adminSkill[i].skill_name %>')">
-                  <%= adminSkill[i].skill_name %>
-                </button>
-              <% } %>
-            <% } %>
+          <% for(let i=0; i < adminJobSkill.length; i++) { %>
+              <button onclick="toggleShowHide('skill-<%= adminJobSkill[i].skill_id %>')">
+                <%= adminJobSkill[i].skill_name %>
+              </button>
           <% } %>
         </div>
         
@@ -47,8 +43,7 @@
               <% for(let i=0; i < question.length; i++) { %>
                 <% for(let j = 0; j < adminJobSkill.length; j++) { %>
                   <% if(question[i].question_category == adminJobSkill[j].skill_name) {%> 
-                    <% let skill_name = question[i].question_category.replace(/\s/g, ''); %> 
-                    <div class="row all-btn <%= skill_name %>-btn skill">
+                    <div class="row all-btn skill-<%= adminJobSkill[j].skill_id %>-btn skill">
                       <div class="col-8">
                         <input 
                           type="checkbox" 
