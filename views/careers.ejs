@@ -1,21 +1,19 @@
 <%- include('./layout/header2.ejs')  %>  
   
-<div class="columns" style="background-color: #ededed;">       
-  <div class="d-flex mr-2">
-    <div id ="buttons">
-      <button class="change-color" onclick="showAllFunction()">Show All</button>
-     <% for (let  i = 0; i < admin_department.length; i++) { %>
-    <button class="change-color" onclick="toggleShowHide('<%= admin_department[i].dept_id %>')">
-      <%= admin_department[i].dept_name %>
-    </button>
-    <% } %>
-  </div>
-  </div>
-</br>
-</br>
+<div class="columns min-vh-100" style="background-color: #ededed;">  
   <div class="container">
     <% if (active_job_opening != 0) { %> 
     <div class="row">
+      <div class="d-flex me-2 pb-3 ps-0" style="padding-top: 15vh;">
+        <div id ="buttons">
+          <button class="change-color me-3" onclick="showAllFunction()">Show All</button>
+         <% for (let  i = 0; i < admin_department.length; i++) { %>
+        <button class="change-color me-3" onclick="toggleShowHide('<%= admin_department[i].dept_id %>')">
+          <%= admin_department[i].dept_name %>
+        </button>
+        <% } %>
+      </div>
+      </div>
         <% for (let i = 0; i < active_job_opening.length; i++) { %>
           <div class ="all-btn dept-<%= active_job_opening[i].job_dept %>-btn dept col-lg-3 col-md-4 col-sm-12 card p-4 me-3">
             <span style="color: #acb3c2;"><%= date %></span>   
