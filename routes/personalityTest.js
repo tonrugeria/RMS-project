@@ -56,15 +56,13 @@ router.post(
     const { applicant_answer, question_id, question_type } = req.body;
 
     for (let i = 0; i < applicant_answer.length; i++) {
-      knex('job_application.applicant_exam_answers')
-        .insert({
-          job_id: jobId,
-          application_id: appId,
-          question_id: question_id[i],
-          applicant_answer: applicant_answer[i],
-          question_type: question_type[i],
-        })
-        .then((results) => results);
+      await knex('job_application.applicant_exam_answers').insert({
+        job_id: jobId,
+        application_id: appId,
+        question_id: question_id[i],
+        applicant_answer: applicant_answer[i],
+        question_type: question_type[i],
+      });
     }
 
     const personalityAnswers = await knex('job_application.applicant_exam_answers')
