@@ -1,8 +1,11 @@
 <%- include('./layout/header2.ejs') %>
-
-<div class="container">
+<div style="padding-top: 15vh; background-color: #005277;">
+  <h1 class="text-center best-header" style="color: white;">#BestPlaceToWork</h1>
+  <p class="text-center mb-0" style="color: white;">Careers</p>
+</div>
+<div class="container-fluid m-0">
   <div class="row">
-    <div class="content-title text-left col-9" style="background-color: #ededed;">
+    <div class="content-title text-left col-9 p-4" style="background-color: #ededed;">
     
       <% for( let i = 0; i < jobOpening.length; i++){ %> 
         <div
@@ -14,20 +17,20 @@
           <% } %> 
         >
         <!-- date -->
-        <div class="pb-4">
+        <div class="pb-1">
         <% for( let i = 0; i < jobOpening.length; i++){ %> 
         <span>Date Posted:<%= date %></span>   
         </div>
         <% } %>
        <!-- job title -->
-        <div class="job-title">
-          <h2><%= jobOpening[i].job_title %> </h2>
+        <div class="job-title pb-3">
+          <h1><%= jobOpening[i].job_title %> </h2>
         </div>
       <!-- job skill -->
         <div class="d-flex">
           <% for (let j=0; j < jobSkill.length; j++) { %>
               <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-                <div class="skill-item">
+                <div class="skill-item border px-2 py-1 me-1" style="background-color: #fff;">
                   <%= jobSkill[j].skill_name %>
                 </div>
               <% } %>
@@ -42,23 +45,27 @@
         </div>
         <!-- job description -->
       <div class="pb-4">
-        <h3>Job Description</h3>
+        <h3 style="color: #4383B6;">Job Description</h3>
         <p><%= jobOpening[i].job_description %> </p>
       </div>
     <%} %>
       <!-- job responsibilities -->
       <div class="pb-4">
-        <h3>Responsibilities</h3>
-        <% for(let i = 0; i < responsibility.length; i++ ){ %>
-          <li><%= responsibility[i].responsibility_detail %> </li>
-        <% } %> 
+        <h3 style="color: #4383B6;">Responsibilities</h3>
+        <ul style="list-style-type: square;">
+          <% for(let i = 0; i < responsibility.length; i++ ){ %>
+            <li><%= responsibility[i].responsibility_detail %></li>
+          <% } %> 
+        </ul>
       </div>
       <!-- qualification-->
       <div class="pb-4">
-        <h3>Qualification</h3>
-        <% for(let i = 0; i < qualification.length; i++ ){ %>
-          <li><%= qualification[i].qualification_detail %> </li>
-        <% } %> 
+        <h3 style="color: #4383B6;">Qualification</h3>
+        <ul style="list-style-type: square;">
+          <% for(let i = 0; i < qualification.length; i++ ){ %>
+            <li><%= qualification[i].qualification_detail %> </li>
+          <% } %> 
+        </ul>
       </div>
   <!-- categories-->
       <% for(let i = 0; i < category.length; i++ ){ %>
@@ -79,8 +86,8 @@
   </div>
   
   <!-- active jobs tags -->
-    <div class="sidebar-column col-3" style="background-color: #fff;">
-      <h3 class="sidebar-title side-head pb-4 mb-4" >Career Opportunities<br/>@FilAmSoftware</h3>
+    <div class="sidebar-column col" style="background-color: #fff; padding: 50px 40px 0px;">
+      <h3 class="sidebar-title side-head pb-4 mb-4" style="color: #4383B6; font-size: 1.2rem;">Career Opportunities<br/>@FilAmSoftware</h3>
   <% for( let i = 0; i < active_job_opening.length; i++){ %> 
     <ul class="p-0">
       <a href="/careers/job/<%= active_job_opening[i].job_id %>" style="text-decoration:none; color: black;">
