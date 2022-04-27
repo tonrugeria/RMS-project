@@ -3,7 +3,7 @@
 <div class="row min-vh-100">
   <div class="col-sm-2 pe-0">
     <div class="p-3 mb-1" style="background-color: #e6e6e6;">
-      <a href="/examcreation" style="text-decoration: none; color: black; background-color: #e6e6e6;">
+      <a href="/examcreation" style="text-decoration:none; color: black;">
         + NEW QUESTION
       </a>
     </div>
@@ -14,7 +14,7 @@
       <% } else { %>
         href="/examcreation/Personality"
       <% } %>
-      style="text-decoration: none; color: black; background-color: #e6e6e6;"
+      style="text-decoration: none; color: black;"
       >
       Personality
       <% let personalityCount =  0 %>
@@ -24,7 +24,6 @@
         (<%= personalityCount%>)
       </a>
     </div>
-    
     <% for (let i=0; i < skill.length; i++) { %>
       <div class="p-2 mb-1" style="background-color: #e6e6e6;">
       <a
@@ -58,7 +57,7 @@
       >
       <% for (let j=0; j < question.length; j++){%>
         <div class="p-3 selected-color mb-1">
-          <div class="d-flex justify-content-between" >
+          <div class="d-flex justify-content-between">
             <p class="mb-0">
               <%= allCategoryQuestion[i].question_category %>
               <% if(question[j].question_type =='0' ){ %>

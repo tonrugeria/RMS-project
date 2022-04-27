@@ -39,25 +39,25 @@
         bottom: 45%;
       }
 
-      .selected-color{
-        background-color: #4d4d4d;
+      .selected-color {
+        background-color: #4D4D4D;
         color: #fff;
       }
-      .selected-color:hover {
-        background-color: white;
-        color: black;
-      }
-      .selected-color:focus {
-        background-color: white;
-      }
 
+      .selected-color:hover, .selected-color:focus {
+        background-color: #E8E8E8;
+        color: black
+      }
     </style>
   </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
       <a href="/" class="navbar-brand"><span class="h5">RMS</span>  <span>|</span>  <span>FilAm Software Technology</span></a>
-      <div id="my-nav" class="">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item ">
             <% if (currentUser[0].role_id == '3') { %>
