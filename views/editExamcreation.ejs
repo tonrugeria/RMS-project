@@ -49,7 +49,7 @@
       <% } %>
   </div>
   <% if (allCategoryQuestion != 0){ %>
-  <div class="col-sm-4 ps-0">
+  <div class="col-sm-4 ps-0 pe-0" style="background-color: #666666;">
     <% for (let i=0; i < allCategoryQuestion.length; i++) { %>
       <a
       href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
@@ -82,10 +82,11 @@
       </a>
       <% } %>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-6 ps-0" style="background-color: #F2F2F2;">
     <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
-      <div>
-        <div>
+      <div class="container-fluid px-4 py-3">
+        <div class="row">
+        <div class="form-floating col"> 
           <input 
           list="categoryList"
           placeholder="Select Category" 
@@ -93,11 +94,12 @@
           id="inputCategory"
           required
           <% for (let j=0; j < question.length; j++) { %>
-      class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
+            class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
           <% } %> 
           onblur="CheckListed(this.value)"
-    value="<%=question[0].question_category %>"
-          >
+          value="<%=question[0].question_category %>"
+          style="height: 58px; border: none;"
+          />
           <datalist id="categoryList">
             <% for (let i=0; i < skill.length; i++) { %>
               <option value="<%=skill[i].skill_name %>">  
@@ -107,16 +109,17 @@
             <option hidden disabled value="Personality">Personality</option>
           </datalist>
           <span id="output"></span>
+          <label for="questionlevel">Category</label>
         </div>
-  </div>
       
       <% for (let i=0; i < question.length; i++){%>
-      <div class="form-floating <% if(question[i].question_type =='1' ){ %>  d-none <% }%>">
+      <div class="form-floating <% if(question[i].question_type =='1' ){ %>  d-none <% }%> col">
         <select
           name="questionlevel"
           class="form-select"
           id="floatingSelectGrid"
           aria-label="Floating label select example"
+          style="border: none;"
         >
         <% }  %>
           <% for (let i=0; i < question.length; i++){%>
@@ -131,7 +134,7 @@
         <label for="questionlevel">Level</label>
       </div>
       <% for (let i=0; i < question.length; i++){%>
-      <div class="form-floating">
+      <div class="form-floating col">
         <input
           type="text"
           name="questiontimer"
@@ -140,28 +143,48 @@
           placeholder="Timer"
           required
           value="<%= question[0].question_time_limit %>"
+          style="border: none;"
         />
         <label for="floatPlace">Timer</label>
       </div>
+    </div>
+      </div>  
 
-      <div class="form-floating">
-        <input
-          type="text"
-          name="questiondetail"
-          class="form-control"
-          id="floatPlace"
-          placeholder="Question"
-          required
-          value="<%=question[0].question_detail %>"
-        />
-        <label for="floatPlace">Question</label>
+      <div class="container-fluid pb-3">
+        <div class="form-floating">
+          <input
+            type="text"
+            name="questiondetail"
+            class="form-control"
+            id="floatPlace"
+            placeholder="Question"
+            required
+            value="<%=question[0].question_detail %>"
+            style="border: none;"
+          />
+          <label for="floatPlace">Question</label>
+        </div>
       </div>
 
-      <div class="form-floating">
+      <div class="container">
         <% for (let i=0; i < question.length; i++){%>
-          
-          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="1" name="correctAnswer" <% if(question[i].correct_answer =='1' ){ %>  checked <% }  %> />
-          <input
+          <div class="mb-2">
+            <div class="d-flex">
+              <small class="me-auto">CHOICE 1</small>
+              <input 
+            type="radio" 
+            class="<% if(question[i].question_type =='1' ){ %>  
+                d-none 
+              <% }%>" 
+            value="1" 
+            name="correctAnswer" 
+            <% if(question[i].correct_answer =='1' ){ %>  
+              checked 
+            <% }  %> 
+          />
+            </div>
+          <div>
+            <input
             type="text"
             class="form-control floatPlace"
             placeholder="Question 1"
@@ -169,26 +192,46 @@
             required
             value="<%= question[0].choice_1 %>"
           />
+          </div>
+          </div>
           <% }  %>
           <input
             type="text"
-            class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
+            class="form-control floatPlace 
+            <% if(question[i].question_type =='0' ){ %>  
+              d-none 
+            <% }%>"
             placeholder="Value"
             name="value_1"
             required
             value="<%= question[0].choice_1_value %>"
           />
-          
-
-          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="2" name="correctAnswer" <% if(question[i].correct_answer =='2' ){ %>  checked <% }  %> />
-          <input
-            type="text"
-            class="form-control floatPlace"
-            placeholder="Question 1"
-            name="choice_2"
-            required
-            value="<%= question[0].choice_2 %>"
-          />
+          <div class="mb-2">
+            <div class="d-flex">
+              <small class="me-auto">CHOICE 2</small>
+              <input 
+                type="radio" 
+                class="<% if(question[i].question_type =='1' ){ %>  
+                    d-none 
+                  <% }%>" 
+                value="2" 
+                name="correctAnswer" 
+                <% if(question[i].correct_answer =='2' ){ %>  
+                  checked 
+                <% }  %> 
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                class="form-control floatPlace"
+                placeholder="Question 1"
+                name="choice_2"
+                required
+                value="<%= question[0].choice_2 %>"
+              />
+            </div>
+          </div>
           <input
             type="text"
             class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
@@ -197,15 +240,32 @@
             required
             value="<%= question[0].choice_2_value %>"
           />
-          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="3" name="correctAnswer" <% if(question[i].correct_answer =='3' ){ %>  checked <% }  %> />
-          <input
-            type="text"
-            class="form-control floatPlace"
-            placeholder="Question 1"
-            name="choice_3"
-            required
-            value="<%= question[0].choice_3 %>"
-          />
+          <div class="mb-2">
+            <div class="d-flex">
+              <small class="me-auto">CHOICE 3</small>
+              <input 
+                type="radio" 
+                class="<% if(question[i].question_type =='1' ){ %>  
+                  d-none 
+                <% }%>" 
+                value="3" 
+                name="correctAnswer" 
+                <% if(question[i].correct_answer =='3' ){ %>  
+                  checked 
+                <% }  %> 
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                class="form-control floatPlace"
+                placeholder="Question 1"
+                name="choice_3"
+                required
+                value="<%= question[0].choice_3 %>"
+              />
+            </div>
+          </div>
           <input
             type="text"
             class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
@@ -215,15 +275,32 @@
             value="<%= question[0].choice_3_value %>"
           />
 
-          <input type="radio" class="<% if(question[i].question_type =='1' ){ %>  d-none <% }%>" value="4" name="correctAnswer" <% if(question[i].correct_answer =='4' ){ %>  checked <% }  %> />
-          <input
-            type="text"
-            class="form-control floatPlace"
-            placeholder="Question 1"
-            name="choice_4"
-            required
-            value="<%= question[0].choice_4 %>"
-          />
+          <div class="mb-2">
+            <div class="d-flex">
+              <small class="me-auto">CHOICE 4</small>
+              <input 
+                type="radio" 
+                class="<% if(question[i].question_type =='1' ){ %>  
+                    d-none 
+                  <% }%>" 
+                value="4" 
+                name="correctAnswer" 
+                <% if(question[i].correct_answer =='4' ){ %>  
+                  checked 
+                <% }  %> 
+            />
+            </div>
+            <div>
+              <input
+                type="text"
+                class="form-control floatPlace"
+                placeholder="Question 1"
+                name="choice_4"
+                required
+                value="<%= question[0].choice_4 %>"
+              />
+            </div>
+          </div>
           <input
             type="text"
             class="form-control floatPlace <% if(question[i].question_type =='0' ){ %>  d-none <% }%>"
@@ -234,7 +311,9 @@
           />
         <%} %>
       </div>
-      <button type="">Save</button>
+      <div class="container">
+        <button type="" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
+      </div>
     </form>
   </div>
   <%} else { %>
