@@ -53,7 +53,7 @@
     $filterCheckboxes.on('change', showFiltered);
   
     // AJAX post on changing status
-    $(".container").on('change', 'form', function(e) {
+    $(".jobs-container").on('change', 'form', function(e) {
         // Stop form from submitting normally
         e.preventDefault();
   
@@ -66,7 +66,7 @@
         // Send the data using post
         $.post( url, { status: status })
         .done(()=>{
-          const card = $form.parent().parent().parent().parent().parent()
+          const card = $form.parent().parent()
           const cardDept = card.attr('department');
           const cardId = card.attr('id')
           card.attr('data-category', `${cardDept} status-${status}`);
@@ -83,7 +83,7 @@
           }
   
           card.remove()
-          $('.container').prepend(card)
+          $('.jobs-container').prepend(card)
           showFiltered()
         })
         

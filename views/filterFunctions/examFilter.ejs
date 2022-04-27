@@ -14,7 +14,6 @@
 
     function toggleShowHide(skill_name) {
       const allSkills = document.querySelectorAll('.skill');
-      skill_name = skill_name.replace(/\s/g, '');
       const target = document.querySelectorAll(`.${skill_name}-btn`);
       allSkills.forEach((element) => {
         element.classList.add('d-none');

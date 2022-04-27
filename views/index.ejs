@@ -47,22 +47,21 @@
     
     <div class="col-9 p-4 min-vh-100" style="background-color: #f2f2f2;">
       <!-- Cards -->
-      <div class="row">
+      <div class="row jobs-container">
         <% for (let i=0; i < jobOpening.length; i++) { %>
-          <div class="card col-4 mb-3 me-1" style="max-width: 450px;">
-            <!-- adding dynamic class for each job -->
-            
-            <!-- <div id="job-<%= jobOpening[i].job_id %>"
+          <!-- adding dynamic class for each job -->
+          <div 
+            class="card col-4 mb-3 me-2 all-jobs" 
+            style="max-width: 450px;"
+            id="job-<%= jobOpening[i].job_id %>"
             <% for (let j=0; j < admin_department.length; j++) { %>
               <% if(jobOpening[i].job_dept == admin_department[j].dept_id) {%>
                 data-id="job_<%= jobOpening[i].job_id %>"
-                class="all-jobs"
                 department="dept-<%= admin_department[j].dept_id %>"
                 data-category="dept-<%= admin_department[j].dept_id %> status-<%= jobOpening[i].status %>"
               <% } %>
             <% } %>
-            > -->
-
+          >
             <div class="d-flex">
               <div class="me-1">
                 <!-- display date opened -->
@@ -95,51 +94,51 @@
                 <% } %>
               <% } %>
             </div>
-                    <!-- number of applications -->
-                    <div>
-                      <% let applicants =  0 %>
-                      <p class="d-flex">
-                        <% for (let j=0; j < jobApplications.length; j++) { %>
-                          <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
-                              <% applicants++; %>
-                          <% } %>
-                        <% } %>
-                        <%= applicants; %>
-                        Applications
-                      </p>
-                    </div>
-                    <!-- status-->
-                    <div class= "status">
-                      <form action="/job/<%= jobOpening[i].job_id %>/status" method="post" class="statusForm" id="job_<%= jobOpening[i].job_id %>">
-                        <input type="radio" class="active-radio"
-                          name="status[<%= jobOpening[i].job_id %>]"
-                          value="0"
-                          <% if(jobOpening[i].status == '0') {%>
-                          checked
-                          <% } %>
-                        >
-                        <label for="active">ACTIVE</label><br>
-                        <input type="radio" class="draft-radio"
-                          name="status[<%= jobOpening[i].job_id %>]"
-                          value="1"
-                          <% if(jobOpening[i].status == '1') {%>
-                            checked
-                          <% } %>
-                        >
-                        <label for="draft">DRAFT</label><br>
-                        <input type="radio" class="archive-radio"
-                          name="status[<%= jobOpening[i].job_id %>]"
-                          value="2"
-                          <% if(jobOpening[i].status == '2') {%>
-                            checked
-                          <% } %>
-                        >
-                        <label for="draft">ARCHIVE</label><br>
-                        <button type="button">x</button>
-                      </form>
-                    </div>
+            <!-- number of applications -->
+            <div>
+              <% let applicants =  0 %>
+              <p class="d-flex">
+                <% for (let j=0; j < jobApplications.length; j++) { %>
+                  <% if(jobOpening[i].job_id == jobApplications[j].job_id) { %>
+                      <% applicants++; %>
+                  <% } %>
+                <% } %>
+                <%= applicants; %>
+                Applications
+              </p>
             </div>
-          <% } %>
+            <!-- status-->
+            <div class= "status">
+              <form action="/job/<%= jobOpening[i].job_id %>/status" method="post" class="statusForm" id="job_<%= jobOpening[i].job_id %>">
+                <input type="radio" class="active-radio"
+                  name="status[<%= jobOpening[i].job_id %>]"
+                  value="0"
+                  <% if(jobOpening[i].status == '0') {%>
+                  checked
+                  <% } %>
+                >
+                <label for="active">ACTIVE</label><br>
+                <input type="radio" class="draft-radio"
+                  name="status[<%= jobOpening[i].job_id %>]"
+                  value="1"
+                  <% if(jobOpening[i].status == '1') {%>
+                    checked
+                  <% } %>
+                >
+                <label for="draft">DRAFT</label><br>
+                <input type="radio" class="archive-radio"
+                  name="status[<%= jobOpening[i].job_id %>]"
+                  value="2"
+                  <% if(jobOpening[i].status == '2') {%>
+                    checked
+                  <% } %>
+                >
+                <label for="draft">ARCHIVE</label><br>
+                <button type="button">x</button>
+              </form>
+            </div>
+          </div>
+        <% } %>
       </div>
       </div>
       <div class="col-1 p-0" style="background-color: #f2f2f2;">
