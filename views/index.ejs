@@ -1,6 +1,6 @@
 <%- include('./layout/header.ejs') %>
 
-<div class="container-fluid m-0">
+<div class="container-fluid m-0" style="padding-top: 9vh;">
   <div class="row">
     <!-- sidebar for filter-->
     <div class="col-2 pe-0">
@@ -51,7 +51,7 @@
         <% for (let i=0; i < jobOpening.length; i++) { %>
           <!-- adding dynamic class for each job -->
           <div 
-            class="card col-4 mb-3 me-2 all-jobs" 
+            class="card col-4 mb-3 me-2 all-jobs rounded" 
             style="max-width: 450px;"
             id="job-<%= jobOpening[i].job_id %>"
             <% for (let j=0; j < admin_department.length; j++) { %>
