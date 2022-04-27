@@ -1,15 +1,20 @@
 <%- include('./layout/header.ejs') %>
-
+<div class="container-fluid pe-0 ps-0" style="padding-top: 10vh;">
 <div class="row min-vh-100">
-  <div class="col-sm-2">
-    <div class="d-flex flex-column">
-      <a href="/examcreation">+ NEW QUESTION</a>
+  <div class="col-sm-2 pe-0">
+    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+      <a href="/examcreation" style="text-decoration:none; color: black;">
+        + NEW QUESTION
+      </a>
+    </div>
+    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
       <a
       <% if (personality != 0) { %>  
         href="/examcreation/Personality/<%= personality[0].question_id %>"
       <% } else { %>
         href="/examcreation/Personality"
       <% } %>
+      style="text-decoration: none; color: black;"
       >
       Personality
       <% let personalityCount =  0 %>
@@ -18,7 +23,9 @@
         <% } %>
         (<%= personalityCount%>)
       </a>
-      <% for (let i=0; i < skill.length; i++) { %>
+    </div>
+    <% for (let i=0; i < skill.length; i++) { %>
+      <div class="p-2 mb-1" style="background-color: #e6e6e6;">
       <a
       <%  for (let j=0; j < qSkill.length; j++) { %>
         <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
@@ -26,6 +33,7 @@
         <% } %>
       <% } %>
         class="w3-bar-item sidebar"
+        style="text-decoration: none; color: black; background-color: #e6e6e6;"
       >
       <%= skill[i].skill_name %>
         <% let categoryCount =  0 %>
@@ -37,20 +45,20 @@
         (<%= categoryCount%>)
         
       </a>
-      <% } %>
     </div>
+      <% } %>
   </div>
   <% if (allCategoryQuestion != 0){ %>
-  <div class="col-sm-4">
+  <div class="col-sm-4 ps-0">
     <% for (let i=0; i < allCategoryQuestion.length; i++) { %>
       <a
       href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
-      style="color: white;"
+      style="color: white; text-decoration: none;"
       >
       <% for (let j=0; j < question.length; j++){%>
-        <div class="p-3" style="background-color: gray;">
+        <div class="p-3 selected-color mb-1">
           <div class="d-flex justify-content-between">
-            <p>
+            <p class="mb-0">
               <%= allCategoryQuestion[i].question_category %>
               <% if(question[j].question_type =='0' ){ %>
                | LEVEL <%=
@@ -240,5 +248,5 @@
     </div>
   <% } %>
 </div>
-
+</div>
 <%- include('./layout/footer.ejs') %>
