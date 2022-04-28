@@ -19,7 +19,7 @@
         <!-- date -->
         <div class="pb-1">
         <% for( let i = 0; i < jobOpening.length; i++){ %> 
-        <span>Date Posted:<%= date %></span>   
+        <span>Date Posted: <%= date %></span>   
         </div>
         <% } %>
        <!-- job title -->
@@ -37,47 +37,54 @@
           <% } %>
         </div>
   
+        <!-- job description -->
+        <div class="pb-4">
+          <h3 style="color: #4383B6;">Job Description</h3>
+          <p><%= jobOpening[i].job_description %> </p>
+        </div>
+
         <!-- job role -->
         <div class="pb-4">
+          <h3 style="color: #4383B6;">Role</h3>
           <% for (let j=0; j < jobDetail.length; j++) { %>
             <p> <%= jobDetail[j].role %>  </p>
           <% } %>
         </div>
-        <!-- job description -->
-      <div class="pb-4">
-        <h3 style="color: #4383B6;">Job Description</h3>
-        <p><%= jobOpening[i].job_description %> </p>
-      </div>
-    <%} %>
-      <!-- job responsibilities -->
-      <div class="pb-4">
-        <h3 style="color: #4383B6;">Responsibilities</h3>
-        <ul style="list-style-type: square;">
-          <% for(let i = 0; i < responsibility.length; i++ ){ %>
-            <li><%= responsibility[i].responsibility_detail %></li>
-          <% } %> 
-        </ul>
-      </div>
-      <!-- qualification-->
-      <div class="pb-4">
-        <h3 style="color: #4383B6;">Qualification</h3>
-        <ul style="list-style-type: square;">
-          <% for(let i = 0; i < qualification.length; i++ ){ %>
-            <li><%= qualification[i].qualification_detail %> </li>
-          <% } %> 
-        </ul>
-      </div>
-  <!-- categories-->
-      <% for(let i = 0; i < category.length; i++ ){ %>
-      <div class="pb-4">
-        <h3><%= category[i].category_detail %> </h3>
+    <% } %>
+
+    <!-- job responsibilities -->
+    <div class="pb-4">
+      <h3 style="color: #4383B6;">Responsibilities</h3>
+      <ul style="list-style-type: square;">
+        <% for(let i = 0; i < responsibility.length; i++ ){ %>
+          <li><%= responsibility[i].responsibility_detail %></li>
+        <% } %> 
+      </ul>
+    </div>
+
+    <!-- qualification-->
+    <div class="pb-4">
+      <h3 style="color: #4383B6;">Qualification</h3>
+      <ul style="list-style-type: square;">
+        <% for(let i = 0; i < qualification.length; i++ ){ %>
+          <li><%= qualification[i].qualification_detail %> </li>
+        <% } %> 
+      </ul>
+    </div>
+    
+    <!-- categories-->
+    <% for(let i = 0; i < category.length; i++ ){ %>
+    <div class="pb-4">
+      <h3 style="color: #4383B6;"><%= category[i].category_detail %> </h3>
+      <ul style="list-style-type: square;">
         <% for(let j = 0; j < item.length; j++ ){ %>
           <%  if (category[i].category_id == item[j].category_id){  %> 
               <li> <%= item [j].item_detail %> </li>
           <% } %> 
-        <% } %> 
-      </div>
-      <% } %> 
+        <% } %>
+      </ul> 
+    </div>
+    <% } %> 
   
     <div class="button-wrapper">
       <a href="/careers/job/<%= jobId %>/resume"><button class="btns">Apply Now</button></a>
