@@ -1,7 +1,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <%- include('./layout/header.ejs') %>
-<div class="row min-vh-100" style="padding-top: 75px;">
-  <div class="col-sm-2 pe-0">
+<div class="container-fluid">
+<div class="row" style="padding-top: 65px;">
+  <div class="col-sm-2 px-0">
     <div class="p-3 mb-1" style="background-color: #e6e6e6;">
       <a href="/examcreation" style="text-decoration: none; color: black;">+ NEW QUESTION</a>
     </div>
@@ -46,12 +47,11 @@
     </div>
       <% } %> 
   </div>
-  <div class="col-sm-10" style="background-color: #F2F2F2;">
+  <div class="col-sm-10 ps-0 pt-4" style="background-color: #F2F2F2;">
     <form action="/examcreation" method="POST">
-      <div class="container px-4 m-0">
+      <div class="container-fluid px-4 py-3">
         <div class="form-floating d-flex">
-          
-          <div class="me-2 border rounded border-secondary py-2 px-4">
+          <div class="me-2 border rounded border-secondary py-2 px-4 selected-tp">
           <input type="radio" 
           value="0" 
           name="questiontype" 
@@ -60,7 +60,7 @@
           />
           <label for="technical">Technical</label><br>
           </div>
-          <div class="me-2 border rounded border-secondary py-2 px-4">
+          <div class="me-2 border rounded border-secondary py-2 px-4 selected-tp">
           <input type="radio" 
           value="1" 
           name="questiontype" 
@@ -77,7 +77,7 @@
     </div>
   <div class="container-fluid px-4 py-3">
     <div class="row">
-      <div class="col">
+      <div class="form-floating col">
         <input 
         list="categoryList"
         placeholder="Select Category" 
@@ -85,6 +85,8 @@
         id="inputCategory"
         required
         onblur="CheckListed(this.value)"
+        style="border: none; height: 58px;"
+        class="w-100 form-control"
         >
         <datalist id="categoryList">
           <% for (let i=0; i < skill.length; i++) { %>
@@ -95,6 +97,7 @@
           <option hidden disabled value="Personality">Personality</option>
         </datalist>
         <span id="output"></span>
+        <label for="questionlevel">Category</label>
       </div>
       <div class="form-floating col">
         <select
@@ -103,6 +106,7 @@
           id="level"
           aria-label="Floating label select example"
           required
+          style="border: none;"
         > 
         <option disabled hidden selected value="">Select a level</option>
           <option value="1">1</option>
@@ -124,6 +128,7 @@
           placeholder="Timer"
           value=""
           required
+          style="border: none;"
         />
         <label for="floatPlace">Timer</label>
       </div>
@@ -138,6 +143,7 @@
           id="floatPlace"
           placeholder="Question"
           required
+          style="border: none; display: block;"
         />
         <label for="floatPlace">Question</label>
       </div>
@@ -157,6 +163,7 @@
               placeholder="Choice 1"
               name="choice_1"
               required
+              style="border: none;"
             />
             <input
             type="text"
@@ -166,104 +173,99 @@
             name="value_1"
             value="0"
             required
+            style="border: none;"
           />
           </div>
         </div>
-        </div>
-        <div class="container-fluid">
-          <div class="mb-2">
-            <div class="d-flex">
-              <small class="me-auto">CHOICE 2</small>
-              <input type="radio" value="2" name="correctAnswer" id="radioForCorrect" required/>
-            </div>
-            <div>
-              <input
-            type="text"
-            class="form-control"
-            id="floatPlace"
-            placeholder="Choice 2"
-            name="choice_2"
-            required
+        <div class="mb-2">
+          <div class="d-flex">
+            <small class="me-auto">CHOICE 2</small>
+            <input type="radio" value="2" name="correctAnswer" id="radioForCorrect" required/>
+          </div>
+          <div>
+            <input
+              type="text"
+              class="form-control"
+              id="floatPlace"
+              placeholder="Choice 2"
+              name="choice_2"
+              required
+              style="border: none;"
+            />
+            <input
+              type="text"
+              class="form-control choice-value-input d-none"
+              id="floatPlace"
+              placeholder="Value"
+              name="value_2"
+              value="0"
+              required
+              style="border: none;"
           />
-          <input
-          type="text"
-          class="form-control choice-value-input d-none"
-          id="floatPlace"
-          placeholder="Value"
-          name="value_2"
-          value="0"
-          required
-        />
-            </div>
           </div>
         </div>
-
-        <div class="container-fluid">
-          <div class="mb-2">
-            <div class="d-flex">
-              <small class="me-auto">CHOICE 3</small>
-              <input type="radio" value="3" name="correctAnswer" id="radioForCorrect" required/>
-            </div>
-            <div>
-              <input
+        <div class="mb-2">
+          <div class="d-flex">
+            <small class="me-auto">CHOICE 3</small>
+            <input type="radio" value="3" name="correctAnswer" id="radioForCorrect" required/>
+          </div>
+          <div>
+            <input
               type="text"
               class="form-control"
               id="floatPlace"
               placeholder="Choice 3"
               name="choice_3"
               required
+              style="border: none;"
             />
             <input
-            type="text"
-            class="form-control choice-value-input d-none"
-            id="floatPlace"
-            placeholder="Value"
-            name="value_3"
-            value="0"
-            required
-          />
-            </div>
+              type="text"
+              class="form-control choice-value-input d-none"
+              id="floatPlace"
+              placeholder="Value"
+              name="value_3"
+              value="0"
+              required
+              style="border: none;"
+            />
           </div>
         </div>
-
-        <div class="container-fluid">
-          <div class="mb-2">
-            <div class="d-flex">
-              <small class="me-auto">CHOICE 4</small>
-              <input type="radio" value="4" name="correctAnswer" id="radioForCorrect" required/>
-            </div>
-            <div>
-              <input
+        <div class="mb-2">
+          <div class="d-flex">
+            <small class="me-auto">CHOICE 4</small>
+            <input type="radio" value="4" name="correctAnswer" id="radioForCorrect" required/>
+          </div>
+          <div>
+            <input
               type="text"
               class="form-control"
               id="floatPlace"
               placeholder="Choice 4"
               name="choice_4"
               required
+              style="border: none;"
             />
             <input
-            type="text"
-            class="form-control choice-value-input d-none"
-            id="floatPlace"
-            placeholder="Value"
-            name="value_4"
-            value="0"
-            required
-          />
-            </div>
+              type="text"
+              class="form-control choice-value-input d-none"
+              id="floatPlace"
+              placeholder="Value"
+              name="value_4"
+              value="0"
+              required
+              style="border: none;"
+            />
           </div>
         </div>
-        <div class="container">
-          <button type="" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
-        </div>
       </div>
-    
-      
+
+      <div class="container m-0">
+        <button type="" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
+      </div>
+      </div>
     </form>
   </div>
-
-  
-</div>
 </div>
 <%- include('./filterFunctions/examCreationFilter.ejs') %>
 <%- include('./layout/footer.ejs') %>

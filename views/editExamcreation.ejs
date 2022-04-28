@@ -111,7 +111,7 @@
           id="inputCategory"
           required
           <% for (let j=0; j < question.length; j++) { %>
-            class="form-select <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
+            class="form-control <% if(question[j].question_type =='1' ){ %>  d-none <% }%>"
           <% } %> 
           onblur="CheckListed(this.value)"
           value="<%=question[0].question_category %>"
@@ -194,7 +194,7 @@
         </div>
       </div>
 
-      <div class="container">
+      <div class="container-fluid">
         <% for (let i=0; i < question.length; i++){%>
           <div class="mb-2">
             <div class="d-flex">
