@@ -229,7 +229,7 @@
                 expert
               <% } else if (jobApplicants[j].skill_level >= 50) { %>
                 intermediate
-              <% } else if (jobApplicants[j].skill_level > 0) { %>
+              <% } else { %>
                 beginner
               <% } %>
             <% } %>
@@ -261,7 +261,7 @@
                   expert
                 <% } else if (jobApplicants[j].skill_level >= 50) { %>
                   intermediate
-                <% } else if (jobApplicants[j].skill_level > 0) { %>
+                <% } else { %>
                   beginner
                 <% } %>
               <% } %>
