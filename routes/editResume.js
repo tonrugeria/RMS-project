@@ -49,6 +49,14 @@ router.get(
       })
       .first();
 
+    const applicantPersonaRecord = await knex('job_application.applicant_exam_answers')
+      .where({
+        application_id: appId,
+        job_id: jobId,
+        question_type: 1,
+      })
+      .first();
+
     if (applicants != 0) {
       const {
         date_of_birth,
@@ -113,6 +121,7 @@ router.get(
         gradDates,
         education,
         applicantExamRecord,
+        applicantPersonaRecord,
       });
     } else {
       res.render('editResume', {

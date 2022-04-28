@@ -300,7 +300,7 @@
           
           for ( let j = 0; j < data.expert.length; j++) { 
             if (data.expert[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.expert[j].skill_name}`)
+              $('#expertise-container').append(`${data.expert[j].skill_name} `)
             } 
           }  
         } else if ( highestScore >= 50) { 
@@ -308,7 +308,7 @@
         
           for ( let j = 0; j < data.intermediate.length; j++) { 
             if (data.intermediate[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.intermediate[j].skill_name}`)    
+              $('#expertise-container').append(`${data.intermediate[j].skill_name} `)    
             } 
           }   
         } else if ( highestScore > 0) { 
@@ -316,7 +316,7 @@
         
           for ( let j = 0; j < beginner.length; j++) { 
             if (data.beginner[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.beginner[j].skill_name}`)    
+              $('#expertise-container').append(`${data.beginner[j].skill_name} `)    
             }  
           }  
         }  
@@ -475,9 +475,12 @@
             </h5>
           `)
 
+          let techScore = (data.applicantInfo[0].technical_test_score/totalExamScore)*100;
+          techScore = +techScore.toFixed(2);
+
           $('#tech-exam-score').append(`
             <h5>
-              Percentage:  ${(data.applicantInfo[0].technical_test_score/totalExamScore)*100} &#37;
+              Percentage:  ${techScore} &#37;
             </h5>
           `)
         }

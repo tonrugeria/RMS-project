@@ -122,12 +122,12 @@ $(document).ready(function(){
         $questions.append(`<div id="question-container_${count}">
                             <div class="d-flex">
                             <h3>${data.responseQuestion[count].question_detail}</h3>
-                            <input type="text"
+                            <input type="hidden"
                               name="question_type"
                               value="${data.responseQuestion[count].question_type}"
                               readonly
                             >
-                            <input type="text"
+                            <input type="hidden"
                               name="question_id"
                               value="${data.responseQuestion[count].question_id}"
                               readonly
