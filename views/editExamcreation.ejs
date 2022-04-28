@@ -56,7 +56,12 @@
       style="color: white; text-decoration: none;"
       >
       <% for (let j=0; j < question.length; j++){%>
-        <div class="p-3 selected-color mb-1">
+        <div 
+          class="p-3 selected-color mb-1" 
+          <% if (allCategoryQuestion[i].question_id == questionId) { %>
+            style="background-color: #F2F2F2; color: black;"
+          <% } %>
+        >
           <div class="d-flex justify-content-between">
             <p class="mb-0">
               <%= allCategoryQuestion[i].question_category %>
@@ -71,7 +76,14 @@
               method="GET"
               action="/deleteExam/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
               >
-                <button type="submit" style="background: transparent; border: none; color: white;"><i class="fa-solid fa-xmark"></i></button>
+                <button
+                  type="submit" 
+                  <% if (allCategoryQuestion[i].question_id == questionId) { %>
+                    style="color: black; border: none;"
+                  <% } else { %>
+                    style="background: transparent; border: none; color: white;"
+                  <% } %> 
+                ><i class="fa-solid fa-xmark x-btn"></i></button>
               </form>
             </div>
           </div>
@@ -86,7 +98,12 @@
     <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
       <div class="container-fluid px-4 py-3">
         <div class="row">
-        <div class="form-floating col"> 
+        <div 
+          class="form-floating col
+          <% if(question[0].question_type =='1' ){ %>  
+            d-none 
+          <% } %>"
+        > 
           <input 
           list="categoryList"
           placeholder="Select Category" 
@@ -113,7 +130,13 @@
         </div>
       
       <% for (let i=0; i < question.length; i++){%>
-      <div class="form-floating <% if(question[i].question_type =='1' ){ %>  d-none <% }%> col">
+      <div 
+        class="form-floating 
+        <% if(question[i].question_type =='1' ){ %>  
+          d-none 
+        <% } %> 
+        col"
+      >
         <select
           name="questionlevel"
           class="form-select"
@@ -134,7 +157,12 @@
         <label for="questionlevel">Level</label>
       </div>
       <% for (let i=0; i < question.length; i++){%>
-      <div class="form-floating col">
+      <div 
+        class="form-floating col
+        <% if(question[i].question_type == '1' ){ %>  
+          d-none 
+        <% } %>"
+      >
         <input
           type="text"
           name="questiontimer"
