@@ -14,9 +14,13 @@
             >
           </div>
         <div>
-          <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
-            >TECHNICAL EXAM</a
-          >
+            <a 
+                <% if (personalityRecord != undefined) { %>
+                    href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+                <% } %>
+            >
+            TECHNICAL EXAM
+            </a>
         </div>
         <div>
           <a 
