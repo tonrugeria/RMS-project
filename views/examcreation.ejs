@@ -73,11 +73,11 @@
        
       
       <div>
-      <input type="hidden" value="<%= questionId %>" readonly name="question_id">
-    </div>
+        <input type="hidden" value="<%= questionId %>" readonly name="question_id">
+      </div>
   <div class="container-fluid px-4 py-3">
     <div class="row">
-      <div class="form-floating col">
+      <div class="form-floating col technical-input">
         <input 
         list="categoryList"
         placeholder="Select Category" 
@@ -99,10 +99,10 @@
         <span id="output"></span>
         <label for="questionlevel">Category</label>
       </div>
-      <div class="form-floating col">
+      <div class="form-floating col technical-input">
         <select
           name="questionlevel"
-          class="form-select technical-input"
+          class="form-select"
           id="level"
           aria-label="Floating label select example"
           required
@@ -119,11 +119,11 @@
         <label for="questionlevel">Level</label>
         
       </div>
-      <div class="form-floating col">
+      <div class="form-floating col technical-input">
         <input
           type="text"
           name="questiontimer"
-          class="form-control technical-input"
+          class="form-control"
           id="time"
           placeholder="Timer"
           value=""
