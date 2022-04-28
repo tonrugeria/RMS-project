@@ -1,9 +1,9 @@
 <%- include('./layout/header.ejs') %>
 
-<div class="container-fluid m-0" style="padding-top: 9vh;">
+<div class="container-fluid m-0" style="padding-top: 65px;">
   <div class="row">
     <!-- sidebar for filter-->
-    <div class="col-2 pe-0">
+    <div class="col-2 px-0">
       <div class="p-4 mb-1" style="background-color: #e6e6e6;">
         <a href="/job-requirement" style="text-decoration: none; color: black;">+ CREATE NEW JOB</a>
       </div>
@@ -51,8 +51,8 @@
         <% for (let i=0; i < jobOpening.length; i++) { %>
           <!-- adding dynamic class for each job -->
           <div 
-            class="card col-4 mb-3 me-2 all-jobs rounded" 
-            style="max-width: 450px;"
+            class="card col mb-3 me-2 all-jobs rounded" 
+            style="max-width: 1000px;"
             id="job-<%= jobOpening[i].job_id %>"
             <% for (let j=0; j < admin_department.length; j++) { %>
               <% if(jobOpening[i].job_dept == admin_department[j].dept_id) {%>
