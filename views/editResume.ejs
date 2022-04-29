@@ -2,14 +2,14 @@
   <div class="container g-0 m-0 p-0">
     <div class="row min-vh-100 min-vw-100 g-0">
       <div class="col-sm-2 pl-1 sideBar">
-        <div class="d-flex flex-column">
-          <div>
-            <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>">RESUME</a>
+        <div class="d-flex flex-column" style="background-color: #f2f2f2;">
+          <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+            <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>" style="text-decoration: none; color: black;">RESUME</a>
           </div>
-          <div>
-            <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>">PERSONALITY TEST</a>
+          <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+            <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>" style="text-decoration: none; color: black">PERSONALITY TEST</a>
           </div>
-          <div>
+          <div class="p-3 mb-1" style="background-color: #e6e6e6;">
             <a 
               <% if (applicantPersonaRecord != undefined) { %>
                 href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
@@ -25,6 +25,7 @@
             <% if(applicantExamRecord == undefined) { %>
             disabled
             <% }   %>
+            class="px-5 py-3"
             >
               SUBMIT
             </button>
@@ -246,21 +247,19 @@
             <div>
               <h5>Your Qualification</h5>
               <strong>RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING PROGRAMMING LANGUAGES AND FRAMEWORKS</strong>
-              <div class="container">
+              <div class="container-fluid">
                 <div class="row">
                   <% if(admin.length != 0) { %>
                   <% for( let i=0; i < admin.length; i++) { %>
-                    <div class="col-4 mb-1">
-                      <input type="number" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px">
-                      <label style="width: 90px">
-                        <%= admin[i].skill_name %>
-                      </label>
-                      <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 70px; text-align: center;" <% for( let j=0; j < rating.length; j++) { %>
+                    <div class="col-3 mb-1">
+                      <input type="hidden" name="skill_id" value="<%= admin[i].skill_id %>" style="width: 40px" readonly>
+                      <input class="p-1" style="width: 150px; background-color: #fff;" value="<%= admin[i].skill_name %>" readonly>
+                      <input type="number" name="skill_years" min="0" placeholder="Years" style="width: 100px; text-align: center;" <% for( let j=0; j < rating.length; j++) { %>
                         <% if(rating[j].skill_id==admin[i].skill_id) { %>
                             value="<%= rating[j].skill_years %>"
                         <% } %>
                       <% } %>>
-                      <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 60px; text-align: center;" <% for(let j=0; j < rating.length; j++) { %>
+                      <input type="number" name="skill_self_rating" min="0" max="5" placeholder="0" style="width: 80px; text-align: center;" <% for(let j=0; j < rating.length; j++) { %>
                         <% if(rating[j].skill_id==admin[i].skill_id) { %>
                           value="<%= rating[j].skill_self_rating %>"
                         <% } %>
@@ -517,7 +516,7 @@
             </div>
           <% } %> 
   
-            <button name="nameBtn" value="saveBtn">SAVE</button>
+            <button class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;" name="nameBtn" value="saveBtn">SAVE</button>
           </form>
         <% } %> 
       </div>

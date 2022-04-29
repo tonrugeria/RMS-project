@@ -180,16 +180,14 @@
 
       <div class="container-fluid pb-3">
         <div class="form-floating">
-          <input
-            type="text"
+          <textarea
             name="questiondetail"
             class="form-control"
             id="floatPlace"
             placeholder="Question"
             required
-            value="<%=question[0].question_detail %>"
-            style="border: none;"
-          />
+            style="border: none; height: 200px; resize: none;"
+          ><%=question[0].question_detail %></textarea>
           <label for="floatPlace">Question</label>
         </div>
       </div>
