@@ -20,103 +20,121 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-10" style="background-color: #f2f2f2;">
+    <div class="col-sm-10 p-4" style="background-color: #f2f2f2;">
       <h6>CREATE JOB DETAILS</h6>
       <% for (let i = 0; i < job.length; i++) { %>
-      <h1><%= job[i].job_title %></h1>
-      <div>
+      <h1 class="mb-5"><%= job[i].job_title %></h1>
+      <div class="mb-4">
         <label for="role"><h5>Role</h5></label>
         <div class="">
           <% if(jobDetail != 0) { %> <% for (let j = 0; j < jobDetail.length;
           j++) { %>
           <form action="/edit-role/job-<%= jobId %>" method="post">
-            <input
-              type="text"
-              name="role"
-              placeholder="Enter a Role"
-              value="<%= jobDetail[j].role %>"
-            />
-            <button>
-              <i class="fa-solid fa-check"></i>
-            </button>
+            <div class="d-flex">
+              <textarea
+                type="text"
+                name="role"
+                placeholder="Enter a Role"
+                class="border-0 w-100 p-2"
+                style="resize: none; height: 150px; background-color: #e6e6e6;"
+              ><%= jobDetail[j].role %></textarea>
+              <button class="border-0 pt-2" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">
+                <i class="fa-solid fa-check"></i>
+              </button>
+            </div>
           </form>
           <% } %> <% } else { %>
           <form action="/add-role/<%= jobId %>" method="post">
-            <input type="text" name="role" placeholder="Enter a Role" />
-            <button>+</button>
+            <textarea class="border-0 w-100" style="resize: none; height: 150px; background-color: #e6e6e6;" type="text" name="role" placeholder="Enter a Role"></textarea>
+            <button class="border-0 pt-2" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">+</button>
           </form>
           <% } %>
         </div>
       </div>
       <% } %>
-      <div>
+      <div class="mb-4">
         <h5>Responsibility</h5>
         <% for(let i = 0; i < jobResponsibility.length; i++) { %>
-        <div>
-          <form
-            style="display: inline"
-            action="/update/job-<%= jobId %>/category-responsibility/item-<%= jobResponsibility[i].responsibility_id %>"
-            method="post"
-          >
-            <input
-              type="text"
-              name="responsibility_item"
-              value="<%= jobResponsibility[i].responsibility_detail %>"
-              onkeydown="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>', 'responsibility')"
-            />
-            <button
-              class="update-btn d-none"
-              id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
-              type="submit"
+          <div class="d-flex mb-2">
+            <form
+              class="w-100"
+              style="display: inline"
+              action="/update/job-<%= jobId %>/category-responsibility/item-<%= jobResponsibility[i].responsibility_id %>"
+              method="post"
             >
-              <i class="fa-solid fa-check"></i>
-            </button>
-          </form>
-          <form
-            class="delete-btn"
-            id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
-            style="display: inline"
-            action="/deleteResponsibility/<%= jobId %>/<%= jobResponsibility[i].responsibility_id %>"
-            method="post"
-          >
-            <button type="submit">x</button>
-          </form>
-        </div>
+              <div class="d-flex">
+                <textarea
+                  type="text"
+                  name="responsibility_item"
+                  onkeydown="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>', 'responsibility')"
+                  class="border-0 w-100 px-2"
+                  style="resize: none; height: 45px; background-color: #e6e6e6; padding-top: 10px;"
+                ><%= jobResponsibility[i].responsibility_detail %></textarea>
+                <button
+                  style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;"
+                  class="update-btn d-none border-0 pt-2"
+                  id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
+                  type="submit"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </form>
+            <form
+              class="delete-btn"
+              id="responsibility_<%= jobResponsibility[i].responsibility_id %>"
+              style="display: inline"
+              action="/deleteResponsibility/<%= jobId %>/<%= jobResponsibility[i].responsibility_id %>"
+              method="post"
+            >
+              <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #e6e6e6;" type="submit">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </form>
+          </div>
         <% } %>
         <form action="/addResponsibility/<%= jobId %>" method="post">
-          <div class="mb-4">
-            <input
+          <div class="d-flex mb-4">
+            <textarea
+              class="border-0 w-100 px-2"
+              style="resize: none; height: 45px; padding-top: 10px;"
               type="text"
               name="responsibility_detail"
               placeholder="Enter a responsibility"
               required
-            />
-            <button type="submit">+</button>
+            ></textarea>
+            <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
           </div>
         </form>
       </div>
-      <div>
+      <div class="mb-4">
         <h5>Qualification</h5>
         <% for(let i = 0; i < jobQualification.length; i++) { %>
-        <div>
+        <div class="d-flex mb-2">
           <form
+            class="w-100"
+            style="display: inline"
             style="display: inline"
             action="/update/job-<%= jobId %>/category-qualification/item-<%= jobQualification[i].qualification_id %>"
             method="post"
           >
-            <input
-              type="text"
-              name="qualification_item"
-              value="<%= jobQualification[i].qualification_detail%>"
-              onkeydown="addUpdateBtn('<%= jobQualification[i].qualification_id%>', 'qualification')"
-            />
-            <button
-              class="update-btn d-none"
-              id="qualification_<%= jobQualification[i].qualification_id%>"
-              type="submit"
-            >
-              <i class="fa-solid fa-check"></i>
-            </button>
+            <div class="d-flex">
+              <textarea
+                type="text"
+                name="qualification_item"
+                onkeydown="addUpdateBtn('<%= jobQualification[i].qualification_id%>', 'qualification')"
+                class="border-0 w-100 px-2"
+                style="resize: none; height: 45px; background-color: #e6e6e6; padding-top: 10px;"
+              ><%= jobQualification[i].qualification_detail%></textarea>
+              <button
+                style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;"
+                class="update-btn d-none border-0 pt-2"
+                id="qualification_<%= jobQualification[i].qualification_id%>"
+                type="submit"
+              >
+                <i class="fa-solid fa-check"></i>
+              </button>
+            </div>
           </form>
           <form
             id="qualification_<%= jobQualification[i].qualification_id%>"
@@ -125,19 +143,21 @@
             action="/deleteQualification/<%= jobId %>/<%= jobQualification[i].qualification_id %>"
             method="post"
           >
-            <button type="submit">x</button>
+            <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #e6e6e6;" type="submit"><i class="fa-solid fa-xmark"></i></button>
           </form>
         </div>
         <% } %>
         <form action="/addQualification/<%= jobId %>" method="post">
-          <div class="mb-4">
-            <input
+          <div class="d-flex mb-4">
+            <textarea
+              class="border-0 w-100 px-2"
+              style="resize: none; height: 45px; padding-top: 10px;"
               type="text"
               name="qualification_detail"
               placeholder="Enter a qualification"
               required
-            />
-            <button type="submit">+</button>
+            ></textarea>
+            <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
           </div>
         </form>
       </div>
@@ -174,7 +194,7 @@
             action="/delete/job-<%= jobId %>/category-<%= jobCategory[i].category_id %>/item-<%= jobCategoryItem[j].item_id %>"
             method="post"
           >
-            <button type="submit">x</button>
+          <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #e6e6e6;" type="submit"><i class="fa-solid fa-xmark"></i></button>
           </form>
         </div>
         <% } %> <% } %>
@@ -182,28 +202,31 @@
           action="/add/<%= jobId %>/<%= jobCategory[i].category_id %>"
           method="post"
         >
-          <div class="mb-4">
-            <input
+          <div class="d-flex mb-4">
+            <textarea
+              class="border-0 w-100 px-2"
+              style="resize: none; height: 45px; padding-top: 10px;"
               type="text"
               name="item"
               placeholder="Enter a <%= jobCategory[i].category_detail %>"
               required
-            />
-            <button type="submit">+</button>
+            ></textarea>
+            <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
           </div>
         </form>
       </div>
       <% } %>
       <form action="/add-category/<%= jobId %>" method="post">
-        <div class="mb-4">
+        <div class="d-flex mb-4">
           <input
+            class="border-0 w-100 px-2"
+            style="resize: none; height: 45px;"
             type="text"
             name="categoryDetail"
             placeholder="Add a category"
             required
-            
           />
-          <button type="submit">+</button>
+          <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
         </div>
       </form>
     </div>
