@@ -1,4 +1,10 @@
 <!--Exam_Creation_Filter -->
+<style>
+  .active{
+    background-color: #4d4d4d; 
+    color: white;
+  }
+</style>
 <script>
   function technicalShowHide(){
     const technicalBtn = document.querySelector('#technical-btn');
@@ -73,4 +79,10 @@
 
   technicalShowHide();
   personalityShowHide();
+
+  // cards changing style onclick
+  $('.selected-tp').click(function(){
+    $('.selected-tp').removeClass('active');
+    $(this).addClass('active')
+  })
 </script>

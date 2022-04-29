@@ -170,11 +170,13 @@ router.get(
       (value, index, self) =>
         index === self.findIndex((t) => t.skill_name === value.skill_name)
     );
-    const qSkill = await knex('admin.skill').leftJoin(
-      'question.question',
-      'admin.skill.skill_name',
-      'question.question.question_category'
-    );
+    const qSkill = await knex('admin.skill')
+      .leftJoin(
+        'question.question',
+        'admin.skill.skill_name',
+        'question.question.question_category'
+      )
+      .orderBy('question_level');
     if (allCategoryQuestion == 0) {
       res.redirect(`/examcreation/${questionCategory}`);
     } else {

@@ -3,10 +3,10 @@
 <div class="container-fluid">
 <div class="row" style="padding-top: 65px;">
   <div class="col-sm-2 px-0">
-    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+    <div class="p-4 mb-1" style="background-color: #F2F2F2;">
       <a href="/examcreation" style="text-decoration: none; color: black;">+ NEW QUESTION</a>
     </div>
-    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+    <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
       <a
       <% if (personality != 0) { %>  
         href="/examcreation/Personality/<%= personality[0].question_id %>"
@@ -21,10 +21,10 @@
           <% personalityCount++; %>
         <% } %>
         (<%= personalityCount%>)
-    </a>
+      </a>
     </div>
     <% for (let i=0; i < skill.length; i++) { %>
-      <div class="p-2 mb-1" style="background-color: #e6e6e6;">
+      <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
       <a
       <%  for (let j=0; j < qSkill.length; j++) { %>
         <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
@@ -51,22 +51,29 @@
     <form action="/examcreation" method="POST">
       <div class="container-fluid px-4 py-3">
         <div class="form-floating d-flex">
-          <div class="me-2 border rounded border-secondary py-2 px-4 selected-tp">
-          <input type="radio" 
-          value="0" 
-          name="questiontype" 
-          id="technical-btn" 
-          onclick="technicalShowHide()" checked
-          />
-          <label for="technical">Technical</label><br>
+          <div class="me-2 border rounded border-secondary selected-tp active">
+            <label style="width: max-content; height: max-content; padding: 10px;" for="technical-btn">
+              Technical
+              <input type="radio"
+                style="display: none;"
+                value="0" 
+                name="questiontype" 
+                id="technical-btn" 
+                onchange="technicalShowHide()" checked
+              />
+            </label><br>
           </div>
-          <div class="me-2 border rounded border-secondary py-2 px-4 selected-tp">
-          <input type="radio" 
-          value="1" 
-          name="questiontype" 
-          id="personality-btn"
-          onclick="personalityShowHide()" />
-          <label for="personality">Personality</label><br>
+          <div class="me-2 border rounded border-secondary selected-tp">
+            <label style="width: max-content; height: max-content; padding: 10px;" for="personality-btn">
+              Personality
+              <input type="radio"
+                style="display: none;"
+                value="1" 
+                name="questiontype" 
+                id="personality-btn"
+                onchange="personalityShowHide()" 
+              />
+            </label><br>
           </div>
         </div>
       </div>

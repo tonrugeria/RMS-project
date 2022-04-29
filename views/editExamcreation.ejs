@@ -2,12 +2,12 @@
 <div class="container-fluid pe-0 ps-0" style="padding-top: 65px;">
 <div class="row min-vh-100">
   <div class="col-sm-2 pe-0">
-    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+    <div class="p-4 mb-1" style="background-color: #e6e6e6;">
       <a href="/examcreation" style="text-decoration:none; color: black;">
         + NEW QUESTION
       </a>
     </div>
-    <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+    <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
       <a
       <% if (personality != 0) { %>  
         href="/examcreation/Personality/<%= personality[0].question_id %>"
@@ -25,7 +25,7 @@
       </a>
     </div>
     <% for (let i=0; i < skill.length; i++) { %>
-      <div class="p-2 mb-1" style="background-color: #e6e6e6;">
+      <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
       <a
       <%  for (let j=0; j < qSkill.length; j++) { %>
         <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
@@ -46,7 +46,7 @@
         
       </a>
     </div>
-      <% } %>
+    <% } %>
   </div>
   <% if (allCategoryQuestion != 0){ %>
   <div class="col-sm-4 ps-0 pe-0" style="background-color: #666666;">
