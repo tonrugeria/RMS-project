@@ -35,7 +35,7 @@ input{
       <% if (messages) { %>
         <p><%-messages.error%></p>
         <% } %>           
-      <table class="table table-bordered">
+      <table class="table table-bordered" style="background-color: white; width: 100%;">
       <% for (let  i = 0; i < users.length; i++) { %>
         <% if (currentUser[0].role_id != 3 && users[i].role_id != 3) { %>
           <form method="post" action="/edit/<%=users[i].user_id %>" encType="multipart/form-data" > 
@@ -43,7 +43,7 @@ input{
               onkeyup="addUpdateBtn('<%= users[i].user_id %>')" 
               onchange="addUpdateBtn('<%= users[i].user_id %>')"
             >
-              <th>
+              <th style="background-color: #e6e6e6;" class="d-flex justify-content-center align-items-center">
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
                   <label for="photo_<%= i+1 %>">
@@ -115,7 +115,7 @@ input{
               <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
               <td class="delete-btn" id="<%= users[i].user_id%>">
                 <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-                  <button type="submit"><i class="fa-solid fa-x"></i></button>
+                  <button type="submit"><i class="fa-solid fa-xmark"></i></button>
                 </form>
               </td>
               <% } %>
@@ -127,7 +127,7 @@ input{
               onkeyup="addUpdateBtn('<%= users[i].user_id %>')"
               onchange="addUpdateBtn('<%= users[i].user_id %>')"
             >
-              <th>
+              <th style="background-color: #e6e6e6;" class="p-0 d-flex justify-content-center align-items-center">
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
                   <label for="photo_<%= i+1 %>">
@@ -157,7 +157,7 @@ input{
               <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
               <th><input type="password" name="password" value="<%= users[i].password %>" ></th>
               <td class="select">
-                <select name="role_name"> 
+                <select name="role_name" style="border: none;"> 
                   <option hidden>Select role</option>
                   <% if (users[i].role_id != 3) { %>
                     <% for (let  j = 0; j < userRole.length; j++) { %>
@@ -190,16 +190,22 @@ input{
                 </select>
               </td>   
               <th><input type="email" name="email" value="<%= users[i].email %>" ></th>
-              <td class="update-btn d-none" id="<%= users[i].user_id%>">
-                <form method="post" action="/edit/<%=users[i].user_id%>">
-                  <button type="submit"><i class="fa-solid fa-check"></i></button>
+              <td class="update-btn d-none d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
+                <form class="m-0" method="post" action="/edit/<%=users[i].user_id%>">
+                  <button style="border: none; background-color: transparent;" type="submit"><i class="fa-solid fa-check"></i></button>
                 </form>
               </td>
               
               <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
-              <td class="delete-btn" id="<%= users[i].user_id%>">
-                <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-                  <button type="submit"><i class="fa-solid fa-x"></i></button>
+              <td class="delete-btn d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
+                <form class="m-0" method="GET" action="/delete/<%= users[i].user_id%>"> 
+                  <button 
+                  class=""
+                  style="border: none; background-color: transparent;" 
+                  type="submit"
+                  >
+                  <i class="fa-solid fa-xmark"></i>
+                  </button>
                 </form>
               </td>
               <% } %>
@@ -208,7 +214,7 @@ input{
         <% } %> 
       <% } %>
         <form method="post" action="/users" encType="multipart/form-data" >
-          <th> 
+          <th class="d-flex justify-content-center align-items-center" style="background-color: #e6e6e6;"> 
             <label for="photo"><i class="fa-solid fa-plus" ></i></label>
             <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event, 0)" ></i>
             <img height="40" id="output_0">
@@ -216,14 +222,16 @@ input{
           <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
           <th><input type="password" placeholder="Enter Password" name="password"></th>
           <th>
-          <select name="role_name" >    
+          <select name="role_name" style="border: none;">    
             <option>Select role</option> 
             <% for (let  i = 0; i < userRole.length; i++) { %>  
             <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
             <% } %> 
           </select></th>
           <th><input type="email" placeholder="Enter Email Address" name="email"></th>
-          <th><button type="submit"><i class="fa-solid fa-plus"></i></button></th>
+          <th class="d-flex justify-content-center align-items-center">
+            <button style="border: none; background-color: transparent;" type="submit"><i class="fa-solid fa-plus"></i></button>
+          </th>
         </form>
       </table>
     </div>
