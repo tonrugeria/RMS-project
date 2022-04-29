@@ -51,7 +51,7 @@
         <% for (let i=0; i < jobOpening.length; i++) { %>
           <!-- adding dynamic class for each job -->
           <div 
-            class="card col mb-3 me-2 all-jobs rounded" 
+            class="card col mb-3 me-2 all-jobs rounded p-4" 
             style="max-width: 1000px;"
             id="job-<%= jobOpening[i].job_id %>"
             <% for (let j=0; j < admin_department.length; j++) { %>
@@ -62,6 +62,7 @@
               <% } %>
             <% } %>
           >
+          
             <div class="d-flex">
               <div class="me-1">
                 <!-- display date opened -->
@@ -73,11 +74,10 @@
                   <% } %>
                 <% } %>
               </div> | 
-              <div class="ms-1">
+              <div class="ms-1 me-auto">
                 <!-- display job-type -->
                 <span><%= jobOpening[i].job_type %></span>
               </div>
-            </div>
             <!-- display job title -->
             <p style= font-size:2em; class="mb-0">
               <a href="/job-requirement/<%= jobOpening[i].job_id %>" style="text-decoration: none; color: black;">
