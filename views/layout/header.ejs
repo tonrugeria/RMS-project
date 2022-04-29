@@ -65,7 +65,22 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-      <a href="/" class="navbar-brand"><span class="h5">RMS</span>  <span>|</span>  <span>FilAm Software Technology</span></a>
+      <a href="/" class="navbar-brand">
+        <span class="h5" id="company_logo_place">
+          <%# if (branding !=0 && branding[0].company_logo != null) { %>
+            <!-- <img src="/<%#= branding[0].company_logo %>" width="30" height="30" > -->
+          <%# } else { %>
+            RMS
+          <%# } %>
+        </span> |
+        <span id="company_name_place">
+          <%#  if (branding != 0) { %>
+            <%#= branding[0].company_name %>
+          <%# } else { %>
+            FilAm Software Technology
+          <%# } %>
+          </span>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

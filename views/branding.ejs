@@ -15,9 +15,88 @@
         <a href="/" style="text-decoration: none; color: black;">BACK TO JOB PAGE</a>
       </div>
   </div>
-    <div class="col-sm-10" style="background-color: #f2f2f2;">
-      <h1>this is branding</h1>
+    <div class="col-sm-10 col-md-10 p-5" style="background-color: #f2f2f2;">
+      <h4>BRANDING</h4>
+
+      <form action="/branding" method="post">
+        <div>
+          <label for="company_name">Company Name</label>
+          <div>
+            <input type="text"
+            <% if (branding != 0) { %>
+              value="<%= branding[0].company_name %>"
+            <% } %>
+            name="company_name" id="company_name">
+          </div>
+        </div>
+        <div>
+          <span>Company Logo</span>
+          <div class="input-group custom-file-button" style="width: max-content;">
+            <label for="company_logo" class="input-group-text">
+              <i class="fa-solid fa-image"></i>  Select a file
+            </label>
+            <input class="form-control" type="file" name="company_logo" id="company_logo">
+          </div>
+        </div>
+        <div>
+          <span>Login Background Image</span>
+          <div class="input-group custom-file-button" style="width: max-content;">
+            <label for="login_bg" class="input-group-text">
+              <i class="fa-solid fa-image"></i> Select a file
+            </label>
+            <input class="form-control" type="file" name="login_bg" id="login_bg">
+          </div>
+        </div>
+      </form>
+
+      <div style="opacity: 0.5;" >
+        <h4>Colors</h4>
+        <% for( let i = 0; i < items.length; i++ ) { %>
+          <div>
+            <label for="<%= names[i] %>">
+              <%= items[i] %>
+              <input
+                disabled
+                type="color"
+                name="<%= names[i] %>"
+                id="<%= names[i] %>"
+                style="width: 15px; height: 15px; border: none;"
+                >
+            </label>
+          </div>
+        <% } %>
+      </div>
     </div>
   </div>
 </div>
+<style>
+  .custom-file-button input[type=file] {
+  margin-left: -2px !important;
+  }
+
+  .custom-file-button input[type=file]::-webkit-file-upload-button {
+    display: none;
+  }
+
+  .custom-file-button input[type=file]::file-selector-button {
+    display: none;
+  }
+
+  .custom-file-button:hover label {
+    background-color: #dde0e3;
+    cursor: pointer;
+  }
+</style>
+<script>
+  $('form').on('change', function(){
+    let companyName = $('#company_name').val(),
+      companyLogo = $('#company_logo').val();
+
+
+    $('#company_name_place').html(companyName);
+    $('#company_logo_place').html(companyLogo)
+
+    $.post('/branding', {company_name: companyName, company_logo: companyLogo })
+  })
+</script>
 <%- include('./layout/footer.ejs') %>
