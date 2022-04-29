@@ -22,10 +22,12 @@
   </div>
 
   <div class="col-sm-10 p-3" style="background-color: #f2f2f2;">
-    <h4>EDIT JOB OPENING</h4>
     <form method="post" action="/job-requirement/<%= jobId %>" id="jobForm">
       <div class="container-fluid p-0 m-0">
         <div class="row">
+          <div class="col-12 ps-0">
+            <h4>EDIT JOB OPENING</h4>
+          </div>
           <div>
             <input type="hidden" name="jobId" value="<%= unique %>" readonly>
           </div>
@@ -102,9 +104,11 @@
         </div>
       </div>
 
-    <h4>MINIMUM QUALIFICATIONS</h4>
       <div class="container-fluid p-0 m-0">
         <div class="row">
+          <div class="col-12 ps-0">
+            <h4>MINIMUM QUALIFICATIONS</h4>
+          </div>
           <div class="col-4 form-floating ps-0 mb-3">
             <input class="form-control w-100 border-0" type="number" min="0" id="years" name="yearsOfExp" value="<%= job[0].min_years_experience %>" required/>
             <label for="years">YEARS OF EXPERIENCE</label>
@@ -238,22 +242,26 @@
       </div><br>
     
     </form>
-      <div>
-        <h4>EXAM</h4>
-        <ul>
-          <% if(jobQuestion != 0) { %>
-            <% for (let i = 0; i < jobQuestion.length; i++) { %>
-              <form action="/delete/job/<%= jobId %>/<%= jobQuestion[i].question_id %>" method="post">
-                <li name="question_id_<%= jobQuestion[i].question_id %>">
-                  <h5><%= jobQuestion[i].question_detail %> <button>x</button></h5> 
-                </li>
-              </form>
-            <% } %> 
-          <% } else { %> 
-            <h6>NO SELECTED EXAMS!</h6>
-            <h6>SELECT IN THE EXAM TAB ON THE SIDEBAR</h6>
-          <% } %> 
-        </ul>
+      <div class="container-fluid px-0">
+        <div class="row">
+          <div class="col-12 ps-0">
+            <h4>EXAM</h4>
+            <ul class="ps-0" style="list-style-type: none;">
+              <% if(jobQuestion != 0) { %>
+                <% for (let i = 0; i < jobQuestion.length; i++) { %>
+                  <form action="/delete/job/<%= jobId %>/<%= jobQuestion[i].question_id %>" method="post">
+                    <li class="mb-2 p-2 d-flex" style="border-bottom: solid 2px #e6e6e6; " name="question_id_<%= jobQuestion[i].question_id %>">
+                      <p class="mb-0" style="font-size: 20px;"><%= jobQuestion[i].question_detail %> </p> <button style="background-color: #f2f2f2;" class="border-0 ms-auto"><i class="fa-solid fa-xmark" ></i></button>
+                    </li>
+                  </form>
+                <% } %> 
+              <% } else { %> 
+                <h6>NO SELECTED EXAMS!</h6>
+                <h6>SELECT IN THE EXAM TAB ON THE SIDEBAR</h6>
+              <% } %> 
+            </ul>
+          </div>
+        </div>
       </div>
       <button form="jobForm" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
     </div>
