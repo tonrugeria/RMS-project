@@ -27,11 +27,16 @@
       <div class="container-fluid p-0 m-0">
         <div class="row">
           <div class="">
-            <label for="jobId">JOB ID</label> <br>
-            <input type="number"  name="jobId" value="<%= unique %>" readonly>
+            <input type="hidden"  name="jobId" value="<%= unique %>" readonly>
           </div>
           <div class="col-8 form-floating ps-0 pe-2 mb-2">
-            <input class="w-100 form-control ps-2 border-0" id="floatingInput" placeholder="JOB TITLE" type="text" name="jobTitle" required>
+            <input 
+              class="w-100 form-control ps-2 border-0" 
+              id="floatingInput" 
+              placeholder="JOB TITLE" 
+              type="text" 
+              name="jobTitle" required
+            >
             <label for="floatingInput">JOB TITLE</label>
           </div>
           <div class="col-4 form-floating ps-0">
@@ -67,7 +72,7 @@
           </div>
           <br>
           <div class="col-12 form-floating ps-0 mb-3">
-            <input class="form-control border-0" style="height: 150px;" type="text" id="jobdesc" name="jobDesc" />
+            <textarea class="form-control border-0" style="height: 200px; resize: none;"  id="jobdesc" name="jobDesc" ></textarea>
             <label for="jobdesc">JOB DESCRIPTION</label>
           </div>
         </div>
@@ -170,7 +175,7 @@
         <input type="radio" id="Archive" name="status" value="2">
           <label for="Archive">Archive</label>
       </div><br>
-      <button>SAVE</button>
+      <button class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
     </form>
     </div>
   </div>
