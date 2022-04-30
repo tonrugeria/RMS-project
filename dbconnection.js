@@ -90,6 +90,12 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           position_level_id SERIAL PRIMARY KEY NOT NULL,
           position_level_name VARCHAR(100) NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS Admin.Branding(
+        branding_id SERIAL PRIMARY KEY NOT NULL,
+        company_name VARCHAR,
+        company_logo VARCHAR,
+        login_bg VARCHAR
+    );
       CREATE SCHEMA IF NOT EXISTS Jobs;
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
           job_id INT PRIMARY KEY NOT NULL,
