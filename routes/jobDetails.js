@@ -18,6 +18,7 @@ router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
   const jobResponsibility = await knex('jobs.responsibility').where('job_id', jobId);
   const jobQualification = await knex('jobs.qualification').where('job_id', jobId);
   const jobCategory = await knex('jobs.category').where('job_id', jobId);
+  const jobQuestion = await knex('jobs.question').where('job_id', jobId);
   const jobCategoryItem = await knex('jobs.item').innerJoin(
     'jobs.category',
     'jobs.item.category_id',
@@ -34,6 +35,7 @@ router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
+    jobQuestion
   });
 });
 

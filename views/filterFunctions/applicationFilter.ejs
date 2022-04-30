@@ -28,8 +28,10 @@
     $(':button').click(function(){
       if($(this).hasClass('active')){
         $(this).removeClass('active')
+        $(this).addClass('bg-transparent')
       } else {
         $(this).addClass('active')
+        $(this).removeClass('bg-transparent')
       }
     })
 
