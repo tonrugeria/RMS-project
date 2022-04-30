@@ -148,9 +148,10 @@
       $.get(url, function(data, status){
         const detailContainer = $('#app-details-container');
         detailContainer.attr('class', 'col-6 g-0 p-4')
+        detailContainer.css("background-color", "#f2f2f2")
         detailContainer.html(`
-          <div class="d-flex flex-column border-3">
-          <div class="card p-3 border-bottom border-0">
+          <div class="d-flex flex-column border-3" >
+          <div class="card p-3 border-bottom border-0" style="background-color: #f2f2f2">
             <div class="row g-0">
               <div class="col-md-4" id="photo-container">
                 
@@ -183,7 +184,7 @@
                       <div class="me-1">
                         <form action="/application/job/${data.applicantInfo[0].job_id}/applicant/${data.applicantInfo[0].application_id}" method="post" class="statusForm">
                           <div class="d-flex">
-                            <select name="remark" class="title" required id="status-selector">
+                            <select name="remark" class="title" required id="status-selector" style="background-color: #f2f2f2; padding: 1.5px 2px; font-weight: 500">
                               <option hidden value="">ASSIGN STATUS</option>
                               
                             </select>
@@ -192,7 +193,7 @@
                       </div>
                       <div>
                         <a target="_blank" href="/generateResume/job/${data.applicantInfo[0].job_id}/application/${data.applicantInfo[0].application_id}">
-                          <button>SAVE RESUME</button>
+                          <button style="border: 1px solid black; font-weight: 500">SAVE RESUME</button>
                         </a>
                       </div>
                     </div>
@@ -208,7 +209,7 @@
               <div class="d-flex">
                 <div class="me-1">
                   <a data-bs-toggle="modal" href="#exampleModalToggle" role="button">
-                    <button>VIEW EXAM RESULTS</button>
+                    <button style="border: 1px solid black; font-weight: 500">VIEW EXAM RESULTS</button>
                   </a>
                 </div>
               </div>

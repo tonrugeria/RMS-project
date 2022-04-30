@@ -12,7 +12,7 @@ input{
 <%- include('./layout/header.ejs')  %>  
 <div class="container-fluid" >
   <div class="row min-vh-100" style="padding-top: 65px;" >
-    <div class="col-sm-2 px-0">
+    <div class="col-sm-2 px-0" style="background-color: #f2f2f2;">
       <div class="mb-1 px-5 py-3" style="background-color: #e6e6e6;">
         <a style="text-decoration: none; color: black;" href="/branding">Branding</a>
       </div>
@@ -47,7 +47,7 @@ input{
                     <img src="/<%= users[i].photo %>"  
                       width="36" 
                       height="36" 
-                      class="img-thumbnail" 
+                      class="img-thumbnail"
                       id="output_<%= i+1 %>"
                     >
                   </label>
@@ -123,15 +123,16 @@ input{
             <tr 
               onkeyup="addUpdateBtn('<%= users[i].user_id %>')"
               onchange="addUpdateBtn('<%= users[i].user_id %>')"
+              style="height: 50px"
             >
               <th style="background-color: #e6e6e6;" class="p-0 d-flex justify-content-center align-items-center">
                 <% if (users[i].photo != null) { %>
                   <!-- allows to click on photo to change photo -->
-                  <label for="photo_<%= i+1 %>">
+                  <label style="height: 50px;" for="photo_<%= i+1 %>">
                     <img src="/<%= users[i].photo %>"  
-                      width="36" 
-                      height="36" 
-                      class="img-thumbnail" 
+                      width="50" 
+                      height="50" 
+                      class="img-thumbnail p-0" 
                       id="output_<%= i+1 %>"
                     >
                   </label>
@@ -151,9 +152,9 @@ input{
                   <img height="40" id="output_<%= i+1 %>">
                 <% } %> 
               </th>
-              <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
-              <th><input type="password" name="password" value="<%= users[i].password %>" ></th>
-              <td class="select">
+              <th style="padding-top: 14px;"><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+              <th style="padding-top: 14px;"><input type="password" name="password" value="<%= users[i].password %>" ></th>
+              <td style="padding-top: 14px;" class="select">
                 <select name="role_name" style="border: none;"> 
                   <option hidden>Select role</option>
                   <% if (users[i].role_id != 3) { %>
@@ -186,8 +187,8 @@ input{
                 
                 </select>
               </td>   
-              <th><input type="email" name="email" value="<%= users[i].email %>" ></th>
-              <td class="update-btn d-none d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
+              <th style="padding-top: 14px;"><input type="email" name="email" value="<%= users[i].email %>" ></th>
+              <td style="padding-top: 14px;" class="update-btn d-none d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
                 <form class="m-0" method="post" action="/edit/<%=users[i].user_id%>">
                   <button style="border: none; background-color: transparent;" type="submit"><i class="fa-solid fa-check"></i></button>
                 </form>
@@ -216,17 +217,17 @@ input{
             <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event, 0)" ></i>
             <img height="40" id="output_0">
           </th>
-          <th><input type="text" placeholder="Enter Name" name="user_name" required></th>
-          <th><input type="password" placeholder="Enter Password" name="password"></th>
-          <th>
+          <th style="padding-top: 14px;"><input type="text" placeholder="Enter Name" name="user_name" required></th>
+          <th style="padding-top: 14px;"><input type="password" placeholder="Enter Password" name="password"></th>
+          <th style="padding-top: 14px;">
           <select name="role_name" style="border: none;">    
             <option>Select role</option> 
             <% for (let  i = 0; i < userRole.length; i++) { %>  
             <option value=<%= userRole[i].role_id %>><%= userRole[i].role_name %></option>
             <% } %> 
           </select></th>
-          <th><input type="email" placeholder="Enter Email Address" name="email"></th>
-          <th class="d-flex justify-content-center align-items-center">
+          <th style="padding-top: 14px;"><input type="email" placeholder="Enter Email Address" name="email"></th>
+          <th style="padding-top: 14px;" class="d-flex justify-content-center align-items-center">
             <button style="border: none; background-color: transparent;" type="submit"><i class="fa-solid fa-plus"></i></button>
           </th>
         </form>

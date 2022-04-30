@@ -220,104 +220,114 @@
         <label style="width: 80px; font-weight: 500;" for="<%= adminSkill[i].skill_name %>">
           <%= adminSkill[i].skill_name %></label
         >
-        <input 
-          type="radio" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="1"
-          id="radio-1-<%= adminSkill[i].skill_id %>"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-          <% for(let j=0; j < jobSkill.length; j++) { %>
-            <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '1') {%> 
-              checked
+        <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="1">
+          <input 
+            type="radio" 
+            name="skill_level[<%= adminSkill[i].skill_id %>]" 
+            value="1"
+            id="radio-1-<%= adminSkill[i].skill_id %>"
+            class="radio-<%= adminSkill[i].skill_id %> me-1"
+            onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '1') {%> 
+                checked
+              <% } %>
             <% } %>
-          <% } %>
-        />
-        <label class="me-2" for="1" style="font-size: 11px;">1</label>
+          />
+          1
+        </label>
 
-        <input 
-          type="radio" 
-          id="2" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="2"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-          <% for(let j=0; j < jobSkill.length; j++) { %>
-            <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '2') {%> 
-              checked
+        <label class="me-2 d-inline-flex" for="2" style="font-size: 10px; align-items: center;">
+          <input 
+            type="radio" 
+            id="2" 
+            name="skill_level[<%= adminSkill[i].skill_id %>]" 
+            value="2"
+            class="radio-<%= adminSkill[i].skill_id %> me-1"
+            onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '2') {%> 
+                checked
+              <% } %>
             <% } %>
-          <% } %>
-        />
-        <label class="me-2" for="2" style="font-size: 11px;">2</label>
+          />
+          2
+        </label>
 
-        <input 
-          type="radio" 
-          id="3" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="3"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-          <% for(let j=0; j < jobSkill.length; j++) { %>
-            <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '3') {%> 
-              checked
+        <label class="me-2 d-inline-flex" for="3" style="font-size: 10px; align-items: center;">
+          <input 
+            type="radio" 
+            id="3" 
+            name="skill_level[<%= adminSkill[i].skill_id %>]" 
+            value="3"
+            class="radio-<%= adminSkill[i].skill_id %> me-1"
+            onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '3') {%> 
+                checked
+              <% } %>
             <% } %>
-          <% } %>
-        />
-        <label class="me-2" for="3" style="font-size: 11px;">3</label>
+          />
+          3
+        </label>
 
-        <input 
-          type="radio" 
-          id="4" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="4"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-          <% for(let j=0; j < jobSkill.length; j++) { %>
-            <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '4') {%> 
-              checked
-            <% } %>
-          <% } %> 
-        />
-        <label class="me-2" for="4" style="font-size: 11px;">4</label>
+        <label class="me-2 d-inline-flex" for="4" style="font-size: 10px; align-items: center;">
+          <input 
+            type="radio" 
+            id="4" 
+            name="skill_level[<%= adminSkill[i].skill_id %>]" 
+            value="4"
+            class="radio-<%= adminSkill[i].skill_id %> me-1"
+            onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '4') {%> 
+                checked
+              <% } %>
+            <% } %> 
+          />
+          4
+        </label>
 
-        <input 
-          type="radio" 
-          id="5" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="5"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-          <% for(let j=0; j < jobSkill.length; j++) { %>
-            <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '5') {%> 
-              checked
+        <label class="me-2 d-inline-flex" for="5" style="font-size: 10px; align-items: center;">
+          <input 
+            type="radio" 
+            id="5" 
+            name="skill_level[<%= adminSkill[i].skill_id %>]" 
+            value="5"
+            class="radio-<%= adminSkill[i].skill_id %> me-1"
+            onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            <% for(let j=0; j < jobSkill.length; j++) { %>
+              <% if(adminSkill[i].skill_id == jobSkill[j].skill_id && jobSkill[j].skill_level == '5') {%> 
+                checked
+              <% } %>
             <% } %>
-          <% } %>
-        />
-        <label class="me-2" for="5" style="font-size: 11px;">5</label>
+          />
+          5
+        </label>
         </div>
         
       <% } %> 
     </div>
-      <h7>Status</h7>
+      <h7 style="font-weight: 500;">Status</h7>
       <div>
         <input type="radio" id="Draft" name="status" value="1"
         <% if(job[0].status == 1) {%> 
           checked
         <% } %>
         >
-         <label for="Draft">Draft</label>
+         <label for="Draft" class="me-2">Draft</label>
         <input type="radio" id="Active" name="status" value="0"
         <% if(job[0].status == 0) {%> 
           checked
         <% } %>
         >
-          <label for="Active">Active</label>
+          <label for="Active" class="me-2">Active</label>
         <input type="radio" id="Archive" name="status" value="2"
         <% if(job[0].status == 2) {%> 
           checked
         <% } %>
         >
-          <label for="Archive">Archive</label>
+          <label for="Archive" class="me-2">Archive</label>
       </div><br>
     
     </form>
