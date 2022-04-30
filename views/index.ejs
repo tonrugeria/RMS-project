@@ -62,7 +62,6 @@
               <% } %>
             <% } %>
           >
-          
             <div class="d-flex">
               <div class="me-1">
                 <!-- display date opened -->
@@ -78,12 +77,14 @@
                 <!-- display job-type -->
                 <span><%= jobOpening[i].job_type %></span>
               </div>
+            </div>
             <!-- display job title -->
             <p style= font-size:2em; class="mb-0">
               <a href="/job-requirement/<%= jobOpening[i].job_id %>" style="text-decoration: none; color: black;">
                 <%= jobOpening[i].job_title %>
               </a>
             </p>
+            
             <!-- display skills -->
             <div class="d-flex mb-4">
               <% for (let j=0; j < jobSkill.length; j++) { %>

@@ -96,10 +96,10 @@
 
   <!-- Technologies -->
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-    <div class="row">
       <% for (let i=0; i < adminSkill.length; i++) { %>
         <span class="col p-0">
           <button 
+            class="border-0"
             type="button" 
             name="skills" 
             value="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>" 
@@ -107,7 +107,6 @@
           ><%= adminSkill[i].skill_name %></button>
         </span>
       <% } %>
-      </div>
     </div>
 
   <!-- Expertise -->
