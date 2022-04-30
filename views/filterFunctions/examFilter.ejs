@@ -1,7 +1,11 @@
 <style>
   .active{
-    background-color: grey; 
+    background-color: #666666; 
     color: white;
+  }
+
+  .selected {
+    background-color: #FFFFFF;
   }
 </style>
 <script>
@@ -32,7 +36,9 @@
 
     // buttons changing style onclick
     $('.button-container button').click(function(){
+      $('.button-container button').addClass('bg-transparent');
       $('.button-container button').removeClass('active');
+      $(this).removeClass('bg-transparent')
       $(this).addClass('active')
     })
 
@@ -40,14 +46,29 @@
     $('.job-exam-form, #questionCheckbox').on('change', function(){
       const $form = $('.job-exam-form'),
         url = $form.attr('action'),
-        jobId = url.split('/').pop();
+        jobId = url.split('/').pop(),
+        checkedBoxes = $("input[name='question_id']:checked");
 
       const checked = [];
 
-      $("input[name='question_id']:checked").each(function (){
+      checkedBoxes.each(function (){
         checked.push(parseInt($(this).val()));
       });
 
       $.post( url, { job_id: jobId, question_id: checked})
+      .done(function(){
+        let count =  checkedBoxes.length
+        $('#exam-count').html(` ( ${count} SELECTED ) `)
+
+        $("input[name='question_id']").each(function(){
+          if($(this).is(':checked')){
+            $(this).parent().parent().addClass('selected')
+          } else {
+            $(this).parent().parent().removeClass('selected')
+          }
+        })
+      })
     })
+
+    $("input[name='question_id']:checked").parent().parent().addClass('selected')
   </script>

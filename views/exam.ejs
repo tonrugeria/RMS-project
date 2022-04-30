@@ -1,6 +1,6 @@
 <%- include('./layout/header.ejs') %>
   <div class="container-fluid">
-    <div class="row min-vh-100" style="padding-top: 65px;">
+    <div class="row" style="padding-top: 65px;">
       <div class="col-sm-2 px-0" >
         <div class="d-flex flex-column min-vh-100">
           <div class="mb-1 px-5 py-3" style="background-color: #e6e6e6;">
@@ -19,7 +19,7 @@
                         <% exam++; %>
                     <% } %>
                   <% } %>
-                  <p class="ps-1"> ( <%= exam; %> SELECTED ) </p>
+                  <p class="ps-1" id="exam-count"> ( <%= exam; %> SELECTED ) </p>
                 </p>
             </a>
           </div>
@@ -31,35 +31,47 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-10" style="background-color: #f2f2f2;">
-        <h5>EXAMINATION ITEMS</h5>
+      <div class="col-sm-10 p-4" style="background-color: #f2f2f2;">
+        <h4>EXAMINATION ITEMS</h4>
         <% if(adminJobSkill != 0) { %>
-        <div class="d-flex button-container">
-          <button onclick="showAllFunction()" class="active">ALL</button>
-          <% for(let i=0; i < adminJobSkill.length; i++) { %>
-              <button onclick="toggleShowHide('skill-<%= adminJobSkill[i].skill_id %>')">
+        <div class="container-fluid">
+          <div class="d-flex button-container mb-4" style="font-size: 1.2em;">
+            <button
+              onclick="showAllFunction()" 
+              class="border-0 rounded active px-3"
+              style="font-weight: 500;"
+            >
+              ALL
+            </button>
+            <% for(let i=0; i < adminJobSkill.length; i++) { %>
+              <button 
+                class="border-0 rounded bg-transparent ms-1 px-3 py-1"
+                onclick="toggleShowHide('skill-<%= adminJobSkill[i].skill_id %>')"
+                style="font-weight: 500;"
+              >
                 <%= adminJobSkill[i].skill_name %>
               </button>
-          <% } %>
-        </div>
-        
-        <div class="container">
-          <div class="row border-bottom border-secondary">
-            <div class="col-8">
+            <% } %>
+          </div>
+          <div class="row border-bottom border-secondary mb-3 py-2">
+            <div class="col-8 ms-4">
               <input id="questionCheckbox" type="checkbox" onclick="toggleCheck(this)" />
-              <label for="questionCheckbox">QUESTION</label>
+              <label class="ms-3" for="questionCheckbox" style="font-size: 0.8em;">QUESTION</label>
             </div>
-            <div class="col text-center">TOPIC</div>
-            <div class="col text-center">LEVEL</div>
+            <div class="col text-center" style="font-size: 0.8em;">TOPIC</div>
+            <div class="col text-center" style="font-size: 0.8em;">LEVEL</div>
           </div>
           <div>
             <form action="/exam/<%= jobId %>" method="post" class="job-exam-form">
               <% for(let i=0; i < question.length; i++) { %>
                 <% for(let j = 0; j < adminJobSkill.length; j++) { %>
                   <% if(question[i].question_category == adminJobSkill[j].skill_name) {%> 
-                    <div class="row all-btn skill-<%= adminJobSkill[j].skill_id %>-btn skill">
-                      <div class="col-8">
-                        <input 
+                    <div class="row all-btn skill-<%= adminJobSkill[j].skill_id %>-btn skill mb-1 py-3 rounded"
+                    style="font-weight: 500;"  
+                    >
+                      <div class="col-8 ms-4">
+                        <input
+                          id="question-<%= question[i].question_id %>" 
                           type="checkbox" 
                           name="question_id" 
                           value="<%= question[i].question_id %>"
@@ -68,14 +80,14 @@
                           <% } %>
                             <% } %> 
                         />
-                        <label for="">
+                        <label class="ms-3" for="question-<%= question[i].question_id %>" style="font-size: 1.2em;">
                           <%= question[i].question_detail %>
                         </label>
                       </div>
-                      <div class="col text-center">
+                      <div class="col text-center" style="font-size: 1.2em;">
                         <%= question[i].question_category %>
                       </div>
-                      <div class="col text-center">
+                      <div class="col text-center" style="font-size: 1.2em;">
                         <%= question[i].question_level %>
                       </div>
                     </div>
