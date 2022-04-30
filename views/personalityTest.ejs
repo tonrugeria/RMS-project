@@ -1,20 +1,20 @@
 <%- include('./layout/resumeHeader.ejs') %>
 <div class="container g-0 m-0 p-0">
   <div class="row min-vh-100 min-vw-100 g-0">
-    <div class="col-sm-2 pl-1" style="background-color: #f2f2f2;">
-      <div class="d-flex flex-column">
-        <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+    <div class="col-sm-2 pl-1 sideBar">
+      <div class="d-flex flex-column" style="background-color: #f2f2f2;">
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>" style="text-decoration: none; color: black;"
             >RESUME</a
           >
         </div>
-        <div class="p-3 mb-1" style="background-color: #f2f2f2;">
+        <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
             <a style="text-decoration: none; color: black;" href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
               >PERSONALITY TEST</a
             >
           </div>
-        <div class="p-3 mb-1" style="background-color: #e6e6e6;">
-            <a 
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            <a style="text-decoration: none; color: black"
                 <% if (personalityRecord != undefined) { %>
                     href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
                 <% } %>
@@ -22,7 +22,7 @@
             TECHNICAL EXAM
             </a>
         </div>
-        <div>
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a 
           href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
           >
@@ -38,7 +38,7 @@
         
       </div>
     </div>
-    <div class="col-sm-10 p-4" style="background-color: #f2f2f2;">
+    <div class="col-sm-10 p-5 main">
         <h1>PERSONALITY TEST</h1>
     <% if (applicantRecord == 0){ %>
     <div
@@ -65,9 +65,9 @@
             <form action="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>" method="post" id="personality-test">
                 <% for( let i = 0; i < personalityQuestions.length; i++ ) { %>
                     <div class="question_<%= i+1 %> mb-3">
-                        <h3>
+                        <p>
                             <%= i+1 %>. <%= personalityQuestions[i].question_detail %>
-                        </h3>
+                        </p>
                         <input 
                             type="hidden" 
                             value="<%= personalityQuestions[i].question_id %>"
@@ -153,6 +153,10 @@
     </div>
   </div>
 </div>
-
+<style>
+    p, label {
+        font-weight: 500;
+    }
+</style>
 
 <%- include('./layout/resumeFooter.ejs') %>

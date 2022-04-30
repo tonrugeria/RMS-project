@@ -1,24 +1,26 @@
 <%- include('./layout/resumeHeader.ejs') %>
 <div class="container g-0 m-0 p-0">
   <div class="row min-vh-100 min-vw-100 g-0">
-    <div class="col-sm-2 pl-1">
-      <div class="d-flex flex-column">
-        <div>
+    <div class="col-sm-2 pl-1 sideBar">
+      <div class="d-flex flex-column" style="background-color: #f2f2f2;">
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
-            >RESUME</a
+            style="text-decoration: none; color: black;"
           >
+            RESUME
+          </a>
         </div>
-        <div>
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
-            >PERSONALITY TEST</a
-          >
+            style="text-decoration: none; color: black;"
+            >PERSONALITY TEST</a>
         </div>
-        <div>
+        <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
           <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
-            >TECHNICAL EXAM</a
-          >
+            style="text-decoration: none; color: black;"
+            >TECHNICAL EXAM</a>
         </div>
-        <div>
+        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a 
           href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
           >
@@ -26,6 +28,7 @@
             <% if(applicantExamRecord == undefined) { %>
               disabled
             <% } %> 
+            class="px-5 py-3"
             >SUBMIT
             </button>
           </a>
@@ -33,7 +36,7 @@
         
       </div>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-10 p-5 main">
       <h1>TECHNICAL EXAM</h1>
       <% if (applicantRecord == 0){ %>
         <div
@@ -48,8 +51,8 @@
         <h5>YOU HAVE COMPLETED THE EXAM</h5>
       </div>
       <% } else if (jobQuestion != 0) { %>
-      <div>
-        <p>
+      <div class="mb-5">
+        <p class="mb-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
           sequi. Beatae officiis ullam quia soluta temporibus dolorem voluptatem
           nulla veniam tenetur magni? Adipisci nobis ipsum sunt. Minima, nam
@@ -63,7 +66,13 @@
         </p>
       </div>
       <div id="start-btn-container">
-        <button id="start-btn">START NOW</button>
+        <button 
+          id="start-btn" 
+          class="px-5 py-3" 
+          style="background-color: #4d4d4d; color: white; border: none;"
+          >
+          START NOW
+        </button>
       </div>
       <div>
         <form
@@ -74,7 +83,14 @@
         </form>
         <button id="save-exam" type="submit" form="questions">SAVE EXAM</button>
         <div id="next-btn-container">
-          <button type="button" id="next-btn">NEXT</button>
+          <button 
+            type="button" 
+            id="next-btn"
+            class="px-5 py-3" 
+            style="background-color: #4d4d4d; color: white; border: none;"
+          >
+            NEXT
+          </button>
         </div>
       </div>
       <% } else { %>
@@ -87,7 +103,16 @@
     </div>
   </div>
 </div>
+<style>
+  p, label {
+      font-weight: 500;
+  }
 
+  label {
+    display:inline-flex; 
+    align-items: center;
+  }
+</style>
 <script>
 $(document).ready(function(){
   let $questions = $('#questions')
@@ -119,9 +144,9 @@ $(document).ready(function(){
       // console.log("Data: " + JSON.stringify(data.responseQuestion[count]) + "\nStatus: " + status);
       $('#next-btn').show()
       if(JSON.stringify(data.responseQuestion[count]) !== undefined){
-        $questions.append(`<div id="question-container_${count}">
+        $questions.append(`<div id="question-container_${count}" class="mb-3">
                             <div class="d-flex">
-                            <h3>${data.responseQuestion[count].question_detail}</h3>
+                            <p>${count+1}. ${data.responseQuestion[count].question_detail}</p>
                             <input type="hidden"
                               name="question_type"
                               value="${data.responseQuestion[count].question_type}"
@@ -132,9 +157,9 @@ $(document).ready(function(){
                               value="${data.responseQuestion[count].question_id}"
                               readonly
                             >
-                            <h5 id="count_${count}" class="mx-auto">
+                            <p id="count_${count}" class="mx-auto">
                               Time limit: ${data.responseQuestion[count].question_time_limit}
-                            </h5>
+                            </p>
                             </div>
                             <div class="d-none">
                               <input type="radio"
@@ -145,37 +170,51 @@ $(document).ready(function(){
                               >
                               <label for="choice_0">No answer</label>
                             </div>
-                            <div>
-                            <input type="radio"
-                              name="applicant_answer[${count}]"
-                              id="choice-1"
-                              value="1"
-                            >
-                            <label for="choice_1">${data.responseQuestion[count].choice_1}</label>
-                            </div>
-                            <div>
-                            <input type="radio"
-                              name="applicant_answer[${count}]"
-                              id="choice-2"
-                              value="2"
-                            >
-                            <label for="choice_2">${data.responseQuestion[count].choice_2}</label>
-                            </div>
-                            <div>
-                            <input type="radio"
-                              name="applicant_answer[${count}]"
-                              id="choice-3"
-                              value="3" 
-                            >
-                            <label for="choice_3">${data.responseQuestion[count].choice_3}</label>
-                            </div>
-                            <div>
-                            <input type="radio"
-                              name="applicant_answer[${count}]"
-                              id="choice-4"
-                              value="4" 
-                            >
-                            <label for="choice_4">${data.responseQuestion[count].choice_4}</label>
+                            <div class="ms-3">
+                              <div>
+                                <label for="choice-1">
+                                  <input type="radio"
+                                    name="applicant_answer[${count}]"
+                                    id="choice-1"
+                                    value="1"
+                                    class="me-2"
+                                  >
+                                ${data.responseQuestion[count].choice_1}
+                                </label>
+                              </div>
+                              <div>
+                                <label for="choice_2">
+                                  <input type="radio"
+                                    name="applicant_answer[${count}]"
+                                    id="choice-2"
+                                    value="2"
+                                    class="me-2"
+                                  >
+                                ${data.responseQuestion[count].choice_2}
+                                </label>
+                              </div>
+                              <div>
+                                <label for="choice_3">
+                                  <input type="radio"
+                                    name="applicant_answer[${count}]"
+                                    id="choice-3"
+                                    value="3"
+                                    class="me-2"
+                                  >
+                                  ${data.responseQuestion[count].choice_3}
+                                </label>
+                              </div>
+                              <div>
+                                <label for="choice_4">
+                                  <input type="radio"
+                                    name="applicant_answer[${count}]"
+                                    id="choice-4"
+                                    value="4"
+                                    class="me-2"
+                                  >
+                                  ${data.responseQuestion[count].choice_4}
+                                </label>
+                              </div>
                             </div>
                           </div>`)
               
