@@ -123,11 +123,77 @@
          </div>
         </div>
       </div>
-    
-      <h4>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h4>
+      <style>
+        .skills-div {
+          display:flex;
+          flex-direction:column;
+          flex-wrap:wrap;
+          height:8em;
+          width:0;
+        }
+
+        /* .skills-div {
+          border-left:solid;
+          padding:0;
+          counter-reset:lis;
+        } */
+
+        .skill-set {
+          display:block;
+          width: max-content;
+        }
+
+        /* .skill-set::after {
+          counter-increment:lis;
+          content:' ' counter(lis);
+        } */
+
+        /* .radio-item {
+          display: inline-block;
+          position: relative;
+          padding: 0 6px;
+          margin: 10px 0 0;
+        }
+
+        .radio-item input[type='radio'] {
+          display: none;
+        }
+
+        .radio-item label {
+          color: #666;
+          font-weight: normal;
+        }
+
+        .radio-item label:before {
+          content: " ";
+          display: inline-block;
+          position: relative;
+          top: 5px;
+          margin: 0 5px 0 0;
+          width: 20px;
+          height: 20px;
+          border-radius: 11px;
+          border: 2px solid #004c97;
+          background-color: transparent;
+        }
+
+        .radio-item input[type=radio]:checked + label:after {
+          border-radius: 11px;
+          width: 12px;
+          height: 12px;
+          position: absolute;
+          top: 9px;
+          left: 10px;
+          content: " ";
+          display: block;
+          background: #004c97;
+        } */
+      </style>
+      <small>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</small>
+      <div class="skills-div mb-4">
       <% for(let i=0; i < adminSkill.length; i++) { %>
-        <div class="skilltype <%= adminSkill[i].skill_type %>">
-        <input
+        <div class="skilltype <%= adminSkill[i].skill_type %> skill-set me-5">
+          <input
           type="checkbox"
           id="checkbox-<%= adminSkill[i].skill_id %>"
           class="all-checkbox"
@@ -140,7 +206,7 @@
             <% } %>
           <% } %>
         />
-        <label for="<%= adminSkill[i].skill_name %>">
+        <label style="width: 80px; font-weight: 500;" for="<%= adminSkill[i].skill_name %>">
           <%= adminSkill[i].skill_name %></label
         >
         <input 
@@ -155,8 +221,8 @@
               checked
             <% } %>
           <% } %>
-          />
-        <label for="1">1</label>
+        />
+        <label class="me-2" for="1" style="font-size: 11px;">1</label>
 
         <input 
           type="radio" 
@@ -171,7 +237,7 @@
             <% } %>
           <% } %>
         />
-        <label for="2">2</label>
+        <label class="me-2" for="2" style="font-size: 11px;">2</label>
 
         <input 
           type="radio" 
@@ -186,7 +252,7 @@
             <% } %>
           <% } %>
         />
-        <label for="3">3</label>
+        <label class="me-2" for="3" style="font-size: 11px;">3</label>
 
         <input 
           type="radio" 
@@ -201,7 +267,7 @@
             <% } %>
           <% } %> 
         />
-        <label for="4">4</label>
+        <label class="me-2" for="4" style="font-size: 11px;">4</label>
 
         <input 
           type="radio" 
@@ -216,9 +282,11 @@
             <% } %>
           <% } %>
         />
-        <label for="5">5</label>
+        <label class="me-2" for="5" style="font-size: 11px;">5</label>
         </div>
+        
       <% } %> 
+    </div>
       <h7>Status</h7>
       <div>
         <input type="radio" id="Draft" name="status" value="1"
