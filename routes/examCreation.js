@@ -41,7 +41,9 @@ router.get('/examcreation', checkAuthenticated, authRole([3, 1]), async (req, re
     'admin.skill.skill_name',
     'question.question.question_category'
   );
+  const branding = await knex('admin.branding');
   res.render('examcreation', {
+    branding,
     personality,
     question,
     skill,
@@ -130,7 +132,9 @@ router.get('/examcreation/:question_category', checkAuthenticated, async (req, r
     (value, index, self) =>
       index === self.findIndex((t) => t.skill_name === value.skill_name)
   );
+  const branding = await knex('admin.branding');
   res.render('editExamCreation', {
+    branding,
     personality,
     skill,
     qSkill,
@@ -177,10 +181,12 @@ router.get(
         'question.question.question_category'
       )
       .orderBy('question_level');
+    const branding = await knex('admin.branding');
     if (allCategoryQuestion == 0) {
       res.redirect(`/examcreation/${questionCategory}`);
     } else {
       res.render('editExamCreation', {
+        branding,
         personality,
         question,
         skill,

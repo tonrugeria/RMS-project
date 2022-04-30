@@ -55,7 +55,9 @@ router.get('/application', checkAuthenticated, async (req, res) => {
       'job_application.technical_score.skill_id'
     );
 
+  const branding = await knex('admin.branding');
   res.render('application', {
+    branding,
     jobOpening,
     adminSkill,
     applicants,

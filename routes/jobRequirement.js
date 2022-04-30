@@ -4,7 +4,6 @@ const knex = require('../dbconnection');
 
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
-
 const router = express.Router();
 
 function uniqueId(jobIdColumn) {
@@ -34,7 +33,9 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
   const positionLevel = await knex('admin.position_level');
 
   const unique = uniqueId(job);
+  const branding = await knex('admin.branding');
   res.render('jobRequirement', {
+    branding,
     adminSkill,
     dept,
     jobType,
@@ -84,13 +85,12 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
       min_years_experience: yearsOfExp,
       skill_score: skillScore,
       personality_score: personalityScore,
-      status: status,
+      status,
       created_by: currentUserId,
       last_updated_by: currentUserId,
       last_date_updated: thisDay,
-      
     })
-    .then(async() => {
+    .then(async () => {
       if (skill_id != null) {
         if (typeof skill_id != typeof []) {
           skill_level.forEach((skill) => {
@@ -119,7 +119,7 @@ router.post('/job-requirement', checkAuthenticated, async (req, res) => {
             .update({ date_opened: thisDay });
         }
         res.redirect(`/job-requirement/${jobId}`);
-      } 
+      }
     });
-  })
-      module.exports = router;
+});
+module.exports = router;

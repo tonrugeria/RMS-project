@@ -19,6 +19,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
     'role_id',
     req.user.role_id
   );
+  const branding = await knex('admin.branding');
   const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department').where({
     dept_status: 'active',
@@ -49,6 +50,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
       currentUser,
       currentUserId,
       currentUserRole,
+      branding,
       date,
     });
   }

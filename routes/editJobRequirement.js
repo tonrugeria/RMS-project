@@ -38,7 +38,9 @@ router.get(
         'question.question.question_id'
       )
       .where('job_id', req.params.job_id);
+    const branding = await knex('admin.branding');
     res.render('editJobRequirement', {
+      branding,
       adminSkill,
       dept,
       jobType,

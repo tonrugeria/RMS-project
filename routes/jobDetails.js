@@ -24,7 +24,9 @@ router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
     'jobs.item.category_id',
     'jobs.category.category_id'
   );
+  const branding = await knex('admin.branding');
   res.render('jobDetails', {
+    branding,
     job,
     jobDetail,
     jobId,
@@ -35,7 +37,7 @@ router.get('/job-details/:job_id', checkAuthenticated, async (req, res) => {
     currentUser,
     currentUserId,
     currentUserRole,
-    jobQuestion
+    jobQuestion,
   });
 });
 

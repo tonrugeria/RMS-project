@@ -1,37 +1,48 @@
 const express = require('express');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
 // display
-router.get('/system-variables', checkAuthenticated, authRole([3, 1]), async (req, res) => {
-  const currentUserId = req.user.user_id;
-  const currentUser = await knex('admin.users').where('user_id', currentUserId);
-  const currentUserRole = await knex('admin.user_role').where(
-    'role_id',
-    req.user.role_id
-  );
-  const position = await knex('admin.job_position');
-  const technologies = await knex('admin.skill').orderBy('skill_id');
-  const remarks = await knex('admin.remarks').orderBy('remark_id');
-  const jobType = await knex('admin.job_type').orderBy('job_type_id');
-  const positionLevel = await knex('admin.position_level').orderBy('position_level_id');
-  const department = await knex('admin.department')
-    .where('dept_status', 'active')
-    .orderBy('dept_id');
-  res.render('systemVariables', {
-    position,
-    technologies,
-    remarks,
-    positionLevel,
-    jobType,
-    department,
-    currentUser,
-    currentUserId,
-    currentUserRole,
-  });
-});
+router.get(
+  '/system-variables',
+  checkAuthenticated,
+  authRole([3, 1]),
+  async (req, res) => {
+    const currentUserId = req.user.user_id;
+    const currentUser = await knex('admin.users').where('user_id', currentUserId);
+    const currentUserRole = await knex('admin.user_role').where(
+      'role_id',
+      req.user.role_id
+    );
+    const position = await knex('admin.job_position');
+    const technologies = await knex('admin.skill').orderBy('skill_id');
+    const remarks = await knex('admin.remarks').orderBy('remark_id');
+    const jobType = await knex('admin.job_type').orderBy('job_type_id');
+    const positionLevel = await knex('admin.position_level').orderBy('position_level_id');
+    const department = await knex('admin.department')
+      .where('dept_status', 'active')
+      .orderBy('dept_id');
+    const branding = await knex('admin.branding');
+    res.render('systemVariables', {
+      branding,
+      position,
+      technologies,
+      remarks,
+      positionLevel,
+      jobType,
+      department,
+      currentUser,
+      currentUserId,
+      currentUserRole,
+    });
+  }
+);
 
 // POSITION
 // router.post('/addPosition', async (req, res) => {
@@ -209,7 +220,7 @@ router.post('/delete/department/:dept_id', async (req, res) => {
   }
 });
 
-//CAREER LEVEL
+// CAREER LEVEL
 router.post('/addCareer', async (req, res) => {
   const { positionLevel } = req.body;
   await knex('admin.position_level')

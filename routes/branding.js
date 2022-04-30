@@ -44,7 +44,7 @@ router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) =
 });
 
 router.post('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) => {
-  const {
+  let {
     company_name,
     company_logo,
     login_bg,
@@ -61,6 +61,10 @@ router.post('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) 
   } = req.body;
 
   const branding = await knex('admin.branding');
+
+  if (company_logo == '') {
+    company_logo = null;
+  }
 
   if (branding == 0) {
     await knex('admin.branding').insert({ company_name, company_logo });

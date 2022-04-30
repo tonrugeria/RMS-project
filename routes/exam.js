@@ -1,6 +1,10 @@
 const express = require('express');
 const knex = require('../dbconnection');
-const { checkAuthenticated, checkNotAuthenticated, authRole, } = require('../middlewares/auth');
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  authRole,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -27,7 +31,9 @@ router.get('/exam/:job_id', checkAuthenticated, authRole([3, 1]), async (req, re
       'jobs.question.question_id'
     )
     .where('job_id', jobId);
+  const branding = await knex('admin.branding');
   res.render('exam', {
+    branding,
     jobId,
     adminSkill,
     jobSkill,

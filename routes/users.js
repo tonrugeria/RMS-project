@@ -27,7 +27,9 @@ router.get('/users', checkAuthenticated, authRole([3, 1]), async (req, res) => {
     .from('admin.user_role')
     .innerJoin('admin.users', 'admin.users.role_id', 'admin.user_role.role_id');
 
+  const branding = await knex('admin.branding');
   res.render('users', {
+    branding,
     users,
     role,
     userRole,
