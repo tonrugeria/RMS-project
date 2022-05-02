@@ -20,10 +20,15 @@ router.get('/', checkAuthenticated, async (req, res) => {
     req.user.role_id
   );
   const branding = await knex('admin.branding');
-  const jobOpening = await knex('jobs.job_opening').orderBy('job_id');
   const admin_department = await knex('admin.department').where({
     dept_status: 'active',
   });
+  const jobOpening = await knex('jobs.job_opening')
+    .leftJoin('admin.department', 'jobs.job_opening.job_dept', 'admin.department.dept_id')
+    .orderBy('job_id')
+    .where({
+      dept_status: 'active',
+    });
   const date = [];
   jobOpening.forEach((job) =>
     date.push({
