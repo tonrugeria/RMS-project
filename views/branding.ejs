@@ -94,7 +94,10 @@
 
 
     $('#company_name_place').html(companyName);
-    $('#company_logo_place').html(companyLogo)
+
+    if(companyLogo != 0){
+      $('#company_logo_place').html(companyLogo);
+    }
 
     $.post('/branding', {company_name: companyName, company_logo: companyLogo })
   })
