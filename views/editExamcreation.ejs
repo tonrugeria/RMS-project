@@ -7,7 +7,13 @@
         + NEW QUESTION
       </a>
     </div>
-    <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
+    <div class="p-3 px-4 mb-1" 
+    <% if (questionCategory == 'Personality') { %>
+      style="background-color: #F2F2F2;"
+    <% } else { %>
+      style="background-color: #e6e6e6;"
+    <% } %> 
+    >
       <a
       <% if (personality != 0) { %>  
         href="/examcreation/Personality/<%= personality[0].question_id %>"
@@ -25,27 +31,33 @@
       </a>
     </div>
     <% for (let i=0; i < skill.length; i++) { %>
-      <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
-      <a
-      <%  for (let j=0; j < qSkill.length; j++) { %>
-        <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
-          href="/examcreation/<%= skill[i].skill_name %>/<%= qSkill[j].question_id %>"
-        <% } %>
-      <% } %>
-        class="w3-bar-item sidebar"
-        style="text-decoration: none; color: black; background-color: #e6e6e6;"
+      <div class="p-3 px-4 mb-1" 
+        <% if (skill[i].skill_name == questionCategory) { %>
+          style="background-color: #F2F2F2;"
+        <% } else { %>
+          style="background-color: #e6e6e6;"
+        <% } %> 
       >
-      <%= skill[i].skill_name %>
-        <% let categoryCount =  0 %>
-        <% for (let j=0; j < qSkill.length; j++) { %>
-          <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
-            <% categoryCount++; %>
+        <a
+        <%  for (let j=0; j < qSkill.length; j++) { %>
+          <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
+            href="/examcreation/<%= skill[i].skill_name %>/<%= qSkill[j].question_id %>"
           <% } %>
         <% } %>
-        (<%= categoryCount%>)
-        
-      </a>
-    </div>
+          class="w3-bar-item sidebar"
+          style="text-decoration: none; color: black; background-color: transparent;"
+        >
+        <%= skill[i].skill_name %>
+          <% let categoryCount =  0 %>
+          <% for (let j=0; j < qSkill.length; j++) { %>
+            <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
+              <% categoryCount++; %>
+            <% } %>
+          <% } %>
+          (<%= categoryCount%>)
+          
+        </a>
+      </div>
     <% } %>
   </div>
   <% if (allCategoryQuestion != 0){ %>
@@ -79,7 +91,7 @@
                 <button
                   type="submit" 
                   <% if (allCategoryQuestion[i].question_id == questionId) { %>
-                    style="color: black; border: none;"
+                    style="background: transparent; color: black; border: none;"
                   <% } else { %>
                     style="background: transparent; border: none; color: white;"
                   <% } %> 
@@ -343,7 +355,7 @@
     </form>
   </div>
   <%} else { %>
-    <div class="col-sm-10">
+    <div class="col-sm-10" style="background-color: #F2F2F2;">
       <div class="h-50 d-flex flex-column align-items-center justify-content-center">
       <h5>NO ITEM IN THIS CATEGORY</h5>
       <a href="/examcreation">
