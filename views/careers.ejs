@@ -26,7 +26,7 @@
             <% } %>
 
             <p style="font-size: 1.5em; font-family: 'Segoe UI',Roboto,'Helvetica Neue',sans-serif;"><%= active_job_opening[i].job_title %></p>
-            <div class="d-flex" style="gap: 5px;">
+            <div class="d-flex mb-auto" style="gap: 5px;">
               <% for (let j=0; j < jobSkill.length; j++) { %>
                 <% if(active_job_opening[i].job_id == jobSkill[j].job_id) {%> 
                   <div style="padding: 0 5px;">
@@ -36,9 +36,9 @@
                   <% } %>
               <% } %>
             </div>
-          </br>
-        </br>
-            <a href="/careers/job/<%= active_job_opening[i].job_id %>"><button class="btns" style="background-color: #93268f; color: #fff; border: 2px solid #93268f; border-radius: 5px; width: 8em; margin-top: 0.4rem !important; padding: 10px 5px;">APPLY NOW</button></a>
+            <div>
+              <a href="/careers/job/<%= active_job_opening[i].job_id %>"><button class="btns" style="background-color: #93268f; color: #fff; border: 2px solid #93268f; border-radius: 5px; width: 8em; margin-top: 0.4rem !important; padding: 10px 5px;">APPLY NOW</button></a>
+            </div>
           </div>  
         <% } %>
     </div>

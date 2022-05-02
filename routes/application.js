@@ -158,6 +158,7 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
 
   const dob = moment(date_of_birth, 'MM/DD/YYYY');
   const age = moment().diff(dob, 'years', false);
+  const branding = await knex('admin.branding');
 
   res.render('application', {
     jobOpening,
@@ -178,6 +179,7 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     applicantJob,
     remarks,
     jobApplicants,
+    branding
   });
 });
 

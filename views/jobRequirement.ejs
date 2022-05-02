@@ -3,7 +3,7 @@
 <div class="row" style="padding-top: 65px" >
   <div class="col-sm-2" style="background-color: #f2f2f2;">
     <div class="d-flex flex-column">
-      <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+      <div class="p-3 mb-1" style="background-color: #f2f2f2;">
         <a href="/job-requirement" style="text-decoration: none; color: black;">JOB REQUIREMENT</a>
       </div>
       <div class="p-3 mb-1" style="background-color: #e6e6e6;">
@@ -95,70 +95,92 @@
           </div>
         </div>
       </div>
+      <style>
+        .skills-div {
+          display:flex;
+          flex-direction:column;
+          flex-wrap:wrap;
+          height:8em;
+          width:0;
+        }
+
+        .skill-set {
+          display:block;
+          width: max-content;
+        }
+      </style>
     <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
-      <% for(let i=0; i < adminSkill.length; i++) { %>
-        <div class="skilltype <%= adminSkill[i].skill_type %>">
-        <input
-          type="checkbox"
-          id="checkbox-<%= adminSkill[i].skill_id %>"
-          name="skill_id"
-          value="<%= adminSkill[i].skill_id %>"
-          onclick="selectDefaultRadio('<%= adminSkill[i].skill_id %>')"
-        />
-        <label for="<%= adminSkill[i].skill_name %>">
-          <%= adminSkill[i].skill_name %></label
-        >
-        <input 
-          type="radio" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="1"
-          id="radio-1-<%= adminSkill[i].skill_id %>"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+      <div class="skills-div mb-4">
+        <% for(let i=0; i < adminSkill.length; i++) { %>
+          <div class="skilltype <%= adminSkill[i].skill_type %> skill-set me-5">
+          <input
+            type="checkbox"
+            id="checkbox-<%= adminSkill[i].skill_id %>"
+            name="skill_id"
+            value="<%= adminSkill[i].skill_id %>"
+            onclick="selectDefaultRadio('<%= adminSkill[i].skill_id %>')"
           />
-        <label for="1">1</label>
-
-        <input 
-          type="radio" 
-          id="2" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="2"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-        />
-        <label for="2">2</label>
-
-        <input 
-          type="radio" 
-          id="3" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="3"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-        />
-        <label for="3">3</label>
-
-        <input 
-          type="radio" 
-          id="4" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="4"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')" 
-        />
-        <label for="4">4</label>
-
-        <input 
-          type="radio" 
-          id="5" 
-          name="skill_level[<%= adminSkill[i].skill_id %>]" 
-          value="5"
-          class="radio-<%= adminSkill[i].skill_id %>"
-          onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
-        />
-        <label for="5">5</label>
-        </div>
-      <% } %> 
+          <label style="width: 80px; font-weight: 500;" for="<%= adminSkill[i].skill_name %>">
+            <%= adminSkill[i].skill_name %></label
+          >
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="1">
+            <input
+              type="radio"
+              name="skill_level[<%= adminSkill[i].skill_id %>]"
+              value="1"
+              id="radio-1-<%= adminSkill[i].skill_id %>"
+              class="radio-<%= adminSkill[i].skill_id %> me-1"
+              onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+              />
+            1
+          </label>
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="2">
+            <input
+              type="radio"
+              id="2"
+              name="skill_level[<%= adminSkill[i].skill_id %>]"
+              value="2"
+              class="radio-<%= adminSkill[i].skill_id %> me-1"
+              onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            />
+            2
+          </label>
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="3">
+            <input
+              type="radio"
+              id="3"
+              name="skill_level[<%= adminSkill[i].skill_id %>]"
+              value="3"
+              class="radio-<%= adminSkill[i].skill_id %> me-1"
+              onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            />
+            3
+          </label>
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="4">
+            <input
+              type="radio"
+              id="4"
+              name="skill_level[<%= adminSkill[i].skill_id %>]"
+              value="4"
+              class="radio-<%= adminSkill[i].skill_id %> me"
+              onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            />
+            4
+          </label>
+          <label for="5">
+            <input
+              type="radio"
+              id="5"
+              name="skill_level[<%= adminSkill[i].skill_id %>]"
+              value="5"
+              class="radio-<%= adminSkill[i].skill_id %> me-1"
+              onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
+            />
+            5
+          </label>
+          </div>
+        <% } %>
+      </div>
       <div>
         <h5>EXAM</h5>
         <ul>
