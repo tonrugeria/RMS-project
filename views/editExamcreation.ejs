@@ -41,7 +41,8 @@
         <a
         <%  for (let j=0; j < qSkill.length; j++) { %>
           <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
-            href="/examcreation/<%= skill[i].skill_name %>/<%= qSkill[j].question_id %>"
+            <% let cat = skill[i].skill_name.replace(/#/g, '%23') %> 
+            href="/examcreation/<%= cat %>/<%= qSkill[j].question_id %>"
           <% } %>
         <% } %>
           class="w3-bar-item sidebar"
