@@ -1,30 +1,29 @@
 <%- include('./layout/header.ejs')  %>  
-<div class="container">
+<div class="container" style="padding-top: 65px;">
     <div class="row">
         <form action="/userProfile" method="post" encType="multipart/form-data"> <br>
         <div class="span8">
-            <br><img src="<%= currentUser[0].photo %> "  width="60"  ><br>
-            <label for="out">UPDATE IMAGE</label>
+            <br><img src="<%= currentUser[0].photo %>"  width="300" id="output"  ><br>
+            <label for="out" style="font-weight: 500;">UPDATE IMAGE</label>
             <input type="hidden" name="old_image" value="<%= currentUser[0].photo %>">
-            <input id="out" type="file" onchange="loadFile(event)" style="visibility: none;display: none;" name="photo"> 
-            <img height="60" id="output">
+            <input id="out" type="file" onchange="loadFile(event)" style="display: contents;" name="photo"> 
         </div>
         <% if (messages) { %>
             <p><%-messages.error%></p>
             <% } %>
-         <div class="span8">
+         <div class="form-floating my-2">
+             <input class="form-control w-25" id="username" type="text" name="user_name" value="<%= currentUser[0].user_name %>">
              <label for="username">Username</label><br>
-              <input id="username" type="text" name="user_name" value="<%= currentUser[0].user_name %>">
          </div>
-         <div class="span8">
-            <label for="email">Email</label><br>
-             <input id="email" type="email" name="email" value="<%= currentUser[0].email %>">
+         <div class="form-floating mb-2">
+             <input class="form-control w-25" id="email" type="email" name="email" value="<%= currentUser[0].email %>">
+             <label for="email">Email</label><br>
         </div>
-         <div class="span8">
+         <div class="form-floating mb-2">
+             <input class="form-control w-25" id="password" type="password" name="password" value="<%= currentUser[0].password %>">
              <label for="password">Password</label><br>
-              <input id="password" type="password" name="password" value="<%= currentUser[0].password %>">
          </div><br>
-             <button type="submit">UPDATE PROFILE</button>
+             <button style="width: 200px;" class="btn btn-primary btn-lg bg-dark">Update Profile</button>
          </form>
     </div>
 </div>

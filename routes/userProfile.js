@@ -52,7 +52,7 @@ router.post('/userProfile', upload, async (req, res) => {
       password,
     })
     .then((results) => {
-      req.flash('error', 'Your Profile succesully updated');
+      req.flash('error', 'Your Profile has succesully updated');
       res.redirect('/userProfile');
     });
 });
