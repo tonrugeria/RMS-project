@@ -34,7 +34,7 @@ router.post('/password-reset', checkNotAuthenticated, async (req, res) => {
       res.redirect('/register');
     }
   } else {
-    req.flash('error', 'Username and Password does not match');
+    req.flash('error', 'Username and Email does not match');
     res.redirect('/password-reset');
   }
 });
