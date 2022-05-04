@@ -40,34 +40,36 @@ input{
               onkeyup="addUpdateBtn('<%= users[i].user_id %>')" 
               onchange="addUpdateBtn('<%= users[i].user_id %>')"
             >
-              <th style="background-color: #e6e6e6;" class="d-flex justify-content-center align-items-center">
+              <th style="background-color: #e6e6e6;" >
                 <% if (users[i].photo != null) { %>
-                  <!-- allows to click on photo to change photo -->
-                  <label for="photo_<%= i+1 %>">
-                    <img src="/<%= users[i].photo %>"  
-                      width="36" 
-                      height="36" 
-                      class="img-thumbnail"
-                      id="output_<%= i+1 %>"
+                  <div class="d-flex justify-content-center align-items-center">
+                    <!-- allows to click on photo to change photo -->
+                    <label for="photo_<%= i+1 %>">
+                      <img src="/<%= users[i].photo %>"
+                        width="50"
+                        height="50"
+                        class="img-thumbnail"
+                        id="output_<%= i+1 %>"
+                      >
+                    </label>
+                    <!-- allows to change photo -->
+                    <input
+                      type="file"
+                      id="photo_<%= i+1 %>"
+                      name="photo"
+                      style="display: contents;"
+                      onchange="loadFile(event, '<%= i+1 %>')"
                     >
-                  </label>
-                  <!-- allows to change photo -->
-                  <input 
-                    type="file" 
-                    id="photo_<%= i+1 %>" 
-                    name="photo" 
-                    style="display: contents;" 
-                    onchange="loadFile(event, '<%= i+1 %>')"
-                  >
-                  <!-- allows to edit user without changing image -->
-                  <input type="hidden" name="old_image" value="<%= users[i].photo %>">
+                    <!-- allows to edit user without changing image -->
+                    <input type="hidden" name="old_image" value="<%= users[i].photo %>">
                 <% } else { %>
-                  <label for="photo_<%= i+1 %>"><i class="fa-solid fa-plus" ></i></label>
-                  <input type="file" id="photo_<%= i+1 %>" name="photo" style="display: contents;" onchange="loadFile(event, '<%= i+1 %>')"></i>
-                  <img height="40" id="output_<%= i+1 %>">
+                    <label for="photo_<%= i+1 %>"><i class="fa-solid fa-plus" ></i></label>
+                    <input type="file" id="photo_<%= i+1 %>" name="photo" style="display: contents;" onchange="loadFile(event, '<%= i+1 %>')"></i>
+                    <img height="40" id="output_<%= i+1 %>">
+                  </div>
                 <% } %> 
               </th>
-              <th><input  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+              <th class="d-flex align-items-center"><input class="form-control"  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
               <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
               <td class="select">
                 <select name="role_name"> 
@@ -110,9 +112,12 @@ input{
               </td>
               
               <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
-              <td class="delete-btn" id="<%= users[i].user_id%>">
+              <td class="delete-btn d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
                 <form method="GET" action="/delete/<%= users[i].user_id%>"> 
-                  <button type="submit"><i class="fa-solid fa-xmark"></i></button>
+                  <button 
+                  type="submit"
+                  style="border: none; background-color: transparent;" 
+                  ><i class="fa-solid fa-xmark"></i></button>
                 </form>
               </td>
               <% } %>
@@ -197,8 +202,7 @@ input{
               <% if (users[i].role_id != '3' && users[i].user_id != currentUser[0].user_id) { %>  
               <td class="delete-btn d-flex justify-content-center align-items-center" id="<%= users[i].user_id%>">
                 <form class="m-0" method="GET" action="/delete/<%= users[i].user_id%>"> 
-                  <button 
-                  class=""
+                  <button
                   style="border: none; background-color: transparent;" 
                   type="submit"
                   >
