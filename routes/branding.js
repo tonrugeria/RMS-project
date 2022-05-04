@@ -72,7 +72,7 @@ router.post('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) 
     await knex('admin.branding').update({ company_name, company_logo });
   }
 
-  res.send({ company_name, company_logo });
+  res.redirect('/branding');
 });
 
 module.exports = router;
