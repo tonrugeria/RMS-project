@@ -1,32 +1,34 @@
 <%- include('./layout/header.ejs') %>
-<div class="container-fluid px-0" style="overflow-x: hidden;">
+<div class="container-fluid" style="overflow-x: hidden;">
 <div class="row" style="padding-top: 65px" >
-  <div class="col-sm-2" style="background-color: #f2f2f2;">
+  <div class="col-sm-2 sidenav">
     <div class="d-flex flex-column">
-      <div class="p-3 mb-1" style="background-color: #f2f2f2;">
-        <a href="/job-requirement" style="text-decoration: none; color: black;">JOB REQUIREMENT</a>
+      <div class="mb-1 p-4 sidenavtab" style="background-color: #f2f2f2;">
+        <a href="/job-requirement">JOB REQUIREMENT</a>
       </div>
-      <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+      <div class="mb-1 p-4 sidenavtab">
         JOB DETAILS
       </div>
-      <div class="p-3 mb-1" style="background-color: #e6e6e6;">
+      <div class="mb-1 p-4 sidenavtab">
         EXAM
       </div>
-      <div class="p-5 mb-1" style="background-color: #e6e6e6; height: 88vh;">
+      <div class="p-4 mb-1 sidenavtab" style="height: 66vh;">
         
       </div>
-      <div class="p-3 mt-auto" style="background-color: #e6e6e6;">
-        <a href="/" style="text-decoration: none; color: black;">BACK TO JOB PAGE</a>
+      <div class="mb-1 p-4 sidenavtab">
+        <a href="/">BACK TO JOBS PAGE</a>
       </div>
     </div>
   </div>
     
-  <div class="col-sm-10 p-3" style="background-color: #f2f2f2;">
-    <h4>NEW JOB OPENING</h4>
+  <div class="col-sm-10 p-4 main">
     <form method="POST" action="/job-requirement" >
-      <div class="container-fluid p-0 m-0">
+      <div class="container-fluid p-0 m-0 mb-3">
         <div class="row">
-          <div class="">
+          <div class="col-12 ps-0">
+            <h4>NEW JOB OPENING</h4>
+          </div>
+          <div>
             <input type="hidden"  name="jobId" value="<%= unique %>" readonly>
           </div>
           <div class="col-8 form-floating ps-0 pe-2 mb-2">
@@ -49,17 +51,17 @@
               <label for="department">DEPARTMENT</label>
           </div>
           <div class="col-4 form-floating ps-0">
-            <select class="form-select border-0" name="careerLevel" id="career level" >
+            <input class="w-100 form-control border-0" placeholder="Select" type="number" min="1" name="salaryRange" id="salary-range" required>
+            <label for="salary-range">SALARY RANGE</label>
+          </div>
+          <div class="col-4 form-floating ps-0">
+            <select class="form-select border-0" name="careerLevel" id="career-level" >
               <option hidden value="">Select</option>
               <% for(let i = 0; i < positionLevel.length; i++) { %>
                 <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
               <% } %>
             </select>
             <label for="floatingSelect">CAREER LEVEL</label>
-          </div>
-          <div class="col-4 form-floating ps-0">
-            <input class="w-100 form-control border-0" placeholder="Select" type="number" min="1" name="salaryRange" id="salary range" required>
-            <label for="salary range">SALARY RANGE</label>
           </div>
           <div class="col-4 form-floating ps-0 mb-2">
             <select class="form-select w-100 border-0" name="workType" id="worktype" required>
@@ -78,20 +80,22 @@
         </div>
       </div>
 
-    <h4>MINIMUM QUALIFICATIONS</h4>
-      <div class="container-fluid p-0 m-0">
+      <div class="container-fluid p-0 m-0 mb-3">
         <div class="row">
+          <div class="col-12 ps-0">
+            <h4>MINIMUM QUALIFICATION</h4>
+          </div>
           <div class="col-4 form-floating ps-0 mb-3">
             <input class="form-control w-100 border-0" type="number" min="0" id="years" name="yearsOfExp" required/>
-            <label for="years">YEARS OF EXPERIENCE</label><br />
+            <label for="years">YEARS OF EXPERIENCE</label>
           </div>
           <div class="col-4 form-floating ps-0 mb-3">
             <input class="form-control w-100 border-0" type="number" min="0" id="skill score" name="skillScore" required/>
-            <label for="skill score">SKILL SCORE</label><br />
+            <label for="skill score">SKILL SCORE</label>
           </div>
           <div class="col-4 form-floating ps-0 mb-3">
             <input class="form-control w-100 border-0" type="number" min="0" id="personality score" name="personalityScore" required/>
-            <label for="personality score">PERSONALITY SCORE</label><br />
+            <label for="personality score">PERSONALITY SCORE</label>
           </div>
         </div>
       </div>
@@ -109,7 +113,7 @@
           width: max-content;
         }
       </style>
-    <h5>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</h5>
+    <p>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</p>
       <div class="skills-div mb-4">
         <% for(let i=0; i < adminSkill.length; i++) { %>
           <div class="skilltype <%= adminSkill[i].skill_type %> skill-set me-5">
@@ -162,12 +166,12 @@
               id="4"
               name="skill_level[<%= adminSkill[i].skill_id %>]"
               value="4"
-              class="radio-<%= adminSkill[i].skill_id %> me"
+              class="radio-<%= adminSkill[i].skill_id %> me-1"
               onclick="autoCheckBox('<%= adminSkill[i].skill_id %>')"
             />
             4
           </label>
-          <label for="5">
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="5">
             <input
               type="radio"
               id="5"
@@ -181,22 +185,26 @@
           </div>
         <% } %>
       </div>
-      <div>
-        <h5>EXAM</h5>
-        <ul>
-          <h6>NO SELECTED EXAMS!</h6>
-          <h6>SELECT LATER IN THE EXAM TAB ON THE SIDEBAR AFTER SAVING</h6>
-        </ul>
-      </div>
-      <h7>Status</h7>
-      <div>
+      <div class="mb-4">
+        <h6 style="font-weight: 500;">Status</h6>
         <input type="radio" id="Draft" name="status" value="1" checked>
          <label for="Draft">Draft</label>
         <input type="radio" id="Active" name="status" value="0">
           <label for="Active">Active</label>
         <input type="radio" id="Archive" name="status" value="2">
           <label for="Archive">Archive</label>
-      </div><br>
+      </div>
+      <div class="container-fluid px-0">
+        <div class="row">
+          <div class="col-12 ps-0">
+            <h4>EXAM</h4>
+            <ul>
+              <h6>NO SELECTED EXAMS!</h6>
+              <h6>SELECT LATER IN THE EXAM TAB ON THE SIDEBAR AFTER SAVING</h6>
+            </ul>
+          </div>
+        </div>
+      </div>
       <button class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
     </form>
     </div>

@@ -1,13 +1,12 @@
 <%- include('./layout/header.ejs') %>
-
 <div class="container-fluid m-0" style="padding-top: 65px;">
   <div class="row">
     <!-- sidebar for filter-->
-    <div class="col-2 px-0" style="background-color: #f2f2f2;">
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-        <a href="/job-requirement" style="text-decoration: none; color: black;">+ CREATE NEW JOB</a>
+    <div class="col-sm-2 sidenav">
+      <div class="mb-1 p-4 sidenavtab">
+        <a href="/job-requirement">+ CREATE NEW JOB</a>
       </div>
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+      <div class="mb-1 p-4 sidenavtab">
         <div>
           <input type="checkbox" id="all-checkbox" checked/>
           <label for="all-checkbox">
@@ -19,33 +18,37 @@
           <% for(let i=0; i < admin_department.length; i++) { %>
             <div>
               <input type="checkbox" name="job-dept" value="dept-<%= admin_department[i].dept_id %>" id="dept-<%= admin_department[i].dept_id %>" />
-              <label for="<%= admin_department[i].dept_name %>">
-                <%= admin_department[i].dept_name %>
+              <label for="dept-<%= admin_department[i].dept_id %>">
+                <% let caps = admin_department[i].dept_name.toUpperCase(); %> 
+                <%= caps %>
               </label>
             </div>
             <% } %>
         </div>
       </div>
-      <div class="p-4 mb-1" style="background-color: #e6e6e6;">
+      <div class="mb-1 p-4 sidenavtab">
         <!-- status filter -->
-      <div>
-        <input type="checkbox" name="job-status" value="status-0" id="status-0"
-        class="all-status-checkbox active-checkbox"
-        >
-        <label for="active">ACTIVE</label><br>
-        <input type="checkbox" name="job-status" value="status-1" id="status-1"
-        class="all-status-checkbox draft-checkbox"
-        >
-        <label for="draft">DRAFT</label><br>
-        <input type="checkbox" name="job-status" value="status-2" id="status-2"
-        class="all-status-checkbox archive-checkbox"
-        >
-        <label for="archive">ARCHIVE</label><br><br>
+        <div>
+          <input type="checkbox" name="job-status" value="status-0" id="status-0"
+          class="all-status-checkbox active-checkbox"
+          >
+          <label for="status-0">ACTIVE</label><br>
+          <input type="checkbox" name="job-status" value="status-1" id="status-1"
+          class="all-status-checkbox draft-checkbox"
+          >
+          <label for="status-1">DRAFT</label><br>
+          <input type="checkbox" name="job-status" value="status-2" id="status-2"
+          class="all-status-checkbox archive-checkbox"
+          >
+          <label for="status-2">ARCHIVE</label>
+        </div>
       </div>
+      <div class="p-4 mb-1 sidenavtab" style="height: 100%;">
+        
       </div>
     </div>
     
-    <div class="col-9 p-4 min-vh-100" style="background-color: #f2f2f2;">
+    <div class="col-9 p-4 main" >
       <!-- Cards -->
       <div class="row jobs-container">
         <% for (let i=0; i < jobOpening.length; i++) { %>
@@ -144,12 +147,16 @@
       </div>
       <div class="col-1 p-0" style="background-color: #f2f2f2;">
         <!-- list view and grid view buttons-->
-        <!-- <div class="btn-group">
-          <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
-          </span></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span></a>
+        <!-- <div>
+          <a href="#" id="list" class="btn btn-default btn-sm">
+            <i class="fa-solid fa-bars"></i>
+          </a> 
+          <a href="#" id="grid" class="btn btn-default btn-sm">
+            <i class="fa-solid fa-grid-2"></i>
+          </a>
         </div> -->
-        grid view <br>
-        list view 
+        list view <br>
+        grid view
       </div>
     </div>
   </div>
