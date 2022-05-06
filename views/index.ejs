@@ -48,13 +48,13 @@
       </div>
     </div>
     
-    <div class="col-9 p-4 main" >
+    <div class="col-10 p-5 main" >
       <!-- Cards -->
       <div class="row jobs-container">
         <% for (let i=0; i < jobOpening.length; i++) { %>
           <!-- adding dynamic class for each job -->
           <div 
-            class="card col-4 mb-3 me-0 all-jobs rounded p-4" 
+            class="card col-4 mb-3 all-jobs rounded p-4" 
             style="max-width: 1000px;"
             id="job-<%= jobOpening[i].job_id %>"
             <% for (let j=0; j < admin_department.length; j++) { %>
@@ -138,26 +138,25 @@
                   <% } %>
                 >
                 <label for="draft">ARCHIVE</label><br>
-                <button type="button">x</button>
               </form>
             </div>
           </div>
         <% } %>
       </div>
       </div>
-      <div class="col-1 p-0" style="background-color: #f2f2f2;">
-        <!-- list view and grid view buttons-->
-        <!-- <div>
+      <!-- <div class="col-1 p-0" style="background-color: #f2f2f2;">
+        list view and grid view buttons
+        <div>
           <a href="#" id="list" class="btn btn-default btn-sm">
             <i class="fa-solid fa-bars"></i>
           </a> 
           <a href="#" id="grid" class="btn btn-default btn-sm">
             <i class="fa-solid fa-grid-2"></i>
           </a>
-        </div> -->
+        </div>
         list view <br>
         grid view
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
