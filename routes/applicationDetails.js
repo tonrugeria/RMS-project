@@ -264,22 +264,40 @@ router.get(
   }
 );
 
-router.post('/application/job/:job_id/applicant/:application_id', async (req, res) => {
-  const jobId = req.params.job_id;
-  const appId = req.params.application_id;
-  const { remark } = req.body;
-  if (remark != null) {
-    knex('job_application.applicant_details')
-      .update({
-        status: remark,
-      })
-      .where({
-        job_id: jobId,
-        application_id: appId,
-      })
-      .then((result) => result);
+router.post(
+  '/application/job/:job_id/applicant/:application_id',
+  checkAuthenticated,
+  async (req, res) => {
+    const jobId = req.params.job_id;
+    const appId = req.params.application_id;
+    const { remark } = req.body;
+    if (remark != null) {
+      await knex('job_application.applicant_details')
+        .update({
+          status: remark,
+        })
+        .where({
+          job_id: jobId,
+          application_id: appId,
+        });
+    }
+    res.redirect(`/application`);
   }
-  res.redirect(`/application`);
-});
+);
+
+// ajax applicant read status post route
+router.post(
+  '/application/job/:job_id/applicant/:application_id/read_status',
+  checkAuthenticated,
+  async (req, res) => {
+    const jobId = req.params.job_id;
+    const appId = req.params.application_id;
+    await knex('job_application.applicant_details').update({ read_status: 1 }).where({
+      job_id: jobId,
+      application_id: appId,
+    });
+    res.redirect('/application');
+  }
+);
 
 module.exports = router;

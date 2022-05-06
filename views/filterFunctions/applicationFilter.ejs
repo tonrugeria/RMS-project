@@ -145,453 +145,457 @@
       $card.children().first().css('background-color', 'white');
       $card.children().first().css('color', 'black')
 
-      $.get(url, function(data, status){
-        const detailContainer = $('#app-details-container');
-        detailContainer.attr('class', 'col-6 g-0 p-4')
-        detailContainer.css("background-color", "#f2f2f2")
-        detailContainer.html(`
-          <div class="d-flex flex-column border-3" >
-          <div class="card p-3 border-bottom border-0" style="background-color: #f2f2f2">
-            <div class="row g-0">
-              <div class="col-md-4" id="photo-container">
+      $.post( url+'/read_status', { read_status: 1})
+        .done(function(){
+          
+          $.get(url, function(data, status){
+            const detailContainer = $('#app-details-container');
+            detailContainer.attr('class', 'col-6 g-0 p-4')
+            detailContainer.css("background-color", "#f2f2f2")
+            detailContainer.html(`
+              <div class="d-flex flex-column border-3" >
+              <div class="card p-3 border-bottom border-0" style="background-color: #f2f2f2">
+                <div class="row g-0">
+                  <div class="col-md-4" id="photo-container">
+                    
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-0">
+                      <h5 class="card-title mb-0">
+                        ${data.applicantInfo[0].first_name} ${data.applicantInfo[0].last_name}
+                      </h5>
+                      <small>
+                        <p class="card-text mb-0">
+                          ${data.age} &#8226; ${data.applicantInfo[0].gender}  &#8226; ${data.applicantInfo[0].city}
+                        </p>
+                      </small>
+                      <p class="card-text mb-5">
+                        <small>
+                          ${data.applicantInfo[0].email} &#8226; ${data.applicantInfo[0].skype}  &#8226; ${data.applicantInfo[0].mobile}
+                        </small>
+                      </p>
+                      <div class="d-flex">
+                        <div class="me-auto">
+                          <p class="card-text mb-0" id="year-exp-container">
+                            ${data.applicantInfo[0].year_experience}
+                          </p>
+                          <p class="m-0" id="expertise-container">
+    
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-end">
+                          <div class="me-1">
+                            <form action="/application/job/${data.applicantInfo[0].job_id}/applicant/${data.applicantInfo[0].application_id}" method="post" class="statusForm">
+                              <div class="d-flex">
+                                <select name="remark" class="title" required id="status-selector" style="background-color: #f2f2f2; padding: 1.5px 2px; font-weight: 500">
+                                  <option hidden value="">ASSIGN STATUS</option>
+                                  
+                                </select>
+                              </div>
+                            </form>
+                          </div>
+                          <div>
+                            <a target="_blank" href="/generateResume/job/${data.applicantInfo[0].job_id}/application/${data.applicantInfo[0].application_id}">
+                              <button style="border: 1px solid black; font-weight: 500">SAVE RESUME</button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="container py-3">
+                <div class="d-flex justify-content-between">
+                  <h3>Skills</h3>
+                  <div class="d-flex">
+                    <div class="me-1">
+                      <a data-bs-toggle="modal" href="#exampleModalToggle" role="button">
+                        <button style="border: 1px solid black; font-weight: 500">VIEW EXAM RESULTS</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" id="skills-container">
+                  
+                </div>
+                <!-- Exam results modal -->
+                <div class="modal fade" id="exampleModalToggle" aria-hidden="true"  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <div>
+                          <h5 class="modal-title">Exam results for Technical</h5>
+    
+                          <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+    
+                          <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" id="tech-exam-results">
+                        
+                      </div>
+                      <div class="modal-footer" id="tech-exam-score">
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <div>
+                        <h5 class="modal-title">Exam results for Personality</h5>
+                        <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
+                        <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
+                      </div>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="personality-results">
+                      
+                    </div>
+                    <div class="modal-footer" id="personality-score">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="py-3" id="capabilities">
+                <h3>Capabilities</h3>
                 
               </div>
-              <div class="col-md-8">
-                <div class="card-body p-0">
-                  <h5 class="card-title mb-0">
-                    ${data.applicantInfo[0].first_name} ${data.applicantInfo[0].last_name}
-                  </h5>
-                  <small>
-                    <p class="card-text mb-0">
-                      ${data.age} &#8226; ${data.applicantInfo[0].gender}  &#8226; ${data.applicantInfo[0].city}
-                    </p>
-                  </small>
-                  <p class="card-text mb-5">
-                    <small>
-                      ${data.applicantInfo[0].email} &#8226; ${data.applicantInfo[0].skype}  &#8226; ${data.applicantInfo[0].mobile}
-                    </small>
-                  </p>
-                  <div class="d-flex">
-                    <div class="me-auto">
-                      <p class="card-text mb-0" id="year-exp-container">
-                        ${data.applicantInfo[0].year_experience}
-                      </p>
-                      <p class="m-0" id="expertise-container">
-
-                      </p>
-                    </div>
-                    <div class="d-flex align-items-end">
-                      <div class="me-1">
-                        <form action="/application/job/${data.applicantInfo[0].job_id}/applicant/${data.applicantInfo[0].application_id}" method="post" class="statusForm">
-                          <div class="d-flex">
-                            <select name="remark" class="title" required id="status-selector" style="background-color: #f2f2f2; padding: 1.5px 2px; font-weight: 500">
-                              <option hidden value="">ASSIGN STATUS</option>
-                              
-                            </select>
-                          </div>
-                        </form>
-                      </div>
-                      <div>
-                        <a target="_blank" href="/generateResume/job/${data.applicantInfo[0].job_id}/application/${data.applicantInfo[0].application_id}">
-                          <button style="border: 1px solid black; font-weight: 500">SAVE RESUME</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    
+              <div id="pro-bg">
+                <h3>Professional Background</h3>
+                 
               </div>
-            </div>
-          </div>
-
-          <div class="container py-3">
-            <div class="d-flex justify-content-between">
-              <h3>Skills</h3>
-              <div class="d-flex">
-                <div class="me-1">
-                  <a data-bs-toggle="modal" href="#exampleModalToggle" role="button">
-                    <button style="border: 1px solid black; font-weight: 500">VIEW EXAM RESULTS</button>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="row" id="skills-container">
+            </div> 
+            `)
+    
+            // applicant photo logic
+            if (data.applicantInfo[0].photo != null) {
+              $('#photo-container').html(`
+                <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="150">
+              `)
+            } else {
+              $('#photo-container').html(`NO PHOTO`)
+            }
+    
+            // applicant year experience logic
+            if (data.applicantInfo[0].year_experience > 1) {
+              $('#year-exp-container').append('years experience')
+            } else {
+              $('#year-exp-container').append('year experience')
+            }
+    
+            // applicant expertise logic
+            const scoreArr = [];
+            for (let i = 0; i < data.applicantExam.length; i++) {
+              if (data.applicantExam[i].application_id == data.applicantInfo[0].application_id) {
+                scoreArr.push(data.applicantExam[i].skill_level);
+              }
+            }
+            const highestScore = Math.max(...scoreArr);
+    
+            if( highestScore >= 75 ) { 
+              $('#expertise-container').html(`EXPERT in `);
               
-            </div>
-            <!-- Exam results modal -->
-            <div class="modal fade" id="exampleModalToggle" aria-hidden="true"  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <div>
-                      <h5 class="modal-title">Exam results for Technical</h5>
-
-                      <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
-
-                      <button class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" id="tech-exam-results">
-                    
-                  </div>
-                  <div class="modal-footer" id="tech-exam-score">
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div>
-                    <h5 class="modal-title">Exam results for Personality</h5>
-                    <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Technical test</button>
-                    <button disabled class="btn btn-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" type="button">Personality test</button>
-                  </div>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="personality-results">
-                  
-                </div>
-                <div class="modal-footer" id="personality-score">
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="py-3" id="capabilities">
-            <h3>Capabilities</h3>
+              for ( let j = 0; j < data.expert.length; j++) { 
+                if (data.expert[j].application_id == data.applicantInfo[0].application_id) { 
+                  $('#expertise-container').append(`${data.expert[j].skill_name} `)
+                } 
+              }  
+            } else if ( highestScore >= 50) { 
+              $('#expertise-container').html(`INTERMEDIATE in `);
             
-          </div>
-
-          <div id="pro-bg">
-            <h3>Professional Background</h3>
-             
-          </div>
-        </div> 
-        `)
-
-        // applicant photo logic
-        if (data.applicantInfo[0].photo != null) {
-          $('#photo-container').html(`
-            <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="150">
-          `)
-        } else {
-          $('#photo-container').html(`NO PHOTO`)
-        }
-
-        // applicant year experience logic
-        if (data.applicantInfo[0].year_experience > 1) {
-          $('#year-exp-container').append('years experience')
-        } else {
-          $('#year-exp-container').append('year experience')
-        }
-
-        // applicant expertise logic
-        const scoreArr = [];
-        for (let i = 0; i < data.applicantExam.length; i++) {
-          if (data.applicantExam[i].application_id == data.applicantInfo[0].application_id) {
-            scoreArr.push(data.applicantExam[i].skill_level);
-          }
-        }
-        const highestScore = Math.max(...scoreArr);
-
-        if( highestScore >= 75 ) { 
-          $('#expertise-container').html(`EXPERT in `);
-          
-          for ( let j = 0; j < data.expert.length; j++) { 
-            if (data.expert[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.expert[j].skill_name} `)
-            } 
-          }  
-        } else if ( highestScore >= 50) { 
-          $('#expertise-container').html(`INTERMEDIATE in `);
-        
-          for ( let j = 0; j < data.intermediate.length; j++) { 
-            if (data.intermediate[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.intermediate[j].skill_name} `)    
-            } 
-          }   
-        } else if ( highestScore > 0) { 
-          $('#expertise-container').html(`BEGINNER in `);
-        
-          for ( let j = 0; j < beginner.length; j++) { 
-            if (data.beginner[j].application_id == data.applicantInfo[0].application_id) { 
-              $('#expertise-container').append(`${data.beginner[j].skill_name} `)    
-            }  
-          }  
-        }  
-
-        // applicant status options logic
-        for( let i = 0; i < data.remarks.length; i++) { 
-          if (data.remarks[i].remark_id == data.applicantInfo[0].status) { 
-            $('#status-selector').append(`
-            <option
-            style="background-color: transparent; border: none;"
-            value="${data.remarks[i].remark_id}"
-            selected
-            >
-              ${data.remarks[i].remark_name} 
-            </option>
-            `)
-          } else { 
-            $('#status-selector').append(`
-            <option
-            style="background-color: transparent; border: none;"
-            value="${data.remarks[i].remark_id}"
-            >
-              ${data.remarks[i].remark_name} 
-            </option>
-            `)
-          } 
-        } 
-
-        // applicant skills
-        if(data.applicantSkill != 0) {  
-          for ( let i = 0; i < data.applicantSkill.length; i++) { 
-            $('#skills-container').append(`
-              <div class="col-4 m-0 border border-2 mb-1">
-                <div>
-                  <strong id="skill-expertise-${i+1}">
-                    ${data.applicantSkill[i].skill_name}  | 
-                  </strong>
-                </div>
-                <div id="skill-experience-${i+1}">
-                  ${data.applicantSkill[i].skill_years} 
-                </div>
-                <div>
-                  Self-rating ${data.applicantSkill[i].skill_self_rating} / 5
-                </div>
-              </div>
-            `);
-
-            if( data.applicantExam != 0) { 
-              for ( let j = 0; j < data.applicantScore.length; j++) { 
-                if ( data.applicantSkill[i].skill_id == data.applicantScore[j].skill_id) { 
-                  if (data.applicantScore[j].skill_level >= 75) { 
-                    $(`#skill-expertise-${i+1}`).append(`Expert`)
-                  } else if (data.applicantScore[j].skill_level >= 50) { 
-                    $(`#skill-expertise-${i+1}`).append(`Intermediate`)
-                  } else { 
-                    $(`#skill-expertise-${i+1}`).append(`Beginner`)
-                  }     
+              for ( let j = 0; j < data.intermediate.length; j++) { 
+                if (data.intermediate[j].application_id == data.applicantInfo[0].application_id) { 
+                  $('#expertise-container').append(`${data.intermediate[j].skill_name} `)    
+                } 
+              }   
+            } else if ( highestScore > 0) { 
+              $('#expertise-container').html(`BEGINNER in `);
+            
+              for ( let j = 0; j < beginner.length; j++) { 
+                if (data.beginner[j].application_id == data.applicantInfo[0].application_id) { 
+                  $('#expertise-container').append(`${data.beginner[j].skill_name} `)    
                 }  
               }  
-            } else { 
-              $('#skill-expertise').append(`NO EXAM`)
-            }
-
-            // skill experience
-            if (data.applicantSkill[i].skill_years > 1) { 
-              $(`#skill-experience-${i+1}`).append('years experience')
-            } else { 
-              $(`#skill-experience-${i+1}`).append('year experience')
-            }
-
-          } 
-        } else { 
-          $('#skills-container').append(`NO SKILL`)
-        } 
-
-        // tech exam results modal body
-        if (data.applicantExamResults != 0) { 
-          for( let i = 0; i < data.applicantExamResults.length; i++ ) { 
-              
-            if (data.applicantExamResults[i].applicant_answer == data.applicantExamResults[i].correct_answer) { 
-              $('#tech-exam-results').append(`
-                <div style="color: green;">
-                  ${i+1} . ${data.applicantExamResults[i].question_detail} 
-                </div>
-              `)
-            } else { 
-              $('#tech-exam-results').append(`
-                <div style="color: red;" id="question-${i+1}">
-                  ${i+1} . ${data.applicantExamResults[i].question_detail} 
-                </div>
-              `)
+            }  
+    
+            // applicant status options logic
+            for( let i = 0; i < data.remarks.length; i++) { 
+              if (data.remarks[i].remark_id == data.applicantInfo[0].status) { 
+                $('#status-selector').append(`
+                <option
+                style="background-color: transparent; border: none;"
+                value="${data.remarks[i].remark_id}"
+                selected
+                >
+                  ${data.remarks[i].remark_name} 
+                </option>
+                `)
+              } else { 
+                $('#status-selector').append(`
+                <option
+                style="background-color: transparent; border: none;"
+                value="${data.remarks[i].remark_id}"
+                >
+                  ${data.remarks[i].remark_name} 
+                </option>
+                `)
+              } 
             } 
-
-            if (data.applicantExamResults[i].applicant_answer == 0) { 
-              $(`#question-${i+1}`).append(`(Not answered)`)
-            }
-
-            $('#tech-exam-results').append(`
-              <ul>
-                <p id="question-${i+1}-choice-1">a. ${data.applicantExamResults[i].choice_1} </p>
-                <p id="question-${i+1}-choice-2">b. ${data.applicantExamResults[i].choice_2} </p>
-                <p id="question-${i+1}-choice-3">c. ${data.applicantExamResults[i].choice_3} </p>
-                <p id="question-${i+1}-choice-4">d. ${data.applicantExamResults[i].choice_4} </p>
-              </ul> 
-            `)
-
-            // choice-1
-            if (data.applicantExamResults[i].correct_answer === 1) { 
-              $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-check"></i>`)
-            } 
-            if (data.applicantExamResults[i].applicant_answer  === 1 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
-              $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-xmark"></i>`)
-            }
-
-            // choice-2
-            if (data.applicantExamResults[i].correct_answer === 2) { 
-              $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-check"></i>');
-            } 
-            if (data.applicantExamResults[i].applicant_answer  === 2 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
-              $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-xmark"></i>');
-            }
-
-            // choice-3
-            if (data.applicantExamResults[i].correct_answer === 3) { 
-              $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-check"></i>');
-            } 
-            if (data.applicantExamResults[i].applicant_answer  === 3 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
-              $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-xmark"></i>');
-            }
-
-            // choice-4
-            if (data.applicantExamResults[i].correct_answer === 4) { 
-              $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-check"></i>');
-            } 
-            if (data.applicantExamResults[i].applicant_answer  === 4 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
-              $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-xmark"></i>');
-            }
-              
-          } 
-        } else { 
-          $('#tech-exam-results').html(`
-            <h6>The applicant did not take the technical exam yet</h6>
-          `)
-        } 
-
-        // tech exam results modal footer
-        let totalExamScore = 0 
-        for(let i = 0; i < data.applicantExamResults.length; i++) {
-          totalExamScore++  
-        }  
-
-        if (data.applicantExamResults != 0) { 
-          $('#tech-exam-score').append(`
-            <h5 class="me-auto">
-              Score:  ${data.applicantInfo[0].technical_test_score} / ${totalExamScore}  
-            </h5>
-          `)
-
-          let techScore = (data.applicantInfo[0].technical_test_score/totalExamScore)*100;
-          techScore = +techScore.toFixed(2);
-
-          $('#tech-exam-score').append(`
-            <h5>
-              Percentage:  ${techScore} &#37;
-            </h5>
-          `)
-        }
-
-        // personality test results modal body
-        if(data.personalityTestResults != 0) { 
-          for(let i = 0; i < data.personalityTestResults.length; i++) { 
-            $('#personality-results').append(`
-              <p id="personalityQuestion-${i+1}">
-                ${i+1} .  ${data.personalityTestResults[i].question_detail} 
-              </p>
-            `)
-
-            if (data.personalityTestResults[i].applicant_answer == 0) { 
-              $(`#personalityQuestion-${i+1}`).append(`(Not answered)`)
-            }
-
-            $('#personality-results').append(`
-              <ul>
-                <p id="per-${i+1}-choice-1">
-                  a.  ${data.personalityTestResults[i].choice_1} 
-                </p>
-                <p id="per-${i+1}-choice-2">
-                  b.  ${data.personalityTestResults[i].choice_2} 
-                </p>
-                <p id="per-${i+1}-choice-3">
-                  c.  ${data.personalityTestResults[i].choice_3} 
-                </p>
-                <p id="per-${i+1}-choice-4">
-                  d.  ${data.personalityTestResults[i].choice_4} 
-                </p>
-              </ul>
-            `)
-
-            if(data.personalityTestResults[i].applicant_answer == 1) {
-              $(`#per-${i+1}-choice-1`).css('color', 'green')
-            }
-            if(data.personalityTestResults[i].applicant_answer == 2) {
-              $(`#per-${i+1}-choice-2`).css('color', 'green')
-            }
-            if(data.personalityTestResults[i].applicant_answer == 3) {
-              $(`#per-${i+1}-choice-3`).css('color', 'green')
-            }
-            if(data.personalityTestResults[i].applicant_answer == 4) {
-              $(`#per-${i+1}-choice-4`).css('color', 'green')
-            } 
-
-          }  
-        } else { 
-          $('#personality-results').append(`
-            <h6>The applicant did not take the personality test yet</h6>
-          `)
-        }
-
-        // personality test results modal footer
-        if(data.personalityTestResults != 0) { 
-          $('#personality-score').html(`
-            <h5 class="me-auto">Score: ${data.applicantInfo[0].personality_test_score} </h5>
-          `)
-        } 
-
-        // capabilities
-        if(data.applicantCapability[0].capability_1 != 0) {  
-          $('#capabilities').append(`
-            <div>
-              <p> ${data.applicantCapability[0].capability_1}  </p>
-            </div>
-            <div>
-              <p> ${data.applicantCapability[0].capability_2}  </p>
-            </div>
-            <div>
-              <p> ${data.applicantCapability[0].capability_3}  </p>
-            </div>
-            <div>
-              <p> ${data.applicantCapability[0].capability_4}  </p>
-            </div>
-            <div>
-              <p> ${data.applicantCapability[0].capability_5}  </p>
-            </div>
-          `)
-        } else { 
-          $('#capabilities').append('NO CAPABILITIES')
-        }  
-
-        // professional background
-        $('#pro-bg').append(``);
-        if (data.applicantHistory[0].position != 0) { 
-          for ( let i =0; i < data.applicantHistory.length; i++) { 
-            $('#pro-bg').append(`
-              <div id="app-${i+1}-history"></div>  
-            `);
-
-            if(data.applicantHistory != 0 && data.getStartDates[i] != 'Invalid date' && data.getEndDates[i] != 'Invalid date') { 
-              $(`#app-${i+1}-history`).append(`
-                <div class="mb-3">
-                    ${data.applicantHistory[i].position}  &#8226;
-                    ${data.getStartDates[i]}  -  ${data.getEndDates[i]} 
-                  <div>
-                    <small> ${data.applicantHistory[i].company} </small>
+    
+            // applicant skills
+            if(data.applicantSkill != 0) {  
+              for ( let i = 0; i < data.applicantSkill.length; i++) { 
+                $('#skills-container').append(`
+                  <div class="col-4 m-0 border border-2 mb-1">
+                    <div>
+                      <strong id="skill-expertise-${i+1}">
+                        ${data.applicantSkill[i].skill_name}  | 
+                      </strong>
+                    </div>
+                    <div id="skill-experience-${i+1}">
+                      ${data.applicantSkill[i].skill_years} 
+                    </div>
+                    <div>
+                      Self-rating ${data.applicantSkill[i].skill_self_rating} / 5
+                    </div>
                   </div>
-                </div>
-              `);
+                `);
+    
+                if( data.applicantExam != 0) { 
+                  for ( let j = 0; j < data.applicantScore.length; j++) { 
+                    if ( data.applicantSkill[i].skill_id == data.applicantScore[j].skill_id) { 
+                      if (data.applicantScore[j].skill_level >= 75) { 
+                        $(`#skill-expertise-${i+1}`).append(`Expert`)
+                      } else if (data.applicantScore[j].skill_level >= 50) { 
+                        $(`#skill-expertise-${i+1}`).append(`Intermediate`)
+                      } else { 
+                        $(`#skill-expertise-${i+1}`).append(`Beginner`)
+                      }     
+                    }  
+                  }  
+                } else { 
+                  $('#skill-expertise').append(`NO EXAM`)
+                }
+    
+                // skill experience
+                if (data.applicantSkill[i].skill_years > 1) { 
+                  $(`#skill-experience-${i+1}`).append('years experience')
+                } else { 
+                  $(`#skill-experience-${i+1}`).append('year experience')
+                }
+    
+              } 
+            } else { 
+              $('#skills-container').append(`NO SKILL`)
             } 
-          }  
-        } else { 
-          $('#pro-bg').append(`NO HISTORY`);
-        } 
-      })
+    
+            // tech exam results modal body
+            if (data.applicantExamResults != 0) { 
+              for( let i = 0; i < data.applicantExamResults.length; i++ ) { 
+                  
+                if (data.applicantExamResults[i].applicant_answer == data.applicantExamResults[i].correct_answer) { 
+                  $('#tech-exam-results').append(`
+                    <div style="color: green;">
+                      ${i+1} . ${data.applicantExamResults[i].question_detail} 
+                    </div>
+                  `)
+                } else { 
+                  $('#tech-exam-results').append(`
+                    <div style="color: red;" id="question-${i+1}">
+                      ${i+1} . ${data.applicantExamResults[i].question_detail} 
+                    </div>
+                  `)
+                } 
+    
+                if (data.applicantExamResults[i].applicant_answer == 0) { 
+                  $(`#question-${i+1}`).append(`(Not answered)`)
+                }
+    
+                $('#tech-exam-results').append(`
+                  <ul>
+                    <p id="question-${i+1}-choice-1">a. ${data.applicantExamResults[i].choice_1} </p>
+                    <p id="question-${i+1}-choice-2">b. ${data.applicantExamResults[i].choice_2} </p>
+                    <p id="question-${i+1}-choice-3">c. ${data.applicantExamResults[i].choice_3} </p>
+                    <p id="question-${i+1}-choice-4">d. ${data.applicantExamResults[i].choice_4} </p>
+                  </ul> 
+                `)
+    
+                // choice-1
+                if (data.applicantExamResults[i].correct_answer === 1) { 
+                  $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-check"></i>`)
+                } 
+                if (data.applicantExamResults[i].applicant_answer  === 1 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+                  $(`#question-${i+1}-choice-1`).append(`<i class="fa-solid fa-xmark"></i>`)
+                }
+    
+                // choice-2
+                if (data.applicantExamResults[i].correct_answer === 2) { 
+                  $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-check"></i>');
+                } 
+                if (data.applicantExamResults[i].applicant_answer  === 2 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+                  $(`#question-${i+1}-choice-2`).append('<i class="fa-solid fa-xmark"></i>');
+                }
+    
+                // choice-3
+                if (data.applicantExamResults[i].correct_answer === 3) { 
+                  $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-check"></i>');
+                } 
+                if (data.applicantExamResults[i].applicant_answer  === 3 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+                  $(`#question-${i+1}-choice-3`).append('<i class="fa-solid fa-xmark"></i>');
+                }
+    
+                // choice-4
+                if (data.applicantExamResults[i].correct_answer === 4) { 
+                  $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-check"></i>');
+                } 
+                if (data.applicantExamResults[i].applicant_answer  === 4 && data.applicantExamResults[i].applicant_answer != data.applicantExamResults[i].correct_answer) { 
+                  $(`#question-${i+1}-choice-4`).append('<i class="fa-solid fa-xmark"></i>');
+                }
+                  
+              } 
+            } else { 
+              $('#tech-exam-results').html(`
+                <h6>The applicant did not take the technical exam yet</h6>
+              `)
+            } 
+    
+            // tech exam results modal footer
+            let totalExamScore = 0 
+            for(let i = 0; i < data.applicantExamResults.length; i++) {
+              totalExamScore++  
+            }  
+    
+            if (data.applicantExamResults != 0) { 
+              $('#tech-exam-score').append(`
+                <h5 class="me-auto">
+                  Score:  ${data.applicantInfo[0].technical_test_score} / ${totalExamScore}  
+                </h5>
+              `)
+    
+              let techScore = (data.applicantInfo[0].technical_test_score/totalExamScore)*100;
+              techScore = +techScore.toFixed(2);
+    
+              $('#tech-exam-score').append(`
+                <h5>
+                  Percentage:  ${techScore} &#37;
+                </h5>
+              `)
+            }
+    
+            // personality test results modal body
+            if(data.personalityTestResults != 0) { 
+              for(let i = 0; i < data.personalityTestResults.length; i++) { 
+                $('#personality-results').append(`
+                  <p id="personalityQuestion-${i+1}">
+                    ${i+1} .  ${data.personalityTestResults[i].question_detail} 
+                  </p>
+                `)
+    
+                if (data.personalityTestResults[i].applicant_answer == 0) { 
+                  $(`#personalityQuestion-${i+1}`).append(`(Not answered)`)
+                }
+    
+                $('#personality-results').append(`
+                  <ul>
+                    <p id="per-${i+1}-choice-1">
+                      a.  ${data.personalityTestResults[i].choice_1} 
+                    </p>
+                    <p id="per-${i+1}-choice-2">
+                      b.  ${data.personalityTestResults[i].choice_2} 
+                    </p>
+                    <p id="per-${i+1}-choice-3">
+                      c.  ${data.personalityTestResults[i].choice_3} 
+                    </p>
+                    <p id="per-${i+1}-choice-4">
+                      d.  ${data.personalityTestResults[i].choice_4} 
+                    </p>
+                  </ul>
+                `)
+    
+                if(data.personalityTestResults[i].applicant_answer == 1) {
+                  $(`#per-${i+1}-choice-1`).css('color', 'green')
+                }
+                if(data.personalityTestResults[i].applicant_answer == 2) {
+                  $(`#per-${i+1}-choice-2`).css('color', 'green')
+                }
+                if(data.personalityTestResults[i].applicant_answer == 3) {
+                  $(`#per-${i+1}-choice-3`).css('color', 'green')
+                }
+                if(data.personalityTestResults[i].applicant_answer == 4) {
+                  $(`#per-${i+1}-choice-4`).css('color', 'green')
+                } 
+    
+              }  
+            } else { 
+              $('#personality-results').append(`
+                <h6>The applicant did not take the personality test yet</h6>
+              `)
+            }
+    
+            // personality test results modal footer
+            if(data.personalityTestResults != 0) { 
+              $('#personality-score').html(`
+                <h5 class="me-auto">Score: ${data.applicantInfo[0].personality_test_score} </h5>
+              `)
+            } 
+    
+            // capabilities
+            if(data.applicantCapability[0].capability_1 != 0) {  
+              $('#capabilities').append(`
+                <div>
+                  <p> ${data.applicantCapability[0].capability_1}  </p>
+                </div>
+                <div>
+                  <p> ${data.applicantCapability[0].capability_2}  </p>
+                </div>
+                <div>
+                  <p> ${data.applicantCapability[0].capability_3}  </p>
+                </div>
+                <div>
+                  <p> ${data.applicantCapability[0].capability_4}  </p>
+                </div>
+                <div>
+                  <p> ${data.applicantCapability[0].capability_5}  </p>
+                </div>
+              `)
+            } else { 
+              $('#capabilities').append('NO CAPABILITIES')
+            }  
+    
+            // professional background
+            $('#pro-bg').append(``);
+            if (data.applicantHistory[0].position != 0) { 
+              for ( let i =0; i < data.applicantHistory.length; i++) { 
+                $('#pro-bg').append(`
+                  <div id="app-${i+1}-history"></div>  
+                `);
+    
+                if(data.applicantHistory != 0 && data.getStartDates[i] != 'Invalid date' && data.getEndDates[i] != 'Invalid date') { 
+                  $(`#app-${i+1}-history`).append(`
+                    <div class="mb-3">
+                        ${data.applicantHistory[i].position}  &#8226;
+                        ${data.getStartDates[i]}  -  ${data.getEndDates[i]} 
+                      <div>
+                        <small> ${data.applicantHistory[i].company} </small>
+                      </div>
+                    </div>
+                  `);
+                } 
+              }  
+            } else { 
+              $('#pro-bg').append(`NO HISTORY`);
+            } 
+          })
+        })
     })
   });
 </script>
