@@ -2,18 +2,17 @@
 <%- include('./layout/header.ejs') %>
 <div class="container-fluid">
 <div class="row" style="padding-top: 65px;">
-  <div class="col-sm-2 px-0">
-    <div class="p-4 mb-1" style="background-color: #F2F2F2;">
-      <a href="/examcreation" style="text-decoration: none; color: black;">+ NEW QUESTION</a>
+  <div class="col-sm-2 sidenav" style="overflow: auto;">
+    <div class="mb-1 p-4 sidenavtab" style="background-color: #F2F2F2;">
+      <a href="/examcreation">+ NEW QUESTION</a>
     </div>
-    <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
+    <div class="mb-1 px-4 py-3 sidenavtab">
       <a
       <% if (personality != 0) { %>  
         href="/examcreation/Personality/<%= personality[0].question_id %>"
       <% } else { %>
         href="/examcreation/Personality"
       <% } %>
-      style="text-decoration: none; color: black;"
       >
       Personality
       <% let personalityCount =  0 %>
@@ -24,33 +23,33 @@
       </a>
     </div>
     <% for (let i=0; i < skill.length; i++) { %>
-      <div class="p-3 px-4 mb-1" style="background-color: #e6e6e6;">
-      <a
-      <%  for (let j=0; j < qSkill.length; j++) { %>
-        <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
-          <% let cat = skill[i].skill_name.replace(/#/g, '%23') %> 
-          href="/examcreation/<%= cat %>/<%= qSkill[j].question_id %>"
-        <% } %>
-
-      <% } %>
-        class="w3-bar-item sidebar"
-        style="text-decoration:none; color: black;"
-      >
-        <%= skill[i].skill_name %>
-        <% let categoryCount =  0 %>
-        <% for (let j=0; j < qSkill.length; j++) { %>
-          <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
-            <% categoryCount++; %>
+      <div class="mb-1 px-4 py-3 sidenavtab">
+        <a
+        <%  for (let j=0; j < qSkill.length; j++) { %>
+          <% if (skill[i].skill_id == qSkill[j].skill_id) { %>
+            <% let cat = skill[i].skill_name.replace(/#/g, '%23') %> 
+            href="/examcreation/<%= cat %>/<%= qSkill[j].question_id %>"
           <% } %>
         <% } %>
-        (<%= categoryCount%>)
-      </a>
+        >
+          <%= skill[i].skill_name %>
+          <% let categoryCount =  0 %>
+          <% for (let j=0; j < qSkill.length; j++) { %>
+            <% if (skill[i].skill_id == qSkill[j].skill_id && qSkill[j].question_id != null) { %>
+              <% categoryCount++; %>
+            <% } %>
+          <% } %>
+          (<%= categoryCount%>)
+        </a>
+      </div>
+    <% } %> 
+    <div class="p-4 mb-1 sidenavtab" style="height: auto;">
+        
     </div>
-      <% } %> 
   </div>
-  <div class="col-sm-10 ps-0 pt-4" style="background-color: #F2F2F2;">
+  <div class="col-sm-10 p-4 main">
     <form action="/examcreation" method="POST">
-      <div class="container-fluid px-4 py-3">
+      <div class="container-fluid p-0 m-0 mb-3">
         <div class="form-floating d-flex">
           <div class="me-2 border rounded border-secondary selected-tp active">
             <label style="width: max-content; height: max-content; padding: 10px;" for="technical-btn">
@@ -83,29 +82,27 @@
       <div>
         <input type="hidden" value="<%= questionId %>" readonly name="question_id">
       </div>
-  <div class="container-fluid px-4 py-3">
+  <div class="container-fluid p-0 m-0 mb-3">
     <div class="row">
       <div class="form-floating col technical-input">
         <input 
-        list="categoryList"
-        placeholder="Select Category" 
-        name="questionCategory" 
-        id="inputCategory"
-        required
-        onblur="CheckListed(this.value)"
-        style="border: none; height: 58px;"
-        class="w-100 form-control"
+          list="categoryList"
+          placeholder="Select Category" 
+          name="questionCategory" 
+          id="inputCategory"
+          required
+          onblur="CheckListed(this.value)"
+          style="border: none; height: 58px;"
+          class="w-100 form-control"
         >
-        <datalist id="categoryList">
+        <datalist id="categoryList" >
           <% for (let i=0; i < skill.length; i++) { %>
             <option value="<%=skill[i].skill_name %>">  
               <%=skill[i].skill_name %>
             </option>
           <% } %>
-          <option hidden disabled value="Personality">Personality</option>
         </datalist>
-        <span id="output"></span>
-        <label for="questionlevel">Category</label>
+        <label for="questionlevel" class="p-3">Category</label>
       </div>
       <div class="form-floating col technical-input">
         <select
@@ -124,7 +121,7 @@
           <option value="5">5</option>
           <option value="0" class="d-none" >0</option>
         </select>
-        <label for="questionlevel">Level</label>
+        <label for="questionlevel" class="p-3">Level</label>
         
       </div>
       <div class="form-floating col technical-input">
@@ -133,16 +130,16 @@
           name="questiontimer"
           class="form-control"
           id="time"
-          placeholder="Timer"
+          placeholder="Time limit (seconds)"
           value=""
           required
           style="border: none;"
         />
-        <label for="floatPlace">Timer</label>
+        <label for="floatPlace">Time limit (seconds)</label>
       </div>
     </div>
   </div>
-    <div class="container-fluid pb-3">
+    <div class="container-fluid p-0 m-0 mb-3">
       <div class="form-floating">
         <textarea
           name="questiondetail"
@@ -156,118 +153,142 @@
       </div>
     </div>
 
-      <div class="container-fluid">
+      <div class="container-fluid p-0 m-0 mb-3">
         <div class="mb-2">
           <div class="d-flex">
-            <small class="me-auto">CHOICE 1</small>
+            <small class="me-auto"></small>
             <input type="radio" value="1" name="correctAnswer" id="radioForCorrect"required/>
           </div>
-          <div>
-            <input
-              type="text"
-              class="form-control"
-              id="floatPlace"
-              placeholder="Choice 1"
-              name="choice_1"
-              required
-              style="border: none;"
-            />
-            <input
-            type="text"
-            class="form-control choice-value-input d-none"
-            id="floatPlace"
-            placeholder="Value"
-            name="value_1"
-            value="0"
-            required
-            style="border: none;"
-          />
+          <div class="d-flex">
+            <div class="form-floating w-100 me-1">
+              <input
+                type="text"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Choice 1"
+                name="choice_1"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Choice 1</label>
+            </div>
+            <div class="form-floating choice-value-input d-none w-50">
+              <input
+                type="number"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Value"
+                name="value_1"
+                value="0"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Value</label>
+            </div>
           </div>
         </div>
         <div class="mb-2">
           <div class="d-flex">
-            <small class="me-auto">CHOICE 2</small>
+            <small class="me-auto"></small>
             <input type="radio" value="2" name="correctAnswer" id="radioForCorrect" required/>
           </div>
-          <div>
-            <input
-              type="text"
-              class="form-control"
-              id="floatPlace"
-              placeholder="Choice 2"
-              name="choice_2"
-              required
-              style="border: none;"
-            />
-            <input
-              type="text"
-              class="form-control choice-value-input d-none"
-              id="floatPlace"
-              placeholder="Value"
-              name="value_2"
-              value="0"
-              required
-              style="border: none;"
-          />
+          <div class="d-flex">
+            <div class="form-floating w-100 me-1">
+              <input
+                type="text"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Choice 2"
+                name="choice_2"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Choice 2</label>
+            </div>
+            <div class="form-floating choice-value-input d-none w-50">
+              <input
+                type="number"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Value"
+                name="value_2"
+                value="0"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Value</label>
+            </div>
           </div>
         </div>
         <div class="mb-2">
           <div class="d-flex">
-            <small class="me-auto">CHOICE 3</small>
+            <small class="me-auto"></small>
             <input type="radio" value="3" name="correctAnswer" id="radioForCorrect" required/>
           </div>
-          <div>
-            <input
-              type="text"
-              class="form-control"
-              id="floatPlace"
-              placeholder="Choice 3"
-              name="choice_3"
-              required
-              style="border: none;"
-            />
-            <input
-              type="text"
-              class="form-control choice-value-input d-none"
-              id="floatPlace"
-              placeholder="Value"
-              name="value_3"
-              value="0"
-              required
-              style="border: none;"
-            />
+          <div class="d-flex">
+            <div class="form-floating w-100 me-1">
+              <input
+                type="text"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Choice 3"
+                name="choice_3"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Choice 3</label>
+            </div>
+            <div class="form-floating choice-value-input d-none w-50">
+              <input
+                type="number"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Value"
+                name="value_3"
+                value="0"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Value</label>
+            </div>
           </div>
         </div>
         <div class="mb-2">
           <div class="d-flex">
-            <small class="me-auto">CHOICE 4</small>
+            <small class="me-auto"></small>
             <input type="radio" value="4" name="correctAnswer" id="radioForCorrect" required/>
           </div>
-          <div>
-            <input
-              type="text"
-              class="form-control"
-              id="floatPlace"
-              placeholder="Choice 4"
-              name="choice_4"
-              required
-              style="border: none;"
-            />
-            <input
-              type="text"
-              class="form-control choice-value-input d-none"
-              id="floatPlace"
-              placeholder="Value"
-              name="value_4"
-              value="0"
-              required
-              style="border: none;"
-            />
+          <div class="d-flex">
+            <div class="form-floating w-100 me-1">
+              <input
+                type="text"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Choice 4"
+                name="choice_4"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Choice 4</label>
+            </div>
+            <div class="form-floating choice-value-input d-none w-50">
+              <input
+                type="text"
+                class="form-control"
+                id="floatPlace"
+                placeholder="Value"
+                name="value_4"
+                value="0"
+                required
+                style="border: none;"
+              />
+              <label for="floatPlace">Value</label>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="container m-0">
+      <div class="container-fluid p-0 m-0 mb-3">
         <button type="" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
       </div>
       </div>
