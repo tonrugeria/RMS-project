@@ -196,11 +196,10 @@ router.post(
       course,
       date_graduated,
     } = req.body;
-    console.log('STARTDATE', start_date);
     const getStartDates = history_start_date.map((element) =>
       moment(element).format('L')
     );
-
+    
     const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
     let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
@@ -216,6 +215,12 @@ router.post(
     const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
     const today = new Date();
     const thisDay = moment(today, 'MM/DD/YYYY');
+
+    if (start_date != '') {
+      start_date;
+    } else {
+      start_date = null;
+    }
 
     let new_image = '';
 
