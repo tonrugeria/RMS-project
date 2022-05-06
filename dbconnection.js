@@ -181,7 +181,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           question_type int NOT NULL,
           question_category varchar(100) NOT NULL,
           question_level varchar(100) NOT NULL,
-          question_detail varchar(100) NOT NULL,
+          question_detail varchar NOT NULL,
           question_time_limit varchar(100) NOT NULL,
           choice_1 varchar(100) NOT NULL,
           choice_2 varchar(100) NOT NULL,
