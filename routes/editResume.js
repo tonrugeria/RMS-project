@@ -12,6 +12,20 @@ const {
 const router = express.Router();
 
 router.get(
+  '/careers/job/:job_id/technical-exam/application/:application_id/submit',
+  async (req, res) => {
+    const jobId = req.params.job_id;
+    const appId = req.params.application_id;
+
+    const link = `http://localhost:3000/careers/job/${jobId}/resume/application/${appId}`;
+
+    res.send(
+      `<h1>SUBMITTED!</h1> <h3>Resume link: <a href="${link}">CLICK HERE</a></h3>`
+    );
+  }
+);
+
+router.get(
   '/careers/job/:job_id/resume/application/:application_id',
   async (req, res) => {
     const jobId = req.params.job_id;

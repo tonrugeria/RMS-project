@@ -22,7 +22,7 @@
         </div>
         <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
           <a 
-          href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+          href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>/submit"
           >
             <button
             <% if(applicantExamRecord == undefined) { %>
@@ -81,7 +81,15 @@
           id="questions"
         >
         </form>
-        <button id="save-exam" type="submit" form="questions">SAVE EXAM</button>
+        <button 
+          id="save-exam" 
+          type="submit" 
+          form="questions"
+          class="px-5 py-3" 
+          style="background-color: #4d4d4d; color: white; border: none;"
+        >
+          SAVE EXAM
+        </button>
         <div id="next-btn-container">
           <button 
             type="button" 
