@@ -33,7 +33,8 @@
                 var optionValue = $(this).attr("value");
                 if(optionValue){
                     $(".skilltype").not("." + optionValue).hide();
-                    $(".skilltype").not("." + optionValue).children().attr('checked', false)
+                    $(".skilltype").not("." + optionValue).children().attr('checked', false);
+                    $(".skilltype").not("." + optionValue).find('input:radio').attr('checked', false);
                     $("." + optionValue).show();
                 } else{
                     $(".skilltype").hide();

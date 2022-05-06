@@ -55,7 +55,7 @@
             <label for="salary-range">SALARY RANGE</label>
           </div>
           <div class="col-4 form-floating ps-0">
-            <select class="form-select border-0" name="careerLevel" id="career-level" >
+            <select class="form-select border-0" name="careerLevel" id="career-level" required >
               <option hidden value="">Select</option>
               <% for(let i = 0; i < positionLevel.length; i++) { %>
                 <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
@@ -74,7 +74,7 @@
           </div>
           <br>
           <div class="col-12 form-floating ps-0 mb-3">
-            <textarea class="form-control border-0" style="height: 200px; resize: none;"  id="jobdesc" name="jobDesc" ></textarea>
+            <textarea class="form-control border-0" style="height: 200px; resize: none;"  id="jobdesc" name="jobDesc" required ></textarea>
             <label for="jobdesc">JOB DESCRIPTION</label>
           </div>
         </div>

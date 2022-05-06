@@ -48,8 +48,9 @@
                   style="resize: none; height: 150px; background-color: #e6e6e6; overflow: hidden;"
                   onfocus="textAreaAdjust(this)"
                   onkeyup="textAreaAdjust(this)"
+                  required
                 ><%= jobDetail[j].role %></textarea>
-                <button class="border-0 pt-2" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">
+                <button class="border-0 p-3" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">
                   <i class="fa-solid fa-check"></i>
                 </button>
               </div>
@@ -57,8 +58,10 @@
             <% } %> 
           <% } else { %>
             <form action="/add-role/<%= jobId %>" method="post">
-              <textarea class="border-0 w-100" style="resize: none; height: 150px; background-color: #e6e6e6;" type="text" name="role" placeholder="Enter a Role"></textarea>
-              <button class="border-0 pt-2" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">+</button>
+              <div class="d-flex">
+                <textarea class="border-0 w-100 p-2" style="resize: none; height: 150px; background-color: #e6e6e6;" type="text" name="role" placeholder="Enter a Role" required></textarea>
+                <button class="border-0 p-3" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;"><i class="fa fa-plus"></i></button>
+              </div>
             </form>
           <% } %>
         </div>

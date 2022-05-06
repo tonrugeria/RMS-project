@@ -47,6 +47,7 @@
               type="text" 
               name="jobTitle" 
               value="<%= job[0].job_title %>"
+              required
             >
             <label for="jobtitle">JOB TITLE</label>
           </div>
@@ -67,11 +68,11 @@
             <label for="department">DEPARTMENT</label>
           </div>
           <div class="col-4 form-floating ps-0">
-            <input class="w-100 form-control border-0" type="number" min="1" name="salaryRange" id="salary range" value="<%= job[0].max_salary %>">
+            <input class="w-100 form-control border-0" type="number" min="1" name="salaryRange" id="salary range" value="<%= job[0].max_salary %>" required>
             <label for="salary range">SALARY RANGE</label>
           </div>
           <div class="col-4 form-floating ps-0">
-            <select class="form-select border-0" name="careerLevel" id="career level" >
+            <select class="form-select border-0" name="careerLevel" id="career level" required>
               <% for(let i = 0; i < positionLevel.length; i++) { %>
                 <% if (positionLevel[i].position_level_name == job[0].position_level) { %> 
                   <option value="<%= positionLevel[i].position_level_name %>" selected>
@@ -87,7 +88,7 @@
             <label for="career level">CAREER LEVEL</label>
           </div>
           <div class="col-4 form-floating ps-0 mb-2">
-            <select class="form-select w-100 border-0" name="workType" id="work type">
+            <select class="form-select w-100 border-0" name="workType" id="work type" required>
               <% for(let i = 0; i < jobType.length; i++) { %>
                 <% if (jobType[i].job_type_name == job[0].job_type) { %>
                   <option value="<%= jobType[i].job_type_name %>" selected><%= jobType[i].job_type_name %></option>
@@ -126,7 +127,7 @@
             <label for="skill score">EXAM SCORE</label>
           </div>
          <div class="col-4 form-floating ps-0 mb-3">
-           <input class="form-control w-100 border-0" type="number" min="0" id="personality score" name="personalityScore" value="<%= job[0].personality_score %>"/>
+           <input class="form-control w-100 border-0" type="number" min="0" id="personality score" name="personalityScore" value="<%= job[0].personality_score %>" required/>
            <label for="personality score">PERSONALITY SCORE</label>
          </div>
         </div>
