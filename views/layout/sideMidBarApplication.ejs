@@ -246,6 +246,11 @@
           <% if (applicants[i].start_date == null) { %>
             startNow
           <% } %>
+          <% if (applicants[i].read_status != null) { %>
+           read
+          <% } else { %>
+            unread
+          <% } %> 
           status-<%= applicants[i].status %>"
 
           updated="
