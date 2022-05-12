@@ -1,7 +1,7 @@
 <%- include('./layout/header.ejs') %>
-<div class="container-fluid pe-0 ps-0" style="padding-top: 65px;">
-<div class="row min-vh-100">
-  <div class="col-sm-2 pe-0">
+<div class="container-fluid pe-0 ps-0" style="overflow: hidden;">
+<div class="row"  style="padding-top: 65px;">
+  <div class="col-sm-2 sidenav" style="overflow: auto;">
     <div class="p-4 mb-1" style="background-color: #e6e6e6;">
       <a href="/examcreation" style="text-decoration:none; color: black;">
         + NEW QUESTION
@@ -62,52 +62,54 @@
     <% } %>
   </div>
   <% if (allCategoryQuestion != 0){ %>
-  <div class="col-sm-4 ps-0 pe-0" style="background-color: #666666;">
-    <% for (let i=0; i < allCategoryQuestion.length; i++) { %>
-      <a
-      href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
-      style="color: white; text-decoration: none;"
-      >
-      <% for (let j=0; j < question.length; j++){%>
-        <div 
-          class="p-3 selected-color mb-1" 
-          <% if (allCategoryQuestion[i].question_id == questionId) { %>
-            style="background-color: #F2F2F2; color: black;"
-          <% } %>
+  <div class="col-sm-4 p-0 ms-auto" style="background-color: #666666;">
+    <div style="height: 94vh; overflow: auto;">
+      <% for (let i=0; i < allCategoryQuestion.length; i++) { %>
+        <a
+        href="/examcreation/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
+        style="color: white; text-decoration: none;"
         >
-          <div class="d-flex justify-content-between">
-            <p class="mb-0">
-              <%= allCategoryQuestion[i].question_category %>
-              <% if(question[j].question_type =='0' ){ %>
-               | LEVEL <%=
-              allCategoryQuestion[i].question_level %> 
-              <% } %>
-            </p>
-      <% } %>
-            <div>
-              <form
-              method="GET"
-              action="/deleteExam/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
-              >
-                <button
-                  type="submit" 
-                  <% if (allCategoryQuestion[i].question_id == questionId) { %>
-                    style="background: transparent; color: black; border: none;"
-                  <% } else { %>
-                    style="background: transparent; border: none; color: white;"
-                  <% } %> 
-                ><i class="fa-solid fa-xmark x-btn"></i></button>
-              </form>
+        <% for (let j=0; j < question.length; j++){%>
+          <div 
+            class="p-3 selected-color mb-1" 
+            <% if (allCategoryQuestion[i].question_id == questionId) { %>
+              style="background-color: #F2F2F2; color: black;"
+            <% } %>
+          >
+            <div class="d-flex justify-content-between">
+              <p class="mb-0">
+                <%= allCategoryQuestion[i].question_category %>
+                <% if(question[j].question_type =='0' ){ %>
+                 | LEVEL <%=
+                allCategoryQuestion[i].question_level %> 
+                <% } %>
+              </p>
+        <% } %>
+              <div>
+                <form
+                method="GET"
+                action="/deleteExam/<%= allCategoryQuestion[i].question_category %>/<%= allCategoryQuestion[i].question_id %>"
+                >
+                  <button
+                    type="submit" 
+                    <% if (allCategoryQuestion[i].question_id == questionId) { %>
+                      style="background: transparent; color: black; border: none;"
+                    <% } else { %>
+                      style="background: transparent; border: none; color: white;"
+                    <% } %> 
+                  ><i class="fa-solid fa-xmark x-btn"></i></button>
+                </form>
+              </div>
             </div>
+            <p>
+              <%= allCategoryQuestion[i].question_detail %>
+            </p>
           </div>
-          <p>
-            <%= allCategoryQuestion[i].question_detail %>
-          </p>
-        </div>
-      </a>
+        </a>
       <% } %>
+    </div>
   </div>
-  <div class="col-sm-6 ps-0" style="background-color: #F2F2F2;">
+  <div class="col-sm-6 px-0" style="background-color: #F2F2F2;">
     <form action="/examcreation/<%= questionCategory %>/<%= questionId %>" method="POST">
       <div class="container-fluid px-4 py-3">
         <div class="row">
@@ -356,12 +358,12 @@
     </form>
   </div>
   <%} else { %>
-    <div class="col-sm-10" style="background-color: #F2F2F2;">
-      <div class="h-50 d-flex flex-column align-items-center justify-content-center">
+    <div class="col-sm-10 p-0 ms-auto d-flex flex-column align-items-center justify-content-center" style="background-color: #F2F2F2;">
+      <div class="d-flex flex-column align-items-center justify-content-center">
       <h5>NO ITEM IN THIS CATEGORY</h5>
       <a href="/examcreation">
-      <h5>CREATE A NEW ONE</h5>
-    </a>
+        <h5>CREATE A NEW ONE</h5> 
+      </a>
       </div>
     </div>
   <% } %>
