@@ -39,6 +39,7 @@
                         border: none;
                         height: 50px;
                         width: max-content;
+                        background-color: #e6e6e6;
                       "
                       class="px-2 py-1"
                     />
@@ -47,8 +48,8 @@
                       id="department_<%= department[i].dept_id %>"
                       style="
                         border: none;
-                        background-color: #fff;
                         height: 50px;
+                        background-color: #e6e6e6;
                       ">
                       <i class="fa-solid fa-check"></i>
                     </button>
@@ -60,8 +61,8 @@
                       data-bs-target="#staticBackdrop-<%= i+1 %>"
                       style="
                         border: none;
-                        background-color: #fff;
                         height: 50px;
+                        background-color: #e6e6e6;
                       "
                     >
                       <i class="fa-solid fa-xmark"></i>
@@ -152,6 +153,7 @@
                             border: none;
                             height: 50px;
                             width: max-content;
+                            background-color: #e6e6e6;
                           "
                           class="px-2 py-1"
                         />
@@ -160,7 +162,7 @@
                           id="skill_<%= technologies[j].skill_id %>"
                           style="
                             border: none;
-                            background-color: #fff;
+                            background-color: #e6e6e6;
                             height: 50px;
                           "
                         >
@@ -176,7 +178,7 @@
                       type="submit"
                       style="
                         border: none;
-                        background-color: #fff;
+                        background-color: #e6e6e6;
                         height: 50px;
                       "
                     >
@@ -237,6 +239,7 @@
                       border: none; 
                       height: 50px;
                       width: max-content;
+                      background-color: #e6e6e6;
                     "
                     class="px-2 py-1"
                   />
@@ -244,8 +247,8 @@
                     class="update-btn d-none" 
                     id="job_type_<%= jobType[i].job_type_id %>"
                     style="
-                      border: none; 
-                      background-color: #fff; 
+                      border: none;
+                      background-color: #e6e6e6;
                       height: 50px;
                     "
                   >
@@ -258,8 +261,8 @@
                     id="job_type_<%= jobType[i].job_type_id %>" 
                     type="submit"
                     style="
-                      border: none; 
-                      background-color: #fff; 
+                      border: none;
+                      background-color: #e6e6e6;
                       height: 50px;
                     "
                   ><i class="fa-solid fa-xmark"></i></button>
@@ -314,6 +317,7 @@
                         border: none;
                         height: 50px;
                         width: max-content;
+                        background-color: #e6e6e6;
                       "
                       class="px-2 py-1"
                     />
@@ -322,7 +326,7 @@
                       id="position_level_<%= positionLevel[i].position_level_id %>"
                       style="
                         border: none;
-                        background-color: #fff;
+                        background-color: #e6e6e6;
                         height: 50px;
                       "
                     >
@@ -335,7 +339,7 @@
                         type="submit"
                         style="
                           border: none; 
-                          background-color: #fff; 
+                          background-color: #e6e6e6; 
                           height: 50px;
                         "
                       ><i class="fa-solid fa-xmark"></i></button>
@@ -391,6 +395,7 @@
                           border: none;
                           height: 50px;
                           width: max-content;
+                          background-color: #e6e6e6;
                         "
                         class="px-2 py-1"
                       />
@@ -399,7 +404,7 @@
                         id="remark_<%= remarks[i].remark_id %>"
                         style="
                           border: none;
-                          background-color: #fff;
+                          background-color: #e6e6e6;
                           height: 50px;
                         "
                       >
@@ -412,7 +417,7 @@
                           type="submit"
                           style="
                             border: none; 
-                            background-color: #fff; 
+                            background-color: #e6e6e6;
                             height: 50px;
                           "
                         ><i class="fa-solid fa-xmark"></i></button>
@@ -459,6 +464,9 @@
   }
 </style>
 <script>
+  function changeBg(element){
+    element.style.background = 'white';
+  }
   function addUpdateBtn(dept_id, dept) {
     const allUpdateBtn = document.querySelectorAll('.update-btn');
     const allDelBtn = document.querySelectorAll('.delete-btn');
@@ -509,6 +517,11 @@
     $('.skill-buttons button').removeClass('active');
     $(this).addClass('active')
   })
+
+  $('input').on('keyup', function(e){
+    changeBg(this);
+  })
+
 </script>
 
 <%- include('./layout/footer.ejs') %>

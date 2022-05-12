@@ -47,7 +47,7 @@
                   class="border-0 w-100 p-2"
                   style="resize: none; height: 150px; background-color: #e6e6e6; overflow: hidden;"
                   onfocus="textAreaAdjust(this)"
-                  onkeyup="textAreaAdjust(this)"
+                  onkeyup="changeBg(this)"
                   required
                 ><%= jobDetail[j].role %></textarea>
                 <button class="border-0 p-3" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;">
@@ -83,7 +83,7 @@
                   name="responsibility_item"
                   onkeydown="addUpdateBtn('<%= jobResponsibility[i].responsibility_id %>', 'responsibility')"
                   onfocus="textAreaAdjust(this)"
-                  onkeyup="textAreaAdjust(this)"
+                  onkeyup="changeBg(this)"
                   class="border-0 w-100 px-2"
                   style="resize: none; height: 45px; background-color: #e6e6e6; padding-top: 10px; overflow: hidden;"
                 ><%= jobResponsibility[i].responsibility_detail %></textarea>
@@ -141,7 +141,7 @@
                 name="qualification_item"
                 onkeydown="addUpdateBtn('<%= jobQualification[i].qualification_id%>', 'qualification')"
                 onfocus="textAreaAdjust(this)"
-                onkeyup="textAreaAdjust(this)"
+                onkeyup="changeBg(this)"
                 class="border-0 w-100 px-2"
                 style="resize: none; height: 45px; background-color: #e6e6e6; padding-top: 10px; overflow: hidden;"
               ><%= jobQualification[i].qualification_detail%></textarea>
@@ -200,7 +200,7 @@
                       name="category_item"
                       onkeydown="addUpdateBtn('<%= jobCategoryItem[j].item_id %>', '<%= jobCategory[i].category_detail %>')"
                       onfocus="textAreaAdjust(this)"
-                      onkeyup="textAreaAdjust(this)"
+                      onkeyup="changeBg(this)"
                       class="border-0 w-100 px-2"
                       style="resize: none; height: 45px; background-color: #e6e6e6; padding-top: 10px; overflow: hidden;"
                     ><%= jobCategoryItem[j].item_detail %></textarea>
@@ -286,6 +286,12 @@
   function textAreaAdjust(element) {
     element.style.height = "1px";
     element.style.height = (25+element.scrollHeight)+"px";
+  }
+
+  function changeBg(element){
+    element.style.height = "1px";
+    element.style.height = (25+element.scrollHeight)+"px";
+    element.style.background = 'white';
   }
 </script>
 <%- include('./layout/footer.ejs') %>
