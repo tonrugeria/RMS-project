@@ -28,6 +28,9 @@ router.get(
 
     // jobs Schema
     const jobOpening = await knex('jobs.job_opening');
+    const jobSkill = await knex('jobs.skill')
+    .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+    .where({job_id: jobId})
 
     // job_application Schema
     // applicant_details Table
@@ -225,7 +228,7 @@ router.get(
     const getEndDates = applicantHistory.map((element) =>
       moment(element.history_end_date).format('MMMM YYYY')
     );
-
+    
     res.send({
       jobId,
       appId,
@@ -260,6 +263,7 @@ router.get(
       intermediate,
       expert,
       jobApplicants,
+      jobSkill
     });
   }
 );

@@ -40,6 +40,9 @@ router.get('/application', checkAuthenticated, async (req, res) => {
 
   // jobs Schema
   const jobOpening = await knex('jobs.job_opening');
+  const jobSkill = await knex('jobs.job_opening')
+    .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
+    .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
 
   // technical_score Table
   const technicalScore = await knex('job_application.technical_score');
@@ -54,7 +57,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
       'admin.skill.skill_id',
       'job_application.technical_score.skill_id'
     );
-
+      
   const branding = await knex('admin.branding');
   res.render('application', {
     branding,
@@ -70,6 +73,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     remarks,
     jobId,
     jobApplicants,
+    jobSkill
   });
 });
 
@@ -149,9 +153,9 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
-  const jobSkill = await knex('jobs.job_opening')
-    .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
-    .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
+  const jobSkill = await knex('jobs.skill')
+  .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+  .where({job_id: jobId})
 
   // Format
   const { date_of_birth } = applicants[0] || {};
