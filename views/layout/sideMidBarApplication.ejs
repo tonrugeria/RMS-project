@@ -96,17 +96,31 @@
 
   <!-- Technologies -->
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-      <% for (let i=0; i < adminSkill.length; i++) { %>
-        <span class="col p-0">
-          <button 
-            class="border-0 bg-transparent"
-            type="button" 
-            name="skills" 
-            value="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>" 
-            id="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>"
-          ><%= adminSkill[i].skill_name %></button>
-        </span>
-      <% } %>
+      <% if (globalThis.location === '/application') { %>
+        <% for (let i=0; i < adminSkill.length; i++) { %>
+          <span class="col p-0">
+            <button 
+              class="border-0 bg-transparent"
+              type="button" 
+              name="skills" 
+              value="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>" 
+              id="<%= adminSkill[i].skill_name.replace(/\s/g, '') %>"
+            ><%= adminSkill[i].skill_name %></button>
+          </span>
+        <% } %>
+      <% } else { %>
+        <% for (let i=0; i < jobSkill.length; i++) { %>
+          <span class="col p-0">
+            <button 
+              class="border-0 bg-transparent"
+              type="button" 
+              name="skills" 
+              value="<%= jobSkill[i].skill_name.replace(/\s/g, '') %>" 
+              id="<%= jobSkill[i].skill_name.replace(/\s/g, '') %>"
+            ><%= jobSkill[i].skill_name %></button>
+          </span>
+        <% } %>  
+      <% } %> 
     </div>
 
   <!-- Expertise -->
