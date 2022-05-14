@@ -19,7 +19,11 @@ router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) =
     req.user.role_id
   );
   const branding = await knex('admin.branding');
-
+  const {
+    company_logo,
+    company_name,
+    login_bg
+  } = branding[0] || {}
   const items = [
     'Navigation Bar',
     'Menu Text',
@@ -42,6 +46,9 @@ router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) =
     branding,
     items,
     names,
+    company_logo,
+    company_name,
+    login_bg
   });
 });
 
