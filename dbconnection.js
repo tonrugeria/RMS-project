@@ -104,7 +104,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           max_salary INT NOT NULL,
           position_level VARCHAR(100) NOT NULL,
           job_type VARCHAR(100) NOT NULL,
-          job_description VARCHAR(255) NOT NULL,
+          job_description VARCHAR NOT NULL,
           min_years_experience VARCHAR(100) NOT NULL,
           skill_score VARCHAR(100) NOT NULL,
           hr_rating VARCHAR(100),
