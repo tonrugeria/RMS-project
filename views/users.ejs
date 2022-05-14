@@ -43,7 +43,7 @@ input{
               onkeyup="addUpdateBtn('<%= users[i].user_id %>')" 
               onchange="addUpdateBtn('<%= users[i].user_id %>')"
             >
-              <th style="background-color: #e6e6e6;" >
+              <th style="background-color: #e6e6e6;" class="p-0 d-flex justify-content-center align-items-center">
                 <% if (users[i].photo != null) { %>
                   <div class="d-flex justify-content-center align-items-center">
                     <!-- allows to click on photo to change photo -->
@@ -72,7 +72,9 @@ input{
                   </div>
                 <% } %> 
               </th>
-              <th class="d-flex align-items-center"><input class="form-control"  type="text" name="user_name" value="<%= users[i].user_name %>" ></th>
+              <th>
+                <input   type="text" name="user_name" value="<%= users[i].user_name %>">
+              </th>
               <th><input type="password" name="password" value="<%= users[i].password%>" ></th>
               <td class="select">
                 <select name="role_name"> 
