@@ -114,6 +114,7 @@
         }
       </style>
     <p>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</p>
+        <h4 id="no-selected-dept" class="ms-5">Please select a department</h4>
       <div class="skills-div mb-4">
         <% for(let i=0; i < adminSkill.length; i++) { %>
           <div class="skilltype <%= adminSkill[i].skill_type %> skill-set me-5">
@@ -124,10 +125,10 @@
             value="<%= adminSkill[i].skill_id %>"
             onclick="selectDefaultRadio('<%= adminSkill[i].skill_id %>')"
           />
-          <label style="width: 80px; font-weight: 500;" for="<%= adminSkill[i].skill_name %>">
+          <label style="width: 80px; font-weight: 500;" for="checkbox-<%= adminSkill[i].skill_id %>">
             <%= adminSkill[i].skill_name %></label
           >
-          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="1">
+          <label class="me-2 d-inline-flex" style="font-size: 10px; align-items: center;" for="radio-1-<%= adminSkill[i].skill_id %>">
             <input
               type="radio"
               name="skill_level[<%= adminSkill[i].skill_id %>]"
@@ -188,11 +189,11 @@
       <div class="mb-4">
         <h6 style="font-weight: 500;">Status</h6>
         <input type="radio" id="Draft" name="status" value="1" checked>
-         <label for="Draft">Draft</label>
+        <label for="Draft" class="me-2">Draft</label>
         <input type="radio" id="Active" name="status" value="0">
-          <label for="Active">Active</label>
+        <label for="Active" class="me-2">Active</label>
         <input type="radio" id="Archive" name="status" value="2">
-          <label for="Archive">Archive</label>
+        <label for="Archive" class="me-2">Archive</label>
       </div>
       <div class="container-fluid px-0">
         <div class="row">

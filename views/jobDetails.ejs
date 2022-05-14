@@ -59,7 +59,15 @@
           <% } else { %>
             <form action="/add-role/<%= jobId %>" method="post">
               <div class="d-flex">
-                <textarea class="border-0 w-100 p-2" style="resize: none; height: 150px; background-color: #e6e6e6;" type="text" name="role" placeholder="Enter a Role" required></textarea>
+                <textarea 
+                  class="border-0 w-100 p-2" 
+                  style="resize: none; height: 150px; background-color: #e6e6e6;" type="text" 
+                  name="role" 
+                  placeholder="Enter a Role" 
+                  required
+                  onfocus="textAreaAdjust(this)"
+                  onkeyup="changeBg(this)"
+                  ></textarea>
                 <button class="border-0 p-3" style="background-color: #e6e6e6; display: inline-flex; align-items: flex-start;"><i class="fa fa-plus"></i></button>
               </div>
             </form>
@@ -238,6 +246,8 @@
               name="item"
               placeholder="Enter a <%= jobCategory[i].category_detail %>"
               required
+              onfocus="textAreaAdjust(this)"
+              onkeyup="changeBg(this)"
             ></textarea>
             <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
           </div>
@@ -246,7 +256,7 @@
       <% } %>
       <form action="/add-category/<%= jobId %>" method="post">
         <div class="d-flex mb-4">
-          <input
+          <textarea
             class="border-0 w-100 px-2"
             style="resize: none; height: 45px;"
             type="text"
@@ -254,7 +264,7 @@
             placeholder="Add a category"
             required
             onkeyup="textAreaAdjust(this)"
-          />
+          ></textarea>
           <button class="border-0 pt-1 pe-3" style="height: 45px; background-color: #fff;" type="submit"><i class="fa fa-plus"></i></button>
         </div>
       </form>
