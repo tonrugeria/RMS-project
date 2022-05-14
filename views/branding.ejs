@@ -27,7 +27,7 @@
           <div>
             <input type="text"
             <% if (branding != 0) { %>
-              value="<%= branding[0].company_name %>"
+              value="<%= company_name %>"
             <% } %>
             name="company_name" id="company_name"
             class="border-0 w-25 px-2"
@@ -39,10 +39,10 @@
         <div class="mb-2">
           <span style="font-weight: 500;">Company Logo</span>
           <div class="input-group custom-file-button w-25" >
-            <% if (branding[0].company_logo != null) { %>
+            <% if (company_logo != null) { %>
               <!-- allows to click on photo to change photo -->
               <label style="height: 50px;" for="photo">
-                <img src="/<%= branding[0].company_logo %>"  
+                <img src="/<%= company_logo %>"  
                   width="50" 
                   height="50" 
                   class="img-thumbnail p-0" 
@@ -58,7 +58,7 @@
                 onchange="loadFile(event, '1')"
               >
               <!-- allows to edit user without changing image -->
-              <input type="hidden" name="old_image" value="<%= branding[0].company_logo %>">
+              <input type="hidden" name="old_image" value="<%= company_logo %>">
             <% } else { %>
               <label for="photo" class="input-group-text border-0 bg-white" style="height: 50px;">
                 <i class="fa-solid fa-image text-muted pe-2" ></i>  Select a file
@@ -76,10 +76,10 @@
               <i class="fa-solid fa-image text-muted pe-2"></i> Select a file
             </label>
             <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="login_bg" id="login_bg"> -->
-            <% if (branding[0].login_bg != null) { %>
+            <% if (login_bg != null) { %>
               <!-- allows to click on photo to change photo -->
               <label style="height: 50px;" for="login_bg">
-                <img src="/<%= branding[0].login_bg %>"  
+                <img src="/<%= login_bg %>"  
                   width="50" 
                   height="50" 
                   class="img-thumbnail p-0" 
@@ -95,7 +95,7 @@
                 onchange="loadFile(event, '2')"
               >
               <!-- allows to edit user without changing image -->
-              <input type="hidden" name="old_image" value="<%= branding[0].login_bg %>">
+              <input type="hidden" name="old_image" value="<%= login_bg %>">
             <% } else { %>
               <label for="login_bg" class="input-group-text border-0 bg-white" style="height: 50px;">
                 <i class="fa-solid fa-image text-muted pe-2" ></i>  Select a file
