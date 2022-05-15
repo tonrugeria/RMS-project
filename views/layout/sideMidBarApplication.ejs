@@ -96,7 +96,7 @@
 
   <!-- Technologies -->
   <div class="p-4 mb-1" style="background-color: #e6e6e6;">
-      <% if (globalThis.location === '/application') { %>
+      <% if (jobId == '') { %>
         <% for (let i=0; i < adminSkill.length; i++) { %>
           <span class="col p-0">
             <button 
@@ -223,6 +223,14 @@
   <!-- Cards -->
   <div class="card-container" style="height: 100vh; overflow: auto;" id="card-container">
     <% if ( applicants != 0 ) { %>
+      <div 
+        id="nomatch" 
+        style="display: none;
+        text-align: center;
+        "
+        >
+        <strong>No match found</strong>
+      </div>
       <% for(let i = 0; i < applicants.length; i++) { %>
         <a 
           href="/application/job/<%= applicants[i].job_id %>/applicant/<%= applicants[i].application_id %>" 

@@ -102,8 +102,34 @@
       $('.applicants').hide().filter($filteredResults).show();
     }
   
-    $filterCheckboxes.on('change', checkboxFilter);
-    $filterButtons.on('click', checkboxFilter);
+    $filterCheckboxes.on('click', function(){
+      checkboxFilter()
+      if(!$('.applicants').is(':visible')){
+        $('#nomatch').show()
+        $('.mid-cards').css('background-color', 'rgb(102, 102, 102)');
+        $('.mid-cards').css('color', 'white');
+        const detailContainer = $('#app-details-container');
+        detailContainer.attr('class', 'col-6 d-flex justify-content-center align-items-centers');
+        detailContainer.css("background-color", "#f2f2f2");
+        detailContainer.html('');
+      } else {
+        $('#nomatch').hide()
+      }
+    });
+    $filterButtons.on('click', function(){
+      checkboxFilter()
+      if(!$('.applicants').is(':visible')){
+        $('#nomatch').show()
+        $('.mid-cards').css('background-color', 'rgb(102, 102, 102)');
+        $('.mid-cards').css('color', 'white');
+        const detailContainer = $('#app-details-container');
+        detailContainer.attr('class', 'col-6 d-flex justify-content-center align-items-centers');
+        detailContainer.css("background-color", "#f2f2f2");
+        detailContainer.html('');
+      } else {
+        $('#nomatch').hide()
+      }
+    });
 
     // AJAX post on changing status
     $("#app-details-container").on('change', 'form', function(e) {
