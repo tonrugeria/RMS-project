@@ -95,7 +95,7 @@ router.post(
       }
     } else {
       await knex('admin.branding');
-      if (req.files != undefined) {
+      if (req.file != undefined) {
         await knex('admin.branding').update({
           company_name,
           company_logo: req.files.file1[0].filename,
@@ -105,8 +105,6 @@ router.post(
       } else {
         await knex('admin.branding').update({
           company_name,
-          company_logo: req.files.file1[0].filename,
-          login_bg: req.files.file2[0].filename,
         }).where({branding_id: 1});
         res.redirect('/branding');
       }

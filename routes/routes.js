@@ -172,6 +172,12 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 // login get route
 router.get('/login', checkNotAuthenticated, async (req, res) => {
   const user = knex('admin.users');
+  const branding = await knex('admin.branding');
+  const {
+    company_logo,
+    company_name,
+    login_bg
+  } = branding[0] || {}
   knex('admin.users')
     .where('role_id', 3)
     .then((results) => {
@@ -179,6 +185,9 @@ router.get('/login', checkNotAuthenticated, async (req, res) => {
         res.render('login', {
           title: 'Log In',
           user,
+          company_logo,
+          company_name,
+          login_bg
         });
       } else {
         res.redirect('/register');
