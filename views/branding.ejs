@@ -21,7 +21,7 @@
     <div class="col-sm-10 p-4 main">
       <h4>Branding</h4>
 
-      <form action="/branding" method="post" encType="multipart/form-data">
+      <form action="/branding" method="post" enctype="multipart/form-data">
         <div class="mb-2">
           <label for="company_name" style="font-weight: 500;">Company Name</label>
           <div>
@@ -41,7 +41,7 @@
           <div class="input-group custom-file-button w-25" >
             <% if (company_logo != null) { %>
               <!-- allows to click on photo to change photo -->
-              <label style="height: 50px;" for="photo">
+              <label style="height: 50px;" for="file1">
                 <img src="/<%= company_logo %>"  
                   width="50" 
                   height="50" 
@@ -52,19 +52,19 @@
               <!-- allows to change photo -->
               <input 
                 type="file" 
-                id="photo" 
-                name="photo" 
+                id="file1" 
+                name="file1" 
                 style="display: contents;" 
                 onchange="loadFile(event, '1')"
               >
               <!-- allows to edit user without changing image -->
-              <input type="hidden" name="old_image" value="<%= company_logo %>">
+              <input type="hidden" name="old_image1" value="<%= company_logo %>">
             <% } else { %>
-              <label for="photo" class="input-group-text border-0 bg-white" style="height: 50px;">
+              <label for="file1" class="input-group-text border-0 bg-white" style="height: 50px;">
                 <i class="fa-solid fa-image text-muted pe-2" ></i>  Select a file
               </label>
               <!-- <input type="file" id="photo" name="photo" style="display: contents; " onchange="loadFile(event)" ></i> -->
-              <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="photo" id="photo">
+              <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="file1" id="file1">
               <img height="40" id="output_1">
             <% } %> 
           </div>
@@ -78,7 +78,7 @@
             <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="login_bg" id="login_bg"> -->
             <% if (login_bg != null) { %>
               <!-- allows to click on photo to change photo -->
-              <label style="height: 50px;" for="login_bg">
+              <label style="height: 50px;" for="file2">
                 <img src="/<%= login_bg %>"  
                   width="50" 
                   height="50" 
@@ -89,19 +89,19 @@
               <!-- allows to change photo -->
               <input 
                 type="file" 
-                id="login_bg" 
-                name="photo" 
+                id="file2" 
+                name="file2" 
                 style="display: contents;" 
                 onchange="loadFile(event, '2')"
               >
               <!-- allows to edit user without changing image -->
-              <input type="hidden" name="old_image" value="<%= login_bg %>">
+              <input type="hidden" name="old_image2" value="<%= login_bg %>">
             <% } else { %>
-              <label for="login_bg" class="input-group-text border-0 bg-white" style="height: 50px;">
+              <label for="file2" class="input-group-text border-0 bg-white" style="height: 50px;">
                 <i class="fa-solid fa-image text-muted pe-2" ></i>  Select a file
               </label>
               <!-- <input type="file" id="photo" name="photo" style="display: contents; " onchange="loadFile(event)" ></i> -->
-              <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="photo" id="login_bg">
+              <input style="height: 50px; padding-top: 13px;" class="form-control border-0" type="file" name="file2" id="file2">
               <img height="40" id="output_2">
             <% } %> 
           </div>
