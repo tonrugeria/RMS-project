@@ -1,114 +1,110 @@
 <%- include('./layout/resumeHeader.ejs') %>
 <div class="container g-0 m-0 p-0">
   <div class="row min-vh-100 min-vw-100 g-0">
-    <div class="col-sm-2 pl-1 sideBar">
-      <div class="d-flex flex-column" style="background-color: #f2f2f2;">
-        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
-          <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
-            style="text-decoration: none; color: black;"
-          >
-            RESUME
-          </a>
+    <% if (applicantRecord == 0) { %>
+      <div class="d-flex justify-content-center align-items-center">Applicant does not exist</div>
+    <% } else { %>
+      <div class="col-sm-2 pl-1 sideBar">
+        <div class="d-flex flex-column" style="background-color: #f2f2f2;">
+          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            <a href="/careers/job/<%= jobId %>/resume/application/<%= appId %>"
+              style="text-decoration: none; color: black;"
+            >
+              RESUME
+            </a>
+          </div>
+          <% if (personalityQuestions != 0) { %>
+            <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+              <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
+                style="text-decoration: none; color: black;"
+                >PERSONALITY TEST</a>
+            </div>
+          <% } %>
+          <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
+            <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+              style="text-decoration: none; color: black;"
+              >TECHNICAL EXAM</a>
+          </div>
+          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            <a 
+            href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>/submit"
+            >
+              <button
+              <% if(applicantExamRecord == undefined || (personalityQuestions != 0 && applicantPersonaRecord == undefined)) { %>
+                disabled
+              <% } %> 
+              class="px-5 py-3"
+              >SUBMIT
+              </button>
+            </a>
+          </div>
+          
         </div>
-        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
-          <a href="/careers/job/<%= jobId %>/personality-test/application/<%= appId %>"
-            style="text-decoration: none; color: black;"
-            >PERSONALITY TEST</a>
-        </div>
-        <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
-          <a href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
-            style="text-decoration: none; color: black;"
-            >TECHNICAL EXAM</a>
-        </div>
-        <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
-          <a 
-          href="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>/submit"
-          >
-            <button
-            <% if(applicantExamRecord == undefined) { %>
-              disabled
-            <% } %> 
-            class="px-5 py-3"
-            >SUBMIT
-            </button>
-          </a>
-        </div>
-        
       </div>
-    </div>
-    <div class="col-sm-10 p-5 main">
-      <h1>TECHNICAL EXAM</h1>
-      <% if (applicantRecord == 0){ %>
-        <div
-        class="h-50 d-flex flex-column align-items-center justify-content-center"
-        >
-          <h5>APPLICANT DOES NOT EXIST</h5>
+      <div class="col-sm-10 p-5 main">
+        <% if(applicantExamRecord != undefined) { %>
+          <h1>TECHNICAL EXAM COMPLETED</h1>
+        <% } else if (jobQuestion != 0) { %>
+          <h1>TECHNICAL EXAM</h1>
+        <div class="mb-5">
+          <p class="mb-3">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
+            sequi. Beatae officiis ullam quia soluta temporibus dolorem voluptatem
+            nulla veniam tenetur magni? Adipisci nobis ipsum sunt. Minima, nam
+            neque, facilis commodi tenetur ab veniam beatae, alias molestiae
+            repellat ex?
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
+            dicta tempora aliquam amet dolor quam? Quod vero maxime impedit
+            consequuntur?
+          </p>
         </div>
-      <% } else if(applicantExamRecord != undefined) { %>
-      <div
-        class="h-50 d-flex flex-column align-items-center justify-content-center"
-      >
-        <h5>YOU HAVE COMPLETED THE EXAM</h5>
-      </div>
-      <% } else if (jobQuestion != 0) { %>
-      <div class="mb-5">
-        <p class="mb-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, facere
-          sequi. Beatae officiis ullam quia soluta temporibus dolorem voluptatem
-          nulla veniam tenetur magni? Adipisci nobis ipsum sunt. Minima, nam
-          neque, facilis commodi tenetur ab veniam beatae, alias molestiae
-          repellat ex?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
-          dicta tempora aliquam amet dolor quam? Quod vero maxime impedit
-          consequuntur?
-        </p>
-      </div>
-      <div id="start-btn-container">
-        <button 
-          id="start-btn" 
-          class="px-5 py-3" 
-          style="background-color: #4d4d4d; color: white; border: none;"
-          >
-          START NOW
-        </button>
-      </div>
-      <div>
-        <form
-          action="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
-          method="post"
-          id="questions"
-        >
-        </form>
-        <button 
-          id="save-exam" 
-          type="submit" 
-          form="questions"
-          class="px-5 py-3" 
-          style="background-color: #4d4d4d; color: white; border: none;"
-        >
-          SAVE EXAM
-        </button>
-        <div id="next-btn-container">
+        <div id="start-btn-container">
           <button 
-            type="button" 
-            id="next-btn"
+            id="start-btn" 
+            class="px-5 py-3" 
+            style="background-color: #4d4d4d; color: white; border: none;"
+            >
+            START NOW
+          </button>
+        </div>
+        <div>
+          <form
+            action="/careers/job/<%= jobId %>/technical-exam/application/<%= appId %>"
+            method="post"
+            id="questions"
+          >
+          </form>
+          <button 
+            id="save-exam" 
+            type="submit" 
+            form="questions"
             class="px-5 py-3" 
             style="background-color: #4d4d4d; color: white; border: none;"
           >
-            NEXT
+            SAVE EXAM
           </button>
+          <div id="next-btn-container">
+            <button 
+              type="button" 
+              id="next-btn"
+              class="px-5 py-3" 
+              style="background-color: #4d4d4d; color: white; border: none;"
+            >
+              NEXT
+            </button>
+          </div>
         </div>
+        <% } else { %>
+        <div
+          class="h-50 d-flex flex-column align-items-center justify-content-center"
+        >
+          <h5>NO EXAM QUESTIONS SELECTED YET!</h5>
+        </div>
+        <% } %>
       </div>
-      <% } else { %>
-      <div
-        class="h-50 d-flex flex-column align-items-center justify-content-center"
-      >
-        <h5>NO EXAM QUESTIONS SELECTED YET!</h5>
-      </div>
-      <% } %>
-    </div>
+    <% } %> 
   </div>
 </div>
 <style>

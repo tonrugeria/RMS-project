@@ -1,344 +1,311 @@
 <%- include('./layout/resumeHeader.ejs') %>
 <div class="container g-0 m-0 p-0">
   <div class="row min-vh-100 min-vw-100 g-0">
-    <div class="col-sm-2 pl-1 sideBar" style="background-color: #f2f2f2;">
-      <div class="d-flex flex-column">
-        <div class="p-3 mb-1" style="background-color: #f2f2f2;">
-          <a href="/careers/job/<%= jobId %>/resume" style="text-decoration: none; color: black;">RESUME</a>
-        </div>
-        <div class="p-3 mb-1" style="background-color: #e6e6e6;">
-          PERSONALITY TEST
-        </div>
-        <div class="p-3 mb-1" style="background-color: #e6e6e6;">
-          TECHNICAL EXAM
-        </div>
-        <div>
-          <a href="" type="button"><button class="px-5 py-3" disabled>SUBMIT</button></a>
+    <% if (jobs == 0) { %>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <p>Job does not exist</p>
+        <p><a href="/careers">Click here to find available jobs</a></p>
+      </div>
+    <% } else { %>
+      <div class="col-sm-2 pl-1 sideBar" >
+        <div class="d-flex flex-column"  style="background-color: #f2f2f2;">
+          <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
+            <a href="/careers/job/<%= jobId %>/resume" style="text-decoration: none; color: black;">RESUME</a>
+          </div>
+          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            PERSONALITY TEST
+          </div>
+          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            TECHNICAL EXAM
+          </div>
+          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+            <a href="" type="button"><button class="px-5 py-3" disabled>SUBMIT</button></a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-10 p-5 main">
-      <form action="/careers/job/<%= jobId %>/resume" method="post" enctype="multipart/form-data">
-        <div>
-          <input 
-            type="hidden" 
-            name="appId" 
-            value="<%= unique %>" readonly 
-          />
-        </div>
-        <div>
-          <h5>YOU ARE APPLYING FOR THE POSITION</h5>
-          <h1><%= jobs[0].job_title %></h1>
-        </div>
-        <div>
-          <img height="100" id="output">
-        </div>
-        <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
-        <label for="photo" class="border border-dark p-2"><strong>ADD IMAGE</strong></label>
-        <h5>Your Personal Information</h5>
-        <div class="container-fluid mb-4">
-          <div class="row mb-2">
-            <div class="d-flex">
-              <p class="w-75 pe-1"><strong>NAME</strong></p>
-              <p class="w-25 px-2"><strong>DATE OF BIRTH</strong></p>
-              <p class="w-25 px-2"><strong>GENDER</strong></p>
-            </div>
-            <div class="col pe-1">
-              <input
-                type="text"
-                name="first_name"
-                placeholder="First Name"
-                class="w-100"
-                required
-              />
-            </div>
-            <div class="col px-1">
-              <input
-                type="text"
-                name="middle_name"
-                placeholder="Middle Name"
-                class="w-100"
-              />
-            </div>
-            <div class="col px-1">
-              <input
-                type="text"
-                name="last_name"
-                placeholder="Last Name"
-                class="w-100"
-                required
-              />
-            </div>
-            <div class="col px-1">
-              <input
-                type="text"
-                name="date_of_birth"
-                placeholder="MM/DD/YYYY"
-                class="w-100"
-                required
-              />
-            </div>
-            <div class="col ps-1">
-              <select name="gender" id="contact" class="w-100" required>
-                <option hidden value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
+      <div class="col-sm-10 p-5 main">
+        <form action="/careers/job/<%= jobId %>/resume" method="post" enctype="multipart/form-data">
+          <div>
+            <input 
+              type="hidden" 
+              name="appId" 
+              value="<%= unique %>" readonly 
+            />
           </div>
-
-          <div class="row mb-2">
-            <div class="d-flex">
-              <div class="w-75">
-                <strong>CONTACT</strong>
-                <div class="d-flex">
-                  <div class="col pe-1">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      class="w-100"
-                      required
-                    />
+          <div>
+            <h5>YOU ARE APPLYING FOR THE POSITION</h5>
+            <h1><%= jobs[0].job_title %></h1>
+          </div>
+          <div>
+            <img height="100" id="output">
+          </div>
+          <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)" required></i>
+          <label for="photo" class="border border-dark p-2"><strong>ADD IMAGE</strong></label>
+          <h5>Your Personal Information</h5>
+          <div class="container-fluid mb-4">
+            <div class="row mb-2">
+              <div class="d-flex">
+                <p class="w-75 pe-1"><strong>NAME</strong></p>
+                <p class="w-25 px-2"><strong>DATE OF BIRTH</strong></p>
+                <p class="w-25 px-2"><strong>GENDER</strong></p>
+              </div>
+              <div class="col pe-1">
+                <input
+                  type="text"
+                  name="first_name"
+                  placeholder="First Name"
+                  class="w-100"
+                  required
+                />
+              </div>
+              <div class="col px-1">
+                <input
+                  type="text"
+                  name="middle_name"
+                  placeholder="Middle Name"
+                  class="w-100"
+                />
+              </div>
+              <div class="col px-1">
+                <input
+                  type="text"
+                  name="last_name"
+                  placeholder="Last Name"
+                  class="w-100"
+                  required
+                />
+              </div>
+              <div class="col px-1">
+                <input
+                  type="text"
+                  name="date_of_birth"
+                  placeholder="MM/DD/YYYY"
+                  class="w-100"
+                  required
+                />
+              </div>
+              <div class="col ps-1">
+                <select name="gender" id="contact" class="w-100" required>
+                  <option hidden value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+  
+            <div class="row mb-2">
+              <div class="d-flex">
+                <div class="w-75">
+                  <strong>CONTACT</strong>
+                  <div class="d-flex">
+                    <div class="col pe-1">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        class="w-100"
+                        required
+                      />
+                    </div>
+                    <div class="col px-1">
+                      <input
+                        type="text"
+                        name="skype"
+                        placeholder="Skype ID"
+                        required
+                        class="w-100"
+                      />
+                    </div>
+                    <div class="col px-1">
+                      <input
+                        type="text"
+                        name="mobile"
+                        placeholder="Mobile Number"
+                        required
+                        class="w-100"
+                      />
+                    </div>
                   </div>
-                  <div class="col px-1">
-                    <input
-                      type="text"
-                      name="skype"
-                      placeholder="Skype ID"
-                      required
-                      class="w-100"
-                    />
-                  </div>
-                  <div class="col px-1">
-                    <input
-                      type="text"
-                      name="mobile"
-                      placeholder="Mobile Number"
-                      required
-                      class="w-100"
-                    />
+                </div>
+                <div class="w-25">
+                  <strong>PREFERRED CONTACT</strong>
+                  <div class="col">
+                    <select name="preferred_contact" id="contact" class="w-100">
+                      <option hidden value="">Select</option>
+                      <option value="Email">Email</option>
+                      <option value="Skype">Skype</option>
+                      <option value="Mobile">Mobile</option>
+                    </select>
                   </div>
                 </div>
               </div>
-              <div class="w-25">
-                <strong>PREFERRED CONTACT</strong>
-                <div class="col">
-                  <select name="preferred_contact" id="contact" class="w-100">
-                    <option hidden value="">Select</option>
-                    <option value="Email">Email</option>
-                    <option value="Skype">Skype</option>
-                    <option value="Mobile">Mobile</option>
-                  </select>
+            </div>
+  
+            <div class="row mb-2">
+              <p><strong>ADDRESS</strong></p>
+              <div class="col-6 pe-1">
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Address"
+                  class="w-100"
+                  required
+                />
+              </div>
+              <div class="col-3 px-1">
+                <input type="text" name="city" placeholder="City" class="w-100" required/>
+              </div>
+              <div class="col-3 px-1">
+                <input
+                  type="text"
+                  name="province"
+                  placeholder="Province"
+                  class="w-100"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div class="d-flex row">
+              <div class="col-2 pe-1">
+                <p><strong>EXPECTED SALARY</strong></p>
+                <input type="number" name="expected_salary" class="w-100" required />
+              </div>
+              <div class="col-4 p-0 pe-2">
+                <p>
+                  <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
+                </p>
+                <input
+                  type="text"
+                  name="start_date"
+                  placeholder="MM/DD/YY"
+                  class="w-100"
+                />
+              </div>
+              <div class="col-6">
+                <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+                <div class="row">
+                  <input
+                    type="text"
+                    name="preferred_interview_date_1"
+                    placeholder="MM/DD/YY"
+                    required
+                    class="col"
+                  />
+                  <input
+                    type="text"
+                    name="preferred_interview_date_2"
+                    placeholder="MM/DD/YY"
+                    required
+                    class="col"
+                  />
+                  <input
+                    type="text"
+                    name="preferred_interview_date_3"
+                    placeholder="MM/DD/YY"
+                    required
+                    class="col"
+                  />
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="row mb-2">
-            <p><strong>ADDRESS</strong></p>
-            <div class="col-6 pe-1">
-              <input
-                type="text"
-                name="address"
-                placeholder="Address"
-                class="w-100"
-                required
-              />
-            </div>
-            <div class="col-3 px-1">
-              <input type="text" name="city" placeholder="City" class="w-100" required/>
-            </div>
-            <div class="col-3 px-1">
-              <input
-                type="text"
-                name="province"
-                placeholder="Province"
-                class="w-100"
-                required
-              />
-            </div>
-          </div>
-          
-          <div class="d-flex row">
-            <div class="col-2 pe-1">
-              <p><strong>EXPECTED SALARY</strong></p>
-              <input type="number" name="expected_salary" class="w-100" required />
-            </div>
-            <div class="col-4 p-0 pe-2">
-              <p>
-                <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
-              </p>
-              <input
-                type="text"
-                name="start_date"
-                placeholder="MM/DD/YY"
-                class="w-100"
-              />
-            </div>
-            <div class="col-6">
-              <p><strong>PREFERRED INTERVIEW DATE</strong></p>
+          <div>
+            <h5>Your Qualification</h5>
+            <strong>
+              RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING
+              PROGRAMMING LANGUAGES AND FRAMEWORKS
+            </strong>
+            <div class="container-fluid">
               <div class="row">
-                <input
-                  type="text"
-                  name="preferred_interview_date_1"
-                  placeholder="MM/DD/YY"
-                  required
-                  class="col"
-                />
-                <input
-                  type="text"
-                  name="preferred_interview_date_2"
-                  placeholder="MM/DD/YY"
-                  required
-                  class="col"
-                />
-                <input
-                  type="text"
-                  name="preferred_interview_date_3"
-                  placeholder="MM/DD/YY"
-                  required
-                  class="col"
-                />
+                <% for( let i =0; i < skill.length; i++) { %>
+                <div class="col-3 mb-1">
+                  <input
+                    type="hidden"
+                    name="skill_id"
+                    value="<%= skill[i].skill_id %>"
+                    style="width: 40px;"
+                    readonly
+                  />
+                  <input class="p-1" style="width: 150px; background-color: #fff;" value="<%= skill[i].skill_name %>" readonly>
+                  <input
+                    type="number"
+                    name="skill_years"
+                    placeholder="Years"
+                    style="width: 100px; text-align: center;"
+                    min="0"
+                  />
+                  <input
+                    type="number"
+                    name="skill_self_rating"
+                    placeholder="0"
+                    style="width: 80px; text-align: center;"
+                    min="0"
+                    max="5"
+                  />
+                </div>
+                <% } %>
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <h5>Your Qualification</h5>
-          <strong>
-            RATE YOURSELF FROM 0 TO 5, 5 BEING THE HIGHEST, IN THE FOLLOWING
-            PROGRAMMING LANGUAGES AND FRAMEWORKS
-          </strong>
-          <div class="container-fluid">
-            <div class="row">
-              <% for( let i =0; i < skill.length; i++) { %>
-              <div class="col-3 mb-1">
-                <input
-                  type="hidden"
-                  name="skill_id"
-                  value="<%= skill[i].skill_id %>"
-                  style="width: 40px;"
-                  readonly
-                />
-                <input class="p-1" style="width: 150px; background-color: #fff;" value="<%= skill[i].skill_name %>" readonly>
-                <input
-                  type="number"
-                  name="skill_years"
-                  placeholder="Years"
-                  style="width: 100px; text-align: center;"
-                  min="0"
-                />
-                <input
-                  type="number"
-                  name="skill_self_rating"
-                  placeholder="0"
-                  style="width: 80px; text-align: center;"
-                  min="0"
-                  max="5"
-                />
-              </div>
-              <% } %>
+          <div>
+              <strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong>
+            <div class="form-floating col-12 mb-2">
+              <input
+                type="text"
+                name="capability_1"
+                class="form-control w-100"
+                id="floatingInput"
+                placeholder="Enter your story"
+              />
+              <label for="floatingInput">Enter your story</label>
+            </div>
+            <div class="form-floating col-12 mb-2">
+              <input
+                type="text"
+                name="capability_2"
+                class="form-control w-100"
+                id="floatingInput"
+                placeholder="Enter your story"
+              />
+              <label for="floatingInput">Enter your story</label>
+            </div>
+            <div class="form-floating col-12 mb-2">
+              <input
+                type="text"
+                name="capability_3"
+                class="form-control w-100"
+                id="floatingInput"
+                placeholder="Enter your story"
+              />
+              <label for="floatingInput">Enter your story</label>
+            </div>
+            <div class="form-floating col-12 mb-2">
+              <input
+                type="text"
+                name="capability_4"
+                class="form-control w-100"
+                id="floatingInput"
+                placeholder="Enter your story"
+              />
+              <label for="floatingInput">Enter your story</label>
+            </div>
+            <div class="form-floating col-12 mb-2">
+              <input
+                type="text"
+                name="capability_5"
+                class="form-control w-100"
+                id="floatingInput"
+                placeholder="Enter your story"
+              />
+              <label for="floatingInput">Enter your story</label>
             </div>
           </div>
-        </div>
-        <div>
-            <strong>TELL US ABOUT THE SOFTWARE PROJECTS YOU BECAME A PART OF AND WHAT WERE YOUR CONTRIBUTION TO ITS SUCCESS</strong>
-          <div class="form-floating col-12 mb-2">
-            <input
-              type="text"
-              name="capability_1"
-              class="form-control w-100"
-              id="floatingInput"
-              placeholder="Enter your story"
-            />
-            <label for="floatingInput">Enter your story</label>
-          </div>
-          <div class="form-floating col-12 mb-2">
-            <input
-              type="text"
-              name="capability_2"
-              class="form-control w-100"
-              id="floatingInput"
-              placeholder="Enter your story"
-            />
-            <label for="floatingInput">Enter your story</label>
-          </div>
-          <div class="form-floating col-12 mb-2">
-            <input
-              type="text"
-              name="capability_3"
-              class="form-control w-100"
-              id="floatingInput"
-              placeholder="Enter your story"
-            />
-            <label for="floatingInput">Enter your story</label>
-          </div>
-          <div class="form-floating col-12 mb-2">
-            <input
-              type="text"
-              name="capability_4"
-              class="form-control w-100"
-              id="floatingInput"
-              placeholder="Enter your story"
-            />
-            <label for="floatingInput">Enter your story</label>
-          </div>
-          <div class="form-floating col-12 mb-2">
-            <input
-              type="text"
-              name="capability_5"
-              class="form-control w-100"
-              id="floatingInput"
-              placeholder="Enter your story"
-            />
-            <label for="floatingInput">Enter your story</label>
-          </div>
-        </div>
-
-        <p><strong>Employment History</strong></p>
-        <div class="d-flex mb-2">
-          <div class="me-1 w-25">
-            <p><strong>FROM</strong></p>
-            <input
-              type="text"
-              name="history_start_date"
-              placeholder="MM / DD /  YY"
-              class="w-100"
-            />
-          </div>
-          <div class="me-1 w-25">
-            <p><strong>TO</strong></p>
-            <input
-              type="text"
-              name="history_end_date"
-              placeholder="MM / DD / YY"
-              class="w-100"
-            />
-          </div>
-          <div class="me-1 w-75">
-            <p><strong>POSITION</strong></p>
-            <input
-              type="text"
-              name="position"
-              placeholder="Enter Position"
-              class="w-100"
-            />
-          </div>
-          <div class="me-1 w-75">
-            <p><strong>COMPANY</strong></p>
-            <input
-              type="text"
-              name="company"
-              placeholder="Enter Company Name"
-              class="w-100"
-            />
-          </div>
-        </div>
-
-        <% for (let i = 0; i < 4; i++) { %>
+  
+          <p><strong>Employment History</strong></p>
           <div class="d-flex mb-2">
             <div class="me-1 w-25">
+              <p><strong>FROM</strong></p>
               <input
                 type="text"
                 name="history_start_date"
@@ -347,6 +314,7 @@
               />
             </div>
             <div class="me-1 w-25">
+              <p><strong>TO</strong></p>
               <input
                 type="text"
                 name="history_end_date"
@@ -355,6 +323,7 @@
               />
             </div>
             <div class="me-1 w-75">
+              <p><strong>POSITION</strong></p>
               <input
                 type="text"
                 name="position"
@@ -363,6 +332,7 @@
               />
             </div>
             <div class="me-1 w-75">
+              <p><strong>COMPANY</strong></p>
               <input
                 type="text"
                 name="company"
@@ -371,47 +341,84 @@
               />
             </div>
           </div>
-        <% } %> 
-
-        <p><strong>Education and Training</strong></p>
-        <div class="d-flex mb-2">
-          <div class="me-1 w-75">
-            <p><strong>School</strong></p>
-            <input type="text" name="school" placeholder="Enter School" class="w-100" />
-          </div>
-          <div class="me-1 w-50">
-            <p><strong>Course</strong></p>
-            <input type="text" name="course" placeholder="Enter Course" class="w-100" />
-          </div>
-          <div class="me-1 w-25">
-            <p><strong>Date Graduated</strong></p>
-            <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
-          </div>
-        </div>
-        
-        <% for (let i = 0; i < 4; i++) { %>
+  
+          <% for (let i = 0; i < 4; i++) { %>
+            <div class="d-flex mb-2">
+              <div class="me-1 w-25">
+                <input
+                  type="text"
+                  name="history_start_date"
+                  placeholder="MM / DD /  YY"
+                  class="w-100"
+                />
+              </div>
+              <div class="me-1 w-25">
+                <input
+                  type="text"
+                  name="history_end_date"
+                  placeholder="MM / DD / YY"
+                  class="w-100"
+                />
+              </div>
+              <div class="me-1 w-75">
+                <input
+                  type="text"
+                  name="position"
+                  placeholder="Enter Position"
+                  class="w-100"
+                />
+              </div>
+              <div class="me-1 w-75">
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Enter Company Name"
+                  class="w-100"
+                />
+              </div>
+            </div>
+          <% } %> 
+  
+          <p><strong>Education and Training</strong></p>
           <div class="d-flex mb-2">
             <div class="me-1 w-75">
+              <p><strong>School</strong></p>
               <input type="text" name="school" placeholder="Enter School" class="w-100" />
             </div>
             <div class="me-1 w-50">
+              <p><strong>Course</strong></p>
               <input type="text" name="course" placeholder="Enter Course" class="w-100" />
             </div>
             <div class="me-1 w-25">
+              <p><strong>Date Graduated</strong></p>
               <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
             </div>
           </div>
-        <% } %> 
-
-        <!-- 
-                <div class="mb-3">
-                <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
-                <input type="text" name="year_experience" placeholder="0 Years" value="" readonly>
-              </div> 
-              -->
-        <button type="submit" name="nameBtn" value="saveBtn" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
-      </form>
-    </div>
+          
+          <% for (let i = 0; i < 4; i++) { %>
+            <div class="d-flex mb-2">
+              <div class="me-1 w-75">
+                <input type="text" name="school" placeholder="Enter School" class="w-100" />
+              </div>
+              <div class="me-1 w-50">
+                <input type="text" name="course" placeholder="Enter Course" class="w-100" />
+              </div>
+              <div class="me-1 w-25">
+                <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
+              </div>
+            </div>
+          <% } %> 
+  
+          <!-- 
+                  <div class="mb-3">
+                  <p><strong>TOTAL YEARS OF EXPERIENCE</strong></p>
+                  <input type="text" name="year_experience" placeholder="0 Years" value="" readonly>
+                </div> 
+                -->
+          <button type="submit" name="nameBtn" value="saveBtn" class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;">SAVE</button>
+        </form>
+      </div>
+    <% } %> 
   </div>
 </div>
 

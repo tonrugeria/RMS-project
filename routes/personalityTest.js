@@ -24,9 +24,21 @@ router.get(
       })
       .first();
 
-    const personalityQuestions = await knex('question.question').where({
-      question_type: 1,
-    });
+    const personalityQuestions = await knex('jobs.question')
+      .innerJoin(
+        'question.question',
+        'jobs.question.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, question_type: 1 });
+
+    const jobQuestion = await knex('jobs.question')
+      .innerJoin(
+        'question.question',
+        'jobs.question.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, question_type: 0 });
 
     const applicantExamRecord = await knex('job_application.applicant_exam_answers')
       .where({
@@ -43,6 +55,7 @@ router.get(
       applicantRecord,
       applicantExamRecord,
       personalityRecord,
+      jobQuestion,
     });
   }
 );

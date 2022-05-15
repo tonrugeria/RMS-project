@@ -71,6 +71,22 @@ router.get(
       })
       .first();
 
+    const personalityQuestions = await knex('jobs.question')
+      .innerJoin(
+        'question.question',
+        'jobs.question.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, question_type: 1 });
+
+    const jobQuestion = await knex('jobs.question')
+      .innerJoin(
+        'question.question',
+        'jobs.question.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, question_type: 0 });
+
     if (applicants != 0) {
       const {
         date_of_birth,
@@ -136,6 +152,8 @@ router.get(
         education,
         applicantExamRecord,
         applicantPersonaRecord,
+        personalityQuestions,
+        jobQuestion,
       });
     } else {
       res.render('editResume', {
@@ -199,7 +217,7 @@ router.post(
     const getStartDates = history_start_date.map((element) =>
       moment(element).format('L')
     );
-    
+
     const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
 
     let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');

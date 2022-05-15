@@ -41,6 +41,13 @@
             >
               ALL
             </button>
+            <button
+              onclick="toggleShowHide('skill-Personality')"
+              class="border-0 rounded px-3"
+              style="font-weight: 500;"
+            >
+              Personality
+            </button>
             <% for(let i=0; i < adminJobSkill.length; i++) { %>
               <button 
                 class="border-0 rounded bg-transparent ms-1 px-3 py-1"
@@ -62,6 +69,34 @@
           <div>
             <form action="/exam/<%= jobId %>" method="post" class="job-exam-form">
               <% for(let i=0; i < question.length; i++) { %>
+                <% if (question[i].question_category == 'Personality') { %>
+                  <div class="row all-btn skill-Personality-btn skill mb-1 py-3 rounded"
+                    style="font-weight: 500;"  
+                    >
+                      <div class="col-8 ms-4 d-flex">
+                        <input
+                          class="pt-2 h-100"
+                          id="question-<%= question[i].question_id %>" 
+                          type="checkbox" 
+                          name="question_id" 
+                          value="<%= question[i].question_id %>"
+                          <% for(let k = 0; k < jobQuestion.length; k++) { %>
+                            <% if(question[i].question_id == jobQuestion[k].question_id){ %> checked
+                          <% } %>
+                            <% } %> 
+                        />
+                        <label class="ms-3" for="question-<%= question[i].question_id %>" style="font-size: 1.2em;">
+                          <%= question[i].question_detail %>
+                        </label>
+                      </div>
+                      <div class="col text-center" style="font-size: 1.2em;">
+                        <%= question[i].question_category %>
+                      </div>
+                      <div class="col text-center" style="font-size: 1.2em;">
+                        <%= question[i].question_level %>
+                      </div>
+                    </div>
+                <% } %>
                 <% for(let j = 0; j < adminJobSkill.length; j++) { %>
                   <% if(question[i].question_category == adminJobSkill[j].skill_name) {%> 
                     <div class="row all-btn skill-<%= adminJobSkill[j].skill_id %>-btn skill mb-1 py-3 rounded"

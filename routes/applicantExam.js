@@ -24,11 +24,27 @@ router.get(
       )
       .where('job_id', jobId);
 
+    const personalityQuestions = await knex('jobs.question')
+      .innerJoin(
+        'question.question',
+        'jobs.question.question_id',
+        'question.question.question_id'
+      )
+      .where({ job_id: jobId, question_type: 1 });
+
     const applicantExamRecord = await knex('job_application.applicant_exam_answers')
       .where({
         application_id: appId,
         job_id: jobId,
         question_type: 0,
+      })
+      .first();
+
+    const applicantPersonaRecord = await knex('job_application.applicant_exam_answers')
+      .where({
+        application_id: appId,
+        job_id: jobId,
+        question_type: 1,
       })
       .first();
 
@@ -38,6 +54,8 @@ router.get(
       jobQuestion,
       applicantRecord,
       applicantExamRecord,
+      personalityQuestions,
+      applicantPersonaRecord,
     });
   }
 );
@@ -162,7 +180,7 @@ router.get('/careers/job/:job_id/technical-exam', async (req, res) => {
       'jobs.question.question_id',
       'question.question.question_id'
     )
-    .where({ job_id: jobId });
+    .where({ job_id: jobId, question_type: 0 });
 
   res.send({
     responseQuestion: jobQuestion,
