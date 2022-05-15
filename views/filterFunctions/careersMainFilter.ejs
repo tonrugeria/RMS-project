@@ -15,4 +15,12 @@
             element.classList.remove('d-none');
         });
     }
+
+    // buttons changing style onclick
+    $('.buttons button').click(function(){
+      $('.buttons button').addClass('bg-transparent');
+      $('.buttons button').removeClass('active-btn');
+      $(this).removeClass('bg-transparent')
+      $(this).addClass('active-btn')
+    })
 </script>
