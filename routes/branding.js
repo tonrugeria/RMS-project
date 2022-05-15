@@ -6,12 +6,9 @@ const {
   checkNotAuthenticated,
   authRole,
 } = require('../middlewares/auth');
-const multipleUploads = require('../middlewares/multiUploads')
+const multipleUploads = require('../middlewares/multiUploads');
 
 const router = express.Router();
-
-
-
 
 // settings
 router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) => {
@@ -22,12 +19,8 @@ router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) =
     req.user.role_id
   );
   const branding = await knex('admin.branding');
-  const {
-    company_logo,
-    company_name,
-    login_bg
-  } = branding[0] || {}
-  
+  const { company_logo, company_name, login_bg } = branding[0] || {};
+
   const items = [
     'Navigation Bar',
     'Menu Text',
@@ -51,7 +44,7 @@ router.get('/branding', checkAuthenticated, authRole([3, 1]), async (req, res) =
     names,
     company_logo,
     company_name,
-    login_bg
+    login_bg,
   });
 });
 
@@ -79,10 +72,10 @@ router.post(
       Dividing_Line,
     } = req.body;
 
-    
     const branding = await knex('admin.branding');
+
     if (branding.length == 0) {
-      if (req.file !== undefined) {
+      if (req.files !== 0) {
         await knex('admin.branding').insert({
           company_name,
           company_logo: req.files.file1[0].filename,
@@ -94,34 +87,40 @@ router.post(
         res.redirect('/branding');
       }
     } else {
-      await knex('admin.branding');
-      if (req.file != undefined) {
-        await knex('admin.branding').update({
-          company_name,
-          company_logo: req.files.file1[0].filename,
-          login_bg: req.files.file2[0].filename,
-        }).where({branding_id: 1});
-        res.redirect('/branding');
-      } else {
-        await knex('admin.branding').update({
-          company_name,
-        }).where({branding_id: 1});
-        res.redirect('/branding');
-      }
-    }
-    
+      let new_image1 = '';
+      let new_image2 = '';
+      if (req.files) {
+        if (req.files.file1) {
+          new_image1 = req.files.file1[0].filename;
+          try {
+            fs.unlinkSync(`./company_logo/${req.body.old_image1}`);
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('1no');
+          new_image1 = req.body.old_image1;
+        }
 
-    // let new_image = '';
-    // if (req.file) {
-    //   new_image = req.file.filename;
-    //   try {
-    //     fs.unlinkSync(`./photo/${req.body.old_image}`);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // } else {
-    //   new_image = req.body.old_image;
-    // }
+        if (req.files.file2) {
+          new_image2 = req.files.file2[0].filename;
+          try {
+            fs.unlinkSync(`./company_logo/${req.body.old_image2}`);
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          new_image2 = req.body.old_image2;
+        }
+      }
+
+      await knex('admin.branding').update({
+        company_name,
+        company_logo: new_image1,
+        login_bg: new_image2,
+      });
+      res.redirect('/branding');
+    }
   }
 );
 
