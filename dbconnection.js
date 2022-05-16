@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: 'novice0621**',
+    password: '0000',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: 'novice0621**',
+  password: '0000',
   port: 5432,
 });
 
@@ -230,7 +230,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           technical_test_score int,
           personality_test_score int,
           year_experience	int NOT NULL,
-          photo VARCHAR(100) NOT NULL,
+          photo VARCHAR(100),
           date_applied date,
           date_last_updated date ,
           application_link VARCHAR(100) NOT NULL,
