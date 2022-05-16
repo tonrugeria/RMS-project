@@ -85,13 +85,17 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
 
   const today = new Date();
   const thisDay = moment(today, 'MM/DD/YYYY');
-
+  
   if (start_date != '') {
     start_date;
   } else {
     start_date = null;
   }
-
+  const dob = moment(date_of_birth).format("MM-DD-YYYY")
+  const pid1 = moment(preferred_interview_date_1).format("MM-DD-YYYY")
+  const pid2 = moment(preferred_interview_date_2).format("MM-DD-YYYY")
+  const pid3 = moment(preferred_interview_date_3).format("MM-DD-YYYY")
+  
   knex('job_application.applicant_details')
     .insert({
       job_id: jobId,
@@ -100,7 +104,7 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
       middle_name,
       last_name,
       gender,
-      date_of_birth,
+      date_of_birth: dob,
       email,
       skype,
       mobile,
@@ -110,9 +114,9 @@ router.post('/careers/job/:job_id/resume', upload, async (req, res) => {
       province,
       expected_salary,
       start_date,
-      preferred_interview_date_1,
-      preferred_interview_date_2,
-      preferred_interview_date_3,
+      preferred_interview_date_1: pid1,
+      preferred_interview_date_2: pid2,
+      preferred_interview_date_3: pid3,
       photo: image,
       application_link: link,
       year_experience: totalYears,

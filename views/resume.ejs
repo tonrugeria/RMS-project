@@ -77,10 +77,10 @@
               </div>
               <div class="col px-1">
                 <input
-                  type="text"
+                  type="date"
                   name="date_of_birth"
                   placeholder="MM/DD/YYYY"
-                  class="w-100"
+                  class="w-100 txtDateMax"
                   required
                 />
               </div>
@@ -176,35 +176,35 @@
                   <strong>PREFERRED START DATE ( SKIP TO START IMMEDIATELY )</strong>
                 </p>
                 <input
-                  type="text"
+                  type="date"
                   name="start_date"
                   placeholder="MM/DD/YY"
-                  class="w-100"
+                  class="w-100 txtDateMin"
                 />
               </div>
               <div class="col-6">
                 <p><strong>PREFERRED INTERVIEW DATE</strong></p>
                 <div class="row">
                   <input
-                    type="text"
+                    type="date"
                     name="preferred_interview_date_1"
                     placeholder="MM/DD/YY"
                     required
-                    class="col"
+                    class="col txtDateMin"
                   />
                   <input
-                    type="text"
+                    type="date"
                     name="preferred_interview_date_2"
                     placeholder="MM/DD/YY"
                     required
-                    class="col"
+                    class="col txtDateMin"
                   />
                   <input
-                    type="text"
+                    type="date"
                     name="preferred_interview_date_3"
                     placeholder="MM/DD/YY"
                     required
-                    class="col"
+                    class="col txtDateMin"
                   />
                 </div>
               </div>
@@ -307,19 +307,19 @@
             <div class="me-1 w-25">
               <p><strong>FROM</strong></p>
               <input
-                type="text"
+                type="date"
                 name="history_start_date"
                 placeholder="MM / DD /  YY"
-                class="w-100"
+                class="w-100 txtDateMax"
               />
             </div>
             <div class="me-1 w-25">
               <p><strong>TO</strong></p>
               <input
-                type="text"
+                type="date"
                 name="history_end_date"
                 placeholder="MM / DD / YY"
-                class="w-100"
+                class="w-100 txtDateMax"
               />
             </div>
             <div class="me-1 w-75">
@@ -346,18 +346,18 @@
             <div class="d-flex mb-2">
               <div class="me-1 w-25">
                 <input
-                  type="text"
+                  type="date"
                   name="history_start_date"
                   placeholder="MM / DD /  YY"
-                  class="w-100"
+                  class="w-100 txtDateMax"
                 />
               </div>
               <div class="me-1 w-25">
                 <input
-                  type="text"
+                  type="date"
                   name="history_end_date"
                   placeholder="MM / DD / YY"
-                  class="w-100"
+                  class="w-100 txtDateMax"
                 />
               </div>
               <div class="me-1 w-75">
@@ -391,7 +391,7 @@
             </div>
             <div class="me-1 w-25">
               <p><strong>Date Graduated</strong></p>
-              <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
+              <input type="date" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100 txtDateMax" />
             </div>
           </div>
           
@@ -404,7 +404,7 @@
                 <input type="text" name="course" placeholder="Enter Course" class="w-100" />
               </div>
               <div class="me-1 w-25">
-                <input type="text" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100" />
+                <input type="date" name="date_graduated" placeholder="MM/DD/YYYY" class="w-100 txtDateMax" />
               </div>
             </div>
           <% } %> 
@@ -430,5 +430,21 @@
       URL.revokeObjectURL(output.src)
     }
   };
+
+  $(function(){
+    var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+    $('.txtDateMax').attr('max', maxDate);
+    $('.txtDateMin').attr('min', maxDate);
+});
 </script>
 <%- include('./layout/resumeFooter.ejs') %>
