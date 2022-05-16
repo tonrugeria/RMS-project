@@ -106,11 +106,11 @@
                     </div>
                     <div class="col px-1">
                       <input 
-                        type="text" 
+                        type="date" 
                         name="date_of_birth" 
                         placeholder="MM/DD/YYYY" 
                         required value="<%= dob %>"
-                        class="w-100"
+                        class="w-100 txtDateMax"
                       >
                     </div>
                     <div class="col ps-1">
@@ -228,21 +228,21 @@
                       <div class="col-4 p-0 pe-2">
                         <strong>PREFERRED START DATE (SKIP TO START IMMEDIATELY)</strong>
                         <input 
-                          type="text" 
+                          type="date" 
                           name="start_date" 
                           placeholder="MM / DD / YYYY"
                           <% if (startDate != 'Invalid date') { %>
                             value="<%= startDate %>"  
                           <% } %>
-                          class="w-100"
+                          class="w-100 txtDateMin"
                         >
                       </div>
                       <div class="col-6">
                         <p><strong>PREFERRED INTERVIEW DATE</strong></p>
                         <div class="row">
-                          <input type="text" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required class="col">
-                          <input type="text" name="preferred_interview_date_2" value="<%= preferredDate2 %>" required class="col">
-                          <input type="text" name="preferred_interview_date_3" value="<%= preferredDate3 %>" required class="col">
+                          <input type="date" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required class="col txtDateMin">
+                          <input type="date" name="preferred_interview_date_2" value="<%= preferredDate2 %>" required class="col txtDateMin">
+                          <input type="date" name="preferred_interview_date_3" value="<%= preferredDate3 %>" required class="col txtDateMin">
                         </div>
                       </div>
                     </div>
@@ -347,25 +347,25 @@
                 <div class="me-1 w-25">
                   <p><strong>FROM</strong></p>
                   <input 
-                    type="text" 
+                    type="date" 
                     name="history_start_date" 
-                    placeholder="MM / DD / YY" 
+                    placeholder="MM / DD / YYYY" 
                     <% if(history != 0 && historyStartDates[0] != 'Invalid date') { %>
                       value="<%= historyStartDates[0] %>"
                     <% } %>
-                    class="w-100"
+                    class="w-100 txtDateMax"
                   >
                 </div>
                 <div class="me-1 w-25">
                   <p><strong>TO</strong></p>
                   <input 
-                    type="text" 
+                    type="date" 
                     name="history_end_date" 
-                    placeholder="MM / DD / YY" 
+                    placeholder="MM / DD / YYYY" 
                     <% if(history != 0 && historyEndDates[0] != 'Invalid date') { %>
                       value="<%= historyEndDates[0] %>"
                     <% } %>
-                    class="w-100"
+                    class="w-100 txtDateMax"
                   >
                 </div>
                 <div class="me-1 w-75">
@@ -397,24 +397,24 @@
                     <div class="d-flex mb-2">
                       <div class="me-1 w-25">
                         <input 
-                          type="text" 
+                          type="date" 
                           name="history_start_date" 
-                          placeholder="MM / DD / YY" 
+                          placeholder="MM / DD / YYYY" 
                           <% if(history != 0 && historyStartDates[i] != 'Invalid date') { %>
                             value="<%= historyStartDates[i] %>"
                           <% } %>
-                          class="w-100"
+                          class="w-100 txtDateMax"
                         >
                       </div>
                       <div class="me-1 w-25">
                         <input 
-                          type="text" 
+                          type="date" 
                           name="history_end_date" 
-                          placeholder="MM / DD / YY" 
+                          placeholder="MM / DD / YYYY" 
                           <% if(history != 0 && historyEndDates[i] != 'Invalid date') { %>
                             value="<%= historyEndDates[i] %>"
                           <% } %>
-                          class="w-100"
+                          class="w-100 txtDateMax"
                         >
                       </div>
                       <div class="me-1 w-75">
@@ -476,13 +476,13 @@
                 <div class="me-1 w-25">
                   <p><strong>Date Graduated</strong></p>
                   <input
-                    type="text"
+                    type="date"
                     name="date_graduated"
                     placeholder="MM/DD/YYYY"
                     <% if(education != 0 && gradDates[0] != 'Invalid date') { %>
                       value="<%= gradDates[0] %>"
                     <% } %>
-                    class="w-100"
+                    class="w-100 txtDateMax"
                   />
                 </div>
               </div>
@@ -510,23 +510,24 @@
                 </div>
                 <div class="me-1 w-25">
                   <input
-                    type="text"
+                    type="date"
                     name="date_graduated"
                     placeholder="MM/DD/YYYY"
                     <% if(education != 0 && gradDates[i] != 'Invalid date') { %>
                       value="<%= gradDates[i] %>"
                     <% } %>
-                    class="w-100"
+                    class="w-100 txtDateMax"
                   />
                 </div>
               </div>
             <% } %> 
-    
+              
               <button class="px-5 py-3" style="background-color: #4d4d4d; color: white; border: none;" name="nameBtn" value="saveBtn">SAVE</button>
             </form>
           <% } %> 
         </div>
       <% } %> 
+      
     </div>
   </div>
 
@@ -539,5 +540,22 @@
         URL.revokeObjectURL(output.src)
       }
     };
+
+    $(function(){
+    var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+    $('.txtDateMax').attr('max', maxDate);
+    $('.txtDateMin').attr('min', maxDate);
+});
+
   </script>
   <%- include('./layout/resumeFooter.ejs') %>

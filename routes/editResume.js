@@ -116,21 +116,21 @@ router.get(
       if (isNaN(yearDiff5)) yearDiff5 = 0;
       const totalYears = yearDiff1 + yearDiff2 + yearDiff3 + yearDiff4 + yearDiff5;
 
-      const dob = moment(date_of_birth).format('L');
-      const startDate = moment(start_date).format('L');
-      const preferredDate1 = moment(preferred_interview_date_1).format('L');
-      const preferredDate2 = moment(preferred_interview_date_2).format('L');
-      const preferredDate3 = moment(preferred_interview_date_3).format('L');
+      const dob = moment(date_of_birth).format('YYYY-MM-DD');
+      const startDate = moment(start_date).format('YYYY-MM-DD');
+      const preferredDate1 = moment(preferred_interview_date_1).format('YYYY-MM-DD');
+      const preferredDate2 = moment(preferred_interview_date_2).format('YYYY-MM-DD');
+      const preferredDate3 = moment(preferred_interview_date_3).format('YYYY-MM-DD');
       const historyStartDates = history.map((element) =>
-        moment(element.history_start_date).format('L')
+        moment(element.history_start_date).format('YYYY-MM-DD')
       );
       const historyEndDates = history.map((element) =>
-        moment(element.history_end_date).format('L')
+        moment(element.history_end_date).format('YYYY-MM-DD')
       );
       const gradDates = education.map((element) =>
-        moment(element.date_graduated).format('L')
+        moment(element.date_graduated).format('YYYY-MM-DD')
       );
-
+      
       res.render('editResume', {
         jobId,
         appId,
@@ -214,12 +214,13 @@ router.post(
       course,
       date_graduated,
     } = req.body;
+   
     const getStartDates = history_start_date.map((element) =>
       moment(element).format('L')
     );
-
+    
     const getEndDates = history_end_date.map((element) => moment(element, 'MM/DD/YYYY'));
-
+    
     let yearDiff1 = getEndDates[0].diff(getStartDates[0], 'years');
     let yearDiff2 = getEndDates[1].diff(getStartDates[1], 'years');
     let yearDiff3 = getEndDates[2].diff(getStartDates[2], 'years');
@@ -252,13 +253,18 @@ router.post(
     } else {
       new_image = req.body.old_image;
     }
+    
+    const dob = moment(date_of_birth).format("MM-DD-YYYY")
+    const pid1 = moment(preferred_interview_date_1).format("MM-DD-YYYY")
+    const pid2 = moment(preferred_interview_date_2).format("MM-DD-YYYY")
+    const pid3 = moment(preferred_interview_date_3).format("MM-DD-YYYY")
     knex('job_application.applicant_details')
       .update({
         first_name,
         middle_name,
         last_name,
         gender,
-        date_of_birth,
+        date_of_birth: dob,
         email,
         skype,
         mobile,
@@ -268,9 +274,9 @@ router.post(
         province,
         expected_salary,
         start_date,
-        preferred_interview_date_1,
-        preferred_interview_date_2,
-        preferred_interview_date_3,
+        preferred_interview_date_1: pid1,
+        preferred_interview_date_2: pid2,
+        preferred_interview_date_3: pid3,
         photo: new_image,
         application_link: link,
         year_experience: totalYears,
