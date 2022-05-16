@@ -22,7 +22,24 @@ router.get('/careers/job/:job_id/resume', async (req, res) => {
   const skill = await knex('admin.skill')
     .innerJoin('jobs.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
     .where('job_id', jobId);
-  res.render('resume', { jobId, jobs, skill, unique });
+
+  const jobQuestion = await knex('jobs.question')
+    .innerJoin(
+      'question.question',
+      'jobs.question.question_id',
+      'question.question.question_id'
+    )
+    .where({ job_id: jobId, question_type: 0 });
+
+  const personalityQuestions = await knex('jobs.question')
+    .innerJoin(
+      'question.question',
+      'jobs.question.question_id',
+      'question.question.question_id'
+    )
+    .where({ job_id: jobId, question_type: 1 });
+
+  res.render('resume', { jobId, jobs, skill, unique, jobQuestion, personalityQuestions });
 });
 
 router.post('/careers/job/:job_id/resume', upload, async (req, res) => {

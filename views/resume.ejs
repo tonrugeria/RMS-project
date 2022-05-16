@@ -12,12 +12,16 @@
           <div class="py-3 mb-1 px-5" style="background-color: #f2f2f2;">
             <a href="/careers/job/<%= jobId %>/resume" style="text-decoration: none; color: black;">RESUME</a>
           </div>
-          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
-            PERSONALITY TEST
-          </div>
-          <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
-            TECHNICAL EXAM
-          </div>
+          <% if (personalityQuestions != 0) { %>
+            <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+              PERSONALITY TEST
+            </div>
+          <% } %>
+          <% if (jobQuestion != 0) { %>
+            <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
+              TECHNICAL EXAM
+            </div>
+          <% } %>
           <div class="py-3 mb-1 px-5" style="background-color: #e6e6e6;">
             <a href="" type="button"><button class="px-5 py-3" disabled>SUBMIT</button></a>
           </div>
