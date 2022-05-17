@@ -310,7 +310,11 @@
             <div class="row g-0">
               <div class="col-md-4">
                 <% if (applicants[i].photo != null) { %>
-                  <img src="/<%= applicants[i].photo %>" class="img-fluid rounded-start img" alt="This is image" width="100">
+                  <% for( let index = 0; index < photoArray.length; index++ ) { %>
+                    <% if (i == index) { %>
+                      <img src="<%= photoArray[index] %>" class="img-fluid rounded-start img" alt="This is image" width="100">
+                    <% } %>
+                  <% } %>
                 <% } else { %>
                   <% if (applicants[i].gender == 'Male') { %>
                     <img src="https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg" alt="This is image" width="100" class="img-fluid rounded-start img">  
