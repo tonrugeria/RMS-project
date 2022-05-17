@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: '0000',
+    password: 'novice0621**',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: '0000',
+  password: 'novice0621**',
   port: 5432,
 });
 
@@ -33,62 +33,66 @@ const execute = async (query) => {
 const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Admin.User_Role(
           role_id SERIAL PRIMARY KEY NOT NULL,
-          role_name VARCHAR(100) NOT NULL
+          role_name VARCHAR NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Admin.Users (
           user_id SERIAL PRIMARY KEY NOT NULL,
           date_created DATE NOT NULL DEFAULT CURRENT_DATE,
           date_last_updated DATE,
-          user_name VARCHAR(100) NOT NULL,
-          email VARCHAR(100),
-          password VARCHAR(100) NOT NULL,
-          photo VARCHAR(100),
+          user_name VARCHAR NOT NULL,
+          email VARCHAR,
+          password VARCHAR NOT NULL,
+          photo VARCHAR,
           role_id INT,
       
           FOREIGN KEY (role_id)
           REFERENCES Admin.User_Role(role_id)
       );
       CREATE TABLE IF NOT EXISTS Admin.System_Theme(
-          company_name VARCHAR(100) NOT NULL,
-          company_log VARCHAR(100) NOT NULL,
-          login_background VARCHAR(100) NOT NULL,
+          company_name VARCHAR NOT NULL,
+          company_log VARCHAR NOT NULL,
+          login_background VARCHAR NOT NULL,
           date_last_updated DATE NOT NULL,
-          last_updated_by VARCHAR(100) NOT NULL
+          last_updated_by VARCHAR NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Admin.Job_Position(
           position_id SERIAL PRIMARY KEY NOT NULL,
-          position_name VARCHAR(100) NOT NULL,
+          position_name VARCHAR NOT NULL,
           position_level INT NOT NULL,
-          department_name VARCHAR(100) NOT NULL,
-          position_type VARCHAR(100) NOT NULL
+          department_name VARCHAR NOT NULL,
+          position_type VARCHAR NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Admin.Department(
         dept_id SERIAL PRIMARY KEY NOT NULL,
-        dept_name VARCHAR(100) NOT NULL,
-        dept_status VARCHAR(10)
+        dept_name VARCHAR NOT NULL,
+        dept_status VARCHAR
     );
       CREATE TABLE IF NOT EXISTS Admin.Skill(
           skill_id SERIAL PRIMARY KEY NOT NULL,
-          skill_name VARCHAR(100) NOT NULL,
+          skill_name VARCHAR NOT NULL,
           skill_type INT NOT NULL,
+          skill_status VARCHAR,
 
           FOREIGN KEY (skill_type)
           REFERENCES Admin.Department(dept_id)
       );
       CREATE TABLE IF NOT EXISTS Admin.Remarks(
           remark_id SERIAL PRIMARY KEY NOT NULL,
-          remark_name VARCHAR(100) NOT NULL
+          remark_name VARCHAR NOT NULL,
+          remark_status VARCHAR,
       );
       CREATE TABLE IF NOT EXISTS Admin.Job_Type(
           job_type_id SERIAL PRIMARY KEY NOT NULL,
-          job_type_name VARCHAR(100) NOT NULL
+          job_type_name VARCHAR NOT NULL,
+          job_type_status VARCHAR,
       );
       CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
           skill_scoring INT NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Admin.Position_Level(
           position_level_id SERIAL PRIMARY KEY NOT NULL,
-          position_level_name VARCHAR(100) NOT NULL
+          position_level_name VARCHAR NOT NULL,
+          position_level_status VARCHAR,
       );
       CREATE TABLE IF NOT EXISTS Admin.Branding(
         branding_id SERIAL PRIMARY KEY NOT NULL,
@@ -99,20 +103,20 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE SCHEMA IF NOT EXISTS Jobs;
       CREATE TABLE IF NOT EXISTS Jobs.Job_Opening (
           job_id INT PRIMARY KEY NOT NULL,
-          job_title VARCHAR(100) NOT NULL,
+          job_title VARCHAR NOT NULL,
           job_dept INT NOT NULL,
           max_salary INT NOT NULL,
-          position_level VARCHAR(100) NOT NULL,
-          job_type VARCHAR(100) NOT NULL,
+          position_level VARCHAR NOT NULL,
+          job_type VARCHAR NOT NULL,
           job_description VARCHAR NOT NULL,
-          min_years_experience VARCHAR(100) NOT NULL,
-          skill_score VARCHAR(100) NOT NULL,
-          hr_rating VARCHAR(100),
-          personality_score VARCHAR(100) NOT NULL,
+          min_years_experience VARCHAR NOT NULL,
+          skill_score VARCHAR NOT NULL,
+          hr_rating VARCHAR,
+          personality_score VARCHAR NOT NULL,
           date_opened date,
           last_date_updated date NOT NULL,
-          created_by VARCHAR(100) NOT NULL,
-          last_updated_by VARCHAR(100) NOT NULL,
+          created_by VARCHAR NOT NULL,
+          last_updated_by VARCHAR NOT NULL,
           status INT NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Jobs.Skill (
@@ -179,22 +183,22 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Question.Question (
           question_id INT PRIMARY KEY NOT NULL,
           question_type int NOT NULL,
-          question_category varchar(100) NOT NULL,
-          question_level varchar(100) NOT NULL,
+          question_category varchar NOT NULL,
+          question_level varchar NOT NULL,
           question_detail varchar NOT NULL,
-          question_time_limit varchar(100) NOT NULL,
-          choice_1 varchar(100) NOT NULL,
-          choice_2 varchar(100) NOT NULL,
-          choice_3 varchar(100) NOT NULL,
-          choice_4 varchar(100) NOT NULL,
+          question_time_limit varchar NOT NULL,
+          choice_1 varchar NOT NULL,
+          choice_2 varchar NOT NULL,
+          choice_3 varchar NOT NULL,
+          choice_4 varchar NOT NULL,
           correct_answer int,
           choice_1_value int NOT NULL,
           choice_2_value int NOT NULL,
           choice_3_value int NOT NULL,
           choice_4_value int NOT NULL,
-          created_by varchar(100) NOT NULL,
+          created_by varchar NOT NULL,
           date_created date NOT NULL,
-          last_updated_by varchar(100) NOT NULL,
+          last_updated_by varchar NOT NULL,
           date_last_updated date NOT NULL
       );
       CREATE TABLE IF NOT EXISTS Jobs.Question(
@@ -210,18 +214,18 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Job_Application.Applicant_details(
           job_id int NOT NULL,
           application_id INT PRIMARY KEY NOT NULL,
-          first_name VARCHAR(100) NOT NULL,
-          middle_name VARCHAR(100) NOT NULL,
-          last_name VARCHAR(100) NOT NULL,
-          gender VARCHAR(100) NOT NULL,
+          first_name VARCHAR NOT NULL,
+          middle_name VARCHAR NOT NULL,
+          last_name VARCHAR NOT NULL,
+          gender VARCHAR NOT NULL,
           date_of_birth date NOT NULL,
-          email VARCHAR(100) NOT NULL,
-          skype VARCHAR(100) NOT NULL,
-          mobile VARCHAR(100) NOT NULL,
-          preferred_contact VARCHAR(100) NOT NULL,
-          address VARCHAR(100) NOT NULL,
-          city VARCHAR(100) NOT NULL,
-          province VARCHAR(100) NOT NULL,
+          email VARCHAR NOT NULL,
+          skype VARCHAR NOT NULL,
+          mobile VARCHAR NOT NULL,
+          preferred_contact VARCHAR NOT NULL,
+          address VARCHAR NOT NULL,
+          city VARCHAR NOT NULL,
+          province VARCHAR NOT NULL,
           expected_salary INT NOT NULL,
           start_date date,
           preferred_interview_date_1 date,
@@ -230,10 +234,10 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           technical_test_score int,
           personality_test_score int,
           year_experience	int NOT NULL,
-          photo VARCHAR(100),
+          photo VARCHAR,
           date_applied date,
           date_last_updated date ,
-          application_link VARCHAR(100) NOT NULL,
+          application_link VARCHAR NOT NULL,
           status int,
           read_status int,
       
@@ -244,8 +248,8 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Job_Application.Education (
           education_id SERIAL PRIMARY KEY NOT NULL,
           application_id	INT NOT NULL,
-          school VARCHAR(1000) NOT NULL,
-          course VARCHAR(1000) NOT NULL,
+          school VARCHAR NOT NULL,
+          course VARCHAR NOT NULL,
           date_graduated date,
       
           FOREIGN KEY(application_id)
@@ -284,11 +288,11 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Job_Application.Capabilities (
           application_id	int NOT NULL,
           capability_id SERIAL PRIMARY KEY NOT NULL,
-          capability_1 VARCHAR(1000) NOT NULL,
-          capability_2 VARCHAR(1000) NOT NULL,
-          capability_3 VARCHAR(1000) NOT NULL,
-          capability_4 VARCHAR(1000) NOT NULL,
-          capability_5 VARCHAR(1000) NOT NULL,
+          capability_1 VARCHAR NOT NULL,
+          capability_2 VARCHAR NOT NULL,
+          capability_3 VARCHAR NOT NULL,
+          capability_4 VARCHAR NOT NULL,
+          capability_5 VARCHAR NOT NULL,
       
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
@@ -298,8 +302,8 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
           application_id	int NOT NULL,
           history_start_date date,
           history_end_date date,
-          position varchar(100),
-          company varchar(100),
+          position varchar,
+          company varchar,
           
           FOREIGN KEY(application_id)
           REFERENCES Job_Application.Applicant_details(application_id)
