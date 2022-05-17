@@ -27,12 +27,10 @@
       });
     }
 
-    function toggleCheck(source) {
-      const checkboxes = document.getElementsByName('question_id');
-      for (const checkbox of checkboxes) {
-        checkbox.checked = source.checked;
-      }
-    }
+    // check all
+    $('#questionCheckbox').click(function(){
+      $('input:checkbox:visible').not(this).prop('checked', this.checked);
+    });
 
     // buttons changing style onclick
     $('.button-container button').click(function(){
