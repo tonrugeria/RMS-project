@@ -122,7 +122,7 @@
         </span> |
         <span id="company_name_place">
           <%  if (branding != 0) { %>
-            <% if (branding[0].company_name != null) { %>
+            <% if (branding[0].company_name != '' && branding[0].company_name != null) { %>
               <%= branding[0].company_name %>
             <% } else { %>
               FilAm Software Technology
