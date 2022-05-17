@@ -1,5 +1,6 @@
 const express = require('express');
 const moment = require('moment');
+const fs = require('fs')
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
@@ -30,6 +31,22 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
+  let photo = ''
+  const photoArray = []
+  for(let i = 0; i < applicants.length; i++) {
+    photo = applicants[i].photo  
+    const dir = `./photo/${photo}`
+    if (fs.existsSync(dir)) {
+      photo = '/' + photo
+    } else {
+      if(applicants[i].gender === "Male"){
+        photo = "https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg"
+      } else {
+        photo = "https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg"
+    }
+  }
+  photoArray.push(photo)
+}
 
   // applicant_rating
   const applicantJob = await knex('job_application.applicant_rating').innerJoin(
@@ -73,7 +90,8 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     remarks,
     jobId,
     jobApplicants,
-    jobSkill
+    jobSkill,
+    photoArray
   });
 });
 
