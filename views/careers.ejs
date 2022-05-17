@@ -13,7 +13,7 @@
       </div>
     </div>
       <% for (let i = 0; i < active_job_opening.length; i++) { %>
-        <div class ="all-btn dept-<%= active_job_opening[i].job_dept %>-btn dept col-sm-12 col-md-4 col-lg-3 card p-4 mb-3" style="min-height: 300px;">
+        <div class ="all-btn dept-<%= active_job_opening[i].job_dept %>-btn dept col-sm-12 col-md-4 col-lg-3 card mb-3" style="min-height: 300px; padding: 2em;">
           <% if (date[i].job_id == active_job_opening[i].job_id) { %>
             <% if (date[i].date != 'Invalid date') { %>
               <span style="color: #acb3c2;" id="job-<%= active_job_opening[i].job_id %>-date"><%= date[i].date %></span>
@@ -21,12 +21,12 @@
               <span style="color: #acb3c2;" id="job-<%= active_job_opening[i].job_id %>-date">Not opened</span>
             <% } %>
           <% } %>
-          <p style="font-size: 1.5em; font-family: 'Segoe UI',Roboto,'Helvetica Neue',sans-serif; letter-spacing: -1px;"><%= active_job_opening[i].job_title %></p>
+          <p style="font-size: 1.4em; font-family: 'Segoe UI',Roboto,'Helvetica Neue',sans-serif; line-height: 1.2; font-weight: 300;"><%= active_job_opening[i].job_title %></p>
           <div class="d-flex mb-auto" style="gap: 5px; flex-wrap: wrap;">
             <% for (let j=0; j < jobSkill.length; j++) { %>
               <% if(active_job_opening[i].job_id == jobSkill[j].job_id) {%>
                 <div class="border border-1" style="padding: 0 5px;">
-                  <span><%= jobSkill[j].skill_name %></span>
+                  <span style="font-size: 12px;"><%= jobSkill[j].skill_name %></span>
                 </div>
                 <% } %>
             <% } %>
