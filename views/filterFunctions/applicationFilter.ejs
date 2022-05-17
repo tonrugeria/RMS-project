@@ -136,6 +136,15 @@
       } else {
         $('#nomatch').hide()
       }
+
+      const activeApp = $('.applicants.active');
+      if (!activeApp.is(':visible')) {
+        activeApp.children().css('background-color', 'rgb(102, 102, 102)');
+        activeApp.children().css('color', 'white');
+        detailContainer.attr('class', 'col-6 d-flex justify-content-center align-items-centers');
+        detailContainer.css("background-color", "#f2f2f2");
+        detailContainer.html('');
+      }
     });
 
     // AJAX post on changing status
@@ -311,10 +320,18 @@
             // applicant photo logic
             if (data.applicantInfo[0].photo != null) {
               $('#photo-container').html(`
-                <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="150">
+                <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="200">
               `)
             } else {
-              $('#photo-container').html(`NO PHOTO`)
+              if (data.applicantInfo[0].gender == 'Male') {
+                $('#photo-container').html(`
+                <img src="https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg" alt="This is image" width="200" class="img-fluid rounded-start img">
+                `)
+              } else {
+                $('#photo-container').html(`
+                <img src="https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg" alt="This is image" width="200" class="img-fluid rounded-start img">
+                `)
+              }
             }
     
             // applicant year experience logic
