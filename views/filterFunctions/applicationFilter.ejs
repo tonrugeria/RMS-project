@@ -320,7 +320,7 @@
             // applicant photo logic
             if (data.applicantInfo[0].photo != null) {
               $('#photo-container').html(`
-                <img src="/${data.applicantInfo[0].photo}" class="rounded-start" alt="Failed to load image" width="200">
+                <img src="${data.photo}" class="rounded-start" alt="Failed to load image" width="200">
               `)
             } else {
               if (data.applicantInfo[0].gender == 'Male') {
