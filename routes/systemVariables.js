@@ -67,142 +67,102 @@ router.get(
 // });
 
 // SKILLS
-router.post('/addTechnologies', (req, res) => {
+router.post('/addTechnologies', async (req, res) => {
   const { adminSkill, skillType } = req.body;
-  knex('admin.skill')
-    .insert({
-      skill_name: adminSkill,
-      skill_type: skillType,
-    })
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.skill').insert({
+    skill_name: adminSkill,
+    skill_type: skillType,
+  });
+  res.redirect('/system-variables');
 });
 
 router.post('/system-variables/skill/:skill_id', async (req, res) => {
   const skillId = req.params.skill_id;
   const { technologies } = req.body;
 
-  knex('admin.skill')
+  await knex('admin.skill')
     .where({ skill_id: skillId })
-    .update({ skill_name: technologies })
-    .then(() => {
-      res.redirect('/system-variables');
-    });
+    .update({ skill_name: technologies });
+  res.redirect('/system-variables');
 });
 
 router.post('/delete/skill/:skill_id', async (req, res) => {
   const skillId = req.params.skill_id;
-  await knex('job_application.applicant_rating')
-    .where('skill_id', skillId)
-    .del()
-    .then(() => {
-      knex('jobs.skill')
-        .where('skill_id', skillId)
-        .del()
-        .then(() => {
-          knex('admin.skill')
-            .where('skill_id', skillId)
-            .del()
-            .then((result) => {
-              console.log('RESULT', result);
-              res.redirect('/system-variables');
-            });
-        });
-    });
+  await knex('job_application.applicant_rating').where('skill_id', skillId).del();
+
+  await knex('jobs.skill').where('skill_id', skillId).del();
+  await knex('admin.skill').where('skill_id', skillId).del();
+  res.redirect('/system-variables');
 });
 
 // REMARKS
 router.post('/addRemarks', async (req, res) => {
   const { remark } = req.body;
-  await knex('admin.remarks')
-    .insert({
-      remark_name: remark,
-    })
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.remarks').insert({
+    remark_name: remark,
+  });
+  res.redirect('/system-variables');
 });
 
 router.post('/system-variables/remark/:remark_id', async (req, res) => {
   const remarkId = req.params.remark_id;
   const { remarks } = req.body;
 
-  knex('admin.remarks')
+  await knex('admin.remarks')
     .where({ remark_id: remarkId })
-    .update({ remark_name: remarks })
-    .then(() => {
-      res.redirect('/system-variables');
-    });
+    .update({ remark_name: remarks });
+  res.redirect('/system-variables');
 });
 
 router.post('/delete/remark/:remark_id', async (req, res) => {
   const remarkId = req.params.remark_id;
-  await knex('admin.remarks')
-    .where('remark_id', remarkId)
-    .del()
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.remarks').where('remark_id', remarkId).del();
+  res.redirect('/system-variables');
 });
 
 // JOB TYPE
 router.post('/addTypes', async (req, res) => {
   const { jobType } = req.body;
-  await knex('admin.job_type')
-    .insert({
-      job_type_name: jobType,
-    })
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.job_type').insert({
+    job_type_name: jobType,
+  });
+  res.redirect('/system-variables');
 });
 
 router.post('/system-variables/job-type/:job_type_id', async (req, res) => {
   const jobTypeId = req.params.job_type_id;
   const { type } = req.body;
 
-  knex('admin.job_type')
+  await knex('admin.job_type')
     .where({ job_type_id: jobTypeId })
-    .update({ job_type_name: type })
-    .then(() => {
-      res.redirect('/system-variables');
-    });
+    .update({ job_type_name: type });
+  res.redirect('/system-variables');
 });
 
 router.post('/delete/type/:job_type_id', async (req, res) => {
   const jobTypeId = req.params.job_type_id;
-  await knex('admin.job_type')
-    .where('job_type_id', jobTypeId)
-    .del()
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.job_type').where('job_type_id', jobTypeId).del();
+  res.redirect('/system-variables');
 });
 
 // DEPARTMENT
 router.post('/addDepartment', async (req, res) => {
   const { department } = req.body;
-  await knex('admin.department')
-    .insert({
-      dept_name: department,
-      dept_status: 'active',
-    })
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.department').insert({
+    dept_name: department,
+    dept_status: 'active',
+  });
+  res.redirect('/system-variables');
 });
 
 router.post('/system-variables/department/:dept_id', async (req, res) => {
   const departmentId = req.params.dept_id;
   const { departments } = req.body;
 
-  knex('admin.department')
+  await knex('admin.department')
     .where({ dept_id: departmentId })
-    .update({ dept_name: departments })
-    .then(() => {
-      res.redirect('/system-variables');
-    });
+    .update({ dept_name: departments });
+  res.redirect('/system-variables');
 });
 
 router.post('/delete/department/:dept_id', async (req, res) => {
@@ -223,34 +183,25 @@ router.post('/delete/department/:dept_id', async (req, res) => {
 // CAREER LEVEL
 router.post('/addCareer', async (req, res) => {
   const { positionLevel } = req.body;
-  await knex('admin.position_level')
-    .insert({
-      position_level_name: positionLevel,
-    })
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.position_level').insert({
+    position_level_name: positionLevel,
+  });
+  res.redirect('/system-variables');
 });
 
 router.post('/system-variables/career-level/:position_level_id', async (req, res) => {
   const positionLevelId = req.params.position_level_id;
   const { career } = req.body;
 
-  knex('admin.position_level')
+  await knex('admin.position_level')
     .where({ position_level_id: positionLevelId })
-    .update({ position_level_name: career })
-    .then(() => {
-      res.redirect('/system-variables');
-    });
+    .update({ position_level_name: career });
+  res.redirect('/system-variables');
 });
 
 router.post('/delete/career-level/:position_level_id', async (req, res) => {
   const positionLevelId = req.params.position_level_id;
-  await knex('admin.position_level')
-    .where('position_level_id', positionLevelId)
-    .del()
-    .then((result) => {
-      res.redirect('/system-variables');
-    });
+  await knex('admin.position_level').where('position_level_id', positionLevelId).del();
+  res.redirect('/system-variables');
 });
 module.exports = router;
