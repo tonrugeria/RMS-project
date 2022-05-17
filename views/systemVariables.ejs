@@ -332,19 +332,19 @@
                     >
                       <i class="fa-solid fa-check"></i>
                     </button>
-                    <form action="/delete/career-level/<%= positionLevel[i].position_level_id %>" method="post" class="">
-                      <button 
-                        class="delete-btn ps-2 pe-3 py-1" 
-                        id="position_level_<%= positionLevel[i].position_level_id %>" 
-                        type="submit"
-                        style="
-                          border: none; 
-                          background-color: #e6e6e6; 
-                          height: 50px;
-                        "
-                      ><i class="fa-solid fa-xmark"></i></button>
-                    </form>
                   </div>
+                </form>
+                <form action="/delete/career-level/<%= positionLevel[i].position_level_id %>" method="post" class="">
+                  <button 
+                    class="delete-btn ps-2 pe-3 py-1" 
+                    id="position_level_<%= positionLevel[i].position_level_id %>" 
+                    type="submit"
+                    style="
+                      border: none; 
+                      background-color: #e6e6e6; 
+                      height: 50px;
+                    "
+                  ><i class="fa-solid fa-xmark"></i></button>
                 </form>
             </div>
           <% } %>
@@ -410,19 +410,19 @@
                       >
                         <i class="fa-solid fa-check"></i>
                       </button>
-                      <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="">
-                        <button 
-                          class="delete-btn me-2 ps-2 pe-3 py-1" 
-                          id="remark_<%= remarks[i].remark_id %>" 
-                          type="submit"
-                          style="
-                            border: none; 
-                            background-color: #e6e6e6;
-                            height: 50px;
-                          "
-                        ><i class="fa-solid fa-xmark"></i></button>
-                      </form>
                     </div>
+                </form>
+                <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="">
+                  <button 
+                    class="delete-btn me-2 ps-2 pe-3 py-1" 
+                    id="remark_<%= remarks[i].remark_id %>" 
+                    type="submit"
+                    style="
+                      border: none; 
+                      background-color: #e6e6e6;
+                      height: 50px;
+                    "
+                  ><i class="fa-solid fa-xmark"></i></button>
                 </form>
             </div>
           <% } %>

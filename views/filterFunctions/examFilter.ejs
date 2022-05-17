@@ -9,30 +9,35 @@
   }
 </style>
 <script>
-    function showAllFunction() {
-      const allSkills = document.querySelectorAll('.all-btn');
-      allSkills.forEach((element) => {
-        element.classList.remove('d-none');
-      });
-    }
-
-    function toggleShowHide(skill_name) {
-      const allSkills = document.querySelectorAll('.skill');
-      const target = document.querySelectorAll(`.${skill_name}-btn`);
-      allSkills.forEach((element) => {
-        element.classList.add('d-none');
-      });
-      target.forEach((element) => {
-        element.classList.remove('d-none');
-      });
-    }
-
-    function toggleCheck(source) {
-      const checkboxes = document.getElementsByName('question_id');
-      for (const checkbox of checkboxes) {
-        checkbox.checked = source.checked;
+    // check or uncheck 'QUESTION' checkbox logic
+    function checkUncheck(){
+      if ($('input:checkbox:visible').not('#questionCheckbox').not(':checked').length > 0) 
+      {
+        $('#questionCheckbox').prop('checked', false);
+      } else {
+        $('#questionCheckbox').prop('checked', true);
       }
     }
+
+    $('input:checkbox').not('#questionCheckbox').click(checkUncheck)
+
+    // show all questions
+    $('#showAll').click(function(){
+      $('.all-btn').show();
+      checkUncheck()
+    })
+
+    // show questions per skill
+    function toggleShowHide(skill_name) {
+      $('.skill').hide()
+      $(`.${skill_name}-btn`).show();
+      checkUncheck()
+    }
+
+    // check all
+    $('#questionCheckbox').click(function(){
+      $('input:checkbox:visible').not(this).prop('checked', this.checked);
+    });
 
     // buttons changing style onclick
     $('.button-container button').click(function(){

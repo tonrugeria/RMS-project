@@ -35,7 +35,7 @@
         <div class="container-fluid">
           <div class="d-flex button-container mb-4" style="font-size: 1.2em;">
             <button
-              onclick="showAllFunction()" 
+              id="showAll"
               class="border-0 rounded active px-3"
               style="font-weight: 500;"
             >
@@ -43,7 +43,7 @@
             </button>
             <button
               onclick="toggleShowHide('skill-Personality')"
-              class="border-0 rounded px-3"
+              class="border-0 bg-transparent rounded px-3"
               style="font-weight: 500;"
             >
               Personality
@@ -60,7 +60,7 @@
           </div>
           <div class="row border-bottom border-secondary mb-3 py-2">
             <div class="col-8 ms-4">
-              <input id="questionCheckbox" type="checkbox" onclick="toggleCheck(this)" />
+              <input id="questionCheckbox" type="checkbox"/>
               <label class="ms-3" for="questionCheckbox" style="font-size: 0.8em;">QUESTION</label>
             </div>
             <div class="col text-center" style="font-size: 0.8em;">TOPIC</div>
