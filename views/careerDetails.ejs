@@ -5,7 +5,7 @@
 </div>
 <div class="container-fluid m-0" >
   <div class="row">
-    <div class="content-title text-left col-9 p-4" style="background-color: #ededed;">
+    <div class="content-title text-left col-9" style="background-color: #ededed; padding: 3em 5em;">
     
       <% for( let i = 0; i < jobOpening.length; i++){ %> 
         <div>
@@ -17,27 +17,27 @@
         <% } %>
        <!-- job title -->
         <div class="job-title pb-3">
-          <h1><%= jobOpening[i].job_title %> </h2>
+          <h1 style="font-weight: 375; font-size: 50px; color: #3A414E"><%= jobOpening[i].job_title %> </h2>
         </div>
       <!-- job skill -->
-        <div class="d-flex">
+        <div class="d-flex mb-4">
           <% for (let j=0; j < jobSkill.length; j++) { %>
               <% if(jobOpening[i].job_id == jobSkill[j].job_id) {%> 
-                <div class="skill-item border px-2 py-1 me-1" style="background-color: #fff;">
-                  <%= jobSkill[j].skill_name %>
+                <div class="skill-item border me-1" style="background-color: #fff; padding: 0 5px;">
+                  <span style="font-size: 12px;"><%= jobSkill[j].skill_name %></span>
                 </div>
               <% } %>
           <% } %>
         </div>
   
         <!-- job description -->
-        <div class="pb-4">
+        <div class="mb-4">
           <h3 style="color: #4383B6;">Job Description</h3>
           <p><%= jobOpening[i].job_description %> </p>
         </div>
 
         <!-- job role -->
-        <div class="pb-4">
+        <div class="mb-4">
           <h3 style="color: #4383B6;">Role</h3>
           <% for (let j=0; j < jobDetail.length; j++) { %>
             <p> <%= jobDetail[j].role %>  </p>
@@ -46,7 +46,7 @@
     <% } %>
 
     <!-- job responsibilities -->
-    <div class="pb-4">
+    <div class="mb-4">
       <h3 style="color: #4383B6;">Responsibilities</h3>
       <ul style="list-style-type: square;">
         <% for(let i = 0; i < responsibility.length; i++ ){ %>
