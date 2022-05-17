@@ -110,15 +110,23 @@
     <div class="container-fluid">
       <a href="/" class="navbar-brand">
         <span class="h5" id="company_logo_place">
-          <% if (branding != 0 && branding[0].company_logo != null) { %>
-            <img src="/<%= branding[0].company_logo %>" width="30" height="30" >
+          <% if (branding != 0 ) { %>
+            <% if (branding[0].company_logo != null) { %>
+              <img src="/<%= branding[0].company_logo %>" width="30" height="30" >
+            <% } else { %>
+              RMS
+            <% } %> 
           <% } else { %>
             RMS
           <% } %>
         </span> |
         <span id="company_name_place">
           <%  if (branding != 0) { %>
-            <%= branding[0].company_name %>
+            <% if (branding[0].company_name != null) { %>
+              <%= branding[0].company_name %>
+            <% } else { %>
+              FilAm Software Technology
+            <% } %>
           <% } else { %>
             FilAm Software Technology
           <% } %>

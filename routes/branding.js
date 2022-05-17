@@ -74,12 +74,38 @@ router.post(
 
     const branding = await knex('admin.branding');
 
+    let new_image1 = '';
+    let new_image2 = '';
+    if (req.files) {
+      if (req.files.file1) {
+        new_image1 = req.files.file1[0].filename;
+        try {
+          fs.unlinkSync(`./company_logo/${req.body.old_image1}`);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        new_image1 = req.body.old_image1;
+      }
+
+      if (req.files.file2) {
+        new_image2 = req.files.file2[0].filename;
+        try {
+          fs.unlinkSync(`./company_logo/${req.body.old_image2}`);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        new_image2 = req.body.old_image2;
+      }
+    }
+
     if (branding.length == 0) {
       if (req.files !== 0) {
         await knex('admin.branding').insert({
           company_name,
-          company_logo: req.files.file1[0].filename,
-          login_bg: req.files.file2[0].filename,
+          company_logo: new_image1,
+          login_bg: new_image2,
         });
         res.redirect('/branding');
       } else {
@@ -87,33 +113,6 @@ router.post(
         res.redirect('/branding');
       }
     } else {
-      let new_image1 = '';
-      let new_image2 = '';
-      if (req.files) {
-        if (req.files.file1) {
-          new_image1 = req.files.file1[0].filename;
-          try {
-            fs.unlinkSync(`./company_logo/${req.body.old_image1}`);
-          } catch (err) {
-            console.log(err);
-          }
-        } else {
-          console.log('1no');
-          new_image1 = req.body.old_image1;
-        }
-
-        if (req.files.file2) {
-          new_image2 = req.files.file2[0].filename;
-          try {
-            fs.unlinkSync(`./company_logo/${req.body.old_image2}`);
-          } catch (err) {
-            console.log(err);
-          }
-        } else {
-          new_image2 = req.body.old_image2;
-        }
-      }
-
       await knex('admin.branding').update({
         company_name,
         company_logo: new_image1,
