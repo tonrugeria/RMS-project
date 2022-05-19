@@ -182,7 +182,7 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     });
 
   // jobs Schema
-  const jobOpening = await knex('jobs.job_opening');
+  const jobOpening = await knex('jobs.job_opening').where({status: 0});
   const jobOpeningId = await knex('jobs.job_opening').innerJoin(
     'job_application.applicant_details',
     'job_application.applicant_details.job_id',
