@@ -65,7 +65,7 @@
                 </div>
                 
                 <input type="file" id="photo" name="photo" style="display: contents;" onchange="loadFile(event)"></i>
-                <input type="hidden" name="old_image" value="<%= applicants[0].photo  %> ">
+                <input type="hidden" name="old_image" value="<%= applicants[0].photo  %>">
                 <label for="photo" class="border border-dark p-2">UPDATE IMAGE</label>
                 <h5>Your Personal Information</h5>
                 <div class="container-fluid mb-4">
@@ -238,9 +238,9 @@
                       <div class="col-6">
                         <p><strong>PREFERRED INTERVIEW DATE</strong></p>
                         <div class="row">
-                          <input type="date" name="preferred_interview_date_1" value="<%= preferredDate1 %>" required class="col txtDateMin">
-                          <input type="date" name="preferred_interview_date_2" value="<%= preferredDate2 %>" required class="col txtDateMin">
-                          <input type="date" name="preferred_interview_date_3" value="<%= preferredDate3 %>" required class="col txtDateMin">
+                          <input type="date" name="preferred_interview_date_1" value="<%= preferredDate1 %>" class="col txtDateMin">
+                          <input type="date" name="preferred_interview_date_2" value="<%= preferredDate2 %>" class="col txtDateMin">
+                          <input type="date" name="preferred_interview_date_3" value="<%= preferredDate3 %>" class="col txtDateMin">
                         </div>
                       </div>
                     </div>
