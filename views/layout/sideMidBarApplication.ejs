@@ -312,7 +312,7 @@
                 <% if (applicants[i].photo != null) { %>
                   <% for( let index = 0; index < photoArray.length; index++ ) { %>
                     <% if (i == index) { %>
-                      <img src="<%= photoArray[index] %>" class="img-fluid rounded-start img" alt="This is image" width="100">
+                      <img src="<%= photoArray[index] %>" class="img rounded-start h-100 w-100" alt="This is image" width="100">
                     <% } %>
                   <% } %>
                 <% } else { %>
