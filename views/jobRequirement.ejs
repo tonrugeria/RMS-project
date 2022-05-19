@@ -43,7 +43,7 @@
           </div>
           <div class="col-4 form-floating ps-0">
             <select class="form-select w-100 border-0" name="department" id="department" required>
-              <option hidden value="">Select</option>
+              <option value="">Select</option>
               <% for(let i = 0; i < dept.length; i++) { %>
                 <option value="<%= dept[i].dept_id %>" ><%= dept[i].dept_name %></option>
                 <% } %>
@@ -56,7 +56,7 @@
           </div>
           <div class="col-4 form-floating ps-0">
             <select class="form-select border-0" name="careerLevel" id="career-level" required >
-              <option hidden value="">Select</option>
+              <option value="">Select</option>
               <% for(let i = 0; i < positionLevel.length; i++) { %>
                 <option value="<%= positionLevel[i].position_level_name %>" ><%= positionLevel[i].position_level_name %></option>
               <% } %>
@@ -65,7 +65,7 @@
           </div>
           <div class="col-4 form-floating ps-0 mb-2">
             <select class="form-select w-100 border-0" name="workType" id="worktype" required>
-              <option hidden value="">Select</option>
+              <option value="">Select</option>
               <% for(let i = 0; i < jobType.length; i++) { %>
                 <option value="<%= jobType[i].job_type_name %>" ><%= jobType[i].job_type_name %></option>
                 <% } %>
@@ -115,7 +115,14 @@
       </style>
     <p>PROGRAMMING LANGUAGES, IDE AND FRAMEWORKS</p>
         <h4 id="no-selected-dept" class="ms-5">Please select a department</h4>
-      <div class="skills-div mb-4">
+        <div id="no-skills" style="display: none;" class="ms-5">
+          <strong>
+            <p>No skills created in this department
+              <a target="_blank" href="/system-variables">Create here</a>
+            </p>
+          </strong>
+        </div>
+      <div class="skills-div mb-4" style="display: none;">
         <% for(let i=0; i < adminSkill.length; i++) { %>
           <div class="skilltype <%= adminSkill[i].skill_type %> skill-set me-5">
           <input

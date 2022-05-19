@@ -37,7 +37,14 @@
                     $(".skilltype").not("." + optionValue).find('input:radio').attr('checked', false);
                     $("." + optionValue).show();
                     $('#no-selected-dept').hide();
+                    $(".skilltype").parent().show();
                     
+                    if (!$("." + optionValue).is(':visible')) {
+                        $('#no-skills').show();
+                        $(".skilltype").parent().hide();
+                    } else {
+                        $('#no-skills').hide();
+                    }
                 } else{
                     $(".skilltype").hide();
                 }

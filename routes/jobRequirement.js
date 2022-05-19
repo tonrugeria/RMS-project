@@ -22,15 +22,17 @@ router.get('/job-requirement', checkAuthenticated, async (req, res) => {
     'role_id',
     req.user.role_id
   );
-  const adminSkill = await knex('admin.skill');
+  const adminSkill = await knex('admin.skill').where({ skill_status: 'active' });
   const dept = await knex('admin.department').where({ dept_status: 'active' });
-  const jobType = await knex('admin.job_type');
+  const jobType = await knex('admin.job_type').where({ job_type_status: 'active' });
   const job = await knex('jobs.job_opening');
   const hrAssessment = await knex('admin.remarks');
   const jobQuestion = await knex('jobs.question');
   const question = await knex('question.question');
   const jobPosition = await knex('admin.job_position');
-  const positionLevel = await knex('admin.position_level');
+  const positionLevel = await knex('admin.position_level').where({
+    position_level_status: 'active',
+  });
 
   const unique = uniqueId(job);
   const branding = await knex('admin.branding');
