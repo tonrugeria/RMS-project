@@ -1,6 +1,6 @@
 const express = require('express');
 const moment = require('moment');
-const fs = require('fs')
+const fs = require('fs');
 const knex = require('../dbconnection');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 
@@ -31,22 +31,22 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
-  let photo = ''
-  const photoArray = []
-  for(let i = 0; i < applicants.length; i++) {
-    photo = applicants[i].photo  
-    const dir = `./photo/${photo}`
+  let photo = '';
+  const photoArray = [];
+  for (let i = 0; i < applicants.length; i++) {
+    photo = applicants[i].photo;
+    const dir = `./photo/${photo}`;
     if (fs.existsSync(dir)) {
-      photo = '/' + photo
+      photo = `/${photo}`;
+    } else if (applicants[i].gender === 'Male') {
+      photo =
+        'https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg';
     } else {
-      if(applicants[i].gender === "Male"){
-        photo = "https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg"
-      } else {
-        photo = "https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg"
+      photo =
+        'https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg';
     }
+    photoArray.push(photo);
   }
-  photoArray.push(photo)
-}
 
   // applicant_rating
   const applicantJob = await knex('job_application.applicant_rating').innerJoin(
@@ -56,7 +56,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
   );
 
   // jobs Schema
-  const jobOpening = await knex('jobs.job_opening');
+  const jobOpening = await knex('jobs.job_opening').where({ status: 0 });
   const jobSkill = await knex('jobs.job_opening')
     .innerJoin('jobs.skill', 'jobs.job_opening.job_id', 'jobs.skill.job_id')
     .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id');
@@ -74,7 +74,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
       'admin.skill.skill_id',
       'job_application.technical_score.skill_id'
     );
-      
+
   const branding = await knex('admin.branding');
   res.render('application', {
     branding,
@@ -91,7 +91,7 @@ router.get('/application', checkAuthenticated, async (req, res) => {
     jobId,
     jobApplicants,
     jobSkill,
-    photoArray
+    photoArray,
   });
 });
 
@@ -129,22 +129,22 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     'jobs.job_opening.job_id'
   );
 
-  let photo = ''
-  const photoArray = []
-  for(let i = 0; i < applicants.length; i++) {
-    photo = applicants[i].photo  
-    const dir = `./photo/${photo}`
+  let photo = '';
+  const photoArray = [];
+  for (let i = 0; i < applicants.length; i++) {
+    photo = applicants[i].photo;
+    const dir = `./photo/${photo}`;
     if (fs.existsSync(dir)) {
-      photo = '/' + photo
+      photo = `/${photo}`;
+    } else if (applicants[i].gender === 'Male') {
+      photo =
+        'https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg';
     } else {
-      if(applicants[i].gender === "Male"){
-        photo = "https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg"
-      } else {
-        photo = "https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg"
+      photo =
+        'https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg';
     }
+    photoArray.push(photo);
   }
-  photoArray.push(photo)
-}
   // const applicantInfo = await knex('job_application.applicant_details')
   //   .where({
   //     job_id: jobId,
@@ -189,8 +189,8 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     'jobs.job_opening.job_id'
   );
   const jobSkill = await knex('jobs.skill')
-  .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
-  .where({job_id: jobId})
+    .innerJoin('admin.skill', 'jobs.skill.skill_id', 'admin.skill.skill_id')
+    .where({ job_id: jobId });
 
   // Format
   const { date_of_birth } = applicants[0] || {};
@@ -219,7 +219,7 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     remarks,
     jobApplicants,
     branding,
-    photoArray
+    photoArray,
   });
 });
 
