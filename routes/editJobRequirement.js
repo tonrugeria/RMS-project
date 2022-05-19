@@ -23,7 +23,7 @@ router.get(
     );
     const jobId = req.params.job_id;
     const adminSkill = await knex('admin.skill');
-    const dept = await knex('admin.department').where({ dept_status: 'active' });
+    const dept = await knex('admin.department')
     const jobType = await knex('admin.job_type');
     const hrRemarks = await knex('admin.remarks');
     const jobSkill = await knex('jobs.skill').where('job_id', jobId);
