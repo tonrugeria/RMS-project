@@ -4,7 +4,7 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 5432,
     user: 'postgres',
-    password: 'novice0621**',
+    password: '0000',
     database: 'rms',
   },
 });
@@ -15,7 +15,7 @@ const pool = new Pool({
   host: '127.0.0.1',
   user: 'postgres',
   database: 'rms',
-  password: 'novice0621**',
+  password: '0000',
   port: 5432,
 });
 
@@ -79,12 +79,12 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Admin.Remarks(
           remark_id SERIAL PRIMARY KEY NOT NULL,
           remark_name VARCHAR NOT NULL,
-          remark_status VARCHAR,
+          remark_status VARCHAR
       );
       CREATE TABLE IF NOT EXISTS Admin.Job_Type(
           job_type_id SERIAL PRIMARY KEY NOT NULL,
           job_type_name VARCHAR NOT NULL,
-          job_type_status VARCHAR,
+          job_type_status VARCHAR
       );
       CREATE TABLE IF NOT EXISTS Admin.Skill_Level(
           skill_scoring INT NOT NULL
@@ -92,7 +92,7 @@ const text = `CREATE SCHEMA IF NOT EXISTS Admin;
       CREATE TABLE IF NOT EXISTS Admin.Position_Level(
           position_level_id SERIAL PRIMARY KEY NOT NULL,
           position_level_name VARCHAR NOT NULL,
-          position_level_status VARCHAR,
+          position_level_status VARCHAR
       );
       CREATE TABLE IF NOT EXISTS Admin.Branding(
         branding_id SERIAL PRIMARY KEY NOT NULL,

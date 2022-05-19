@@ -128,6 +128,23 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     'job_application.applicant_details.job_id',
     'jobs.job_opening.job_id'
   );
+
+  let photo = ''
+  const photoArray = []
+  for(let i = 0; i < applicants.length; i++) {
+    photo = applicants[i].photo  
+    const dir = `./photo/${photo}`
+    if (fs.existsSync(dir)) {
+      photo = '/' + photo
+    } else {
+      if(applicants[i].gender === "Male"){
+        photo = "https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg"
+      } else {
+        photo = "https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg"
+    }
+  }
+  photoArray.push(photo)
+}
   // const applicantInfo = await knex('job_application.applicant_details')
   //   .where({
   //     job_id: jobId,
@@ -201,7 +218,8 @@ router.get('/application/job/:job_id', checkAuthenticated, async (req, res) => {
     applicantJob,
     remarks,
     jobApplicants,
-    branding
+    branding,
+    photoArray
   });
 });
 

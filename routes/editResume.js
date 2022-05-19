@@ -130,6 +130,19 @@ router.get(
       const gradDates = education.map((element) =>
         moment(element.date_graduated).format('YYYY-MM-DD')
       );
+
+      let photo = '';
+    photo = applicants[0].photo;
+    const dir = `./photo/${photo}`;
+    if (fs.existsSync(dir)) {
+      photo = `/${photo}`;
+    } else if (applicants[0].gender === 'Male') {
+      photo =
+        'https://caccf.ca/wp-content/uploads/2019/03/person-placeholder-male-5-1-300x300.jpg';
+    } else {
+      photo =
+        'https://www.tamus.edu/academic/wp-content/uploads/sites/24/2021/04/360_F_233462402_Fx1yke4ng4GA8TJikJZoiATrkncvW6Ib.jpg';
+    }
       
       res.render('editResume', {
         jobId,
@@ -154,6 +167,7 @@ router.get(
         applicantPersonaRecord,
         personalityQuestions,
         jobQuestion,
+        photo
       });
     } else {
       res.render('editResume', {
