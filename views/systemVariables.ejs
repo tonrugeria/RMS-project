@@ -58,7 +58,7 @@
                       id="department_<%= department[i].dept_id %>" class="delete-btn me-2 ps-2 pe-3 py-1"
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop-<%= i+1 %>"
+                      data-bs-target="#dept-staticBackdrop-<%= i+1 %>"
                       style="
                         border: none;
                         height: 50px;
@@ -72,7 +72,7 @@
               <div>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop-<%= i+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="dept-staticBackdrop-<%= i+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -170,24 +170,42 @@
                         </button>
                       </div>
                   </form>
-                <div>
-                  <form action="/delete/skill/<%= technologies[j].skill_id %>" method="post" class="pe-1">
-                    <button
-                      class="delete-btn ps-2 pe-3 py-1 me-1"
-                      id="skill_<%= technologies[j].skill_id %>"
-                      type="submit"
-                      style="
-                        border: none;
-                        background-color: #e6e6e6;
-                        height: 50px;
-                      "
-                    >
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </form>
-                </div>
+                  <!-- Button trigger modal -->
+                  <button
+                    id="skill_<%= technologies[j].skill_id %>" 
+                    class="delete-btn me-2 ps-2 pe-3 py-1"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#skill-staticBackdrop-<%= j+1 %>"
+                    style="
+                      border: none;
+                      height: 50px;
+                      background-color: #e6e6e6;
+                    "
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="skill-staticBackdrop-<%= j+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Delete Skill</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <h5>Are you sure you want to delete <%= technologies[j].skill_name %>?</h5>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                          <form action="/delete/skill/<%= technologies[j].skill_id %>" method="post" class="pe-1">
+                          <button type="submit" class="btn btn-danger">DELETE</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
-              <%  %>
             <% } %>
             <div class="col">
               <form action="/addTechnologies" method="post" id="add-skills" class="d-none">
@@ -255,18 +273,41 @@
                     <i class="fa-solid fa-check"></i>
                   </button>
                 </form>
-                <form action="/delete/type/<%= jobType[i].job_type_id %>" method="post" class="">
-                  <button 
-                    class="delete-btn ps-2 pe-3 py-1" 
-                    id="job_type_<%= jobType[i].job_type_id %>" 
-                    type="submit"
-                    style="
-                      border: none;
-                      background-color: #e6e6e6;
-                      height: 50px;
-                    "
-                  ><i class="fa-solid fa-xmark"></i></button>
-                </form>
+                <!-- Button trigger modal -->
+                <button
+                  id="job_type_<%= jobType[i].job_type_id %>"
+                  class="delete-btn ps-2 pe-3 py-1"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#jobtype-staticBackdrop-<%= i+1 %>"
+                  style="
+                    border: none;
+                    height: 50px;
+                    background-color: #e6e6e6;
+                  "
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="jobtype-staticBackdrop-<%= i+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Delete Job Tye</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <h5>Are you sure you want to delete <%= jobType[i].job_type_name %>?</h5>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                        <form action="/delete/type/<%= jobType[i].job_type_id %>" method="post" class="pe-1">
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           <% } %>
@@ -334,18 +375,41 @@
                     </button>
                   </div>
                 </form>
-                <form action="/delete/career-level/<%= positionLevel[i].position_level_id %>" method="post" class="">
-                  <button 
-                    class="delete-btn ps-2 pe-3 py-1" 
-                    id="position_level_<%= positionLevel[i].position_level_id %>" 
-                    type="submit"
-                    style="
-                      border: none; 
-                      background-color: #e6e6e6; 
-                      height: 50px;
-                    "
-                  ><i class="fa-solid fa-xmark"></i></button>
-                </form>
+                <!-- Button trigger modal -->
+                <button
+                  id="position_level_<%= positionLevel[i].position_level_id %>"
+                  class="delete-btn ps-2 pe-3 py-1"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#clevel-staticBackdrop-<%= i+1 %>"
+                  style="
+                    border: none;
+                    height: 50px;
+                    background-color: #e6e6e6;
+                  "
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="clevel-staticBackdrop-<%= i+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Delete Career Level</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <h5>Are you sure you want to delete <%= positionLevel[i].position_level_name %>?</h5>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                        <form action="/delete/career-level/<%= positionLevel[i].position_level_id %>" method="post" class="pe-1">
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
           <% } %>
           <div class="col">
@@ -412,7 +476,7 @@
                       </button>
                     </div>
                 </form>
-                <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="">
+                <!-- <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="">
                   <button 
                     class="delete-btn me-2 ps-2 pe-3 py-1" 
                     id="remark_<%= remarks[i].remark_id %>" 
@@ -423,7 +487,42 @@
                       height: 50px;
                     "
                   ><i class="fa-solid fa-xmark"></i></button>
-                </form>
+                </form> -->
+                <!-- Button trigger modal -->
+                <button
+                  id="remark_<%= remarks[i].remark_id %>"
+                  class="delete-btn me-2 ps-2 pe-3 py-1"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#remark-staticBackdrop-<%= i+1 %>"
+                  style="
+                    border: none;
+                    height: 50px;
+                    background-color: #e6e6e6;
+                  "
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="remark-staticBackdrop-<%= i+1 %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Delete Career Level</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <h5>Are you sure you want to delete <%= remarks[i].remark_name %>?</h5>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                        <form action="/delete/remark/<%= remarks[i].remark_id %>" method="post" class="pe-1">
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
           <% } %>
           <div class="col">
