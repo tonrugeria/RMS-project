@@ -54,21 +54,57 @@ router.get(
 
 // DEPARTMENT
 router.post('/addDepartment', async (req, res) => {
-  const { department } = req.body;
-  await knex('admin.department').insert({
-    dept_name: department,
-    dept_status: 'active',
-  });
+  const department = req.body.department.toLowerCase();
+  const deptArr = department.split(' ');
+
+  for (let i = 0; i < deptArr.length; i++) {
+    deptArr[i] = deptArr[i].charAt(0).toUpperCase() + deptArr[i].slice(1);
+  }
+
+  const dept2 = deptArr.join(' ');
+  const deptFound = await knex('admin.department').where({ dept_name: dept2 });
+
+  if (deptFound != 0) {
+    const deptFoundLower = deptFound[0].dept_name.toLowerCase();
+    const deptFoundArr = deptFoundLower.split(' ');
+
+    for (let i = 0; i < deptFoundArr.length; i++) {
+      deptFoundArr[i] =
+        deptFoundArr[i].charAt(0).toUpperCase() + deptFoundArr[i].slice(1);
+    }
+
+    const deptFound2 = deptFoundArr.join(' ');
+
+    if (dept2 == deptFound2) {
+      await knex('admin.department')
+        .update({
+          dept_name: dept2,
+          dept_status: 'active',
+        })
+        .where({ dept_name: dept2 });
+    }
+  } else {
+    await knex('admin.department').insert({
+      dept_name: dept2,
+      dept_status: 'active',
+    });
+  }
   res.redirect('/system-variables');
 });
 
 router.post('/system-variables/department/:dept_id', async (req, res) => {
   const departmentId = req.params.dept_id;
-  const { departments } = req.body;
+  const departments = req.body.departments.toLowerCase();
+  const deptArr = departments.split(' ');
 
+  for (let i = 0; i < deptArr.length; i++) {
+    deptArr[i] = deptArr[i].charAt(0).toUpperCase() + deptArr[i].slice(1);
+  }
+
+  const dept2 = deptArr.join(' ');
   await knex('admin.department')
     .where({ dept_id: departmentId })
-    .update({ dept_name: departments });
+    .update({ dept_name: dept2 });
   res.redirect('/system-variables');
 });
 
@@ -89,22 +125,59 @@ router.post('/delete/department/:dept_id', async (req, res) => {
 
 // SKILLS
 router.post('/addTechnologies', async (req, res) => {
-  const { adminSkill, skillType } = req.body;
-  await knex('admin.skill').insert({
-    skill_name: adminSkill,
-    skill_type: skillType,
-    skill_status: 'active',
-  });
+  const { skillType } = req.body;
+  const adminSkill = req.body.adminSkill.toLowerCase();
+  const skillArr = adminSkill.split(' ');
+
+  for (let i = 0; i < skillArr.length; i++) {
+    skillArr[i] = skillArr[i].charAt(0).toUpperCase() + skillArr[i].slice(1);
+  }
+
+  const skill2 = skillArr.join(' ');
+
+  const skillFound = await knex('admin.skill').where({ skill_name: skill2 });
+
+  if (skillFound != 0) {
+    const skillFoundLower = skillFound[0].skill_name.toLowerCase();
+    const skillFoundArr = skillFoundLower.split(' ');
+
+    for (let i = 0; i < skillFoundArr.length; i++) {
+      skillFoundArr[i] =
+        skillFoundArr[i].charAt(0).toUpperCase() + skillFoundArr[i].slice(1);
+    }
+
+    const skillFound2 = skillFoundArr.join(' ');
+
+    if (skill2 == skillFound2) {
+      await knex('admin.skill')
+        .update({
+          skill_name: skill2,
+          skill_status: 'active',
+        })
+        .where({ skill_name: skill2 });
+    }
+  } else {
+    await knex('admin.skill').insert({
+      skill_name: skill2,
+      skill_type: skillType,
+      skill_status: 'active',
+    });
+  }
   res.redirect('/system-variables');
 });
 
 router.post('/system-variables/skill/:skill_id', async (req, res) => {
   const skillId = req.params.skill_id;
-  const { technologies } = req.body;
+  const technologies = req.body.technologies.toLowerCase();
+  const techArr = technologies.split(' ');
 
-  await knex('admin.skill')
-    .where({ skill_id: skillId })
-    .update({ skill_name: technologies });
+  for (let i = 0; i < techArr.length; i++) {
+    techArr[i] = techArr[i].charAt(0).toUpperCase() + techArr[i].slice(1);
+  }
+
+  const tech2 = techArr.join(' ');
+
+  await knex('admin.skill').where({ skill_id: skillId }).update({ skill_name: tech2 });
   res.redirect('/system-variables');
 });
 
