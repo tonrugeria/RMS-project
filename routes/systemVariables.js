@@ -175,11 +175,43 @@ router.post('/delete/career-level/:position_level_id', async (req, res) => {
 
 // REMARKS
 router.post('/addRemarks', async (req, res) => {
-  const { remark } = req.body;
-  await knex('admin.remarks').insert({
-    remark_name: remark,
-    remark_status: 'active',
-  });
+  const remark = req.body.remark.toLowerCase();
+  const remarkArr = remark.split(' ');
+
+  for (let i = 0; i < remarkArr.length; i++) {
+    remarkArr[i] = remarkArr[i].charAt(0).toUpperCase() + remarkArr[i].slice(1);
+  }
+
+  const remark2 = remarkArr.join(' ');
+
+  const remarkFound = await knex('admin.remarks').where({ remark_name: remark2 });
+
+  if (remarkFound != 0) {
+    const remarkFoundLower = remarkFound[0].remark_name.toLowerCase();
+    const remarkFoundArr = remarkFoundLower.split(' ');
+
+    for (let i = 0; i < remarkFoundArr.length; i++) {
+      remarkFoundArr[i] =
+        remarkFoundArr[i].charAt(0).toUpperCase() + remarkFoundArr[i].slice(1);
+    }
+
+    const remarkFound2 = remarkFoundArr.join(' ');
+
+    if (remark2 == remarkFound2) {
+      await knex('admin.remarks')
+        .update({
+          remark_name: remark2,
+          remark_status: 'active',
+        })
+        .where({ remark_name: remark2 });
+    }
+  } else {
+    await knex('admin.remarks').insert({
+      remark_name: remark2,
+      remark_status: 'active',
+    });
+  }
+
   res.redirect('/system-variables');
 });
 
