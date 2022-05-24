@@ -192,21 +192,61 @@ router.post('/delete/skill/:skill_id', async (req, res) => {
 
 // JOB TYPE
 router.post('/addTypes', async (req, res) => {
-  const { jobType } = req.body;
-  await knex('admin.job_type').insert({
-    job_type_name: jobType,
-    job_type_status: 'active',
-  });
+  const jobType = req.body.jobType.toLowerCase();
+  const jobTypeArr = jobType.split('-');
+
+  for (let i = 0; i < jobTypeArr.length; i++) {
+    jobTypeArr[i] = jobTypeArr[i].charAt(0).toUpperCase() + jobTypeArr[i].slice(1);
+  }
+
+  const jobType2 = jobTypeArr.join('-');
+
+  const jobTypeFound = await knex('admin.job_type').where({ job_type_name: jobType2 });
+
+  if (jobTypeFound != 0) {
+    const jobTypeFoundLower = jobTypeFound[0].job_type_name.toLowerCase();
+    const jobTypeFoundArr = jobTypeFoundLower.split('-');
+
+    for (let i = 0; i < jobTypeFoundArr.length; i++) {
+      jobTypeFoundArr[i] =
+        jobTypeFoundArr[i].charAt(0).toUpperCase() + jobTypeFoundArr[i].slice(1);
+    }
+
+    const jobTypeFound2 = jobTypeFoundArr.join('-');
+
+    if (jobType2 == jobTypeFound2) {
+      await knex('admin.job_type')
+        .update({
+          job_type_name: jobType2,
+          job_type_status: 'active',
+        })
+        .where({ job_type_name: jobType2 });
+    }
+  } else {
+    await knex('admin.job_type').insert({
+      job_type_name: jobType2,
+      job_type_status: 'active',
+    });
+  }
+
   res.redirect('/system-variables');
 });
 
 router.post('/system-variables/job-type/:job_type_id', async (req, res) => {
   const jobTypeId = req.params.job_type_id;
-  const { type } = req.body;
+  const type = req.body.type.toLowerCase();
+
+  const typeArr = type.split('-');
+
+  for (let i = 0; i < typeArr.length; i++) {
+    typeArr[i] = typeArr[i].charAt(0).toUpperCase() + typeArr[i].slice(1);
+  }
+
+  const type2 = typeArr.join('-');
 
   await knex('admin.job_type')
     .where({ job_type_id: jobTypeId })
-    .update({ job_type_name: type });
+    .update({ job_type_name: type2 });
   res.redirect('/system-variables');
 });
 
@@ -220,21 +260,61 @@ router.post('/delete/type/:job_type_id', async (req, res) => {
 
 // CAREER LEVEL
 router.post('/addCareer', async (req, res) => {
-  const { positionLevel } = req.body;
-  await knex('admin.position_level').insert({
-    position_level_name: positionLevel,
-    position_level_status: 'active',
-  });
+  const positionLevel = req.body.positionLevel.toLowerCase();
+  const positionLevelArr = positionLevel.split(' ');
+
+  for (let i = 0; i < positionLevelArr.length; i++) {
+    positionLevelArr[i] = positionLevelArr[i].charAt(0).toUpperCase() + positionLevelArr[i].slice(1);
+  }
+
+  const positionLevel2 = positionLevelArr.join(' ');
+
+  const positionLevelFound = await knex('admin.position_level').where({ position_level_name: positionLevel2 });
+
+  if (positionLevelFound != 0) {
+    const positionLevelFoundLower = positionLevelFound[0].position_level_name.toLowerCase();
+    const positionLevelFoundArr = positionLevelFoundLower.split(' ');
+
+    for (let i = 0; i < positionLevelFoundArr.length; i++) {
+      positionLevelFoundArr[i] =
+        positionLevelFoundArr[i].charAt(0).toUpperCase() + positionLevelFoundArr[i].slice(1);
+    }
+
+    const positionLevelFound2 = positionLevelFoundArr.join(' ');
+
+    if (positionLevel2 == positionLevelFound2) {
+      await knex('admin.position_level')
+        .update({
+          position_level_name: positionLevel2,
+          position_level_status: 'active',
+        })
+        .where({ position_level_name: positionLevel2 });
+    }
+  } else {
+    await knex('admin.position_level').insert({
+      position_level_name: positionLevel2,
+      position_level_status: 'active',
+    });
+  }
+
   res.redirect('/system-variables');
 });
 
 router.post('/system-variables/career-level/:position_level_id', async (req, res) => {
   const positionLevelId = req.params.position_level_id;
-  const { career } = req.body;
+  const career = req.body.career;
+
+  const careerArr = career.split(' ');
+
+  for (let i = 0; i < careerArr.length; i++) {
+    careerArr[i] = careerArr[i].charAt(0).toUpperCase() + careerArr[i].slice(1);
+  }
+
+  const career2 = careerArr.join(' ');
 
   await knex('admin.position_level')
     .where({ position_level_id: positionLevelId })
-    .update({ position_level_name: career });
+    .update({ position_level_name: career2 });
   res.redirect('/system-variables');
 });
 
